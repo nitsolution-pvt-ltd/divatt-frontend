@@ -1,0 +1,147 @@
+
+<div class="page-wrraper">
+    <!-- page navigation start -->
+    <div class="page-navigation">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div class="page-name">Payments Details</div>
+                <div class="page-links">
+                    <span>Home</span>&nbsp;<span>/</span>&nbsp;<span>payments DETAILS</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page navigation end -->
+    <div class="container">
+       <div class="content-wraper">
+            <div class="report-detail" >
+               <div class="designer-details">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-head d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0 text-white font-weight-bold font-sm">Order Details</h4>
+                                <button mat-mini-fab  class="bg-theme d-flex align-items-center justify-content-center text-white"  matTooltip="Download order details" (click)="genaratePDF(reportDetails?.order_id,'orderinvoice')">
+                                    <mat-icon>sim_card_download</mat-icon>
+                                </button>
+                            </div>
+                            <div class="details-data">
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Order Id:</strong></span></div>
+                                    <div class=""><span class="text-size">{{reportDetails?.order_id}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Order Date:</strong></span></div>
+                                    <div class=""><span class="text-size">{{orderDate}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Invoice Number:</strong></span></div>
+                                    <div class=""><span class="text-size">{{reportDetails?.invoice_id}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between padding-15">
+                                    <div class=""><span><strong>Delivery Date:</strong></span></div>
+                                    <div class=""><span class="text-size">{{deliveryDate}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Product SKU:</strong></span></div>
+                                    <div class=""><span class="text-size">{{designerReturn?.product_sku}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Gross Amount:</strong></span></div>
+                                    <!-- <div class=""><span class="text-size">{{designerReturn?.sales_price != 0 ? designerReturn?.sales_price : designerReturn?.mrp | number:'1.2-2'}}</span></div> -->
+                                    <div class=""><span class="text-size">{{designerReturn?.mrp | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Discounts: </strong></span></div>
+                                    <div class=""><span class="text-size">{{designerReturn?.discount | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Taxable Value:</strong></span></div>
+                                    <div class=""><span class="text-size">{{taxValue | number:'1.2-2'}}</span></div>
+                                    <!-- <div class=""><span class="text-size">{{taxValue | number:'1.2-2'}}</span></div> -->
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>CGST (6%): </strong></span></div>
+                                    <div class=""><span class="text-size">{{designerReturn?.hsn_cgst | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>SGST (6%): </strong></span></div>
+                                    <div class=""><span class="text-size">{{designerReturn?.hsn_sgst | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between ">
+                                    <div class=""><span><strong>IGST (12%): </strong></span></div>
+                                    <div class=""><span class="text-size">{{designerReturn?.hsn_igst | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between before-total">
+                                    <div class=""><span><strong>GiftWrap Amount: </strong></span></div>
+                                    <div class=""><span class="text-size">{{reportDetails?.giftWrapAmount | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between ">
+                                    <div class=""><span><strong>Total: </strong></span></div>
+                                    <div class="" *ngIf="designerReturn?.sales_price != 0"><span><strong>{{designerReturn?.sales_price | number:'1.2-2'}}</strong></span></div>
+                                    <div class="" *ngIf="designerReturn?.sales_price == 0"><span><strong>{{designerReturn?.mrp | number:'1.2-2'}}</strong></span></div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                            </div>
+                            <!-- <div class="text-right designer-btn">
+                                <button mat-raised-button class="designer-download-btn">Download</button>
+                            </div> -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-head d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0 text-white font-weight-bold font-sm">Divatt Charges Details</h4>
+                                <button mat-mini-fab  class="bg-theme d-flex align-items-center justify-content-center  text-white" matTooltip="Download payment details" (click)="genaratePDF(reportDetails,'')">
+                                    <mat-icon>sim_card_download</mat-icon>
+                                </button>
+                            </div>
+                            <div class="details-data">
+                                <div class="d-flex justify-content-between padding-15">
+                                    <div class=""><span><strong>Invoice Id:</strong></span></div>
+                                    <div class=""><span class="text-size">{{serviceCharge?.designer_invoice_id}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Basic Value:</strong></span></div>
+                                    <div class=""><span class="text-size">{{serviceCharge?.fee | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>CGST(9%):</strong></span></div>
+                                    <div class=""><span class="text-size">{{serviceCharge?.cgst | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>SGST(9%):</strong></span></div>
+                                    <div class=""><span class="text-size">{{serviceCharge?.sgst | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between before-total">
+                                    <div class=""><span><strong>IGST (18%):</strong></span></div>
+                                    <div class=""><span class="text-size">{{serviceCharge?.igst | number:'1.2-2'}}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-between padding-15">
+                                    <div class=""><span><strong>Total:</strong></span></div>
+                                    <div class=""><span></span><strong>{{serviceCharge?.fee + serviceCharge?.igst | number:'1.2-2'}}</strong></div>
+                                </div>
+
+                                <div class="d-flex justify-content-between before-total">
+                                    <div class=""><span><strong>TCS (1%): </strong></span></div>
+                                    <div class=""><span class="text-size">{{serviceCharge?.tcs | number:'1.2-2'}}</span></div>
+                                </div>
+
+                                <div class="d-flex justify-content-between padding-15">
+                                    <div class=""><span><strong>Gross Amount: </strong></span></div>
+                                    <div class=""><span><strong>{{serviceCharge?.total_amount | number:'1.2-2'}}</strong></span></div>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class=""><span><strong>Payble Amount: </strong></span></div>
+                                    <div class=""><span><strong>{{designerReturn?.mrp-serviceCharge?.total_amount | number:'1.2-2'}}</strong></span></div>
+                                </div>
+                            </div>
+                            <!-- <div class="text-right service-btn">
+                                <button mat-raised-button class="service-download-btn">Download</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+       </div>
+    </div> 
+</div>

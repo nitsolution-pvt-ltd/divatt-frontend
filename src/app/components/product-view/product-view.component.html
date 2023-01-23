@@ -1,0 +1,228 @@
+<div class="page-wrraper">
+    <!-- page navigation start -->
+    <div class="page-navigation">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div class="page-name">Product View</div>
+                <div class="page-links">
+                    <span>Home</span>&nbsp;<span>/</span>&nbsp;<span>Product Management</span>&nbsp;<span>/</span>&nbsp;<span>Product View</span> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page navigation end -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="img-section">
+                    <!-- <img [src]="productDetail?.image[0].large" /> -->
+                    <ng-template  class="col-12" ngFor let-item [ngForOf]="productDetail?.images">
+                        <div class="mb-3 d-inline-block" >
+                          <img class="" src="{{item.large}}" alt="" class="img-fluid blur-up lazyload product_img_template"/>
+                        </div>
+                      </ng-template>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="product-view-card position-sticky">
+                    <div class="p-30 b-b-2">
+                        <div class="status-content">
+                            <div class="row align-item">
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                                    <p >Status: <span class="status" [ngClass]="{'text-success':productDetail?.adminStatus == 'Approved'}">{{productDetail?.adminStatus}}</span></p>
+                                </div>
+                                <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+                                    <p>Stock: <span>{{productDetail?.soh}}</span></p>
+                                </div>
+                                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                    <!-- <div class="edit-details" [routerLink]="['/', 'add-product']">
+                                        <img src="assets/images/pencil.png">
+                                    </div> -->
+                                    <button [routerLink]="['/', 'product','edit', productId]" mat-button class="fab-btn" mat-fab aria-label="Filter Product">
+                                        <img src="assets/images/pencil.png">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ptl-15 b-b-2">
+                        <div class="profile-content">
+                            <div class="row">
+                                <div class="col-9 col-sm-9 col-md-9 col-lg-9">
+                                    <h1>{{designerprofiledata?.designerName}}</h1>
+                                    <div class="profile-annoucement">
+                                        <img _ngcontent-lvb-c178="" src="assets/images/campaign.png">
+                                        {{designerprofiledata?.boutiqueProfile?.boutiqueName}}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h2>Follower: {{designerprofiledata?.followerCount}}</h2>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h2>Products: {{designerprofiledata?.productCount}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="profile-img"><img [src]="designerprofiledata?.designerProfile?.profilePic!= null ? designerprofiledata?.designerProfile?.profilePic : 'assets/images/noimage.jpg'"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ptl-15 b-b-2">
+                        <div class="MRP-content">
+                            <p>{{productDetail?.productDetails?.productName}}</p>
+                            <h1 class="d-flex align-items-center">₹{{productDetail?.deal?.salePrice || productDetail?.deal?.salePrice == 0 ? productDetail?.deal?.salePrice : productDetail?.mrp}} <span *ngIf="productDetail?.deal?.salePrice || productDetail?.deal?.salePrice == 0" class="pt-1">₹{{productDetail?.mrp}}</span>&nbsp;<mat-icon title="HSN Details" (click)="showAmountdtl=!showAmountdtl" class="cursor-pointer">info</mat-icon></h1>
+                            <div class="shopping customizationMessage mt-0 p-0 text-black" [ngClass]="{'showCustomization mt-1 mb-1 p-1':showAmountdtl}">
+                                Basic Amount : ₹{{basicAmount ? basicAmount : '0'}} <br>
+                                <span *ngIf="productDetail?.deal?.salePrice">Discount: - ₹{{discount ? discount : '0'}} <br></span>
+                                <span *ngIf="productDetail?.deal?.salePrice">After Discount: ₹{{afterDiscount ? afterDiscount : '0'}}<br></span> 
+                                Tax Amount : + ₹{{taxAmount ? taxAmount : '0'}} &nbsp;
+                            </div>
+                            <div class="shopping d-flex">
+                                <span class="d-flex align-items-center">HSN Code: {{productDetail?.deal?.taxAmount?.hsnCode}} &nbsp;<mat-icon title="HSN Details" (click)="showHSNcode=!showHSNcode" class="cursor-pointer">info</mat-icon></span>
+                            </div>
+                            <div class="shopping customizationMessage mt-0 p-0 text-black" [ngClass]="{'showCustomization mt-1 p-1':showHSNcode}">
+                                {{productDetail?.deal?.taxAmount?.description}}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="ptl-15 b-b-2">
+                        <div class="age-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <div class="gender">
+                                            <p>Gender</p>
+                                            <span>{{productDetail?.gender}}</span>
+                                        </div>
+                                        <div class="age">
+                                            <p>Age</p>
+                                            <span>{{productDetail?.age?.min}} - {{productDetail?.age?.max}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="ptl-15 b-b-2">
+                        <div class="type-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="type">
+                                        <p>Type</p>
+                                        <span>{{productDetail?.subCategoryName}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ptl-15 b-b-2">
+                        <div class="size-content">
+                            <div class="size">
+                                <p>Size</p>
+                                <label [for]="size" [ngClass]="{'active':sizeactive == size}" *ngFor="let size of productDetail?.sizes;let i = index;" (click)="activeSize('size',size)"><span>{{size == 'Free Size' ? 'F' : size }}</span></label>
+                                <!-- <input type="radio" name="size" id="XXL" value="XXL" />
+                                <label for="XXL"><span>XXL</span></label>  -->
+                                <label *ngIf="productDetail?.withCustomization"   matTooltip="Customization"><span>C</span></label>
+                                
+                                <!-- <button *ngIf="productDetail?.withCustomization" class="custom-button" mat-raised-button matTooltip="Customization">C</button> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ptl-15 b-b-2">
+                        <div class="color-content">
+                            <div class="color">
+                                <span>Colour</span>
+                                <!-- <div > -->
+                                    <!-- <input type="radio" [id]="color.colour" [value]="color.colour"   /> -->
+                                    <!-- <label [for]="productDetail?.colour"  class="d-flex" [ngClass]="{'active':coloractive == productDetail?.colour}"><span [style.background]='productDetail.colour' (click)="activeSize('color',productDetail?.colour)"></span></label> -->
+                                    <label [for]="color"  *ngFor="let color of productColors;let i = index;" class="d-flex" ><span [style.background]='color'></span></label>
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ptl-15 b-b-2">
+                        <div class="shopping-content">
+                            <div class="shopping">
+                                <img src="assets/images/cod.png" alt="">
+                                <span>Ships in {{productDetail?.shipmentTime}}&nbsp;days.</span>
+                            </div>
+                            <div class="shopping" *ngIf="productDetail?.cod">
+                                <img src="assets/images/cod.png" /><span>Cash on delivery available.</span>
+                            </div>
+                            <div class="shopping" *ngIf="productDetail?.returnAcceptable">
+                                <img src="assets/images/easy-return.png" /><span>Easy return available.</span>
+                            </div>
+                            <div class="shopping">
+                                <img src="assets/images/cart2.png" /><span>Free Shipping only in india</span>
+                            </div>
+                            <div class="shopping"  *ngIf="productDetail?.withGiftWrap">
+                                <img src="assets/images/giftwrap.png" /><span>GiftWrap available.</span>
+                            </div>
+                            <div class="shopping" *ngIf="productDetail?.cancelAcceptable">
+                                <img src="assets/images/cancelproduct.jpg" /><span>Cancellation  available.</span>
+                            </div>
+                            <div class="shopping" *ngIf="productDetail?.withCustomization">
+                                <img src="assets/images/pencil.png" /><span>Size Customization available.</span>
+                            </div>
+                            <div class="shopping d-flex" *ngIf="productDetail?.withDesignCustomization">
+                                <img src="assets/images/pencil.png" /><span class="d-flex align-items-center">Design Customization available.&nbsp;<mat-icon (click)="designCustomizationFeatures=!designCustomizationFeatures" class="cursor-pointer">chat</mat-icon></span>
+                                <!-- <img src="assets/images/pencil.png" /><span class="d-flex align-items-center">Design Customization available.&nbsp;<mat-icon [matTooltip]="productDetail?.designCustomizationFeatures">chat</mat-icon></span> -->
+                            </div>
+                            <div class="shopping customizationMessage mt-0 p-0 text-black" style="margin-left: 2.5em;" [ngClass]="{'showCustomization mt-1 p-1':designCustomizationFeatures}">
+                                {{productDetail?.designCustomizationFeatures}}
+                              </div>
+                            <div class="shopping">
+                                <img src="assets/images/returnable.png" /><span>Custom made orders are not returnable</span>
+                            </div>
+                            <!-- <p class="p-text">Note: Shipping in {{productDetail?.shipmentTime}} days.</p> -->
+                            <p class="p-text"><b>Note : </b>Custom made orders are not returnable.<br>No COD for Custom made orders</p>
+                        </div>
+                        <h1 class="specifications-head">Specifications</h1>
+                    </div>
+                    <div class="ptl-15 b-b-2 p-b-5">
+                        <h1 class="product-head">Product Description</h1>
+                    </div>
+                    <div class="ptl-15 b-b-2 p-b-5">
+                        <p class="desc-text">{{productDetail?.productDetails?.productDescription}}</p>
+                        <h1 class="fit-head">Fit</h1>
+                    </div>
+                    <div class="ptl-15 b-b-2 p-b-5">
+                        <p class="desc-text">{{productDetail?.productDetails?.fittingInformation}}</p>
+                        <h1 class="style-head">Occassion </h1>
+                    </div>
+                    <div class="ptl-15 b-b-2 p-b-5">
+                        <p class="style-text">{{productDetail?.productDetails?.occation}}</p>
+                        <h1 class="composition-head">Composition</h1>
+                    </div>
+                    <div class="ptl-15 b-b-2 p-b-5">
+                        <p class="composition-text">{{productDetail?.productDetails?.composition}}</p>
+                        <h1 class="washing-head">Washing Instruction</h1>
+                    </div>
+                    <!-- <div class="ptl-15 b-b-0 b-b-2 p-b-5">
+                        <p class="washing-text">{{productDetail?.productDetails?.washingInformation}}</p>
+                    </div> -->
+                    <div class="ptl-15 b-b-2 p-b-5">
+                        <p class="desc-text">{{productDetail?.productDetails?.washingInformation}}</p>
+                        <h1 class="style-head">product Weight </h1>
+                    </div>
+                    <div class="ptl-15 b-b-2 p-b-5">
+                        <p class="style-text">{{productDetail?.productWeight}}{{productDetail?.weightUnit}}</p>
+                        <h1 class="composition-head" *ngIf="productDetail?.giftWrapAmount">giftWrap Amount</h1>
+                    </div>
+                    <div class="ptl-15 b-b-2 p-b-5" *ngIf="productDetail?.giftWrapAmount">
+                        <p class="style-text">₹ {{productDetail?.giftWrapAmount}}</p>
+                        <!-- <h1 class="composition-head">Composition</h1> -->
+                    </div>
+                    <div class="share-content">
+                        <span class="share-title">Share it : </span>
+                        <span class="share-icon"><img src="assets/images/facebook.png"></span>
+                        <span class="share-icon"><img src="assets/images/instagram.png"></span>
+                        <span class="share-icon"><img src="assets/images/twitter.png"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
