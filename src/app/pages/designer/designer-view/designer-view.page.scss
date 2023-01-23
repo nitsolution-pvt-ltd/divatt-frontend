@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+.fullname
+{
+    font-family: 'Mukta', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+ion-note
+{
+    color: #000000!important;
+    font-family: 'Mukta', sans-serif;
+    font-size: 18px;
+    img{
+        height: 80px;
+        object-fit: contain;
+    }
+}
+ion-label,.ion-label
+{
+    color: rgb(17, 17, 17) !important;
+    font-family: 'Mukta', sans-serif;
+    font-size: 18px;
+    text-transform: capitalize;
+}
+.d-flex.overflow-hidden
+{
+    padding: 0 15px;
+    font-size: 16px !important;
+}
+.descption
+{
+    
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* text-overflow: clip; */
+    overflow: hidden;
+
+}
+.w-40
+{
+    width: 40%;
+}
+.w-60
+{
+    width: 60%;
+}
+a
+{
+    cursor: pointer;
+}
+.mat-form-field-wrapper
+{
+    margin: 0;
+    padding: 0;
+}
+table.charts 
+{
+    color: #000000;
+    min-width: 400px;
+    th{
+        color: #000000;
+    }
+    
+}
+.profile-info-card {
+   .info-card-title
+   {
+    
+    h4{
+        font-size: 20px;
+        font-weight: 500;
+        padding-left: 4.5%;
+    }
+   }
+    .info-card-body {
+        padding: 10px 30px;
+        table
+        {
+            width: 100%;
+            th:nth-child(1){
+                display: block;
+                width: 55px;
+            }
+            tr
+            {
+                font-size: 17px;
+                td
+                {
+                    padding: 0 0 10px 0;
+
+                    .learn-more{
+                        text-decoration: none;
+                    }
+                    .descption{
+                        line-height: 20px;
+                        word-break: break-all;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -moz-box-orient: vertical;
+                        -ms-box-orient: vertical;
+                        box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        -moz-line-clamp: 2;
+                        -ms-line-clamp: 2;
+                        line-clamp: 2;
+                        overflow: hidden;
+                    }
+                }
+                th{
+                    padding-bottom: 15px;
+                    width: 20%;
+                }
+            }
+        }
+    }
+    .mb-20{
+        margin-bottom: 20px;
+    }
+      .custom-file {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: calc(1.5em + 1.06rem + 2px);
+        margin-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        img
+        {
+          transition: 0.3s ease-in-out;
+          cursor: zoom-in;
+          object-fit: contain;
+          max-height: 40px;
+          border-radius: 4px;
+          width: 100px;
+          object-fit: contain;
+        }
+        img:hover{
+          transform: scale(3);
+          z-index: 1;
+        }
+        .custom-file-input {
+            position: relative;
+            z-index: 2;
+            width: 0;
+            height: calc(1.5em + 1.06rem + 2px);
+            margin: 0;
+            opacity: 0;
+        }
+        .custom-file-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1;
+            height: calc(2.3em + 1.06rem + 2px);
+            padding: .53rem 1.3rem;
+            font-weight: 400;
+            line-height: 2.5;
+            color: #3b3e66;
+            background-color: #fff;
+            border: 1px solid #7FB83F;
+            border-radius: .29rem;
+            margin-bottom: .5rem;
+            justify-content: left;
+            display: flex;
+        }
+        .custom-file-label:hover{
+            border: 2px solid #7FB83F;
+        }
+        .custom-file-label:after {
+            content: "Browse";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 3;
+            display: block;
+            padding: .53rem 1.3rem;
+            line-height: 2.5;
+            color: #3b3e66;
+            content: "Browse";
+            background-color: #eeeeef;
+            border-left: inherit;
+            border-radius: 0 .29rem .29rem 0;
+            cursor: pointer;
+        }
+    }
+}
+tr
+{
+    td:nth-child(1)
+    {
+        width: 60px;
+    }
+}
+table
+        {
+            width: 100%;
+            th:nth-child(1){
+                display: block;
+                width: 55px;
+            }
+            tr
+            {
+                font-size: 17px;
+                td
+                {
+                    padding: 0 0 10px 0;
+
+                    .learn-more{
+                        text-decoration: none;
+                    }
+                    .descption{
+                        line-height: 20px;
+                        word-break: break-all;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -moz-box-orient: vertical;
+                        -ms-box-orient: vertical;
+                        box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        -moz-line-clamp: 2;
+                        -ms-line-clamp: 2;
+                        line-clamp: 2;
+                        overflow: hidden;
+                    }
+                }
+                th{
+                    padding-bottom: 15px;
+                    width: 20%;
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+th:nth-child(1){
+    display: block;
+    width: 55px;
+}
+td{
+    input{
+        // max-width: 80px;
+        border: 1px solid #ccc;
+        outline: none;
+        border-radius: 5px;
+    }
+}
+.showInfo{
+    height: 0;
+    opacity: 0;
+    transition: 0.2s ease-in-out;
+    text-align: left;
+    font-size: 10px;
+    line-height: 13px;
+  }
+  .showInfo.show{
+    height: auto;
+    opacity: 1;
+    transition:opacity 0.2s ease-in-out;
+  }

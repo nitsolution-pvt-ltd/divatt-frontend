@@ -1,0 +1,100 @@
+<ion-content>
+  <div class="page-wrapper">
+    <div class="authentication-box">
+      <div class="form-layout">
+        <div class="form-wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-5 p-0 card-left">
+                <div class="card bg-primary">
+                  <div class="svg-icon">
+                    <img src="assets/images/t.png" width="100%" />
+                  </div>
+                  <div class="single-item">
+                    <ion-slides #slider pager="true" [options]="slideOpts">
+                      <ion-slide *ngFor="let data of owlcarousel">
+                        <div class="slide">
+                          <h3>{{data.title}}</h3>
+                          <p>{{data.desc}}</p>
+                        </div>
+                      </ion-slide>
+                    </ion-slides>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7 p-0 card-right">
+                <div class="card tab2-card">
+                  <div class="card-body">
+                    <mat-tab-group class="no-pad" (selectedTabChange)="tabClick($event)">
+                      <mat-tab>
+                        <ng-template mat-tab-label>
+                          <mat-icon>login</mat-icon>
+                          <span>Login</span>
+                        </ng-template>
+                        <div class="tab-pane fade active show">
+                          <form #loginForm="ngForm" (ngSubmit)="onSubmitForm(loginForm)"
+                            (keyup.enter)="onSubmitForm(loginForm)" class="form-horizontal auth-form">
+                            <div class="form-group">
+                            <!-- <div class="d-flex align-items-center justify-content-center">
+                            <div class="radio_container">
+                              
+                              <input type="radio" name="radio" id="Designer" checked (change)="selectLoginType('DESIGNER')">
+                              <label for="Designer">Designer</label>
+                              <input type="radio" name="radio" id="Admin" (change)="selectLoginType('ADMIN')">
+                              <label for="Admin">Admin</label>
+                            </div>
+                          </div>  -->
+                            </div>
+                            <input type="hidden" [(ngModel)]="type" name="type">
+                            <div class="form-group">
+                              <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                                      <div *ngIf="f.username.errors.required">Email is required</div>
+                                                  </div> -->
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Username</mat-label>
+                                <input matInput [(ngModel)]="login.email" name="email"
+                                  [ngClass]="{'disabled' : btnloader}" />
+                              </mat-form-field>
+                            </div>
+                            <div class="form-group position-relative mb-2">
+                              <mat-form-field appearance="outline">
+                                <mat-label>Password</mat-label>
+                                <input matInput [type]="hide ? 'password' : 'text'" name="password"
+                                  [(ngModel)]="login.password" />
+                                <a mat-icon-button matSuffix (click)="hide = !hide"
+                                  [ngClass]="{'disabled' : btnloader}" [attr.aria-label]="'Hide password'"
+                                  [attr.aria-pressed]="hide">
+                                  <mat-icon class="text-black">{{hide ? 'visibility_off' :
+                                    'visibility'}}</mat-icon>
+                                </a>
+                              </mat-form-field>
+                            </div>
+                            <div>
+                              <p class="error">{{message}}</p>
+                            </div>
+                            <div class="form-button d-flex justify-content-between align-items-center mt-2">
+                              <!-- <button class="btn btn-primary text-uppercase" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!loginForm.valid">
+                                <ion-spinner class="btnloader" name="crescent" *ngIf="btnloader"></ion-spinner>
+                                Login
+                              </button> -->
+                              <ion-button  class="bg-primary-color"  [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!loginForm.valid">
+                                <ion-spinner class="btnloader" name="crescent" *ngIf="btnloader"></ion-spinner>
+                                Login
+                              </ion-button>
+                              <a [routerLink]="'./forgot-password'" class="btn btn-default forgot-pass">
+                                Lost your password?</a>
+                            </div>
+                          </form>
+                        </div>
+                      </mat-tab>
+                    </mat-tab-group>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

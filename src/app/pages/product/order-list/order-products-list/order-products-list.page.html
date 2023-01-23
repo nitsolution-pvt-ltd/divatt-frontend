@@ -1,0 +1,293 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="table-listing">
+        <div class="container-fluid">
+          <div class="page-header">
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="page-header-left">
+                          <h3>Order Items List
+                          </h3>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                <mat-icon>home</mat-icon>
+                            </a></li>
+                        <li class="breadcrumb-item active">
+                          Order Items List
+                        </li>
+                    </ol>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="card card-box">
+          <div class="card-header">
+            <div class="card-header-tittle">
+              Order Items List
+            </div>
+            <!-- <div class="card-header-action">
+              <a [href]="url" class="cursor-pointer text-decoration-none btn btn-primary border-none box-shadow-none shadow-none-focus btn-shadow" matRipple target="_blank" (click)="createInvoice()">Download Invoice</a>
+            </div> -->
+          </div>
+          <div class="card-body order-card" >
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                <div class="order-item-image">
+                  <img [src]="tableData?.images" >
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                <div class="product-bg">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="product-name">
+                        <p class="order_product">{{tableData?.productName}}</p>
+                        <h1>₹{{tableData?.salesPrice ? tableData?.salesPrice : tableData?.mrp}}<span *ngIf="tableData?.salesPrice">₹{{tableData?.mrp}}</span></h1>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                      <div class="order-id">
+                        <span class="id-header">Order Id: </span>
+                        <span>{{tableData?.orderId}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                      <div class="order-date">
+                        <span class="id-header">Order date: </span>
+                        <span>{{tableData?.orderDate}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                      <div class="delivery-date">
+                        <span class="id-header">Delivery date: </span>
+                        <span *ngIf="!tableData?.orderStatusDetails?.deliveryDetails">{{shippingDate}}</span>
+                        <span *ngIf="tableData?.orderStatusDetails?.deliveryDetails">{{tableData?.orderStatusDetails?.deliveryDetails?.deliveredDate}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="order-details-title">
+                        <h1>Order Status</h1>
+                      </div>
+                      <div class="order-steper">
+                        <!-- progress bar all step -->
+                        <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="tableData?.orderItemStatus == 'Orders' && paymentData || tableData?.orderItemStatus == 'Delivered' && paymentData || tableData?.orderItemStatus == 'Shipped' && paymentData || tableData?.orderItemStatus == 'Packed' && paymentData" [ngClass]="{'cancellation': tableData?.orderItemStatus == 'cancelled'}">
+                            <li class="step0 active" id="step1"><span
+                                ><img src="assets/images/orders.png" />Order Verified</span></li>
+                            <li class="step0 text-center" [ngClass]="{'disabledclick active': tableData?.orderItemStatus == 'Packed' || tableData?.orderItemStatus == 'Delivered' || tableData?.orderItemStatus == 'Shipped'}" (click)="orderStatus_modal('orderpackModal',tableData,'')" id="step2"><span><img src="assets/images/packing.png" />Packed</span></li>
+                            <li class="step0 text-center" id="step3" [ngClass]="{'active':  tableData?.orderItemStatus == 'Delivered' || tableData?.orderItemStatus == 'Shipped', 'disabledclick':  tableData?.orderItemStatus == 'Delivered' || tableData?.orderItemStatus == 'Shipped' || tableData?.orderStatusDetails?.packedDetails == null}" (click)="orderStatus_modal('ordershippedModal',tableData,'')"><span><img src="assets/images/shipment.png" />Ship</span></li>
+                            <li class="step0 text-center text-muted" [ngClass]="{'active': tableData?.orderItemStatus == 'Delivered' ,'disabledclick': tableData?.orderItemStatus == 'Delivered' || tableData?.orderStatusDetails?.shippedDetails == null }" id="step4" (click)="orderStatus_modal('orderdeliverModal',tableData,tableListData)"><span><img src="assets/images/deliverd.png" />Delivered</span></li>
+                        </ul>
+                        
+                        <!-- progress bar all step -->
+                        <!-- progress bar two step -->
+                        <!-- Verify Orders -->
+                        <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="tableData?.orderItemStatus == 'New' && paymentData" >
+                          <li class="step0 active" id="step1"><span
+                              ><img src="assets/images/orders.png" />Verify Orders</span></li>
+                          <li class="step0 text-muted text-end disabledclick" (click)="orders_modal('ordersModal',tableData,'')" id="step4" [ngClass]="{'active': tableData?.orderItemStatus == 'Packed' || tableData?.orderItemStatus == 'Orders' || tableData?.orderItemStatus == 'Shipped' || tableData?.orderItemStatus == 'Delivered' || tableData?.orderItemStatus == 'cancelled'}"><span
+                              style="margin-right: 22px;"><img src="assets/images/orders.png" />Orders</span></li>
+                        </ul>
+                        <!-- Request for cancelation -->
+                        <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="tableData?.orderItemStatus == 'Request for cancelation' && paymentData || tableData?.orderItemStatus == 'cancelled' && paymentData" [ngClass]="{'cancellation': tableData?.orderItemStatus == 'cancelled'}">
+                          <li class="step0 active" id="step1"><span
+                              ><img src="assets/images/orders.png" />Verify Orders</span></li>
+                          <li class="step0 text-muted text-end " (click)="orders_modal('cancelledApprovalModal',tableData,'')" id="step4" [ngClass]="{'active disabledclick': tableData?.orderItemStatus == 'cancelled'}"><span
+                              style="margin-right: 22px;"><img src="assets/images/orders.png" />Cancelled</span></li>
+                        </ul>
+
+                        <!-- refundRequest -->
+                        <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4 refundRequest" *ngIf="tableData?.orderItemStatus == 'returnRequest' && paymentData || tableData?.orderItemStatus == 'returnRefund' && paymentData || tableData?.orderItemStatus == 'Rejected' && paymentData" >
+                          <li class="step0 active" id="step1"><span><img src="assets/images/orders.png" />Return Request</span></li>
+                          <li class="step0 text-muted text-end" (click)="orders_modal('returnRequest',tableData,'')" id="step4" [ngClass]="{'active': tableData?.orderItemStatus == 'returnRefund' || tableData?.orderItemStatus == 'Rejected'}">
+                            <span style="margin-right: 22px;" *ngIf="tableData?.orderItemStatus != 'Rejected'">
+                              <img src="assets/images/orders.png" />{{tableData?.orderItemStatus == 'returnRequest' ? 'Return Approve' : 'Return/Refund accepted'}}
+                            </span>
+                            <span style="margin-right: 22px;" *ngIf="tableData?.orderItemStatus == 'Rejected'">
+                              <img src="assets/images/orders.png" />Return/Refund rejected 
+                            </span>
+                            </li>
+                        </ul>
+                        <!-- Order Not Confirmed -->
+                        <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4 refundRequest NotConfirmed" *ngIf="!paymentData" >
+                          <li class="step0 active" id="step1"><span><img src="assets/images/orders.png" />Order</span></li>
+                          <li class="step0 text-muted text-end active"  id="step4">
+                            <span style="margin-right: 22px;" >
+                              <img src="assets/images/orders.png" />Order Not Confirmed
+                            </span>
+                            </li>
+                        </ul>
+                        <!-- progress bar two step -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  shortNotes">
+                          <p *ngIf="tableData?.orderItemStatus == 'Orders'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Order verified by {{tableData?.displayName}}.</span></p>
+                          <p *ngIf="tableData?.orderItemStatus == 'Packed'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product packed in divatt cover & Recorded the packing video.</span></p>
+                          <p *ngIf="tableData?.orderItemStatus == 'Shipped'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product courier by {{tableData?.orderStatusDetails?.shippedDetails?.courierName}} on {{tableData?.orderStatusDetails?.shippedDetails?.orderShippedTime}}</span></p>
+                          <p *ngIf="tableData?.orderItemStatus == 'Shipped'" class="mb-0"><mat-icon class="text-success">info</mat-icon><span>Product AWB number : {{tableData?.orderStatusDetails?.shippedDetails?.awbNumber}}</span></p>
+                          <p *ngIf="tableData?.orderItemStatus == 'Delivered'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product delivered by {{tableData?.orderStatusDetails?.shippedDetails?.courierName}} on {{tableData?.orderStatusDetails?.deliveryDetails?.deliveredDate}}.</span></p>
+                          <p *ngIf="tableData?.orderItemStatus == 'returnRefund'" class="mb-2 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product return completed and <b>₹{{tableData?.salesPrice ? tableData?.salesPrice : tableData?.mrp}}</b>  refunded to buyer account on {{returnFromAdminTime}}.</span></p>  
+                        
+                        </div>
+                        <!-- <p class="text-right" *ngIf="tableData?.orderItemStatus != 'cancelled' && tableData?.orderItemStatus != 'Delivered' && tableData?.orderItemStatus != 'Shipped' && tableData?.orderItemStatus != 'Packed' && tableData?.orderItemStatus != 'New' && tableData?.orderItemStatus != 'Request for cancelation' && tableData?.orderItemStatus != 'returnRequest' && tableData?.orderItemStatus != 'returnRefund'"><a  class="text-danger text-decoration-none  font-weight-bold cursor-pointer" (click)="orderStatus_modal('orderCancelDesigner_modal',tableData,'')">Cancel Order</a></p> -->
+                       <!-- returnRequest message -->
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderItemStatus == 'returnRequest' || tableData?.orderItemStatus == 'returnRefund' || tableData?.orderItemStatus == 'Rejected'">
+                          <div class="product-qty customizationDescption">
+                            <span class="id-header d-flex align-items-center cursor-pointer w-fit text-dark font-weight-bold" (click)="showreturnRequesttmsg=!showreturnRequesttmsg">Reason of Return Request<mat-icon >{{showreturnRequesttmsg ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                            <span [ngClass]="{'showCustomization':showreturnRequesttmsg}" class="customizationMessage">
+                              <b>Reason: </b>{{tableData?.orderStatusDetails?.returnFromUser?.reason}} <br>
+                              <b>Comment: </b>{{tableData?.orderStatusDetails?.returnFromUser?.comment}} <br>
+                              <br><span  class="font-xs d-inline-block float-right">{{returnFromUserTime}}</span>
+                            </span>
+                            
+                          </div>
+                        </div>
+                        <!-- returnRefund -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderItemStatus == 'returnRefund' || tableData?.orderItemStatus == 'Rejected'">
+                          <div class="product-qty customizationDescption">
+                            <span class="id-header d-flex align-items-center cursor-pointer w-fit text-dark font-weight-bold pt-1" (click)="showreturnRefundtmsg=!showreturnRefundtmsg">Reason of Return Request {{tableData?.orderStatusDetails?.returnFromAdmin?.isReturn ? 'accepted' : 'rejected'}}<mat-icon >{{showreturnRefundtmsg ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                            <span [ngClass]="{'showCustomization':showreturnRefundtmsg}" class="customizationMessage">
+                              {{tableData?.orderStatusDetails?.returnFromAdmin?.comment}}.<br>
+                              <br><span  class="font-xs d-inline-block float-right">{{returnFromAdminTime}}</span>
+                            </span>
+                            
+                          </div>
+                        </div>
+                        <!-- Request for cancelation message -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderStatusDetails?.cancelOrderDetails">
+                          <div class="product-qty customizationDescption">
+                            <span class="id-header d-flex align-items-center cursor-pointer w-fit text-dark font-weight-bold" (click)="showCancelRequestmsg=!showCancelRequestmsg">Reason of request for cancelation <mat-icon >{{showCancelRequestmsg ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                            <span [ngClass]="{'showCustomization':showCancelRequestmsg}" class="customizationMessage">
+                              {{tableData?.orderStatusDetails?.cancelOrderDetails?.cancelComment}}
+                              <br><span  class="font-xs d-inline-block float-right">{{cancelOrderDetailsTime}}</span>
+                            </span>
+                            
+                          </div>
+                        </div>
+                        <!-- cancelled Reject message -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderStatusDetails?.cancelRequestDetails">
+                          <div class="product-qty customizationDescption">
+                            <span class="id-header d-flex align-items-center cursor-pointer w-fit text-dark font-weight-bold" (click)="showCanceledtmsg=!showCanceledtmsg">Reason of cancelled reply<mat-icon >{{showCanceledtmsg ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                            <span [ngClass]="{'showCustomization':showCanceledtmsg}" class="customizationMessage">
+                              {{tableData?.orderStatusDetails?.cancelRequestDetails?.adminCancellationComment ? tableData?.orderStatusDetails?.cancelRequestDetails?.adminCancellationComment : tableData?.orderStatusDetails?.cancelRequestDetails?.adminRejectionComment}}
+                              <br><span  class="font-xs d-inline-block float-right">{{cancelRequestDetailsrejectionTime ? cancelRequestDetailsrejectionTime : cancelRequestDetailscancellationTime}}</span>
+                            </span>
+                            
+                          </div>
+                        </div>
+                        <!-- cancelFromUser -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderItemStatus == 'cancelled' && tableData?.orderStatusDetails?.cancelFromUser">
+                          <div class="product-qty customizationDescption">
+                            <span class="id-header d-flex align-items-center cursor-pointer w-fit text-dark font-weight-bold" (click)="showcancelFromUsertmsg=!showcancelFromUsertmsg">Reason of order cancel from user<mat-icon >{{showcancelFromUsertmsg ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                              <span [ngClass]="{'showCustomization':showcancelFromUsertmsg}" class="customizationMessage">
+                                <b>Reason: </b>{{tableData?.orderStatusDetails?.cancelFromUser?.reason}} <br>
+                                <b>Comment: </b>{{tableData?.orderStatusDetails?.cancelFromUser?.comment}} <br>
+                                <br><span  class="font-xs d-inline-block float-right">{{cancelFromUserTime}}</span>
+                              </span>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="product-details-title">
+                        <h1>Product Details</h1>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="product-color">
+                        <span class="id-header">Color: </span>
+                        <span class="text-black">&nbsp;{{tableData?.colour}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="product-size d-flex">
+                        <span class="id-header">Size: </span>
+                        <span class="d-flex align-items-center">{{tableData?.size}} &nbsp;<mat-icon *ngIf="tableData?.size == 'Custom'" class="cursor-pointer" (click)="orderStatus_modal('userCustomMesorment',tableData,'')">info</mat-icon></span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="product-qty">
+                        <span class="id-header">QTY: </span>
+                        <span>{{tableData?.units}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="product-qty">
+                        <span class="id-header">Design Customization: </span>
+                        <span>{{tableData?.customizationStatus ? 'Yes' : 'No'}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.customizationStatus">
+                      <div class="product-qty customizationDescption">
+                        <span class="id-header d-flex align-items-center cursor-pointer w-fit" (click)="showCustomization=!showCustomization">Design Customization Message <mat-icon >{{showCustomization ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                        <span [ngClass]="{'showCustomization':showCustomization}" class="customizationMessage">{{tableData?.customObject?.customizationDetails}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.giftWrapAmount">
+                      <div class="product-qty">
+                        <span class="id-header">Giftwrap: </span>
+                        <span>{{tableData?.giftwrapStatus ? 'Yes' : 'No'}}<span *ngIf="tableData?.giftwrapStatus">(₹{{tableData?.giftWrapAmount}})</span></span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.giftwrapStatus">
+                      <div class="product-qty customizationDescption">
+                        <span class="id-header d-flex align-items-center cursor-pointer w-fit" (click)="showGiftwrap=!showGiftwrap">Giftwrap Details <mat-icon >{{showGiftwrap ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                        <!-- <span >{{tableData?.giftWrapObject?.customizationDetails}}</span> -->
+                        <div [ngClass]="{'showCustomization':showGiftwrap}" class="customizationMessage mailbox">
+                          <p class="to">To<br><span>{{tableData?.giftWrapObject?.to}}</span></p>
+                          <p class="message">{{tableData?.giftWrapObject?.message}}</p>
+                          <p class="text-right from  mb-0">From<br><span>{{tableData?.giftWrapObject?.from}}</span></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="contact-details-title">
+                        <h1>Contact Details</h1>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="customer-name">
+                        <span class="id-header">Customer Name: </span>
+                        <span>{{bilingData?.fullName}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="phone-number">
+                        <span class="id-header">Phone Number: </span>
+                        <span>{{bilingData?.mobile}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderItemStatus == 'Delivered' || tableData?.orderItemStatus == 'returnRefund' || tableData?.orderItemStatus == 'returnRequest' || tableData?.invoiceId">
+                      <div class="contact-details-title">
+                        <h1>Invoice</h1>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderItemStatus == 'Delivered' || tableData?.orderItemStatus == 'returnRefund' || tableData?.orderItemStatus == 'returnRequest' || tableData?.invoiceId">
+                      <a mat-raised-button color="primary" class="bg-theme" [href]="url" target="_blank">Download Invoice <mat-icon>download</mat-icon></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="action">
+              <ion-button matTooltip="Refresh" matTooltipPosition="above" size="small" color="primary" (click)="onRefresh()">
+                <mat-icon>refresh</mat-icon>
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

@@ -1,0 +1,469 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content class="payments">
+    <div class="page-body">
+        <div class="page-wrapper">
+          <div class="table-listing account-page">
+            <div class="note-section">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                            <div class="note-item small-shadow note-box-info card-outer">
+                                <div class="card card-box" matRipple>
+                                    <div class="top">
+                                        <div class="icon">
+                                            <mat-icon>attach_money</mat-icon>
+                                        </div>
+                                        <div class="text">Basic Amount</div>
+                                    </div>
+                                    <div class="middle">
+                                        <!-- <mat-icon style="color: #F64545">arrow_downward</mat-icon> -->
+                                        <div>₹ {{tableData?.basicAmount}}</div>
+                                    </div>
+                                    <!-- <div class="bottom"><b>+36%</b> from last month</div> -->
+                                </div>
+                            </div>             
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                            <div class="note-item small-shadow note-box-Purple card-outer">
+                                <div class="card card-box" matRipple>
+                                    <div class="top">
+                                        <div class="icon">
+                                            <mat-icon>credit_card</mat-icon>
+                                        </div>
+                                        <div class="text">Product GST</div>
+                                    </div>
+                                    <div class="middle">
+                                        <!-- <mat-icon style="color: #F4772E;">arrow_upward</mat-icon> -->
+                                        <div>₹ {{tableData?.gstAmount}}</div>
+                                    </div>
+                                    <!-- <div class="bottom"><b>+65%</b> from last month</div> -->
+                                </div>
+                            </div>             
+                        </ion-col>
+                        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                          <div class="note-item small-shadow note-box-info card-outer">
+                              <div class="card card-box" matRipple>
+                                  <div class="top">
+                                      <div class="icon">
+                                          <mat-icon>attach_money</mat-icon>
+                                      </div>
+                                      <div class="text">Giftwrap Amount</div>
+                                  </div>
+                                  <div class="middle">
+
+                                      <div>₹ {{tableData?.giftWrapAmount}}</div>
+                                      <!-- <div>₹ 0.00</div> -->
+                                  </div>
+                                  <!-- <div class="bottom"><b>+36%</b> from last month</div> -->
+                              </div>
+                          </div>             
+                      </ion-col>
+                        <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="3">
+                            <div class="note-item small-shadow note-box-danger card-outer">
+                                <div class="card card-box" matRipple>
+                                    <div class="top">
+                                        <div class="icon">
+                                            <mat-icon>paid</mat-icon>
+                                        </div>
+                                        <div class="text">TOTAL AMOUNT</div>
+                                    </div>
+                                    <div class="middle">
+                                        <!-- <mat-icon style="color: #59CA44;">arrow_downward</mat-icon> -->
+                                        <div>₹ {{tableData?.totalAmount}}</div>
+                                    </div>
+                                    <!-- <div class="bottom"><b>+22%</b> from last month</div> -->
+                                </div>
+                            </div>             
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                      <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                          <div class="note-item small-shadow note-box-primary card-outer">
+                              <div class="card card-box" matRipple>
+                                  <div class="top">
+                                      <div class="icon">
+                                          <mat-icon>credit_card</mat-icon>
+                                      </div>
+                                      <div class="text">DIVATT CHARGES</div>
+                                  </div>
+                                  <div class="middle">
+                                      <!-- <mat-icon style="color: #F64545">arrow_downward</mat-icon> -->
+                                      <div>₹ {{tableData?.totalServiceFee}}</div>
+                                  </div>
+                                  <!-- <div class="bottom"><b>+36%</b> from last month</div> -->
+                              </div>
+                          </div>             
+                      </ion-col>
+                      <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                          <div class="note-item small-shadow note-box-success card-outer">
+                              <div class="card card-box" matRipple>
+                                  <div class="top">
+                                      <div class="icon">
+                                          <mat-icon>credit_card</mat-icon>
+                                      </div>
+                                      <div class="text">DIVATT GST</div>
+                                  </div>
+                                  <div class="middle">
+                                      <!-- <mat-icon style="color: #F4772E;">arrow_upward</mat-icon> -->
+                                      <div>₹ {{tableData?.servicGst}}</div>
+                                  </div>
+                                  <!-- <div class="bottom"><b>+65%</b> from last month</div> -->
+                              </div>
+                          </div>             
+                      </ion-col>
+                      <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                          <div class="note-item small-shadow note-box-danger card-outer">
+                              <div class="card card-box" matRipple>
+                                  <div class="top">
+                                      <div class="icon">
+                                          <mat-icon>credit_card</mat-icon>
+                                      </div>
+                                      <div class="text">TCS</div>
+                                  </div>
+                                  <div class="middle">
+                                      <!-- <mat-icon style="color: #59CA44;">arrow_downward</mat-icon> -->
+                                      <div>₹ {{tableData?.totalTcs}}</div>
+                                  </div>
+                                  <!-- <div class="bottom"><b>+22%</b> from last month</div> -->
+                              </div>
+                          </div>             
+                      </ion-col>
+                      <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                          <div class="note-item small-shadow note-box-MediumBlue card-outer">
+                              <div class="card card-box" matRipple>
+                                  <div class="top">
+                                      <div class="icon">
+                                          <mat-icon>account_balance_wallet</mat-icon>
+                                      </div>
+                                      <div class="text">PAYABLE AMOUNT</div>
+                                  </div>
+                                  <div class="middle">
+                                      <!-- <mat-icon style="color: #4290FC;">arrow_upward</mat-icon> -->
+                                      <div>₹ {{tableData?.payableAmount}}</div>
+                                  </div>
+                                  <!-- <div class="bottom"><b>+32%</b> from last month</div> -->
+                              </div>
+                          </div>             
+                      </ion-col>
+                      <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                        <div class="note-item small-shadow note-box-warning card-outer">
+                            <div class="card card-box" matRipple>
+                                <div class="top">
+                                    <div class="icon">
+                                        <mat-icon>currency_exchange</mat-icon>
+                                    </div>
+                                    <div class="text">PENDING AMOUNT</div>
+                                </div>
+                                <div class="middle">
+                                    <!-- <mat-icon style="color: #efbc44;">arrow_upward</mat-icon> -->
+                                    <div>₹ {{tableData?.pendingAmount}}</div>
+                                </div>
+                                <!-- <div class="bottom"><b>+32%</b> from last month</div> -->
+                            </div>
+                        </div>             
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+            </div>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <div class="card card-box card-table">
+                    <div class="card-header">
+                      <div class="card-header-tittle">
+                        Account List
+                      </div>
+                      <div class="card-header-action d-flex align-items-center">
+                        <div class="records-wrapper">
+                          <ion-item class="record">
+                            <span class="text-black mr-1">Records: </span>
+                            <mat-form-field  class="m-0">
+                              <mat-select [(ngModel)]="displayRecord" name="record" (selectionChange)="displayRecordChange($event.value)">
+                                <mat-option *ngFor="let record of displayRecords" [value]="record.displayValue">
+                                  <span *ngIf="record.displayValue > 0">{{record.displayValue}}</span>
+                                  <!-- <span *ngIf="record.displayValue == 0">All</span> -->
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </ion-item>
+                        </div>
+                        <div class="search-wrapper">
+                          <ion-searchbar class="p-0" showCancelButton="focus" debounce="500" placeholder="Search data ...." [(ngModel)]="searchTerm" (ionChange)="searchList($event)"></ion-searchbar>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <!-- <div class="table-header">
+                        <div class="records-wrapper">
+                            <ion-item class="record">
+                              <span class="text-black mr-1">Records: </span>
+                              <mat-form-field  class="m-0">
+                                <mat-select [(ngModel)]="displayRecord" name="record" (selectionChange)="displayRecordChange($event.value)">
+                                  <mat-option *ngFor="let record of displayRecords" [value]="record.displayValue">
+                                    <span *ngIf="record.displayValue > 0">{{record.displayValue}}</span>
+                                    <span *ngIf="record.displayValue == 0">All</span>
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </ion-item>
+                        </div>
+                        <div class="search-wrapper">
+                          <ion-searchbar class="p-0" showCancelButton="focus" debounce="500" placeholder="Search data ...." [(ngModel)]="searchTerm" (ionChange)="searchList($event)"></ion-searchbar>
+                        </div>
+                      </div> -->
+
+                      <div class="row">
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Year</mat-label>
+                            <mat-select name="year" [(ngModel)]="model.year" (selectionChange)="selectFiltter($event,'year')" [tabindex]="!model.filter ? '-1' : '0'">
+                              <mat-option value=""  >None</mat-option>
+                              <mat-option [value]="year" [disabled]="!model.filter" *ngFor="let year of yearList">{{year}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-xs-6">
+                          <mat-form-field appearance="outline" [ngClass]="{'disabled': !model.year}" tabindex="-1">
+                            <mat-label>Month</mat-label>
+                            <mat-select name="month" [(ngModel)]="model.month" (selectionChange)="selectFiltter($event,'month')" [tabindex]="!model.filter ? '-1' : '0'">
+                              <mat-option value=""  [disabled]="!model.month">None</mat-option>
+                              <mat-option [value]="month?.id" [disabled]="!model.year || !model.filter"  *ngFor="let month of monthList">{{month?.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                          <mat-form-field appearance="outline"  [ngClass]="{'disabled': !model.month}" tabindex="-1">
+                            <mat-label>Settlement</mat-label>
+                            <mat-select name="settlement" [(ngModel)]="model.settlement" (selectionChange)="selectFiltter($event,'settlement')" [tabindex]="!model.filter ? '-1' : '0'">
+                              <mat-option value=""  [disabled]="!model.settlement">None</mat-option>
+                              <mat-option value="firstSettlement"  [disabled]="!model.month || !model.filter">First settlement</mat-option>
+                              <mat-option value="secondSettlement"  [disabled]="!model.month || !model.filter">Second settlement</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-5 col-sm-12 col-xs-6">
+                          <div class="row">
+                            <div class="col-md-8 col-sm-8 col-xs-8">
+                              <div class="form-item ngsel large-height">
+                                <ng-select [items]="designerList" 
+                                        bindLabel="name" 
+                                        name="designerName"
+                                        bindValue="id" 
+                                        [searchable]="true"
+                                        [(ngModel)]="model.designerName"
+                                        (change)="selectFiltter(model.designerName,'designerName')"
+                                        required>
+                                </ng-select>
+                                <label>Select Designer </label>
+                              </div>
+                            </div>
+                            <div class="col-md-3 col-sm-4 col-xs-4">
+                              <button mat-mini-fab  class="bg-theme d-flex align-items-center justify-content-center mx-auto"  matTooltip="Download payment details" (click)="genarateExcle()">
+                                <mat-icon>sim_card_download</mat-icon>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th class="ion-text-start">
+                                          <div>
+                                              #
+                                          </div>
+                                      </th>
+                                      
+                                      <!-- <th class="ion-text-start">
+                                        <div>
+                                          <ion-checkbox color="primary" name="select_all_item" [(ngModel)]="allselectModel" (ionChange)="allSelectItem($event)"></ion-checkbox>
+                                        </div>
+                                      </th> -->
+                                      
+                                      <th *ngFor="let th of tableHeaderData" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
+                                        <div>
+                                          {{th.display_name}}
+                                          <mat-icon *ngIf="th.sortingButtonName == ''">import_export</mat-icon>
+                                          <mat-icon *ngIf="th.sortingButtonName == 'ASC'">expand_less</mat-icon>
+                                          <mat-icon *ngIf="th.sortingButtonName == 'DESC'">expand_more</mat-icon>
+                                        </div>
+                                      </th>
+                                      <th class="">
+                                        <div class="">
+                                         Return Amount Status
+                                        </div>
+                                      </th>
+                                      <!-- <th class="">
+                                        <div class="">
+                                         Services Charge Status
+                                        </div>
+                                      </th>
+                                      <th class="">
+                                        <div class="">
+                                          Government Charge Status
+                                        </div>
+                                      </th> -->
+                                      <th class="ion-text-center">
+                                        <div class="ion-justify-content-center">
+                                          Actions
+                                        </div>
+                                      </th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                <tr  [hidden]="!isListLoading" class="loading-table-data">
+                                  <td colspan="100" class="text-center">
+                                    Data is loading...
+                                  </td>
+                                </tr>
+                                <tr [hidden]="isListLoading" *ngIf="tableData?.data.length == 0" class="loading-table-data">
+                                  <td colspan="100" class="text-center">
+                                    No data found
+                                  </td>
+                                </tr>
+                                <tr [hidden]="isListLoading" *ngFor="let item of tableListData; let i = index">
+                                  <td>{{i + 1}}</td>
+                                  <!-- <td>
+                                      <ion-checkbox  name="checkbox_name" [(ngModel)]="item.isSelected" (ionChange)="onCheckboxSelect(item, $event)" color="primary"></ion-checkbox>
+                              
+                                  </td> -->
+                                  <td>
+                                    {{item?.designer_return_amount?.orderId}}
+                                  </td>
+                                  <td>
+                                    {{item?.order_details?.order_invoice_id ? item?.order_details?.order_invoice_id : 'N/A'}}
+                                  </td>
+                                  <td>
+                                    {{item?.service_charge?.designer_invoice_id}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_details?.display_name}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_return_amount?.basic_amount}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_return_amount?.discount}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_return_amount?.hsn_amount}}
+                                  </td>
+                                  <td>
+                                    {{item?.order_details?.giftWrapAmount}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_return_amount?.totalAmount}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_return_amount?.divattCharges}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_return_amount?.hsn_amount}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_return_amount?.tcs}}
+                                  </td>
+                                  <td>
+                                    {{item?.designer_return_amount?.net_payable_designer}}
+                                  </td>
+                                    <td>
+                                      <div class="status" [ngClass]="{'warning':item?.designer_return_amount?.status == 'NOT RETURN' , 'success':item?.designer_return_amount?.status == 'RETURN' , 'danger':item?.designer_return_amount?.status == 'RETURN/NOT RETURN'}">
+                                        {{item?.designer_return_amount?.status}}
+                                      </div>
+                                  </td>
+                                    <!-- <td>
+                                      <div class="status" [ngClass]="{'warning':item?.service_charge?.status == 'NOT PAID' , 'success':item?.service_charge?.status == 'PAID' , 'danger':item?.service_charge?.status == 'PAID/NOT PAID'}">
+                                        {{item?.service_charge?.status}}
+                                      </div>
+                                  </td>
+                                  <td>
+                                    <div class="status" [ngClass]="{'warning':item?.govt_charge?.status == 'NOT PAID' , 'success':item?.govt_charge?.status == 'PAID' , 'danger':item?.govt_charge?.status == 'PAID/NOT PAID'}">
+                                      {{item?.govt_charge?.status}}
+                                    </div>
+                                </td> -->
+                                  <td>
+                                    <div class="action ion-text-center">
+                                      <ion-button class="mr-1" matTooltip="Designer Return Amount" matTooltipPosition="above" color="primary" (click)="changeStatus('accountStatus',item.id)">
+                                        <mat-icon>paid</mat-icon>
+                                      </ion-button>
+                                      <!-- <ion-button class="mr-1" matTooltip="Service Charge" matTooltipPosition="above" color="secondary" (click)="changeStatus('serviceStatus',item.id)">
+                                        <mat-icon>credit_card</mat-icon>
+                                      </ion-button>
+                                      <ion-button class="mr-1" matTooltip="Govt Charge" matTooltipPosition="above" color="success" (click)="changeStatus('govt_charge',item.id)">
+                                        <mat-icon>payments</mat-icon>
+                                      </ion-button> -->
+                                      <ion-button class="mr-1" matTooltip="View All Data" matTooltipPosition="above" color="primary" [routerLink]="['/', 'payments-view', item.id]">
+                                        <mat-icon >visibility</mat-icon>
+                                      </ion-button>
+                                      <ion-button matTooltip="Download Payment Invoice" matTooltipPosition="above" color="warning" (click)="genaratePDF(item,'')">
+                                        <mat-icon >sim_card_download</mat-icon>
+                                      </ion-button>
+                                      <ion-button matTooltip="Download Order Invoice" matTooltipPosition="above" color="success" (click)="genaratePDF(item?.designer_return_amount?.orderId,'orderinvoice')">
+                                        <mat-icon >save_alt</mat-icon>
+                                      </ion-button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div class="action">
+                        <ion-button matTooltip="Refresh" matTooltipPosition="above" size="small" color="primary" (click)="onRefresh()">
+                          <mat-icon>refresh</mat-icon>
+                        </ion-button>
+                        <!-- <ion-button *ngIf="pagePermission?.modPrivs?.delete == true" [ngClass]="{'disabled':checkedList.length == 0 || alldeleteLoaderShow}" class="w-40" (click)="onClickDeleteItem('multiple', '', tableListData, '')" matTooltip="Recycle Bin" matTooltipPosition="above" color="danger">
+                          <mat-icon *ngIf="!alldeleteLoaderShow" >delete_forever</mat-icon>
+                          <ion-spinner *ngIf="alldeleteLoaderShow" class="delete-spinner" name="crescent"></ion-spinner>
+                        </ion-button> -->
+                      </div>
+                      <div>
+                          <ul class="pagination">
+                              <li (click)="setPage(0)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="First" matTooltipPosition="above">
+                                  <a>
+                                    <!-- First -->
+                                    <ion-icon name="play-skip-back"></ion-icon>
+                                  </a>
+                              </li>
+                              <li (click)="setPage(tableData.currentPage - 1)" [ngClass]="{disabled:tableData?.currentPage == 0}" class="circle-border" matTooltip="Previous" matTooltipPosition="above">
+                                  <a>
+                                    <!-- Previous -->
+                                    <ion-icon name="caret-back"></ion-icon>
+                                  </a>
+                              </li>
+                              <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                              <li>
+                                  Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} 
+                              </li>
+                              <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                              <li (click)="setPage(tableData.currentPage + 1)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Next" matTooltipPosition="above">
+                                  <a>
+                                    <!-- Next -->
+                                    <ion-icon name="caret-forward"></ion-icon>
+                                  </a>
+                              </li>
+                              <li (click)="setPage(tableData.totalPage)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Last" matTooltipPosition="above">
+                                  <a>
+                                    <!-- Last -->
+                                    <ion-icon name="play-skip-forward"></ion-icon>
+                                  </a>
+                              </li>
+                          </ul>
+                        </div>
+                    </div>
+                  </div>
+                </ion-col>
+                
+              </ion-row>
+            </ion-grid>
+          </div>
+        </div>
+    </div>
+    <!-- common footer show -->
+    <common-footer></common-footer>
+</ion-content>
+

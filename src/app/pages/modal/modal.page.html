@@ -1,0 +1,1149 @@
+<ion-header  class="modal-header">
+  <ion-toolbar>
+    <div class="modal-inner">
+      <ion-title>{{heder_title}}</ion-title>
+      <a (click)="closeModal()" class="modal-close">
+        <ion-icon slot="icon-only" name="close-circle-outline" title="Close Modal"></ion-icon>
+      </a>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="form-layout" >
+    <div class="form-wrapper">
+      <div class="common-modal-body">
+        <div class="modal-wrapper" >
+          <!-- changepassword_modal modal start -->
+          <div class="changepassword pt-2" *ngIf="get_identifier == 'changepassword_modal'">
+            <div class="login-inner">
+              <form class="login" #changepasswordForm="ngForm" (ngSubmit)="onSubmitChangepswForm(changepasswordForm)"   novalidate>
+                  <input type="hidden" [(ngModel)]="username"
+                  name="userName">
+                <div class="form-group">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Old Password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" 
+                    [(ngModel)]="model.oldPass"
+                    name="oldPass"
+                    required
+                    clearInput>
+                    <a  matTooltipPosition="above" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                  </mat-form-field>
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="outline">
+                    <mat-label>New Password</mat-label>
+                    <input matInput [type]="hide2 ? 'password' : 'text'" 
+                    [(ngModel)]="model.newPass" (keyup)="passwordvalid(model.newPass,model.conformpassword)"
+                    name="newPass"
+                    required 
+                    clearInput>
+                    <a  mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                  </mat-form-field>
+                </div>
+                <div class="form-group p-0">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Conform Password</mat-label>
+                    <input matInput [type]="hide3 ? 'password' : 'text'"  (keyup)="passwordvalid(model.newPass,model.conformpassword)"
+                    [(ngModel)]="model.conformpassword"
+                    name="conformpassword"
+                    required
+                    clearInput>
+                    <a matTooltip="{{hide3 ? 'Show Password' : 'Hide Password'}}" matTooltipPosition="above" mat-icon-button matSuffix (click)="hide3 = !hide3" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide3 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                  </mat-form-field>
+                </div>
+                <p class="text-danger text-center">{{error}}</p>
+                <div class="form-button mt-5 pt-3">
+                  <ion-button class="custom-btn" [ngClass]="{'disabled' : error}" type="submit"  [disabled]="!changepasswordForm.valid">
+                    <ion-spinner class="btnloader" name="crescent" *ngIf="btnloader2"></ion-spinner>
+                    Change Password
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+          <!-- changepassword_modal modal end -->
+          <!-- adminprofile_modal modal start -->
+          <div class="profile_modal pt-2 pb-3" *ngIf="get_identifier == 'adminprofile_modal'">
+            <div class="">
+              <form class="login" #adminprofileForm="ngForm" (ngSubmit)="onSubmitadminProfileForm(adminprofileForm)"  novalidate>
+                  <input type="hidden" name="profilePic" [(ngModel)]="adminprofiledata.profilePic">
+                  <ion-grid *ngIf="role != 'DESIGNER'">
+                    <ion-row>
+                      <!-- Name -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>First Name</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="adminprofiledata.firstName"
+                            name="firstName"
+                            pattern="[A-Za-z]+"
+                            required
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- Last Name -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="adminprofiledata.lastName"
+                            name="lastName"
+                            required
+                            pattern="[A-Za-z]+"
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- Email -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput type="email"
+                            [(ngModel)]="adminprofiledata.email"
+                            name="email" pattern="^[a-z0-9._%+-]+@[a-z.-]+\.[a-z]{2,4}$"
+                            required
+                            clearInput readonly>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- Mobile No -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Mobile No</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="adminprofiledata.mobileNo"
+                            name="mobileNo"
+                            required
+                            pattern="^((\\+91-?)|0)?[0-9]{10}$"  
+                            onKeyPress="if(this.value.length==10) {return false;}" 
+                            maxlength="10"
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- DOB -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>DOB</mat-label>
+                            <input matInput type="date"
+                            [(ngModel)]="adminprofiledata.admindob"
+                            name="admindob"
+                            required
+                            (change)="changeDateFormat('ADMIN',adminprofiledata.admindob)" 
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <input type="hidden" name="dob" [(ngModel)]="adminprofiledata.dob" required>
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <label class="mb-1">Gender</label>
+                          <mat-radio-group [(ngModel)]="adminprofiledata.gender" name="gender" required >
+                            <mat-radio-button value="male" >Male</mat-radio-button>&nbsp;
+                            <mat-radio-button value="female" >Female</mat-radio-button>
+                          </mat-radio-group>
+                        </div>
+                      </ion-col> 
+                      <!-- gstin -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>GSTIN</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="adminprofiledata.gstIn"
+                            name="gstIn"
+                            maxlength="15"
+                            minlength="15" 
+                            required
+                            pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                            clearInput>
+                            <mat-hint class="d-flex align-items-center cursor-pointer" (click)="showInfo2 = !showInfo2">GSTIN Format.&nbsp;<mat-icon>info</mat-icon></mat-hint>
+                          </mat-form-field>
+                        </div>
+                        <div class="showInfo" [ngClass]="{'show  mb-2':showInfo2}">
+                          1. It should be 15 characters long.<br>
+                          2.The first 2 characters should be a number.<br>
+                          3.The next 10 characters should be the PAN number of the taxpayer.<br>
+                          4.The 13th character (entity code) should be a number from 1-9 or an alphabet.<br>
+                          5.The 14th character should be Z.<br>
+                          6.The 15th character should be an alphabet or a number.
+                       </div>
+                        <!-- pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]1}[1-9A-Z]{1}Z[0-9A-Z]{1}$ -->
+                      </ion-col>
+                      <!-- PAN -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>PAN</mat-label>
+                            <input matInput type="number"
+                            [(ngModel)]="adminprofiledata.pan"
+                            name="pan"
+                            required
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <!-- Country -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-item ngsel">
+                          <ng-select [items]="countryList" 
+                                  bindLabel="name" 
+                                  name="country"
+                                  placeholder="Select Country"
+                                  bindValue="name" 
+                                  [(ngModel)]="adminprofiledata.country"
+                                  (change)="SelectedCountry(adminprofiledata.country)"
+                                  required>
+                          </ng-select>
+                          <label>Country<sup>*</sup></label>
+                        </div>
+                      </ion-col>
+                      <!-- State -->
+                      <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                        <div class="form-item ngsel">
+                          <ng-select [items]="stateList" 
+                                  bindLabel="name" 
+                                  name="state"
+                                  placeholder="Select State"
+                                  bindValue="name" 
+                                  [(ngModel)]="adminprofiledata.state"
+                                  (change)="selectState(adminprofiledata.state)"
+                                  required
+                                  [disabled]="!adminprofiledata.country || stateLoading"
+                                  >
+                          </ng-select>
+                          <label>State <sup>*</sup> </label>
+                        </div>
+                      </ion-col>
+                      <!-- city -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group">
+                            <mat-form-field appearance="outline">
+                              <mat-label>city</mat-label>
+                              <input matInput type="text"
+                              [(ngModel)]="adminprofiledata.city"
+                              name="city"
+                              required  pattern="\S(.*\S)?"
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                        <!-- PIN -->
+                        <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                          <div class="form-group">
+                            <mat-form-field appearance="outline">
+                              <mat-label>Pin</mat-label>
+                              <input matInput type="text" pattern="^[1-9][0-9]{5}$"
+                              maxlength="6" minlength="6"
+                              [(ngModel)]="adminprofiledata.pin"
+                              name="pin"
+                              required
+                              clearInput>
+                            </mat-form-field>
+                          </div>
+                        </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <div class="form-button">
+                    <ion-button [ngClass]="{'disabled' : btnloader2}" type="submit" style="padding-left: 19px;"  [disabled]="!adminprofileForm.valid" class="custom-btn">
+                      <ion-spinner class="btnloader2" name="crescent" *ngIf="btnloader2"></ion-spinner>
+                      Update
+                    </ion-button>
+                    <ion-button color="danger" (click)="closeModal()">
+                      Cancel
+                    </ion-button>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <!-- adminprofile_modal modal end -->
+          <!-- productapprove_modal modal start -->
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'productapprove_modal'">
+            <div class="">
+              <form class="login" #approveForm="ngForm" (ngSubmit)="onSubmitapproveProduct(approveForm)">
+                  
+                  <ion-grid>
+                    <ion-row>
+                      <!-- comment -->
+                      <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Enter a comment</mat-label>
+                            <textarea matInput type="text"
+                            [(ngModel)]="modal.comment"
+                            name="comment"
+                            required  
+                            clearInput
+                            rows="5" 
+                            >
+                            </textarea>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <div class="form-button">
+                    <ion-button class="custom-btn" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!approveForm.valid">
+                      <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                      Submit
+                    </ion-button>
+                    <ion-button color="danger" (click)="closeModal()">
+                      Cancel
+                    </ion-button>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <!-- productmessage_modal modal end -->
+          <!-- productmessage_modal modal start -->
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'message_modal'">
+            <div class="">  
+              <div class="comment-body" *ngFor="let item of get_item" >
+                <p class="opacity-6 mb-0" [ngClass]="{'success': item.Reason == 'Approved' , 'danger': item.Reason == 'Rejected'}">Reason: <span class="font-weight-200">{{item?.Reason}}</span> <span class="float-right">Date:{{item?.dateTime}}</span> </p>
+                <p class="mb-0 message"><span>Comment : </span>{{item?.comments}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'rejectmessage_modal'">
+            <div class="">  
+              <div class="comment-body">
+                <p class="opacity-8 mb-0 danger" >Reason: <span class="font-weight-200">Rejected</span></p>
+                <p class="mb-0 message"><span>Comment : </span>{{get_item}}</p>
+              </div>
+            </div>
+          </div>
+          <!-- productapprove_modal modal end -->
+          <!-- Desigerrejected_modal modal start -->
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'Desigerrejected_modal'">
+            <div class="">
+              <form class="login" #designerRejectForm="ngForm" (ngSubmit)="onSubmitdesignerRejectForm(designerRejectForm)">
+                  
+                  <ion-grid>
+                    <ion-row>
+                      <!-- comment -->
+                      <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Enter a comment</mat-label>
+                            <textarea matInput type="text"
+                            [(ngModel)]="modal.comment"
+                            name="comment"
+                            required  
+                            clearInput
+                            rows="5" 
+                            >
+                            </textarea>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <div class="form-button">
+                    <ion-button class="custom-btn" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!designerRejectForm.valid">
+                      <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                      Submit
+                    </ion-button>
+                    <ion-button color="danger" (click)="closeModal()">
+                      Cancel
+                    </ion-button>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <!-- Desigerrejected_modal modal end -->
+          <!-- Desigerrejected_modal modal start -->
+          <div class="product_modal pt-2" *ngIf="get_identifier == 'DesigerApprove_modal'">
+            <div class="">
+              <form class="login" #designerApproveForm="ngForm" (ngSubmit)="onSubmitdesignerApproveForm(designerApproveForm)">
+                  
+                  <ion-grid>
+                    <ion-row>
+                      <!-- comment -->
+                      <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Display Name</mat-label>
+                            <input matInput type="text"
+                            [(ngModel)]="modal.displayName"
+                            name="displayName"
+                            required pattern="\S(.*\S)?"
+                            clearInput>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                      <ion-col size-xs="12" size-sm="12" size-md="12"  size-lg="12">
+                        <div class="form-group">
+                          <mat-form-field appearance="outline">
+                            <mat-label>Select Lebel</mat-label>
+                            <mat-select name="designerCategory" [(ngModel)]="modal.designerCategory" required>
+                              <mat-option *ngFor="let Lebel of Lebellist" [value]="Lebel.Name">{{Lebel.Name}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                  <div class="form-button">
+                    <ion-button class="custom-btn" [ngClass]="{'disabled' : btnloader}" type="submit"  [disabled]="!designerApproveForm.valid">
+                      <ion-spinner *ngIf="btnloader" slot="start" name="crescent"></ion-spinner>
+                      Submit
+                    </ion-button>
+                    <ion-button color="danger" (click)="closeModal()">
+                      Cancel
+                    </ion-button>
+                  </div>
+              </form>
+            </div>
+          </div>
+          <!-- Desigerrejected_modal modal end -->
+          <!-- orderCancelDesigner_modal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'orderCancelDesigner_modal'">
+            <div class="">
+              <form class="login" #orderCancel="ngForm" (ngSubmit)="onSubmitDeliveredCancelAdminForm(orderCancel)"  novalidate>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reason of Cancel</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5" 
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <input type="hidden" name="deliveryStatus" [(ngModel)]="model.deliveryStatus">
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!orderCancel.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- orderCancelDesignermodal modal end -->
+          <!-- order-packed Admin modal start -->
+          <div class="packed_modal pt-2" *ngIf="get_identifier == 'orderpackModal'">
+            <div class="login-inner">
+              <form class="login" novalidate #orderPackedForm="ngForm" (ngSubmit)="ordersSubmit(orderPackedForm,'Packed')">
+                  <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                    <div class="mat-form form-group">
+                      <mat-checkbox class="example-margin mat-check mr-b-15" name="packedCovered" [(ngModel)]="model.packedCovered" required><p>Packed in Divatt Cover</p></mat-checkbox>
+                    </div>
+                  </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="mat-form form-group">
+                    <mat-checkbox class="example-margin mat-check mr-b-15" name="packingVideo" [(ngModel)]="model.packingVideo" required><p>Recorded the packing video</p></mat-checkbox>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button type="submit" style="padding-left: 19px;" [disabled]="!orderPackedForm.valid"  class="custom-btn">
+                    Submit
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- order-packed Admin modal end -->
+          <!-- order-Shipped Admin modal start -->
+          <div class="shipped_modal pt-2" *ngIf="get_identifier == 'ordershippedModal'">
+            <div class="login-inner">
+              <form class="login" novalidate #orderShippedForm="ngForm" (ngSubmit)="ordersSubmit(orderShippedForm,'Shipped')">
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Courier Name</mat-label>
+                      <input matInput type="text" name="courierName" pattern="^[a-zA-Z \-\']+" clearInput required [(ngModel)]="model.courierName">
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>AWB Number</mat-label>
+                      <input matInput type="number" min="0" name="awbNumber" clearInput required [(ngModel)]="model.awbNumber">
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button type="submit" style="padding-left: 19px;" [disabled]="!orderShippedForm.valid"  class="custom-btn">
+                    Submit
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- order-Shipped Admin modal end -->
+          <!-- order-Deliverd Admin modal start -->
+          <div class="deliverd_modal pt-2" *ngIf="get_identifier == 'orderdeliverModal'">
+            <div class="login-inner">
+              <form class="login" novalidate #orderDeliverdForm="ngForm" (ngSubmit)="ordersSubmit(orderDeliverdForm,'Delivered')">
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Delivered Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.deliver_Date"
+                      name="deliver_Date"
+                      [min]="mindateRange" 
+                      [max]="dateRange"
+                      required
+                      (change)="changeDateFormat('deliveredDate',model.deliver_Date)" 
+                      clearInput>
+                    </mat-form-field>
+                  </div>
+                  <input type="hidden"  [(ngModel)]="model.deliveredDate" name="deliveredDate">
+                </ion-col>
+                <div class="form-button">
+                  <ion-button type="submit" style="padding-left: 19px;" [disabled]="!orderDeliverdForm.valid"  class="custom-btn">
+                    Submit
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- order-Deliverd Admin modal end -->
+          <!-- cancelledApprovalModal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'cancelledApprovalModal'">
+            <div class="">
+              <form class="login" #cancelledApproval="ngForm" (ngSubmit)="onSubmitcancelledApprovalForm(cancelledApproval)"  novalidate>
+                <label id="example-radio-group-label">Request</label>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-radio-group name="orderStatus" [(ngModel)]="model.orderStatus">
+                      <mat-radio-button value="cancelled">Approve</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                      <mat-radio-button value="Reject">Reject</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment" 
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!cancelledApproval.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- cancelledApprovalModal modal end -->
+          <!-- accountStatus modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'accountStatus'">
+            <div class="">
+              <form class="login" #accountStatus="ngForm" (ngSubmit)="onSubmitaccountStatusForm(accountStatus)"  novalidate>
+                <label id="example-radio-group-label">Return Amount Status</label>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-radio-group name="status" [(ngModel)]="model.status">
+                      <mat-radio-button [disabled]="get_item?.designer_return_amount[0]?.status == 'RETURN'" value="RETURN">RETURN</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                      <mat-radio-button [disabled]="get_item?.designer_return_amount[0]?.status == 'RETURN'" value="NOT RETURN">NOT RETURN</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.paymentDate"
+                      [max]="currentDate"
+                      name="paymentDate" (change)="changeDateFormat('payment',model.paymentDate)"
+                      clearInput required/>
+                    </mat-form-field>
+                    <input type="hidden" [(ngModel)]="model.payment_datetime" name="payment_datetime">
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Updated Datetime</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.updatedDatetime"
+                      name="updatedDatetime" (change)="changeDateFormat('updatedDatetime',model.updatedDatetime)"
+                      clearInput required/>
+                    </mat-form-field>
+                    <input type="hidden" [(ngModel)]="model.updated_datetime" name="updated_datetime">
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Remarks</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.remarks"
+                      name="remarks"
+                      rows="5" 
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!accountStatus.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- accountStatus modal end -->
+          <!-- serviceStatus modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'serviceStatus'">
+            <div class="">
+              <form class="login" #serviceStatus="ngForm" (ngSubmit)="onSubmitserviceStatusForm(serviceStatus)"  novalidate>
+                <label id="example-radio-group-label">Service Charge Status</label>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-radio-group name="status" [(ngModel)]="model.status">
+                      <mat-radio-button [disabled]="get_item?.service_charge?.status == 'PAID'" value="PAID">PAID</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                      <mat-radio-button [disabled]="get_item?.service_charge?.status == 'PAID'" value="NOT PAID">NOT PAID</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.service_Date"
+                      [max]="currentDate"
+                      name="service_Date" (change)="changeDateFormat('service_Date',model.service_Date)"
+                      clearInput required/>
+                    </mat-form-field>
+                    <input type="hidden" [(ngModel)]="model.servicedate" name="servicedate">
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Remarks</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.remarks"
+                      name="remarks"
+                      rows="5"
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!serviceStatus.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- serviceStatus modal end -->
+          <!-- govStatus modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'govt_charge'">
+            <div class="">
+              <form class="login" #govt_charge="ngForm" (ngSubmit)="onSubmitgovStatusForm(govt_charge)"  novalidate>
+                <label id="example-radio-group-label">Government Charge Status</label>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-radio-group name="status" [(ngModel)]="model.status">
+                      <mat-radio-button [disabled]="get_item?.govt_charge[0]?.status == 'PAID'" value="PAID">PAID</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                      <mat-radio-button [disabled]="get_item?.govt_charge[0]?.status == 'PAID'" value="NOT PAID">NOT PAID</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Date</mat-label>
+                      <input matInput type="date"
+                      [(ngModel)]="model.gov_Date"
+                      name="gov_Date" (change)="changeDateFormat('gov_Date',model.gov_Date)"
+                      clearInput required/>
+                    </mat-form-field>
+                    <input type="hidden" [(ngModel)]="model.govdate" name="govdate">
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Remarks</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.remarks"
+                      name="remarks"
+                      rows="5" 
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!govt_charge.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- govStatus modal end -->
+           <!-- govStatus modal start -->
+           <div class="profile_modal userCustomMesorment pt-2" *ngIf="get_identifier == 'userCustomMesorment'">
+            <div class="row text-black" *ngIf="get_item?.gender == 'men'">
+              <div class="col-md-6 col-sm-6">
+                  <div class="row">
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Neck</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.neck}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Shoulder </span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.shoulder}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Chest</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.chest}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Crotch Length</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.crotchLength}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Side neck point to waist</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.sideNeck}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Nape to waist</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.napeNaist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Back width</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.backWidth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Armscye depth</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.armscyeDepth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Armhole</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.armhole}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Top arm(bicep)</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.topArm}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Elbow</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.elbow}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Wrist</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.wrist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Sleeve length</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.sleeveLength}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6 col-sm-6">
+                  <div class="row">
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Crotch depth</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.crotchDepth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Waist</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Hip</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.hip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Top hip</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.topHip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Waist to hip</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waistToHip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Waist to knee</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waistToknee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Waist to ankle</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waistToAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                         <div class="name">Knee to ankle</div> 
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.kneeToAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Thigh</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.thigh}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Knee</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.knee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Calf circumference</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.calfCircumference}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">High ankle</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.highAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Ankle</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.ankle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Waist to floor</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waistToFloor}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="row text-black" *ngIf="get_item?.gender == 'women'">
+              <div class="col-md-6">
+                  <div class="row">
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Neck</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.neck}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Shoulder </span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.shoulder}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Bust</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.bust}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Crotch Length</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.crotchLength}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Waist</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Hip</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.hip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Rib cage (under bust)</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.ribCage}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Top hip (low waist)</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.topHip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Side neck point to waist apex (front neck depth)</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.sideNeck}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Waist to hip</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waistToHip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Back side neck point to waist (back neck depth)</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.backSide}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Front side neck point to waist (kurta length along with waist to knee)</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.frontSide}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class="col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Back width</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.backWidth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="row">
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Waist to knee</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waistToKnee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="name">Armscye depth</span>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.armscyeDepth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Knee to ankle(may be required for ankle length)</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.kneeToAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Armhole</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.armhole}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Thigh</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.thigh}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Top arm(bicep)</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.topArm}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Knee</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.knee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                         <div class="name">Knee to ankle</div> 
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.kneeToAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Thigh</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.thigh}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Knee</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.knee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Elbow</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.elbow}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Calf circumference</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.calfCircumference}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">High ankle</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.highAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Wrist</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.wrist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Ankle</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.ankle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Crotch depth</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.crotchDepth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                      <div class=" col-md-8 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <div class="name">Waist to floor(bottom length)</div>
+                      </div>
+                      <div class="col-md-4 pb-13 col-sm-6 col-xs-6 pb-13">
+                          <span class="size">{{mesorementData?.measurementJSON?.waistToFloor}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <!-- returnRequest modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'returnRequest'">
+            <div class="">
+              <form class="login" #ReturnApproval="ngForm" (ngSubmit)="onSubmitReturnApprovalForm(ReturnApproval)"  novalidate>
+                <label id="example-radio-group-label">Request</label>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-radio-group name="isReturn" [(ngModel)]="model.isReturn" required>
+                      <mat-radio-button value="true">Approve</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                      <mat-radio-button value="false">Reject</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!ReturnApproval.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- returnRequest modal end -->
+          <!-- govStatus modal end -->
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+</ion-content>
+<!-- (keyup.enter)="onSubmitChangepswForm(changepasswordForm)" -->

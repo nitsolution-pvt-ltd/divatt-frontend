@@ -1,0 +1,12 @@
+
+.table-responsive {
+    overflow: visible;
+    overflow-x: auto;
+}
+.table-overflow
+{
+    max-width: 20em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
