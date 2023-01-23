@@ -1,0 +1,84 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="page-title">
+            <h2>Following</h2>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <nav aria-label="breadcrumb" class="theme-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a [routerLink]="'/home'">Home</a></li>
+              <li class="breadcrumb-item active">Following</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- breadcrumb End -->
+  <section class="section-b-space p-t-0 pb-2">
+    <div class="container-fluid fixed-width designerlisting pt-3 pb-3">
+      <!-- for_desktop -->
+      <div class="row padding-lg">
+        <div class="col-lg-3 col-md-4 col-sm-6 card4" *ngFor="let designer of designerlist;let i = index">
+          <div class="pb-2">
+            <div class="follow_btn text-right">
+              <img src="assets/images/follow.png" class="follow_img" alt="" *ngIf="!designer.isFollowing" (click)="openfollowModal('follow','',designer)">
+              <img src="assets/images/unfollow.png" class="follow_img" alt="" *ngIf="designer.isFollowing" (click)="openfollowModal('unfollow','',designer)">
+            </div>
+            <div [routerLink]="'/designer/' + designer?.designerId">
+              <img [routerLink]="'/designer/' + designer?.designerId"  [src]="designer?.designerProfile?.profilePic ? designer?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="">
+              <h5 class="name" [routerLink]="'/designer/' + designer?.designerId" >{{designer?.designerName}}</h5>
+            </div> 
+            <div class="descption" [routerLink]="'/designer/' + designer?.designerId">
+              <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{designer?.socialProfile?.address}}
+            </div>
+            <div class="followers" [routerLink]="'/designer/' + designer?.designerId">
+              Followers :&nbsp;{{designer?.followerCount}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid two-on-small designer-slider for_mobile" style="display: none !important;">
+      <div class="row">
+        <div class="col">
+          <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
+            <div ngxSlickItem class="card4" *ngFor="let designer of designerlist;let i = index">
+              <div class="pb-2">
+                <div class="follow_btn text-right">
+                  <img src="assets/images/follow.png" class="follow_img" alt="" *ngIf="!designer.isFollowing" (click)="openfollowModal('follow','',designer)">
+                  <img src="assets/images/unfollow.png" class="follow_img" alt="" *ngIf="designer.isFollowing" (click)="openfollowModal('unfollow','',designer)">
+                </div>
+                <div [routerLink]="'/designer/' + designer?.designerId">
+                  <img [routerLink]="'/designer/' + designer?.designerId"  [src]="designer?.designerProfile?.profilePic ? designer?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="">
+                  <h5 class="name" [routerLink]="'/designer/' + designer?.designerId" >{{designer?.designerName}}</h5>
+                </div> 
+                <div class="descption" [routerLink]="'/designer/' + designer?.designerId">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{designer?.socialProfile?.address}}
+                </div>
+                <div class="followers" [routerLink]="'/designer/' + designer?.designerId">
+                  Followers :&nbsp;{{designer?.followerCount}}
+                </div>
+              </div>
+             </div>
+          </ngx-slick-carousel>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-center empty-cart-cls" *ngIf="designerlist.length == 0 && !loader">
+        <div class="text-center">
+          <img src="assets/images/no-user.png" alt="">
+          <h3>No Designer Found.</h3>
+        </div>
+      </div>
+    </div>
+    <div class="container text-center" *ngIf="loader">
+        <mat-spinner class="loader m-auto"></mat-spinner>
+        <p class="mt-1 mb-0"><small><b>Loading..</b></small></p>
+      </div>
+  </section>

@@ -1,0 +1,120 @@
+img.no_product_designer
+{
+    max-width: 290px;
+}
+@media screen and (max-width:426px) 
+{
+    .col-xs-12
+    {
+        width: 50% !important;
+        margin-bottom: 0px !important;
+        margin-top: 0;
+    }  
+    .col-xs-12 .text-center
+    {
+        text-align: left !important;
+        padding-left: 10px;
+    }
+    .col-xs-12
+    {
+        width: 50% !important;
+        padding: 7px;
+    }    
+    .modal-body .col-xs-12
+    {
+        width: 100% !important;
+        padding: 7px;
+    }  
+    .col-xs-12 .btn-solid
+    {
+        font-size: 12px;
+        margin-top: 10px !important;
+    }
+    .col-xs-12 .img-fluid
+    {
+        height: 210px;
+    }
+}
+@media screen and (max-width:376px) 
+{
+    .col-xs-12
+    {
+        width: 50% !important;
+    }    
+    .col-xs-12 .img-fluid
+    {
+        /* height: 180px; */
+    }
+    .col-xs-12 .product-box{
+        
+    }
+}
+.col-xs-12
+{
+    margin: initial;
+
+}
+.custom-button{
+  background: #343A40;
+    padding: 0px 18px;
+    box-shadow: rgb(0 0 0 / 15%) 0px 3px 3px 0px;
+    font-size: 13px;
+    font-family: system-ui;
+    font-weight: 500;
+    border-radius: 30px;
+    color: #fff;
+}
+.modal-xl .modal-content .customchart_modal .modal-header{
+    padding: 25px 50px; 
+}
+.modal-xl .modal-content .customchart_modal .modal-header .modal-title{
+  margin: 0;
+  font-weight: 500;
+  font-size: 18px;
+  font-family: 'lato-heavy';
+}
+.modal-xl .modal-content .customchart_modal .modal-header .close{
+  background: unset;
+  border: none;
+}
+.modal-xl .modal-content .customchart_modal .modal-header .close:focus-visible{
+  outline: none;
+}
+.modal-xl .modal-content .customchart_modal .modal-header .close i{
+  font-size: 23px;
+  color: #8bc34a;
+}
+.customchart_modal .modal-body{
+  padding: 1rem 50px;
+}
+.customchart_modal .modal-body h4{
+  font-size: 20px;
+  font-weight: 600;
+  text-shadow: 0.1px 1.5px #a4a5a9;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.customchart_modal .modal-footer{
+  border-top: 0 !important;
+  padding: 0 50px 50px;
+}
+.customchart_modal .modal-footer .submit-btn{
+  padding: 2px 40px;
+    background: #8bc34a;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'lato-heavy';
+}
+.customchart_modal .modal-footer .submit-btn:focus{
+  box-shadow:none !important;
+}
+.customchart_modal .modal-footer .submit-btn:focus-visible{
+  outline:none !important;
+}
+
+/* Css End Apurba  */
+.custom-button.active{
+  box-shadow: 0 0 0 0.2rem rgb(82 88 93 / 50%);
+}

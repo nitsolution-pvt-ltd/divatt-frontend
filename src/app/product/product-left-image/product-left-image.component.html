@@ -1,0 +1,1382 @@
+<!-- section start -->
+<section class="product_view body-first-child">
+  <div class="collection-wrapper ">
+    <div class="container">
+      <div class="row sidebar">
+        <div class="col-lg-12 col-sm-12">
+          <div class="container-fluid fixed-width" style="position: relative;">
+            <div class="row">
+              <div class="col-md-6 product_img_template  laptop">
+                <ng-template  class="col-12" ngFor let-item [ngForOf]="productDetail?.images">
+                  <div class="mb-3 d-inline-block" >
+                    <img class="" src={{item.large}} alt="" class="img-fluid blur-up lazyload product_img_template"/>
+                  </div>
+                </ng-template>
+                <ng-template  class="col-12" >
+                  <div class="mb-3 d-inline-block" >
+                    <img class="" src="assets/images/fashion/product/17.jpg" alt="" class="img-fluid blur-up lazyload "/>
+                    <img class="" src='assets/images/fashion/product/17.jpg' alt="" class="img-fluid blur-up lazyload "/>
+                  </div>
+                </ng-template>
+              </div>
+              <div class="col-md-6 rtl-text product_img_template laptop">
+                <div class="product-right product-detail-dialog shadow-sm pro_sticky_info p-3" data-sticky_column *ngIf="productDetail">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <h2 class="lead font-weight-bold mb-0 curser-pointer" [routerLink]="['/designer/', designer?.designerProfileEntity?.designerId]">{{productDetail?.designerProfile?.firstName1 + ' ' + productDetail?.designerProfile?.lastName1}}</h2>
+                      <p class="followers mb-0"><span class="follower mb-0 mt-2 d-flex align-items-center"><mat-icon class="brandIcon">campaign</mat-icon> {{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span></p>
+                      <div class="followers d-flex align-items-center"><span class="follower mb-0"><b>Follower :</b> {{follwerCount}}</span><span class="product ml-3"><b>Products : </b> {{productCount}}</span> 
+                        <div class="follow_btn text-right pl-3" style="height: 29px;" *ngIf="get_user_dtls">
+                          <!-- <a href=""></a> -->
+                          <img src="assets/images/follow.png" class="follow_img cursor-pointer" style="width: 19px;" *ngIf="!designer?.isFollowing" (click)="openfollowModal('follow',designer?.designerProfileEntity?.designerId)">
+                          <img src="assets/images/unfollow.png" class="follow_img cursor-pointer"style="width: 19px;" *ngIf="designer?.isFollowing" (click)="openfollowModal('unfollow',designer?.designerProfileEntity?.designerId)">
+                          
+                        </div>
+                        <div class="follow_btn text-right pl-3" style="height: 29px;" *ngIf="!get_user_dtls">
+                          <!-- <a href=""></a> -->
+                          <img src="assets/images/follow.png" class="follow_img cursor-pointer" style="width: 19px;" (click)="openLoginNav()"> 
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="rating d-grid">
+                    <div class="scale_rating">
+                      <span>3.7</span>
+                      <img src="assets/images/rating/scale.png" alt="">
+                    </div>
+                  </div> -->
+                    <img  [src]="designerPic ? designerPic : 'assets/images/noimage.jpg'" class="designerIcon curser-pointer" [routerLink]="['/designer/', designer?.designerProfileEntity?.designerId]">  
+                </div>
+                    
+                  <hr/>
+                  <h1 class="lead w-80">
+                    {{productDetail?.productDetails?.productName}}
+                  </h1>
+                  <p class="justify-content">
+                    <span class="mr-2">
+                      <strong class="lead font-weight-bold" *ngIf="productDetail?.deal?.salePrice || productDetail?.deal?.salePrice == 0">
+                        {{productDetail?.deal?.salePrice | currency:'INR'}}
+                      </strong>
+                      <strong class="lead font-weight-bold" *ngIf="!productDetail?.deal?.salePrice && productDetail?.deal?.salePrice != 0">
+                        {{productDetail?.mrp | currency:'INR'}}
+                      </strong>
+                    </span>
+                    <span *ngIf="productDetail?.deal?.salePrice || productDetail?.deal?.salePrice == 0">
+                      <small>
+                        <del>{{productDetail?.mrp | currency:'INR'}}</del>
+                      </small>
+                    </span>
+                    <span *ngIf="productDetail?.mrp > productDetail?.deal?.dealValue">
+                      <small class="text-danger"  *ngIf="productDetail?.deal?.discountType == 'Percentage'">
+                        ({{productDetail?.deal?.dealValue}} % off)
+                      </small>
+                      <small class="text-danger" *ngIf="productDetail?.deal?.discountType == 'Flat'">
+                        (Flat {{productDetail?.deal.discountValue}} off)
+                      </small>
+                    </span>
+                  </p>  
+                  <div class="row d-block px-2">
+                    <div class="select-size">
+                      <div class="row p-1">
+                        <div class="col">
+                          <h6 class="lead float-start mt-3 d-flex align-items-center justify-content-between">
+                            Select Size
+                            
+                            <a href="" class="small mx-3 float-right" data-toggle="modal" data-target="#sizemodal" style="color: #44bd9d">Size chart</a>
+                          </h6>
+                          
+                        </div>
+
+                      </div>
+                     
+                      <div class="p-1 size-box d-flex b">
+                        <ul class="mb-2">
+                          <li *ngFor="let productSize of productDetail?.sizes"> 
+                            <button type="button" class="btn btn-dark btn-circle btn-sm" [ngClass]="{'active': selectedSize == productSize }" [matTooltip]="productSize" (click)="changeSizeVariant(productSize)"><span class="lead">{{productSize == 'Free Size' ? 'F' : productSize}}</span></button>
+                          </li>
+                        </ul>
+                        <!-- <button class="custom-button" mat-raised-button (click)="custom_modal(customchart)" [ngClass]="{'active': customSize}" *ngIf="get_user_dtls && productDetail?.withCustomization">CUSTOM</button> -->
+                        <button type="button" matTooltip="Custom Size" class="btn btn-dark btn-circle btn-sm size-custom" (click)="custom_modal(customchart)" [ngClass]="{'active': customSize}" *ngIf="get_user_dtls && productDetail?.withCustomization"><span class="lead">C</span></button>
+                        <button type="button" matTooltip="Custom Size" class="btn btn-dark btn-circle btn-sm size-custom"  (click)="openLoginNav()" *ngIf="!get_user_dtls && productDetail?.withCustomization"><span class="lead">C</span></button>
+                        <!-- <button class="custom-button" mat-raised-button  *ngIf="!get_user_dtls && productDetail?.withCustomization" (click)="openLoginNav()">Login for Custom</button> -->
+                      </div>
+                     </div>
+                  </div>   
+                  <div class="product-buttons p-1">
+                    <button type="button" class="btn btn-solid mr-2 mb-2" [ngClass]="{'disabled': !selectedSize}" *ngIf="!productDetail.cartData && !customization" (click)="addToCart(productDetail,productDetail.purchaseMinQuantity)"><span class="lead fs-25" style="font-size: 15px;" >Add To Cart</span></button>
+                    <button type="button" class="btn btn-solid mr-2 mb-2"  *ngIf="!productDetail.cartData && customization" (click)="addToCart(productDetail,productDetail.purchaseMinQuantity)"><span class="lead fs-25" style="font-size: 15px;" >Add To Cart</span></button>
+                    <!-- <button type="button" class="btn btn-solid mr-2 mb-2" *ngIf="productDetail.cartData" [routerLink]="['/cart']"><span class="lead fs-25" style="font-size: 15px;">Go To Cart</span></button> -->
+                    <button type="button" class="btn btn-solid mb-2" (click)="addToWishlist(productDetail)"><span class="lead fs-25" style="font-size: 15px;">Wishlist</span></button>
+                  </div>
+                  <div class="shopping_feature">
+                    <a  >
+                      <img src="assets/images/icon/cash-on-delivery.png" alt="">
+                      <span>Ships in {{productDetail?.shipmentTime}}&nbsp;days.</span>
+                    </a>
+                    <!-- <a  *ngIf="productDetail?.cod">
+                      <img src="assets/images/icon/cash-on-delivery.png" alt="">
+                      <span>Cash on delivery available.</span>
+                    </a> -->
+                    <a  *ngIf="productDetail?.returnAcceptable">
+                      <img src="assets/images/icon/return-box.png" alt="">
+                      <span class="mr-0">Easy return available.</span>
+                    </a>
+                    <a>
+                      <img src="assets/images/icon/free_india.png" alt="">
+                      <span>Free shipping only in india.</span>
+                    </a>
+                    <a *ngIf="productDetail?.withGiftWrap">
+                      <img src="assets/images/icon/giftwrap.png" alt="">
+                      <span>GiftWrap available.</span>
+                    </a>
+                    <a *ngIf="productDetail?.cancelAcceptable">
+                      <img src="assets/images/icon/cancelproduct.jpg" alt="">
+                      <span>Cancellation  available.</span>
+                    </a>
+                    <a *ngIf="productDetail?.withCustomization">
+                      <img src="assets/images/icon/pencil.png" alt="">
+                      <span>Size Customization available.</span>
+                    </a>
+                    <a *ngIf="productDetail?.withDesignCustomization">
+                      <img src="assets/images/icon/pencil.png" />
+                      <span class="d-flex align-items-center">Design Customization available.&nbsp;
+                        <mat-icon (click)="designCustomizationFeatures=!designCustomizationFeatures" class="cursor-pointer">chat</mat-icon>
+                      </span>
+                    </a>
+                    <div class="shopping customizationMessage mt-0 p-0 text-black" [ngClass]="{'showCustomization mt-1 mb-2 p-1':designCustomizationFeatures}">
+                      {{productDetail?.designCustomizationFeatures}}
+                    </div>
+                  </div>
+                  <div class="note d-flex">
+                    <b>Note : </b>
+                    <div>
+                      Custom made orders are not returnable.No COD for Custom made orders.
+                    </div>
+                  </div>
+
+                  <p class="specifications-title mt-3">Specifications</p>
+                  <h6 class="text-uppercase lead mt-2">product Descption</h6>
+                  <div class="border-product">
+                   <p>
+                    {{productDetail?.productDetails?.productDescription}}
+                    </p>
+                  </div>
+                  <h6 class="text-uppercase lead mt-2">Colour</h6>
+                  <div class="border-product">
+                   <!-- <p> -->
+                    <!-- {{colour}} -->
+                    <div [style.background-color]='colour' style="width: 20px;height: 20px;border-radius: 50%;"></div>
+                    <!-- </p> -->
+                  </div>
+                  <h6 class="text-uppercase lead">fit</h6>
+                  <div class="border-product mt-2">
+                    <p>
+                      {{productDetail?.productDetails?.fittingInformation}}
+                    </p>
+                    <!-- <p>
+                      Unde omnis iste natus error si
+                    </p>
+                    <p>
+                      Perspiciatis, unde omnis iste natus error si
+                    </p> -->
+                  </div>
+                  <h6 class="text-uppercase lead">Composition</h6>
+                  <div class="border-product mt-2">
+                    <p class="mb-0">{{productDetail?.productDetails?.composition}}</p>
+                  </div>
+                  <h6 class="text-uppercase lead" *ngIf="productDetail?.productDetails?.occation">Occassion</h6>
+                  <div class="border-product mt-2" *ngIf="productDetail?.productDetails?.occation"> 
+                    <p>{{productDetail?.productDetails?.occation}}</p>
+                  </div>
+                  
+                  <h6 class="text-uppercase lead">Washing Instructions</h6>
+                  <div class="border-product mt-2">
+                    <p>{{productDetail?.productDetails?.washingInformation}}</p>
+                  </div>
+                  <div class="product-right">
+                    <div class="border-product border-0 d-flex align-items-center pb-0">
+                      <h6 class="product-title w-fit">share it : </h6>
+                      <div class="product-icon mt-3 w-fit ml-2">
+                        <ul class="product-social">
+                          <li>
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                          </li>
+                          <li>
+                            <a href="#"><i class="fa fa-google-plus"></i></a>
+                          </li>
+                          <li>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                          </li>
+                          <li>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                          </li>
+                          <li>
+                            <a href="#"><i class="fa fa-rss"></i></a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 product_img_slider mobile">
+                <ngx-slick-carousel class="no-arrow " #slickModal="slick-carousel" [config]="slideRightConfig">
+                  <!-- <div ngxSlickItem  *ngFor="let product of productDetail">
+                    <img class="" src="assets/images/fashion/product/10.jpg" alt="" class="img-fluid blur-up lazyload"/>
+                  </div> -->
+                  <div ngxSlickItem *ngFor="let images of ImageForSlider">
+                    <img class="" [src]="images" alt="" class="img-fluid blur-up lazyload"/>
+                  </div>
+                </ngx-slick-carousel>
+              </div>
+              <div class="col-md-6 rtl-text product_img_template mobile">
+                <div class="product-right product-detail-dialog shadow-sm pro_sticky_info p-3">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <h2 class="lead font-weight-bold mb-1 curser-pointer" [routerLink]="['/designer/', designer?.designerProfileEntity?.designerId]">{{productDetail?.designerProfile?.firstName1 + ' ' + productDetail?.designerProfile?.lastName1}}</h2>
+                      <p class="followers mb-0"><span class="follower mb-0 mt-2 d-flex align-items-center"><mat-icon class="brandIcon">campaign</mat-icon> {{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span></p>
+                      
+                    </div>
+                    <img [src]="designerPic ? designerPic : 'assets/images/noimage.jpg'" class="designerIcon curser-pointer" [routerLink]="['/designer/', designer?.designerProfileEntity?.designerId]">  
+
+                </div>
+                <div class="followers d-flex align-items-center"><span class="follower mb-0"><b>Follower :</b> {{follwerCount}}</span><span class="product ml-3"><b>Products : </b> {{productCount}}</span> 
+                  <div class="follow_btn text-right pl-3" style="height: 29px;" *ngIf="get_user_dtls">
+                    <!-- <a href=""></a> -->
+                    <img src="assets/images/follow.png" class="follow_img curser-pointer" style="width: 19px;" *ngIf="!designer?.isFollowing" (click)="openfollowModal('follow',designer?.designerProfileEntity?.designerId)">
+                    <img src="assets/images/unfollow.png" class="follow_img curser-pointer"style="width: 19px;" *ngIf="designer?.isFollowing" (click)="openfollowModal('unfollow',designer?.designerProfileEntity?.designerId)">
+                    
+                  </div>
+                  <div class="follow_btn text-right pl-3" style="height: 29px;" *ngIf="!get_user_dtls">
+                    <!-- <a href=""></a> -->
+                    <img src="assets/images/follow.png" class="follow_img curser-pointer" style="width: 19px;"  (click)="openLoginNav()">  
+                  </div>
+                </div>      
+                  
+                  <hr/>
+                  <h1 class="lead w-80">
+                    {{productDetail?.productDetails?.productName}}
+                      </h1>
+                  <p class="justify-content">
+                    <span class="mr-2">
+                      <strong class="lead font-weight-bold" *ngIf="productDetail?.deal?.salePrice || productDetail?.deal?.salePrice == 0">
+                        {{productDetail?.deal?.salePrice | currency:'INR'}}
+                      </strong>
+                      <strong class="lead font-weight-bold" *ngIf="!productDetail?.deal?.salePrice && productDetail?.deal?.salePrice != 0">
+                        {{productDetail?.mrp | currency:'INR'}}
+                      </strong>
+                    </span>
+                    <span *ngIf="productDetail?.deal?.salePrice || productDetail?.deal?.salePrice == 0">
+                      <small>
+                        <del>{{productDetail?.mrp | currency:'INR'}}</del>
+                      </small>
+                    </span>
+                    <span *ngIf="productDetail?.mrp > productDetail?.deal?.dealValue">
+                      <small class="text-danger"  *ngIf="productDetail?.deal?.discountType == 'Percentage'">
+                        ({{productDetail?.deal?.dealValue}} % off)
+                      </small>
+                      <small class="text-danger" *ngIf="productDetail?.deal?.discountType == 'Flat'">
+                        (Flat {{productDetail?.deal.discountValue}} off)
+                      </small>
+                    </span>
+                  </p>   
+                  <div class="row d-block px-2">
+                    <div class="select-size">
+                      <div class="row p-1">
+                        <div class="col">
+                          <h6 class="lead float-start mt-3 d-flex align-items-center justify-content-between">
+                            Select Size
+                            
+                            <a href="" class="small mx-3 float-right" data-toggle="modal" data-target="#sizemodal" style="color: #44bd9d">Size Chart</a>
+                          </h6>
+                          
+                        </div>
+
+                      </div>
+                     
+                      <div class="p-1 size-box d-flex a">
+                        <ul class="mb-0">
+                          <li *ngFor="let productSize of productDetail?.sizes"> <button type="button" class="btn btn-dark btn-circle btn-sm"[ngClass]="{'active': selectedSize == productSize }" [matTooltip]="productSize" (click)="changeSizeVariant(productSize)"><span class="lead">{{productSize == 'Free Size' ? 'F' : productSize}}</span></button></li>
+                        </ul>
+                        <button type="button" matTooltip="Custom Size" class="btn btn-dark btn-circle btn-sm size-custom" (click)="custom_modal(customchart)" [ngClass]="{'active': customSize}" *ngIf="get_user_dtls && productDetail?.withCustomization"><span class="lead">C</span></button>
+                        <!-- <button class="custom-button" mat-raised-button  *ngIf="!get_user_dtls && productDetail?.withCustomization" (click)="openLoginNav()">Login for Custom</button> -->
+                        <button type="button" matTooltip="Custom Size" class="btn btn-dark btn-circle btn-sm size-custom"  (click)="openLoginNav()" *ngIf="!get_user_dtls && productDetail?.withCustomization"><span class="lead">C</span></button>
+                      </div>
+                     </div>
+                  </div>
+                  <div class="product-buttons p-1">
+                    <button type="button" class="btn btn-solid mr-2 mb-1 " [ngClass]="{'disabled': !selectedSize}" *ngIf="!productDetail.cartData && !customization" (click)="addToCart(productDetail,1)"><span class="lead fs-25" style="font-size: 15px;">Add To Cart</span></button>
+                    <button type="button" class="btn btn-solid mr-2 mb-2"  *ngIf="!productDetail.cartData && customization" (click)="addToCart(productDetail,1)"><span class="lead fs-25" style="font-size: 15px;" >Add To Cart</span></button>
+                    <button type="button" class="btn btn-solid more-width" (click)="addToWishlist(productDetail)"><span class="lead fs-25" style="font-size: 15px;">Wishlist</span></button>
+                  </div>
+                  <div class="shopping_feature">
+                    <a >
+                      <img src="assets/images/icon/cash-on-delivery.png" alt="">
+                      <span>Ships in {{productDetail?.shipmentTime}}&nbsp;days.</span>
+                    </a>
+                    <!-- <a  *ngIf="productDetail?.cod">
+                      <img src="assets/images/icon/cash-on-delivery.png" alt="">
+                      <span>Cash on delivery available.</span>
+                    </a> -->
+                    <a  *ngIf="productDetail?.returnAcceptable">
+                      <img src="assets/images/icon/return-box.png" alt="">
+                      <span class="mr-0">Easy return available.</span>
+                    </a>
+                    <a>
+                      <img src="assets/images/icon/free_india.png" alt="">
+                      <span>Free shipping only in india.</span>
+                    </a>
+                    <a *ngIf="productDetail?.withGiftWrap">
+                      <img src="assets/images/icon/giftwrap.png" alt="">
+                      <span>GiftWrap available.</span>
+                    </a>
+                    <a *ngIf="productDetail?.cancelAcceptable">
+                      <img src="assets/images/icon/cancelproduct.jpg" alt="">
+                      <span>Cancellation  available.</span>
+                    </a>
+                    <a *ngIf="productDetail?.withCustomization">
+                      <img src="assets/images/icon/pencil.png" alt="">
+                      <span>Size Customization available.</span>
+                    </a>
+                    <a *ngIf="productDetail?.withDesignCustomization">
+                      <img src="assets/images/icon/pencil.png" />
+                      <span class="d-flex align-items-center">Design Customization available.&nbsp;
+                        <mat-icon (click)="designCustomizationFeatures=!designCustomizationFeatures" class="cursor-pointer">chat</mat-icon>
+                      </span>
+                    </a>
+                    <div class="shopping customizationMessage mt-0 p-0 text-black" [ngClass]="{'showCustomization mt-1 mb-2 p-1':designCustomizationFeatures}">
+                      {{productDetail?.designCustomizationFeatures}}
+                    </div>
+                    <!-- <a>
+                      <img src="assets/images/icon/returnable.png" alt="">
+                      <span>Custom made orders are not returnable</span>
+                    </a> -->
+                  </div>
+                  <div class="note d-flex">
+                    <b>Note : </b>
+                    <div>
+                      Custom made orders are not returnable.No COD for Custom made orders.
+                    </div>
+                    
+                  </div>
+
+                  <p class="specifications-title mt-3">Specifications</p>
+                  <h6 class="text-uppercase lead mt-2">product Descption</h6>
+                  <div class="border-product">
+                   <p>
+                    {{productDetail?.productDetails?.productDescription}}
+                    </p>
+                  </div>
+                  <h6 class="text-uppercase lead">fit</h6>
+                  <div class="border-product mt-2">
+                    <p>
+                      {{productDetail?.productDetails?.fittingInformation}}
+                    </p>
+                  </div>
+                  <h6 class="text-uppercase lead">Composition</h6>
+                  <div class="border-product mt-2">
+                    <p class="mb-0">{{productDetail?.productDetails?.composition}}</p>
+                    <!-- <p>Polystar {{productDetail?.specifications?.composition?.polystar}}%</p> -->
+                  </div>
+                  <h6 class="text-uppercase lead" *ngIf="productDetail?.productDetails?.occation">Occassion</h6>
+                  <div class="border-product mt-2" *ngIf="productDetail?.productDetails?.occation"> 
+                    <p>{{productDetail?.productDetails?.occation}}</p>
+                  </div>
+                  <h6 class="text-uppercase lead">Washing Instructions</h6>
+                  <div class="border-product mt-2">
+                    <p>{{productDetail?.productDetails?.washingInformation}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section ends -->
+
+<!-- product section start -->
+<div class="title1  section-t-space mt-5 ">
+  <h2 class="title-inner1">Related Products</h2>
+</div>
+<div class="container-fluid fixed-width two-on-small nospace-mobile mb-5">
+  <div class="row">
+    <div class="col">
+      <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
+        <div ngxSlickItem class="product-box" *ngFor="let product of products">
+          <app-product [product]="product"></app-product>
+        </div>
+      </ngx-slick-carousel>
+      </div>
+  </div>
+</div>
+<!-- product section end -->
+<!-- <section class="review mb-3"> -->
+  <!-- <div class="container"> -->
+    <!-- <p class="specifications-title mt-3 text-center">Customer Reviews</p> -->
+    <!-- <div class="rating text-center d-flex w-fit m-auto">
+      <div class="scale_rating m-auto">
+        <span>3.7</span>
+        <img src="assets/images/rating/scale.png" alt="">
+      </div>
+     
+      <span class="review">&nbsp;&nbsp;2 reviews</span>
+    </div> -->
+    
+    <!-- <p class="text-center mt-3"><a  (click)="openModal(reviewmodal)" class="btn btn-solid">Write a Review</a></p> -->
+   
+    <!-- <div class="row">
+      <ngx-slick-carousel class="carousel review_card_slider w-100 product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="reviewslidersconfig">
+        <div ngxSlickItem class="slide">
+          <div class="review_card" >
+            <p class="name">
+              Chandan Chakraborty
+            </p>
+            <p class="rating mt-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="float-right">16 Mar 2022</span>
+            </p>
+            <div class="descption">
+              Really nice quality my sister loves it but if you want it oversized deffo go up a few sizes
+            </div>
+          </div>
+        </div>
+        <div ngxSlickItem class="slide">
+          <div class="review_card" >
+            <p class="name">
+              Chandan Chakraborty
+            </p>
+            <p class="rating mt-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="float-right">16 Mar 2022</span>
+            </p>
+            <div class="descption">
+              Really nice quality my sister loves it but if you want it oversized deffo go up a few sizes
+            </div>
+          </div>
+        </div>
+        <div ngxSlickItem class="slide">
+          <div class="review_card" >
+            <p class="name">
+              Chandan Chakraborty
+            </p>
+            <p class="rating mt-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="float-right">16 Mar 2022</span>
+            </p>
+            <div class="descption">
+              Really nice quality my sister loves it but if you want it oversized deffo go up a few sizes
+            </div>
+          </div>
+        </div>
+        <div ngxSlickItem class="slide">
+          <div class="review_card" >
+            <p class="name">
+              Chandan Chakraborty
+            </p>
+            <p class="rating mt-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="float-right">16 Mar 2022</span>
+            </p>
+            <div class="descption">
+              Really nice quality my sister loves it but if you want it oversized deffo go up a few sizes
+            </div>
+          </div>
+        </div>
+        <div ngxSlickItem class="slide">
+          <div class="review_card" >
+            <p class="name">
+              Chandan Chakraborty
+            </p>
+            <p class="rating mt-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <i class="fa fa-star-o"></i>
+              <span class="float-right">16 Mar 2022</span>
+            </p>
+            <div class="descption">
+              Really nice quality my sister loves it but if you want it oversized deffo go up a few sizes
+            </div>
+          </div>
+        </div>
+      </ngx-slick-carousel>
+    </div> -->
+  <!-- </div> -->
+<!-- </section> -->
+
+<!-- size chert modal -->
+<div class="modal fade" id="sizemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="padding-left: 0 !important;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Body Measurement
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="size-chart">
+          <h2 class="title" *ngIf="gender == 'women'">
+            Women std chart
+          </h2>
+          <div class="table-responsive" *ngIf="gender == 'women'">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th >
+                    (in <br> {{designerMesormentChart?.womensizeType == 'CM' ? 'CMS' : 'inches'}})
+                  </th>
+                  <th>UK</th>
+                  <th>Bust</th>
+                  <th>Waist</th>
+                  <th>Hip</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td >XS</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xs?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xs?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xs?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xs?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>S</td>
+                  <td>{{designerMesormentChart?.womenChartData?.s?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.s?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.s?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.s?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>M</td>
+                  <td>{{designerMesormentChart?.womenChartData?.m?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.m?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.m?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.m?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>L</td>
+                  <td>{{designerMesormentChart?.womenChartData?.l?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.l?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.l?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.l?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>XL</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>XXL</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xxl?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xxl?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xxl?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xxl?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>3XL</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl3?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl3?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl3?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl3?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>4XL</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl4?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl4?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl4?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl4?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>5XL</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl5?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl5?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl5?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl5?.hip}}</td>
+                </tr>
+                <tr>
+                  <td>6XL</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl6?.uk}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl6?.bust}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl6?.waist}}</td>
+                  <td>{{designerMesormentChart?.womenChartData?.xl6?.hip}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h2 class="title mt-2" *ngIf="gender == 'men'">
+            Men/Kids std chart
+          </h2>
+          <div class="table-responsive" *ngIf="gender == 'men'">
+            <table class="table table-border">
+              <thead>
+                <tr>
+                  <th >
+                    (in <br>{{designerMesormentChart?.mensizeType == 'CM' ? 'CMS' : 'inches'}})
+                  </th>
+                  <th>Chest</th>
+                  <th colspan="2" class="text-center">Waist</th>
+                  <th>Neck</th>
+                  <th  colspan="2" class="text-center">Hip</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>XS</td>
+                  <td>{{designerMesormentChart?.menChartData?.xs?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xs?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xs?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.xs?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xs?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xs?.hip?.max}}</td>
+                </tr>
+                <tr>
+                  <td>S</td>
+                  <td>{{designerMesormentChart?.menChartData?.s?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.s?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.s?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.s?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.s?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.s?.hip?.max}}</td>
+                </tr>
+                <tr>
+                  <td>M</td>
+                  <td>{{designerMesormentChart?.menChartData?.m?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.m?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.m?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.m?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.m?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.m?.hip?.max}}</td>
+                </tr>
+                <tr>
+                  <td>L</td>
+                  <td>{{designerMesormentChart?.menChartData?.l?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.l?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.l?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.l?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.l?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.l?.hip?.max}}</td>
+                </tr>
+                <tr>
+                  <td>XL</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl?.hip?.max}}</td>                </tr>
+                <tr>
+                  <td>XXL</td>
+                  <td>{{designerMesormentChart?.menChartData?.xxl?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xxl?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xxl?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.xxl?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xxl?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xxl?.hip?.max}}</td>
+                </tr>
+                <tr>
+                  <td>3XL</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl3?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl3?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl3?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl3?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl3?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl3?.hip?.max}}</td>
+                </tr>
+                <tr>
+                  <td>4XL</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl4?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl4?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl4?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl4?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl4?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl4?.hip?.max}}</td>
+                </tr>
+                <tr>
+                  <td>5XL</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl5?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl5?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl5?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl5?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl5?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl5?.hip?.max}}</td>
+                </tr>
+                <tr>
+                  <td>6XL</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl6?.chest}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl6?.waist?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl6?.waist?.max}}</td>
+                  <td>{{designerMesormentChart?.menChartData?.xl6?.neck}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl6?.hip?.min}}</td>
+                  <td class="text-center">{{designerMesormentChart?.menChartData?.xl6?.hip?.max}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- <img src="../assets/images/size-chart.jpg" alt="" class="img-fluid blur-up lazyload" /> -->
+        <!-- <img src="//cdn.shopify.com/s/files/1/1825/4753/files/size-chart-compressor_1024x1024_377509c7-c485-471e-999e-e8c755ce33c9_1024x1024.jpg?v=1606291437" class="img-fluid" alt="Size Chart"> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- size chert modal /-->
+<!-- rating modal -->
+<ng-template #reviewmodal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">
+      Write Review
+    </h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form action="">
+    <div class="modal-body">
+      <div class="order-item d-flex pt-3 pb-3 mb-2">
+        <div class="imgbox">
+            <img src="assets/images/fashion/product/2.jpg" alt="">
+        </div>
+        <div class="descption pl-3">
+            <p class="product-name font-weight-bold mb-1 text-dark">
+                {{productDetail?.productName}}
+            </p>
+            <p class="rating mt-2">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-half-o"></i>
+              <i class="fa fa-star-o"></i>
+            </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Leave a comment</mat-label>
+              <textarea matInput rows="6" placeholder="Please write product review here..."></textarea>
+            </mat-form-field>
+          </div>
+          <!-- <textarea rows="6" value="" placeholder="Please write product review here" class="w-100 clearfix form-control"></textarea> -->
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="uplodewrapper p-3 w-100">
+          <p class="text-center">Upload Photo</p>
+          <input type='file' id="fileInput" class="opacity-0 w-0" (change)="onSelectFile($event)"
+          multiple accept="image/*"  />
+          <div class="row">
+            <div class="col-2">
+              <label for="fileInput" class="w-fit  m-0">
+                <img  class="uplodeImg" src="assets/images/uplodebtn.png"/>
+              </label> 
+            </div>
+            
+            <div class="col-2 productAddfromImages" *ngFor='let url of imageurls; let i = index'>
+              <img class="img-fluid uplodeImg2" [src]="url.base64String">
+              <a (click)="removeImage(i)" class="btn btn-rounded-mini">X</a>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      <p class="terms font-weight-mediam text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. with <a href="" class="link">Terms</a></p>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <a href="" class="btn btn-solid">SUBMIT</a>
+    </div>
+    </form>
+</ng-template>
+<!-- rating modal /-->
+<!-- follow  modal -->
+<ng-template #followmodal let-modal>
+  <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Follow the Designer
+      </h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+      </button>
+  </div>  
+  <div class="modal-body">
+      <form class="theme-form" #followDesigner="ngForm" (ngSubmit)="onSubmitFollowform(followDesigner)" (keyup.enter)="onSubmitFollowform(updateUser)" novalidate>
+      <!-- Hidden data -->
+      <input type="hidden" name="designerId" [(ngModel)]="model.designerId">
+      <input type="hidden" name="userId" [(ngModel)]="model.userId">
+      <input type="hidden" name="username" [(ngModel)]="model.username">
+      <input type="hidden" name="isFollowing" [(ngModel)]="model.isFollowing">
+      <div class="form-group mb-0">
+          <mat-form-field appearance="fill">
+          <mat-label>Comment</mat-label>
+          <input matInput type="text" name="comment" [(ngModel)]="model.comment" required>
+          </mat-form-field>
+      </div>
+      <!-- <div class="form-group">
+        <P>Give Rating</P>
+        <ul class="list-inline rating-list" 
+          *ngFor="let star of stars" style="display: inline-block" >
+            <li (click)="countStar(star)"
+                [ngClass]="{'selected': (star <= selectedValue)}">
+              <i class="fa fa-star"></i>
+            </li> 
+      </ul>
+      </div> -->
+      <!-- <input type="hidden" name="raiting" [(ngModel)]="model.raiting" required> -->
+      <!-- <p *ngIf="errorMsg" class="errorMsg">{{errorMsg}}</p> -->
+      <button class="btn btn-solid" type="submit" [ngClass]="{'loadingEnable':isLoading}">
+          <div class="spinner-border text-muted"></div>
+          Follow 
+      </button>
+      </form>
+  </div>
+</ng-template>
+<!--follow modal /-->
+<!-- Standard Measurement Charts Modal Start -->
+<ng-template #customchart let-modal>
+  <div class="customchart_modal">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Standard Measurement Charts</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+    </div>
+    <form #customchartform="ngForm" (ngSubmit)="onSubmitcustomchartform(customchartform)">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between">
+          <h4 class="d-flex justify-content-between">{{mesormentFor}}  <mat-icon (click)="addChart()" class="curser-pointer">add</mat-icon></h4>
+          <div class="in-cms custom-toggle" [ngClass]="{'disabled' : !customchartform.valid}">
+            <span class="in" >In</span>
+            <mat-slide-toggle name="sizeType" [(ngModel)]="sizeType" (change)="convartValue(customchartform,mesormentFor)"></mat-slide-toggle><span class="cms">Cms</span>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 mb-2" *ngFor="let mesorment of mesormentList; let i = index;"> -->
+            <a *ngFor="let mesorment of mesormentList; let i = index;" class="custom-button text-white mr-1 mb-2 d-inline-block "  mat-raised-button (click)="onSelectCustomOld(mesorment)" [matTooltip]="mesorment?.displyName" [ngClass]="{'active': mesormentId == mesorment?.id}">{{mesorment?.displyName}}</a>
+          <!-- </div> -->
+        </div>
+         <!-- Women -->
+         <div class="row" *ngIf="mesormentFor == 'Women'">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Neck</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="neck" [(ngModel)]="model.neck" >
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Crotch Length</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="crotchLength" [(ngModel)]="model.crotchLength">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Shoulder</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="shoulder" [(ngModel)]="model.shoulder">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waist" [(ngModel)]="model.waist">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Bust</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="bust" [(ngModel)]="model.bust">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Hip</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="hip" [(ngModel)]="model.hip">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Rib cage (under bust)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="ribCage" [(ngModel)]="model.ribCage">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Top hip (low waist)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="topHip" [(ngModel)]="model.topHip">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Side neck point to waist apex (front neck depth)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="sideNeck" [(ngModel)]="model.sideNeck">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist to hip</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToHip" [(ngModel)]="model.waistToHip">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Back side neck point to waist (back neck depth)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="backSide" [(ngModel)]="model.backSide">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Front side neck point to waist (kurta length along with waist to knee)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="frontSide" [(ngModel)]="model.frontSide">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Back width</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="backWidth" [(ngModel)]="model.backWidth">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist to knee</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToKnee" [(ngModel)]="model.waistToKnee">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Armscye depth</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="armscyeDepth" [(ngModel)]="model.armscyeDepth">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Knee to ankle(may be required for ankle length)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="kneeToAnkle" [(ngModel)]="model.kneeToAnkle">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Armhole</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="armhole" [(ngModel)]="model.armhole">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Thigh</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="thigh" [(ngModel)]="model.thigh">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Top arm(bicep)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="topArm" [(ngModel)]="model.topArm">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Knee</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="knee" [(ngModel)]="model.knee">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Elbow</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="elbow" [(ngModel)]="model.elbow">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Calf circumference</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="calfCircumference" [(ngModel)]="model.calfCircumference">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Wrist</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="wrist" [(ngModel)]="model.wrist">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>High ankle</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="highAnkle" [(ngModel)]="model.highAnkle">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Sleeve length</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="sleeveLength" [(ngModel)]="model.sleeveLength">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Ankle</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="ankle" [(ngModel)]="model.ankle">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Crotch depth</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="crotchDepth" [(ngModel)]="model.crotchDepth">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist to floor (bottom length)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToFloor" [(ngModel)]="model.waistToFloor">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <p class="mb-0 mt-4">
+              <mat-checkbox
+                  class="example-margin" name="save" [(ngModel)]="save">
+                  I want to save this measurement.
+              </mat-checkbox>
+          </p>
+          </div>
+          
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="save">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Display Name</mat-label>
+                  <input type="text" matInput required name="displyName" [(ngModel)]="model.displyName">
+                </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- Men/Kids -->
+        <div class="row" *ngIf="mesormentFor == 'Men/Kids'">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Neck</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="neck" [(ngModel)]="model.neck" >
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Shoulder</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="shoulder" [(ngModel)]="model.shoulder">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Chest</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="chest" [(ngModel)]="model.chest">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Crotch Length</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="crotchLength" [(ngModel)]="model.crotchLength">
+                </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Side neck point to waist</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="sideNeck" [(ngModel)]="model.sideNeck">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Nape to waist</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="napeNaist" [(ngModel)]="model.napeNaist">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Back width</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="backWidth" [(ngModel)]="model.backWidth">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Armscye depth</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="armscyeDepth" [(ngModel)]="model.armscyeDepth">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Armhole</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="armhole" [(ngModel)]="model.armhole">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Top arm(bicep)</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="topArm" [(ngModel)]="model.topArm">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Elbow</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="elbow" [(ngModel)]="model.elbow">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Wrist</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="wrist" [(ngModel)]="model.wrist">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Sleeve length</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="sleeveLength" [(ngModel)]="model.sleeveLength">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Crotch depth</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="crotchDepth" [(ngModel)]="model.crotchDepth">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waist" [(ngModel)]="model.waist">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Hip</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="hip" [(ngModel)]="model.hip">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Top hip</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="topHip" [(ngModel)]="model.topHip">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist to hip</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToHip" [(ngModel)]="model.waistToHip">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist to knee</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToknee" [(ngModel)]="model.waistToknee">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist to ankle</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToAnkle" [(ngModel)]="model.waistToAnkle">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Knee to ankle</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="kneeToAnkle" [(ngModel)]="model.kneeToAnkle">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Thigh</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="thigh" [(ngModel)]="model.thigh">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Knee</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="knee" [(ngModel)]="model.knee">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Calf circumference</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="calfCircumference" [(ngModel)]="model.calfCircumference">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>High ankle</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="highAnkle" [(ngModel)]="model.highAnkle">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Ankle</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="ankle" [(ngModel)]="model.ankle">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Waist to floor</mat-label>
+                  <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToFloor" [(ngModel)]="model.waistToFloor">
+                </mat-form-field>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <p class="mb-0 mt-4">
+              <mat-checkbox
+                  class="example-margin" name="save" [(ngModel)]="save">
+                  I want to save this measurement.
+              </mat-checkbox>
+          </p>
+          </div>
+          
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngIf="save">
+            <div class="form-group">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Display Name</mat-label>
+                  <input type="text" matInput required name="displyName" [(ngModel)]="model.displyName">
+                </mat-form-field>
+            </div>
+          </div>
+          <input type="hidden"   name="id" [(ngModel)]="model.id">
+
+        </div>
+      </div>
+      <div class="modal-footer customization-btn">
+        <a type="button" class="btn btn-outline-dark submit-btn " [ngClass]="{'disabled': !customchartform.valid}" (click)="UnsaveMesormenMen(customchartform)" mat-raised-button >Use</a>
+        <button type="submit" class="btn btn-outline-dark submit-btn ml-2 mt-1"  mat-raised-button [disabled]="!customchartform.valid">Save and Continue</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- Standard Measurement Charts Modal Start -->
+
+<!-- tap to top start -->
+<div class="tap-top">
+  <div><i class="fa fa-angle-double-up"></i></div>
+</div>
+<app-footer></app-footer>
+<!-- tap to top end -->
+<script type="text/javascript" src="../assets/js/sticky-kit.js"></script>

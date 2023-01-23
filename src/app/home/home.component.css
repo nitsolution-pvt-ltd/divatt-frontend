@@ -1,0 +1,149 @@
+.swiper-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .swiper-slide {
+    /* color: #aaa;
+    background-color: #eee;
+    height: 20vh !important; */
+    transition: all 1s ease;
+    /* padding: 20px; */
+    /* max-height: 80vh !important; */
+  }
+  
+  .swiper-slide-active.screen {
+    /* color: #fff; */
+    /* background-color: #aaa; */
+    height:50vh !important;
+    padding: 0;
+  }
+  .swiper-slide:first-of-type {
+    /* height: 56.25vw !important; */
+  }
+  .swiper-slide:last-of-type {
+    /* height: 100vh !important; */
+  }
+  .swiper-slide img {
+    /* width: 120px; */
+    /* float: right; */
+    /* transition: all 1s ease; */
+    /* margin: 20px; */
+  }
+  .swiper-slide-active img {
+    /* object-fit: contain; */
+    /* width: 100%; */
+    /* margin: 0; */
+  }
+  .section-b-space,app-footer
+  {
+    margin: auto;
+    height: fit-content;
+    vertical-align: middle;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  @media screen and (max-width:991px) {
+    .for_desktop .card4
+    {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .for_desktop .card4.small_screen{
+        display: none !important;
+    }
+}
+   @media screen and (max-width:768px) {
+    .for_desktop .card4
+    {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .for_desktop .card4.small_screen{
+        display: none !important;
+    }
+}
+@media screen and (max-width:575px) {
+    .for_desktop .card4
+    {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    .for_desktop .card4.col-xs-6
+    {
+        width: 50%;
+    }
+    .for_desktop .card4.xsmall_screen{
+        display: none !important;
+    }
+}
+
+.home-mobile
+{
+  display: none;
+} 
+.home-mobile app-footer
+{
+    position: relative !important;
+    display: none;
+}
+.home-desktop
+{
+  display: block;
+}
+.home-mobile-footer
+{
+  display: none;
+}
+.home-desktop app-footer
+{
+  height: 100%;
+}
+/* .home-mobile */
+@media screen and (max-width:768px) 
+{
+  .swiper-container
+  {
+    display: none !important;
+  }
+  .home-mobile
+  {
+    display: block;
+    margin-top: 22px;
+  }  
+  .home-desktop
+  {
+    display: none;
+  }
+  .home-mobile app-footer
+  {
+      position: relative !important;
+      display: block;
+  }
+  .home-mobile-footer
+  {
+    display: block;
+    position: relative;
+  }
+}
+@media screen and (max-width:426px) 
+{
+  .home-mobile
+  {
+    display: block;
+  }   
+  .section-t-space
+  {
+    margin-top: 0;
+    padding-top: 10px;
+  }
+}
+.home-mobile app-footer
+{
+  /* height: 0; */
+}
