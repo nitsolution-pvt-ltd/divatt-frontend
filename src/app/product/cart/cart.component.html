@@ -38,8 +38,8 @@
           <div class="item_descption">
             <div class="item_descption-inner">
               <div class="item_name">
-                <div class="designername mb-1" *ngIf="item?.product?.designerProfile?.firstName1 != null">{{item?.product?.designerProfile?.firstName1}}  {{item?.product?.designerProfile?.lastName1}} </div>
-                <div class="designername mb-1" *ngIf="item?.product?.designerProfile?.firstName1 == null">Designer Name </div>
+                <div class="designername mb-1" *ngIf="item?.product?.designerProfile?.displayName != null">{{item?.product?.designerProfile?.displayName}} </div>
+                <div class="designername mb-1" *ngIf="item?.product?.designerProfile?.displayName == null">Display Name </div>
                 <a [routerLink]="'/product-detail/'+item?.product?.slug+'/'+item?.product?.productId">{{ item?.product?.productDetails?.productName }}</a>
                 <div class="product_type size">
                   Size: {{ item?.product?.selectedSize }}
@@ -126,8 +126,8 @@
           <div class="item_descption">
             <div class="item_descption-inner">
               <div class="item_name">
-                <div class="designername mb-1" *ngIf="item?.designerProfile?.firstName1 != null">{{item?.designerProfile?.firstName1}}  {{item?.designerProfile?.lastName1}} </div>
-                <div class="designername mb-1" *ngIf="item?.designerProfile?.firstName1 == null">Designer Name </div>
+                <div class="designername mb-1" *ngIf="item?.designerProfile?.displayName != null">{{item?.designerProfile?.displayName}} </div>
+                <div class="designername mb-1" *ngIf="item?.designerProfile?.displayName == null">Disply Name </div>
                 <a [routerLink]="'/product-detail/'+item?.slug+'/'+item?.productId">{{ item?.productDetails?.productName }}</a>
                 <div class="product_type size">
                   Size: {{ item?.selectedSize }}

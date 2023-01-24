@@ -117,7 +117,7 @@ export class SliderComponent implements OnInit {
               {
                 this.category.push(response.data[index]);  
               }
-            }else if(enddate==null && startdate==null){
+            }else if(response.data[index].endDate==null && response.data[index].startdate==null){
               this.category.push(response.data[index])
             }
           }else{

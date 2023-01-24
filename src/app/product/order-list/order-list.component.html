@@ -120,7 +120,7 @@
                 <a class="cart order-status text-danger text-capitalize" style="font-size: 13px;line-height: 12px;" *ngIf="product?.orderItemStatus == 'cancelled'">
                   {{product?.orderItemStatus}}
                 </a>
-                <a style="font-size: 11px;" class="cart order-status pending text-capitalize" *ngIf="!item?.paymentData && product?.orderItemStatus != 'cancelled' && product?.orderItemStatus != 'New' && product.orderItemStatus != 'Delivered' && product?.orderItemStatus != 'returnRefund' && product?.orderItemStatus != 'returnRequest' && product?.orderItemStatus != 'Request for cancelation'">
+                <a style="font-size: 11px;" class="cart order-status pending text-capitalize" *ngIf="!item?.paymentData">
                   Order Not Confirmed
                 </a>
               </div>
@@ -128,50 +128,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="row" >
-        <div class="col-lg-9 cart-section m-auto">
-          <div class="cart-item">
-            <div class="item_image">
-              <a [routerLink]="['/order-item-details/',1]">
-                <img src="assets/images/fashion/product/1.jpg" alt="">
-              </a>
-            </div>
-            <div class="item_descption">
-              <div class="item_descption-inner">
-                <div class="item_name">
-                    <p class="mb-0 orderid"><span>ORDER ID :</span> OD123546055</p>
-                    <h4 class="m-0 product-name">
-                      <a [routerLink]="['/order-item-details/', 1]">
-                        Tshirt
-                      </a>
-                    </h4>
-                  <div class="product_type bold">
-                    Cotton Top <span>-New</span>
-                  </div>
-                  <div class="product_type">
-                    M
-                  </div>
-                </div>
-                <div class="item_abality">
-                  <p class="m-0">Quantity : 2</p>
-                </div>
-                <div class="item_price">
-                  <h5 class="td-color m-0">100</h5>
-                </div>
-              </div>
-              <div class="item_action">
-                <a [routerLink]="" (click)="removeItem(item)" class="icon mr-3">
-                  <i class="ti-close"></i>
-                  <span>Cancel</span>
-                </a>
-                <a class="cart order-status delivered">
-                  Delivered
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
   </section>
   <ng-template #cancelModal let-modal>
@@ -278,6 +234,9 @@
                 <textarea matInput rows="6" name="comment" [(ngModel)]="model.comment" placeholder="Please write return reason.." required></textarea>
               </mat-form-field>
             </div>
+          </div>
+          <div  class="col-md-12">
+            <p class="text-danger warning-msg mb-0"><sup>** </sup>You needs to ship the product to designer.</p>
           </div>
         </div>
         <!-- <p class="terms font-weight-mediam text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. with <a href="" class="link">Terms</a></p> -->

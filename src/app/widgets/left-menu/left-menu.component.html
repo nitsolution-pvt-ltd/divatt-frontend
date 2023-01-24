@@ -40,87 +40,26 @@
       <span>Designer</span>
       <mat-icon>chevron_right</mat-icon>
     </a>
-    <ul class="sub-menu" *ngIf="categoryName == 'Designer' && designer">
+    <ul class="sub-menu" *ngIf="categoryName == 'Designer'">
       <li *ngFor="let subnavitem of designerlists" >
         <a  (click)="closeNav()" (click)="GoNav(subnavitem?.Name)" [ngClass]="{'active':subnavitem?.Name == currentUrl}">{{subnavitem?.Name}}</a>
       </li>
     </ul>
   </li>
-  <li class="main-item block"  (click)="collapse(lists[0]?.categoryName)">
-    <a  class="main-link"  *ngIf="lists[0]?.subCategoryEntities" >
-      <span>{{lists[0]?.categoryName}}</span>
+  <li class="main-item block"  (click)="collapse(navitem?.categoryName)" *ngFor="let navitem of lists">
+    <a  class="main-link"  *ngIf="navitem.subCategoryEntities" >
+      <span>{{navitem.categoryName}}</span>
       <mat-icon>chevron_right</mat-icon>
     </a>
-    <a class="main-link" *ngIf="!lists[0]?.subCategoryEntities" href="/divatt/collections/{{lists[0]?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!lists[0]?.subCategoryEntities}">
-      <span>{{lists[0]?.categoryName}}</span>
+    <a class="main-link" *ngIf="!navitem.subCategoryEntities" href="/divatt/collections/{{navitem?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!navitem?.subCategoryEntities}">
+      <span>{{navitem?.categoryName}}</span>
     </a>
-    <ul class="sub-menu" *ngIf="lists[0]?.subCategoryEntities && men">
-      <li *ngFor="let subnavitem of lists[0]?.subCategoryEntities" >
-        <a href="/divatt/collections/{{lists[0]?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
+    <ul class="sub-menu" *ngIf="categoryName == navitem?.categoryName">
+      <li *ngFor="let subnavitem of navitem?.subCategoryEntities" >
+        <a href="/divatt/collections/{{navitem?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
       </li>
     </ul>
   </li>
-  <li class="main-item block"  (click)="collapse(lists[1]?.categoryName)">
-    <a  class="main-link"  *ngIf="lists[1]?.subCategoryEntities" >
-      <span>{{lists[1]?.categoryName}}</span>
-      <mat-icon>chevron_right</mat-icon>
-    </a>
-    <a class="main-link" *ngIf="!lists[1]?.subCategoryEntities" href="/divatt/collections/{{lists[1]?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!lists[1]?.subCategoryEntities}">
-      <span>{{lists[1]?.categoryName}}</span>
-    </a>
-    <ul class="sub-menu" *ngIf="lists[1]?.subCategoryEntities && women">
-      <li *ngFor="let subnavitem of lists[1]?.subCategoryEntities" >
-        <a href="/divatt/collections/{{lists[1]?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
-      </li>
-    </ul>
-  </li>
-  <li class="main-item block"  (click)="collapse(lists[2]?.categoryName)">
-    <a  class="main-link"  *ngIf="lists[2]?.subCategoryEntities" >
-      <span>{{lists[2]?.categoryName}}</span>
-      <mat-icon>chevron_right</mat-icon>
-    </a>
-    <a class="main-link" *ngIf="!lists[2]?.subCategoryEntities" href="/divatt/collections/{{lists[2]?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!lists[2]?.subCategoryEntities}">
-      <span>{{lists[2]?.categoryName}}</span>
-    </a>
-    <ul class="sub-menu" *ngIf="lists[2]?.subCategoryEntities && kids">
-      <li *ngFor="let subnavitem of lists[2]?.subCategoryEntities" >
-        <a href="/divatt/collections/{{lists[2]?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
-      </li>
-    </ul>
-  </li>
-  <!-- <div class="accordion" id="collapseSidenav">
-      <li class="main-item" data-toggle="collapse" data-target="#collapseOne">
-        ngif submenu
-        <a   class="main-link" (click)="closeNav()" routerLink="/designer-list/all" *ngIf="!designerlists.length" [ngClass]="{'noSubMenu':!designerlists.length}"><span>Designer</span></a>
-    
-       ngif nosubmenu
-        <a   class="main-link"  *ngIf="designerlists.length">
-          <span>Designer</span>
-          <mat-icon>chevron_right</mat-icon>
-        </a>
-      </li>
-      <ul  id="collapseOne" class="collapse sub-menu" data-parent="#collapseSidenav" >
-        <li *ngFor="let subnavitem of designerlists" >
-          <a  (click)="closeNav()" (click)="GoNav(subnavitem?.Name)" [ngClass]="{'active':subnavitem?.Name == currentUrl}">{{subnavitem?.Name}}</a>
-        </li>
-      </ul>
-      <div *ngFor="let navitem of lists;let i = index">
-        <li class="main-item" data-toggle="collapse" [attr.data-target]="'#' + navitem?.categoryName"[ngClass]="{'show':item == navitem?.categoryName}" (click)="collapse(navitem?.categoryName)">
-          <a  class="main-link"  *ngIf="navitem.subCategoryEntities" >
-            <span>{{navitem?.categoryName}}</span>
-            <mat-icon>chevron_right</mat-icon>
-          </a>
-          <a class="main-link" *ngIf="!navitem.subCategoryEntities" routerLink="/collections/{{navitem?.categoryName}}/''" [ngClass]="{'noSubMenu':!navitem.subCategoryEntities}">
-            <span>{{navitem?.categoryName}}</span>
-          </a>
-        </li>
-        <ul  [id]="navitem?.categoryName" *ngIf="navitem.subCategoryEntities" class="collapse sub-menu"  data-parent="#collapseSidenav" >
-          <li *ngFor="let subnavitem of navitem?.subCategoryEntities" >
-            <a routerLink="/collections/{{navitem?.categoryName}}/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
-          </li>
-        </ul>
-      </div>
-  </div> -->
 </ul>
 <!-- mobile mobile screen start -->
 <!-- <ul class="sm pixelstrap sm-vertical mobile">

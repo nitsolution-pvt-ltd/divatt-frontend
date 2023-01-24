@@ -93,38 +93,55 @@ export class LeftMenuComponent implements OnInit {
   kids = false;
   designer = false;
   categoryName;
+  open = 0;
   collapse(url){
-    if(url == 'Men')
+    if(this.open == 1)
     {
-      this.men = !this.men;
-      this.women = false;
-      this.kids = false;
-      this.designer = false;
-
-    }else if(url == 'Women')
-    {
-      this.men = false;
-      this.women = !this.women;
-      this.kids = false;
-      this.designer = false;
-
-    }else if(url == 'Kid')
-    {
-      this.men = false;
-      this.women = false;
-      this.kids = !this.kids;
-      this.designer = false;
-
-    }else if(url == 'Designer')
-    {
-      this.men = false;
-      this.women = false;
-      this.kids = false;
-      this.designer = !this.designer;
-
+      
+      if(this.categoryName == url)
+      {
+        this.categoryName = '';
+        this.open = 0;
+      }else{
+      this.categoryName = url;
+      this.open = 1;
+      }
+    }else{
+      this.categoryName = url;
+      this.open = 1;
     }
-    console.log(url);
-    this.categoryName = url;
+    // if(url == 'Men')
+    // {
+    //   this.men = !this.men;
+    //   this.women = false;
+    //   this.kids = false;
+    //   this.designer = false;
+
+    // }else if(url == 'Women')
+    // {
+    //   this.men = false;
+    //   this.women = !this.women;
+    //   this.kids = false;
+    //   this.designer = false;
+
+    // }else if(url == 'Kid')
+    // {
+    //   this.men = false;
+    //   this.women = false;
+    //   this.kids = !this.kids;
+    //   this.designer = false;
+
+    // }else if(url == 'Designer')
+    // {
+    //   this.men = false;
+    //   this.women = false;
+    //   this.kids = false;
+    //   this.designer = !this.designer;
+
+    // }
+    console.log(url,this.open);
+    // this.categoryName = url;
+    // this.open = 1;
   }
   setActive(url){
     

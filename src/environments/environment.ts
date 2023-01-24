@@ -7,8 +7,8 @@ export const environment = {
   apiMaster:'888',
   // apiUrl:'https://192.168.1.121:9095/dev',
   // fileUrl:'https://192.168.1.121:8085/dev'
-  // apiUrl:'https://192.168.1.7:9095/dev',
-  // fileUrl:'https://192.168.1.7:9095/dev' ,
+  // apiUrl:'https://192.168.1.87:9095/dev',
+  // fileUrl:'https://192.168.1.87:9095/dev' ,
   apiUrl:'https://dev.divatt.com/dev',
   fileUrl:'https://dev.divatt.com/dev',
   // facebook_client_Id:"2577899725685708",

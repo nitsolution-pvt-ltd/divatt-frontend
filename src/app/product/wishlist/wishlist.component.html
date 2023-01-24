@@ -56,8 +56,8 @@
             <div>
               
               <div class="designer">
-                <div class="name" *ngIf="item?.designerProfile?.firstName1 != null">{{item?.designerProfile?.firstName1}}  {{item?.designerProfile?.lastName1}}</div>
-                <div class="name" *ngIf="item?.designerProfile?.firstName1 == null">Designer Name </div>
+                <div class="name" *ngIf="item?.designerProfile?.displayName != null">{{item?.designerProfile?.displayName}}</div>
+                <div class="name" *ngIf="item?.designerProfile?.displayName == null">Display Name </div>
               </div>
                 <a >
                 <h6>{{item?.productDetails?.productName}}</h6>
@@ -128,8 +128,8 @@
               <div>
                 
                 <div class="designer">
-                  <div class="name" *ngIf="item?.designerProfile?.firstName1 != null">{{item?.designerProfile?.displayName}}</div>
-                  <div class="name" *ngIf="item?.designerProfile?.firstName1 == null">Display Name </div>
+                  <div class="name" *ngIf="item?.designerProfile?.displayName != null">{{item?.designerProfile?.displayName}}</div>
+                  <div class="name" *ngIf="item?.designerProfile?.displayName == null">Display Name </div>
                 </div>
                   <a >
                   <h6>{{item?.productDetails?.productName}}</h6>
