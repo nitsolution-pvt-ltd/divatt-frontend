@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   apiUrl:'https://dev.divatt.com/dev',
   fileUrl:'https://dev.divatt.com/dev',
-  // apiUrl:'https://192.168.1.7:9095/dev',
-  // fileUrl:'https://192.168.1.7:9095/dev'
+  // apiUrl:'https://192.168.1.87:9095/default',
+  // fileUrl:'https://192.168.1.87:9095/default'
   // apiUrl:'https://192.168.1.16:9095/dev',
   // fileUrl:'https://192.168.1.16:9095/dev'
 };
