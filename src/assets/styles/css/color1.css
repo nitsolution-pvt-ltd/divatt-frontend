@@ -20002,6 +20002,10 @@ mat-icon.brandIcon
 {
   padding: 0 30px;
 }
+section.designerlisting
+{
+  padding-top: 8em;
+}
 @media screen and (max-width:426px) 
 {
   .padding-lg
