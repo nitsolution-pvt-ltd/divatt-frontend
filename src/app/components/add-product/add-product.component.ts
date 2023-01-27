@@ -122,6 +122,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
 
   commonFunction()
   {
+    this.productdtl.purchaseMinQuantity = 1;
     this.productdtl.cod = false;
     this.productdtl.withCustomization = false;
     this.productdtl.withDesignCustomization = false;
@@ -150,7 +151,7 @@ export class AddProductComponent implements OnInit, OnDestroy {
           if(res.isProfileCompleted == true && res.profileStatus!= 'REJECTED')    
               {
                 this.getcategoryList();
-                this.getHSNlist('');
+                this.getHSNlist('','');
                 this.getColorList();
                 this.getdesignerById();
                 if(this.action == 'add')
@@ -371,9 +372,9 @@ getDesignerProfiledata()
           this.mesormentList.splice(i,1);
         }
       }
-      this.productdtl.sizes = [];
+      this.productdtl.sizes = null;
     }else{
-      this.productdtl.sizes = [];
+      this.productdtl.sizes = null;
       this.mesormentList = data;
     }    
   }
@@ -483,14 +484,20 @@ getDesignerProfiledata()
   }
   // Specification get end
   // get HSN list start
-  getHSNlist(key: any)
+  search:string = '';
+  getHSNlist(key: any,identifier:any)
   {
-    // console.log(key.target.value);
+    console.log('key',key);
     
+    if(identifier == 'search')
+    {
+
+    }
     this.getHSNListSubscribe = this.http.get("hsn/getactiveHSNList?searchKeyword="+key).subscribe(
       (res:any) => {
         console.log("res",res);
         this.HSNlist = res;
+
         // this.hsnsearchlist = this.HSNlist;
         // console.log("HSNlist...",this.HSNlist);
        
@@ -555,13 +562,27 @@ addImage(){
 
   /* -----------Image uploading start----------- */
   uploder = false;
-  handleInputChange(e: any, index: any) {
+  fileField:any;
+  handleInputChange(e: any, index: any,chosetype:any) {
     this.uploder = true;
     var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    var name = e.target.files[0].name;
+    var type = e.target.files[0].type;
+    var size = e.target.files[0].size;
+    let f_size = e.target.files[0].size/1024/1024;
+    console.log('type',type+ "\n",'size',size,f_size+ "\n",'name',name+ "\n");
+    if (e.target.files[0].size/1024/1024 > 10) {
+      this.toastrService.error('Image size is bigger than 10MB');
+      this.uploder= false;
+      this.uplodeimgloader = false;
+      return;
+     }
     var pattern = /image-*/;
     var reader = new FileReader();
     if (!file.type.match(pattern)) {
-      alert('invalid format');
+      this.uploder= false;
+      this.uplodeimgloader = false;
+      this.toastrService.error('invalid format');
       return;
     }
     this.uplodeimgloader = true;
@@ -581,9 +602,17 @@ addImage(){
         (res:any) => {
           this.frontImage = res.path;
             this.uploder = false;
-            this.imageArray.push({"isPrimary": false,large: res.path, "medium": "string","order": 2,"tiny": "string"});          
-          this.imageArray[0].isPrimary = true;          
           // this.imageArray.push(e.target.files[0]);
+          console.log(type,index);
+          
+          if(chosetype == 'change')
+          {
+            this.imageArray[index]= {"isPrimary": false,large: res.path, "medium": "string","order": 2,"tiny": "string"};
+          }else
+          {
+            this.imageArray.push({"isPrimary": false,large: res.path, "medium": "string","order": 2,"tiny": "string"});          
+          }
+          this.imageArray[0].isPrimary = true;          
           this.uploder = false;
           this.uplodeimgloader = false;
         },
@@ -592,7 +621,7 @@ addImage(){
           this.toastrService.error(error.error.message);
           this.uploder = false;
       })
-      console.log(this.imageArray);
+      console.log('index',this.imageArray,index);
   }
   /* Image uploading end */
   

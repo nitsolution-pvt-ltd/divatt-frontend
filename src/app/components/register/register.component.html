@@ -48,6 +48,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Email</mat-label>
                                 <input matInput [(ngModel)]="model.email" name="email" type="email" pattern="^[a-z0-9._%+-]+@[a-z.-]+\.[a-z]{2,4}$" required/>
+                                <mat-hint>A verification mail will be sent to this mail address</mat-hint>
                             </mat-form-field>
                         </div>
                         <input type="hidden" [(ngModel)]="model.email" name="email">

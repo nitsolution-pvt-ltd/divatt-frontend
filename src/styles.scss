@@ -2195,21 +2195,6 @@ button{
                   .border-active{
                     border: 2px solid #1f1f1f;
                   }
-                //   .red{
-                //     border: 2px solid darken(#DB2828, 25%);
-                //   }
-                //   .green{
-                //     border: 2px solid darken(#21BA45, 25%);
-                //   }
-                //   .yellow{
-                //     border: 2px solid darken(#FBBD08, 25%);
-                //   }
-                //   .olive{
-                //     border: 2px solid darken(#B5CC18, 25%);
-                //   }
-                //   .orange{
-                //     border: 2px solid darken(#F2711C, 25%);
-                //   }
                 } // !&:checked + label
               }
               label {
@@ -2552,22 +2537,10 @@ button{
                 input[type="radio"] {
                     display: none;
                     &:checked + label {
-                      span { transform: scale(1.25); }
-                      .red{
-                        border: 2px solid darken(#DB2828, 25%);
-                      }
-                      .green{
-                        border: 2px solid darken(#21BA45, 25%);
-                      }
-                      .yellow{
-                        border: 2px solid darken(#FBBD08, 25%);
-                      }
-                      .olive{
-                        border: 2px solid darken(#B5CC18, 25%);
-                      }
-                      .orange{
-                        border: 2px solid darken(#F2711C, 25%);
-                      }
+                        span { transform: scale(1.25); }
+                        .border-active{
+                          border: 2px solid #1f1f1f;
+                        }
                     } // !&:checked + label
                   }
                   label {
@@ -6264,4 +6237,15 @@ ngb-carousel{
     line-height: 14px;
     margin-right: 3px;
   }
+}
+.color-content
+{
+    .color
+    {
+        .border-active{
+            border: 2px solid #1f1f1f;
+            transform: scale(1.25);
+        }
+             
+    }
 }

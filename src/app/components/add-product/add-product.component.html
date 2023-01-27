@@ -22,10 +22,10 @@
                            <div class="add-product">
                                <div class="add-card-inner">
                                    <i class="fa fa-times image-clear cursor-pointer" (click)="clearImage(i)"></i>
-                                   <!-- <input class="invisible position-absolute w-0 h-0" [id]="i" type="file"  accept="image/*" (change)="handleInputChange($event, i)" required> -->
+                                   <input class="invisible position-absolute w-0 h-0" [id]="i" type="file"  accept="image/*" (change)="handleInputChange($event, i,'change')" required>
                                    <label [for]="i">
                                        <img [src]="img.large!= null ? img.large : 'assets/images/plus-cercle.png?rev=1627018'"
-                                       class="uplodeimgpev cursor-pointer" [ngClass]="{'big-img' : imageArray.length}"/>
+                                       class="uplodeimgpev cursor-pointer" [ngClass]="{'big-img ' : imageArray.length}"/>
                                    </label>
                                </div>
                            </div>
@@ -35,10 +35,10 @@
 
                    <div class="add-product" *ngIf="!imageArray.length">
                        <div class="add-card-inner">
-                           <input [disabled]="uploder" class="invisible position-absolute w-0 h-0" id="singleFileUploadfront" type="file" name="imageUrl"  accept="image/*" (change)="handleInputChange($event, '')" required>
+                           <input [disabled]="uploder || uplodeimgloader" class="invisible position-absolute w-0 h-0" id="singleFileUploadfront" type="file" name="imageUrl"    accept="image/*" (change)="handleInputChange($event, '','')" required>
                                <label  for="singleFileUploadfront">
                                <img src="assets/images/plus-cercle.png?rev=1627018"
-                               class="uplodeimgpev cursor-pointer"/>
+                               class="uplodeimgpev cursor-pointer" [ngClass]="{'cursor-default': uploder || uplodeimgloader}"  />
                            </label>
                        </div>
                    </div>
@@ -46,12 +46,12 @@
                    <div class="width-150 mr-auto mt-20 not_sm_mobile"  tabindex="tab"
                    [ngClass]="{'disabled' : productDisabled }">
                        <a class="addimage-button" tabindex="tab" [disabled]="productDisabled || !imageArray.length" [ngClass]="{'disabled' : productDisabled || !imageArray.length }" mat-raised-button (click)="singleFileUploadfront.click()" [disabled]="uploder"><span>ADD IMAGE </span><mat-spinner *ngIf="uplodeimgloader"></mat-spinner></a>
-                       <input class="invisible w-0 h-0" #singleFileUploadfront  type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event, index)" required>
+                       <input class="invisible w-0 h-0" #singleFileUploadfront  type="file"   accept="image/*" (change)="handleInputChange($event, index,'')" required>
                    </div>
                    <div class="text-center mt-20 sm_mobile"  tabindex="tab"
                    [ngClass]="{'disabled' : productDisabled }">
-                       <a class="width-150 addimage-button" tabindex="tab" [disabled]="productDisabled || !imageArray.length" [ngClass]="{'disabled' : productDisabled || !imageArray.length }" mat-raised-button (click)="singleFileUploadfront.click()" [disabled]="uploder"><span>ADD IMAGE </span><mat-spinner *ngIf="uplodeimgloader"></mat-spinner></a>
-                       <input class="invisible w-0 h-0" #singleFileUploadfront  type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event, index)" required>
+                       <a class="width-150 addimage-button" tabindex="tab" [disabled]="productDisabled || !imageArray.length" [ngClass]="{'disabled' : productDisabled || !imageArray.length }" mat-raised-button (click)="singleFileUploadfront.click()" [disabled]="uplodeimgloader"><span>ADD IMAGE </span><mat-spinner *ngIf="uplodeimgloader"></mat-spinner></a>
+                       <input class="invisible w-0 h-0" #singleFileUploadfront  type="file"   accept="image/*" (change)="handleInputChange($event, index,'')" required>
                    </div>
                    <div class="other-content not-in-mobile">
                        <h2>Product Stock And Pricing</h2>
@@ -199,7 +199,7 @@
                                    [ngClass]="{'disabled disabledclick' : productDisabled }" 
                                    [(ngModel)]="productdtl.hsnData"
                                    MatInput>
-                                   <input class="search-input" name="search" placeholder="search..." (input)="getHSNlist($event)">
+                                   <input class="search-input" name="search" [(ngModel)]="search" placeholder="search..." (input)="getHSNlist(search,'search')">
                                    <mat-option *ngFor="let item of HSNlist" [value]="item">{{item.hsnCode}}&nbsp;({{item.taxValue}}%)</mat-option>
                                    </mat-select>
                                </mat-form-field>
@@ -484,10 +484,11 @@
                                    <input matInput 
                                    type="number" 
                                    min="1"
+                                   readonly
                                    [max]="productdtl.soh"   
                                    name="purchaseMinQuantity" 
                                    [(ngModel)]="productdtl.purchaseMinQuantity" 
-                                   clearInput required [readonly] = "productDisabled"
+                                   clearInput required
                                    tabindex="tab">
                                    <mat-hint class="text-danger" *ngIf="productdtl.purchaseMinQuantity > productdtl.soh">Purchase min qty always less than/equal to stock.</mat-hint>
                                </mat-form-field>
@@ -522,7 +523,7 @@
                                             tabindex="tab"
 
                                             />
-                                            <label [for]="item.colorName"><span [style.backgroundColor]="item.colorValue" [ngClass]="{'border-active' : active == item.colorName || productdtl.colour == item.colorName}"></span></label>
+                                            <label [for]="item.colorName" [matTooltip]="item.colorName"><span [style.backgroundColor]="item.colorValue" [ngClass]="{'border-active' : active == item.colorName || productdtl.colour == item.colorName}"></span></label>
                                         </div>
                                         <input type="hidden" required name="colour" [(ngModel)]="colour">
                                     </div>
@@ -695,11 +696,11 @@
                                    <input matInput 
                                    type="number" 
                                    min="1"
+                                   readonly
                                    [max]="productdtl.soh"     
                                    name="purchaseMinQuantity" 
                                    [(ngModel)]="productdtl.purchaseMinQuantity" 
                                    clearInput required 
-                                   [readonly] = "productDisabled"
                                    tabindex="tab" />
                                    <mat-hint class="text-danger" *ngIf="productdtl.purchaseMinQuantity > productdtl.soh">Purchase min qty always less than/equal to stock.</mat-hint>
                                </mat-form-field>
@@ -733,7 +734,7 @@
                                         [readonly] = "productDisabled"
                                         tabindex="tab"
                                         />
-                                        <label [for]="item.colorName"><span [style.backgroundColor]="item.colorValue" [ngClass]="{'border-active' : active == item.colorName || productdtl.colour == item.colorName}"></span></label>
+                                        <label [for]="item.colorName" [matTooltip]="item.colorName"><span [style.backgroundColor]="item.colorValue" [ngClass]="{'border-active' : active == item.colorName || productdtl.colour == item.colorName}"></span></label>
                                     </div>
                                 </div>
                                 
@@ -921,8 +922,8 @@
                                      panelClass="myPanelClass"
                                     [ngClass]="{'disabled disabledclick' : productDisabled }"
                                     [(ngModel)]="productdtl.hsnData"
-                                    MatInput>
-                                    
+                                    MatInput>                                   
+                                    <input class="search-input" name="search" [(ngModel)]="search" placeholder="search..." (input)="getHSNlist(search,'search')">
                                     <mat-option *ngFor="let item of HSNlist" [value]="item">{{item.hsnCode}}&nbsp;({{item.taxValue}}%)</mat-option>
                                     </mat-select>
                                 </mat-form-field>
