@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Divatt</title>
-  <base href="/divatt/">
+  <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" cogintent="Divatt Designers world">
   <meta name="author" content="CF">
@@ -27,24 +27,14 @@
 </head>
 <body>
   <app-root></app-root>
-   <script>
-        // $(document).ready(function () {
-        //     if ($(window).width() > 991) {
-        //         $(".product_img_scroll, .pro_sticky_info").stick_in_parent();
-        //     }
-        // });
-        // const slider = $(".slick-slide");
-        // slider.on('wheel', (function(e) {
-        //   e.preventDefault();
-
-        //   if (e.originalEvent.deltaY < 0) {
-        //     $(this).slick('slickNext');
-        //   } else {
-        //     $(this).slick('slickPrev');
-        //   }
-        // }));
-    </script>
     <!-- sticky sidebar -->
     <!-- <script type="text/javascript" src="assets/js/sticky-kit.js"></script> -->
+    <script>
+      $(document).ready(function() {
+          $('body').bind('contextmenu', function(e) {
+              e.preventDefault();
+            });
+        });
+    </script>
 </body>
 </html>
