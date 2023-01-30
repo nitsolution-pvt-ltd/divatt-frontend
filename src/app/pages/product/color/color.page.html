@@ -115,7 +115,7 @@
                           Data is loading...
                         </td>
                       </tr>
-                      <tr [hidden]="isListLoading" *ngIf="tableData?.length == 0" class="loading-table-data">
+                      <tr [hidden]="isListLoading" *ngIf="tableData?.data?.length == 0" class="loading-table-data">
                         <td colspan="100" class="text-center">
                           No data found
                         </td>

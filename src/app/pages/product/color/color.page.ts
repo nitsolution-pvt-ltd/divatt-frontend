@@ -41,7 +41,7 @@ export class ColorPage implements OnInit {
   // Variables start
   isListLoading = false;
   listing_url;
-  tableData;
+  tableData :any = [];
   pageNo;
   sortColumnName = '';
   sortOrderName = '';

@@ -84,7 +84,11 @@
                             <li class="step0 text-center" id="step3" [ngClass]="{'active':  tableData?.orderItemStatus == 'Delivered' || tableData?.orderItemStatus == 'Shipped', 'disabledclick':  tableData?.orderItemStatus == 'Delivered' || tableData?.orderItemStatus == 'Shipped' || tableData?.orderStatusDetails?.packedDetails == null}" (click)="orderStatus_modal('ordershippedModal',tableData,'')"><span><img src="assets/images/shipment.png" />Ship</span></li>
                             <li class="step0 text-center text-muted" [ngClass]="{'active': tableData?.orderItemStatus == 'Delivered' ,'disabledclick': tableData?.orderItemStatus == 'Delivered' || tableData?.orderStatusDetails?.shippedDetails == null }" id="step4" (click)="orderStatus_modal('orderdeliverModal',tableData,tableListData)"><span><img src="assets/images/deliverd.png" />Delivered</span></li>
                         </ul>
-                        
+                        <p *ngIf="tableData?.orderItemStatus == 'Delivered' && !tableData?.returnAcceptable">
+                          <a (click)="orderStatus_modal('forceReturnModal',tableData,tableListData)" class="text-danger cursor-pointer d-flex align-items-center">
+                           <mat-icon>restart_alt</mat-icon> Force to Return
+                          </a>
+                        </p>
                         <!-- progress bar all step -->
                         <!-- progress bar two step -->
                         <!-- Verify Orders -->

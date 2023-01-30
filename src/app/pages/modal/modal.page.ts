@@ -92,6 +92,8 @@ export class ModalPage implements OnInit {
   stateLoading: boolean;
   mindateRange: string;
   mesorementData: any ={};
+  userData: any = {};
+   private GetAdminData: Subscription; 
 
   constructor(private navParams: NavParams, 
     private modalController: ModalController,
@@ -312,6 +314,13 @@ export class ModalPage implements OnInit {
     this.storage.get('setStroageGlobalParamsData').then((val) => {
       // console.log('All User Data', val.username);
       this.username = val.username;
+      this.userData = val;
+      this.GetAdminData = this.http.get("auth/info/"+val.authority+'/'+val.username).subscribe(
+        (res: any) => {
+          this.authData = res;
+        },
+        (error) => {
+        }); 
     });
     this.model.packedCovered = false;
     this.model.packingVideo = false;
@@ -708,6 +717,26 @@ ordersSubmit(form: NgForm, identifier: any){
       );
       
       
+      
+  }else if(identifier == 'ForceReturn')
+  {
+      body = {
+        "ForceReturnOnDTO":{
+          "comments":form.value.comments,
+          "dateTime":this.currentDateTime,
+          "upbatedBy":{
+            adminId:this.authData.uid,
+            email:this.authData.email,
+            mobileNo:this.authData.mobileNo,
+            firstName:this.authData.firstName,
+            lastName:this.authData.lastName,
+            name:this.authData.firstName + ' ' +this.authData.lastName
+          }
+        },
+        "returnAcceptable":form.value.returnAcceptable
+      } 
+    this.orderItemStatus = 'ForceReturnAdmin';
+       
       
   }
   
@@ -1347,6 +1376,7 @@ onSubmitChangepswForm(form: NgForm)
   SelectedCountry(id)
   {
     this.getState();
+    this.adminprofiledata.state = null;
   }
   // SelectedCountry end
   getState()

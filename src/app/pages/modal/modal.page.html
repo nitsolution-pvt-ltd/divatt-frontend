@@ -110,15 +110,16 @@
                         </div>
                       </ion-col>
                       <!-- Email -->
+                      <!--old "^[a-z0-9._%+-]+@[a-z.-]+\.[a-z]{2,4}$" -->
                       <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
                         <div class="form-group">
                           <mat-form-field appearance="outline">
                             <mat-label>Email</mat-label>
                             <input matInput type="email"
                             [(ngModel)]="adminprofiledata.email"
-                            name="email" pattern="^[a-z0-9._%+-]+@[a-z.-]+\.[a-z]{2,4}$"
+                            name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
                             required
-                            clearInput readonly>
+                            clearInput>
                           </mat-form-field>
                         </div>
                       </ion-col>
@@ -180,7 +181,7 @@
                         </div>
                         <div class="showInfo" [ngClass]="{'show  mb-2':showInfo2}">
                           1. It should be 15 characters long.<br>
-                          2.The first 2 characters should be a number.<br>
+                          2.The first 2 characters should be the number.<br>
                           3.The next 10 characters should be the PAN number of the taxpayer.<br>
                           4.The 13th character (entity code) should be a number from 1-9 or an alphabet.<br>
                           5.The 14th character should be Z.<br>
@@ -1139,7 +1140,44 @@
             </div>
           </div>
           <!-- returnRequest modal end -->
-          <!-- govStatus modal end -->
+          <!-- forceReturnModal modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'forceReturnModal'">
+            <div class="">
+              <form class="login" #ForceReturn="ngForm" (ngSubmit)="ordersSubmit(ForceReturn,'ForceReturn')"  novalidate>
+                <label id="example-radio-group-label">Service Charge Status</label>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-checkbox name="returnAcceptable" [(ngModel)]="model.returnAcceptable" [disabled]="disabled">
+                    Return forcefully
+                  </mat-checkbox>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Commnts</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comments"
+                      name="comments"
+                      rows="5"
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!ForceReturn.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- forceReturnModal modal end -->
         </div>
       </div>
     </div>

@@ -325,51 +325,51 @@
                                   </td>
                                 </tr>
                                 <tr [hidden]="isListLoading" *ngFor="let item of tableListData; let i = index">
-                                  <td>{{i + 1}}</td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">{{i + 1}}</td>
                                   <!-- <td>
                                       <ion-checkbox  name="checkbox_name" [(ngModel)]="item.isSelected" (ionChange)="onCheckboxSelect(item, $event)" color="primary"></ion-checkbox>
                               
                                   </td> -->
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.orderId}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.order_details?.order_invoice_id ? item?.order_details?.order_invoice_id : 'N/A'}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.service_charge?.designer_invoice_id}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_details?.display_name}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.basic_amount}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.discount}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.hsn_amount}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.order_details?.giftWrapAmount}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.totalAmount}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.divattCharges}}
-                                  </td>
-                                  <td>
+                                  </td >
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.hsn_amount}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.tcs}}
                                   </td>
-                                  <td>
+                                  <td [routerLink]="['/', 'payments-view', item?.id]">
                                     {{item?.designer_return_amount?.net_payable_designer}}
                                   </td>
-                                    <td>
+                                    <td [routerLink]="['/', 'payments-view', item?.id]">
                                       <div class="status" [ngClass]="{'warning':item?.designer_return_amount?.status == 'NOT RETURN' , 'success':item?.designer_return_amount?.status == 'RETURN' , 'danger':item?.designer_return_amount?.status == 'RETURN/NOT RETURN'}">
                                         {{item?.designer_return_amount?.status}}
                                       </div>
@@ -386,18 +386,18 @@
                                 </td> -->
                                   <td>
                                     <div class="action ion-text-center">
-                                      <ion-button class="mr-1" matTooltip="Designer Return Amount" matTooltipPosition="above" color="primary" (click)="changeStatus('accountStatus',item.id)">
+                                      <ion-button class="mr-1" matTooltip="Designer Return Amount" matTooltipPosition="above" color="primary" (click)="changeStatus('accountStatus',item?.id)">
                                         <mat-icon>paid</mat-icon>
                                       </ion-button>
-                                      <!-- <ion-button class="mr-1" matTooltip="Service Charge" matTooltipPosition="above" color="secondary" (click)="changeStatus('serviceStatus',item.id)">
+                                      <!-- <ion-button class="mr-1" matTooltip="Service Charge" matTooltipPosition="above" color="secondary" (click)="changeStatus('serviceStatus',item?.id)">
                                         <mat-icon>credit_card</mat-icon>
                                       </ion-button>
-                                      <ion-button class="mr-1" matTooltip="Govt Charge" matTooltipPosition="above" color="success" (click)="changeStatus('govt_charge',item.id)">
+                                      <ion-button class="mr-1" matTooltip="Govt Charge" matTooltipPosition="above" color="success" (click)="changeStatus('govt_charge',item?.id)">
                                         <mat-icon>payments</mat-icon>
                                       </ion-button> -->
-                                      <ion-button class="mr-1" matTooltip="View All Data" matTooltipPosition="above" color="primary" [routerLink]="['/', 'payments-view', item.id]">
+                                      <!-- <ion-button class="mr-1" matTooltip="View All Data" matTooltipPosition="above" color="primary" [routerLink]="['/', 'payments-view', item?.id]">
                                         <mat-icon >visibility</mat-icon>
-                                      </ion-button>
+                                      </ion-button> -->
                                       <ion-button matTooltip="Download Payment Invoice" matTooltipPosition="above" color="warning" (click)="genaratePDF(item,'')">
                                         <mat-icon >sim_card_download</mat-icon>
                                       </ion-button>

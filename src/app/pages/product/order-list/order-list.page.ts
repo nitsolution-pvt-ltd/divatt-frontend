@@ -44,8 +44,8 @@ export class OrderListPage implements OnInit {
       sortingButtonName: "",
     },
     {
-      column_name: "designerName",
-      display_name: "designer Name",
+      column_name: "displayName",
+      display_name: "display Name",
       sortingButtonName: "",
     },
     {

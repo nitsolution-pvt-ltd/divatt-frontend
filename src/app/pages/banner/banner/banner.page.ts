@@ -233,9 +233,17 @@ export class BannerPage implements OnInit {
         this.model.endDate = moment(date).format('YYYY/MM/DD');
       }
     }else{
-      this.model.startDate = null;
-      this.model.endDate = null;
-      this.model.end_Date = null;
+      if(identifire == 'start'){
+        this.model.startDate = null;
+        this.model.start_Date = null;
+        this.model.endDate = null;
+        this.model.end_Date = null;
+      }
+      else{
+        this.model.endDate = null;
+        this.model.end_Date = null;
+      }
+     
     }
     
   }

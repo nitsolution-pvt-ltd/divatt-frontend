@@ -136,8 +136,8 @@ initializeApp() {
         var y = localStorage.getItem('userdata');
         console.log('retrievedObject: ', y);
         console.log(window.location.href)
-        let x = window.location.href.split('#')[1];
-        let current = x.split('/')[1];
+        let x:any = window.location.href.split('#')[1];
+        let current = x?.split('/')[1];
         console.log("this.href", window.location.href.split('#')[1], current);
         if (current == 'auth') {
           this.menuicon = true;

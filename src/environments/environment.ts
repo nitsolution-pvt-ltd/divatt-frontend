@@ -9,8 +9,8 @@ export const environment = {
   // fileUrl:'https://65.1.190.195:9095/dev'
   apiUrl:'https://dev.divatt.com/dev',
   fileUrl:'https://dev.divatt.com/dev',
-  // apiUrl:'https://192.168.1.7:9095/dev',
-  // fileUrl:'https://192.168.1.7:9095/dev'
+  // apiUrl:'https://192.168.1.87:9095/default',
+  // fileUrl:'https://192.168.1.87:9095/default'
 };
 
 /*

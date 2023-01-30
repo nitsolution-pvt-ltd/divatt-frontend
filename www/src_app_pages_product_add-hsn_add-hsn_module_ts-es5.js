@@ -1,0 +1,541 @@
+(function () {
+  function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+  function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+  function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  (self["webpackChunkuLearnSuperAdmin"] = self["webpackChunkuLearnSuperAdmin"] || []).push([["src_app_pages_product_add-hsn_add-hsn_module_ts"], {
+    /***/
+    93626:
+    /*!*****************************************************************!*\
+      !*** ./src/app/pages/product/add-hsn/add-hsn-routing.module.ts ***!
+      \*****************************************************************/
+
+    /***/
+    function _(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export */
+
+
+      __webpack_require__.d(__webpack_exports__, {
+        /* harmony export */
+        "AddHsnPageRoutingModule": function AddHsnPageRoutingModule() {
+          return (
+            /* binding */
+            _AddHsnPageRoutingModule
+          );
+        }
+        /* harmony export */
+
+      });
+      /* harmony import */
+
+
+      var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      /*! tslib */
+      64762);
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      /*! @angular/core */
+      37716);
+      /* harmony import */
+
+
+      var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      /*! @angular/router */
+      39895);
+      /* harmony import */
+
+
+      var _add_hsn_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! ./add-hsn.page */
+      47395);
+
+      var routes = [{
+        path: '',
+        component: _add_hsn_page__WEBPACK_IMPORTED_MODULE_0__.AddHsnPage
+      }];
+
+      var _AddHsnPageRoutingModule = function AddHsnPageRoutingModule() {
+        _classCallCheck(this, AddHsnPageRoutingModule);
+      };
+
+      _AddHsnPageRoutingModule = (0, tslib__WEBPACK_IMPORTED_MODULE_1__.__decorate)([(0, _angular_core__WEBPACK_IMPORTED_MODULE_2__.NgModule)({
+        imports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule.forChild(routes)],
+        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__.RouterModule]
+      })], _AddHsnPageRoutingModule);
+      /***/
+    },
+
+    /***/
+    95723:
+    /*!*********************************************************!*\
+      !*** ./src/app/pages/product/add-hsn/add-hsn.module.ts ***!
+      \*********************************************************/
+
+    /***/
+    function _(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export */
+
+
+      __webpack_require__.d(__webpack_exports__, {
+        /* harmony export */
+        "AddHsnPageModule": function AddHsnPageModule() {
+          return (
+            /* binding */
+            _AddHsnPageModule
+          );
+        }
+        /* harmony export */
+
+      });
+      /* harmony import */
+
+
+      var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      /*! tslib */
+      64762);
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      /*! @angular/core */
+      37716);
+      /* harmony import */
+
+
+      var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      /*! @angular/common */
+      38583);
+      /* harmony import */
+
+
+      var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      /*! @angular/forms */
+      3679);
+      /* harmony import */
+
+
+      var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      /*! @ionic/angular */
+      80476);
+      /* harmony import */
+
+
+      var _add_hsn_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! ./add-hsn-routing.module */
+      93626);
+      /* harmony import */
+
+
+      var src_app_shared_shared_module__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      /*! src/app/shared/shared.module */
+      44466);
+      /* harmony import */
+
+
+      var _add_hsn_page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      /*! ./add-hsn.page */
+      47395);
+
+      var _AddHsnPageModule = function AddHsnPageModule() {
+        _classCallCheck(this, AddHsnPageModule);
+      };
+
+      _AddHsnPageModule = (0, tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([(0, _angular_core__WEBPACK_IMPORTED_MODULE_4__.NgModule)({
+        imports: [_angular_common__WEBPACK_IMPORTED_MODULE_5__.CommonModule, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormsModule, _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonicModule, src_app_shared_shared_module__WEBPACK_IMPORTED_MODULE_1__.SharedModule, _add_hsn_routing_module__WEBPACK_IMPORTED_MODULE_0__.AddHsnPageRoutingModule],
+        declarations: [_add_hsn_page__WEBPACK_IMPORTED_MODULE_2__.AddHsnPage]
+      })], _AddHsnPageModule);
+      /***/
+    },
+
+    /***/
+    47395:
+    /*!*******************************************************!*\
+      !*** ./src/app/pages/product/add-hsn/add-hsn.page.ts ***!
+      \*******************************************************/
+
+    /***/
+    function _(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony export */
+
+
+      __webpack_require__.d(__webpack_exports__, {
+        /* harmony export */
+        "AddHsnPage": function AddHsnPage() {
+          return (
+            /* binding */
+            _AddHsnPage
+          );
+        }
+        /* harmony export */
+
+      });
+      /* harmony import */
+
+
+      var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      /*! tslib */
+      64762);
+      /* harmony import */
+
+
+      var _raw_loader_add_hsn_page_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+      /*! !raw-loader!./add-hsn.page.html */
+      24713);
+      /* harmony import */
+
+
+      var _add_hsn_page_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+      /*! ./add-hsn.page.scss */
+      33876);
+      /* harmony import */
+
+
+      var _angular_common_http__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      /*! @angular/common/http */
+      91841);
+      /* harmony import */
+
+
+      var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+      /*! @angular/core */
+      37716);
+      /* harmony import */
+
+
+      var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+      /*! @angular/router */
+      39895);
+      /* harmony import */
+
+
+      var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+      /*! moment */
+      16738);
+      /* harmony import */
+
+
+      var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+      /* harmony import */
+
+
+      var src_app_services_auth_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+      /*! src/app/services/auth/auth.service */
+      51228);
+      /* harmony import */
+
+
+      var src_app_services_common_utils_common_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+      /*! src/app/services/common-utils/common-utils */
+      83914);
+
+      var _AddHsnPage = /*#__PURE__*/function () {
+        function AddHsnPage(activatedRoute, http, router, commonUtils, authService) {
+          _classCallCheck(this, AddHsnPage);
+
+          this.activatedRoute = activatedRoute;
+          this.http = http;
+          this.router = router;
+          this.commonUtils = commonUtils;
+          this.authService = authService;
+          this.model = {};
+          this.allhsndata = {};
+          /* -----------Image uploading start----------- */
+
+          this.imageSrc = '';
+          this.previewimageSrc = '';
+        }
+
+        _createClass(AddHsnPage, [{
+          key: "ngOnInit",
+          value: function ngOnInit() {}
+        }, {
+          key: "ionViewWillEnter",
+          value: function ionViewWillEnter() {
+            this.commonFunction();
+          } // commonFunction start
+
+        }, {
+          key: "commonFunction",
+          value: function commonFunction() {
+            var _this = this;
+
+            // get active url name
+            this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
+            this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
+            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
+            console.log('parms_action_name', this.parms_action_name);
+            console.log('parms_action_id', this.parms_action_id);
+            this.dateRange = moment__WEBPACK_IMPORTED_MODULE_2__(new Date()).format('YYYY-MM-DD');
+            /*Check permission status start*/
+
+            this.authService.globalparamsData.subscribe(function (res) {
+              console.log('res>>', res);
+
+              if (res.authority == 'ADMIN') {
+                _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
+                  if (data) {
+                    console.log('menu>>', data);
+                    console.log('this.router.url>>', _this.router.url);
+
+                    var pageUrlName = _this.router.url.split("/");
+
+                    console.log('pageUrlName', pageUrlName);
+
+                    var _iterator = _createForOfIteratorHelper(data),
+                        _step;
+
+                    try {
+                      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                        var item = _step.value;
+                        var moduleUrlName = item.modDetails.url.split("-");
+                        console.log('moduleUrlName', moduleUrlName);
+
+                        if (pageUrlName[1] == moduleUrlName[0]) {
+                          if (_this.parms_action_name == 'add' && item.modPrivs.create == true) {
+                            console.log('-----Permission create Granted-----');
+                            break;
+                          } else if (_this.parms_action_name == 'edit' && item.modPrivs.update == true) {
+                            console.log('-----Permission update Granted-----');
+
+                            _this.getHSNById();
+
+                            break;
+                          } else {
+                            console.log('-------No Permission--------');
+
+                            _this.router.navigateByUrl('/error');
+                          }
+                        }
+                      }
+                    } catch (err) {
+                      _iterator.e(err);
+                    } finally {
+                      _iterator.f();
+                    }
+                  }
+                });
+              } else {
+                _this.router.navigateByUrl('/error');
+              }
+            });
+            /*Check permission status end*/
+          } // commonFunction end
+          // getcatById start
+
+        }, {
+          key: "getHSNById",
+          value: function getHSNById() {
+            var _this2 = this;
+
+            this.loader = true;
+            this.getHsnbyIdSubscribe = this.http.get("hsn/view/" + this.parms_action_id).subscribe(function (res) {
+              console.log("res", res);
+              _this2.loader = false;
+              _this2.model = res; // this.model = {
+              //   hsnCode:res.hsnCode,
+              //   taxValue:res.taxValue,
+              //   description:res.description,
+              // }
+
+              _this2.model.date = moment__WEBPACK_IMPORTED_MODULE_2__(res.effectiveDate).format('YYYY-MM-DD'); // this.model.effectiveDate = moment(res.effectiveDate).format('YYYY-MM-DD')
+
+              _this2.changeDateFormat(res.effectiveDate);
+            }, function (error) {
+              _this2.loader = false;
+              console.log("error", error);
+            });
+          } // getcatById end
+
+        }, {
+          key: "changeDateFormat",
+          value: function changeDateFormat(date) {
+            console.log(date);
+            this.model.effectiveDate = moment__WEBPACK_IMPORTED_MODULE_2__(date).format('YYYY/MM/DD');
+          }
+        }, {
+          key: "handleInputChange",
+          value: function handleInputChange(e) {
+            var _this3 = this;
+
+            var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+            var pattern = /image-*/;
+            var reader = new FileReader();
+
+            if (!file.type.match(pattern)) {
+              alert('invalid format');
+              return;
+            }
+
+            console.log(this.imageSrc);
+            this.imageSrc = null; // this.file = null;
+
+            this.imageSrc = e.target.files[0];
+            var fd = new FormData();
+            fd.append("file", e.target.files[0]);
+            this.http.post("admin/profile/s3/upload", fd).subscribe(function (res) {
+              _this3.imageSrc = res.path;
+              _this3.model.categoryImage = res.path;
+              console.log("profileimgpath", _this3.imageSrc); // this.commonUtils.presentToast('success', res.message);
+            }, function (error) {
+              console.log("error", error);
+
+              _this3.commonUtils.presentToast('error', error.error.message);
+            });
+            reader.onload = this._handleReaderLoaded.bind(this);
+            reader.readAsDataURL(file);
+          }
+        }, {
+          key: "_handleReaderLoaded",
+          value: function _handleReaderLoaded(e) {
+            var reader = e.target;
+            this.previewimageSrc = reader.result;
+          }
+          /* Image uploading end */
+          // onSubmitCategortForm start 
+
+        }, {
+          key: "onSubmitCategortForm",
+          value: function onSubmitCategortForm(form) {
+            var _this4 = this;
+
+            this.btnloader = true; // add api start
+
+            if (this.parms_action_name == 'add') {
+              // set all val
+              console.log('form.value', form.value);
+              this.addHsnSubscribe = this.http.post('hsn/add', form.value).subscribe(function (res) {
+                // window.location.reload();
+                console.log("allhsndata", _this4.allhsndata, "response", res);
+                _this4.btnloader = false;
+
+                _this4.router.navigateByUrl('/hsn-list');
+
+                _this4.commonUtils.presentToast('success', res.message);
+
+                form.reset();
+              }, function (error) {
+                console.log(error);
+                _this4.btnloader = false;
+
+                _this4.commonUtils.presentToast('error', error.error.message);
+              });
+              console.log("allda", this.allhsndata);
+            } // add api end
+            // edit api start
+            else if (this.parms_action_name == 'edit') {
+              console.log('form.value', form.value);
+              this.addHsnSubscribe = this.http.put("hsn/update/" + this.parms_action_id, form.value).subscribe(function (res) {
+                console.log("allhsndatay", _this4.allhsndata, "response", res);
+                _this4.btnloader = false; // window.location.reload();
+
+                _this4.router.navigateByUrl('/hsn-list');
+
+                _this4.commonUtils.presentToast('success', res.message);
+
+                form.reset();
+              }, function (error) {
+                _this4.btnloader = false; // console.log("error",error);
+
+                _this4.commonUtils.presentToast('error', error.error.message); // recall hsn list
+
+              });
+            } // edit api end
+
+          } // onSubmitCategortForm end
+          // ngOnDestroy start
+
+        }, {
+          key: "ngOnDestroy",
+          value: function ngOnDestroy() {
+            if (this.getHsnbyIdSubscribe !== undefined) {
+              this.getHsnbyIdSubscribe.unsubscribe();
+            }
+
+            if (this.addHsnSubscribe !== undefined) {
+              this.addHsnSubscribe.unsubscribe();
+            }
+          }
+        }]);
+
+        return AddHsnPage;
+      }();
+
+      _AddHsnPage.ctorParameters = function () {
+        return [{
+          type: _angular_router__WEBPACK_IMPORTED_MODULE_5__.ActivatedRoute
+        }, {
+          type: _angular_common_http__WEBPACK_IMPORTED_MODULE_6__.HttpClient
+        }, {
+          type: _angular_router__WEBPACK_IMPORTED_MODULE_5__.Router
+        }, {
+          type: src_app_services_common_utils_common_utils__WEBPACK_IMPORTED_MODULE_4__.CommonUtils
+        }, {
+          type: src_app_services_auth_auth_service__WEBPACK_IMPORTED_MODULE_3__.AuthService
+        }];
+      };
+
+      _AddHsnPage = (0, tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([(0, _angular_core__WEBPACK_IMPORTED_MODULE_8__.Component)({
+        selector: 'app-add-hsn',
+        template: _raw_loader_add_hsn_page_html__WEBPACK_IMPORTED_MODULE_0__["default"],
+        styles: [_add_hsn_page_scss__WEBPACK_IMPORTED_MODULE_1__["default"]]
+      })], _AddHsnPage);
+      /***/
+    },
+
+    /***/
+    33876:
+    /*!*********************************************************!*\
+      !*** ./src/app/pages/product/add-hsn/add-hsn.page.scss ***!
+      \*********************************************************/
+
+    /***/
+    function _(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony default export */
+
+
+      __webpack_exports__["default"] = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJhZGQtaHNuLnBhZ2Uuc2NzcyJ9 */";
+      /***/
+    },
+
+    /***/
+    24713:
+    /*!***********************************************************************************************!*\
+      !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/pages/product/add-hsn/add-hsn.page.html ***!
+      \***********************************************************************************************/
+
+    /***/
+    function _(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+      "use strict";
+
+      __webpack_require__.r(__webpack_exports__);
+      /* harmony default export */
+
+
+      __webpack_exports__["default"] = "<!-- common header show -->\r\n<common-header></common-header>\r\n\r\n<ion-content>\r\n  <div class=\"page-body\">\r\n    <div class=\"page-wrapper\">\r\n      <div class=\"form-layout\">\r\n        <div class=\"form-wrapper\">\r\n          <div class=\"container-fluid\">\r\n            <div class=\"page-header\">\r\n                <div class=\"row\">\r\n                    <div class=\"col-sm-6\">\r\n                        <div class=\"page-header-left\">\r\n                            <h3> HSN List\r\n                                <!-- <small>Divatt Admin panel</small> -->\r\n                            </h3>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-sm-6\">\r\n                      <ol class=\"breadcrumb float-right\">\r\n                          <li class=\"breadcrumb-item\"><a [routerLink]=\"'/dashboard'\">\r\n                                  <mat-icon>home</mat-icon>\r\n                              </a></li>\r\n                          <li class=\"breadcrumb-item active\">\r\n                            HSN List\r\n                          </li>\r\n                          <li class=\"breadcrumb-item active\">\r\n                            {{parms_action_name}} HSN\r\n                          </li>\r\n                      </ol>\r\n                  </div>\r\n                </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"row justify-content-center\" *ngIf=\"loader\"><mat-spinner class=\"form-get-loader\"></mat-spinner></div>\r\n          <div class=\"card card-box\" *ngIf=\"!loader\">\r\n            <!-- <div class=\"card-header\">\r\n                <div class=\"card-header-tittle\">\r\n                  {{parms_action_name}} HSN\r\n                </div>\r\n                \r\n            </div> -->\r\n            \r\n            <form action=\"\" #hsn=\"ngForm\" (ngSubmit)=\"onSubmitCategortForm(hsn)\" >\r\n              <div class=\"card-body\">\r\n                <div class=\"col-md-9 m-auto\">\r\n                    <ion-grid>\r\n                      <ion-row>\r\n                        <!-- hsnCode -->\r\n                        <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"4\"  size-lg=\"4\">\r\n                          <div class=\"form-group\">\r\n                            <mat-form-field class=\"example-full-width\" appearance=\"outline\">\r\n                              <mat-label>HSN Code</mat-label>\r\n                              <input matInput type=\"number\" min=\"1\" class=\"arrowHide\" name=\"hsnCode\" [(ngModel)] = \"model.hsnCode\" required>\r\n                            </mat-form-field>\r\n                          </div>\r\n                        </ion-col>\r\n                        <!-- taxValue -->\r\n                        <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"4\"  size-lg=\"4\">\r\n                          <div class=\"form-group\">\r\n                            <mat-form-field class=\"example-full-width\" appearance=\"outline\">\r\n                              <mat-label>Tax Value</mat-label>\r\n                              <input matInput type=\"number\" class=\"arrowHide\" name=\"taxValue\" [(ngModel)] = \"model.taxValue\" required>\r\n                            </mat-form-field>\r\n                          </div>\r\n                        </ion-col>\r\n                        <!-- cess -->\r\n                        <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"4\"  size-lg=\"4\">\r\n                          <div class=\"form-group\">\r\n                            <mat-form-field class=\"example-full-width\" appearance=\"outline\">\r\n                              <mat-label>CESS</mat-label>\r\n                              <input matInput type=\"number\" class=\"arrowHide\"  name=\"cess\" [(ngModel)] = \"model.cess\" >\r\n                            </mat-form-field>\r\n                          </div>\r\n                        </ion-col>\r\n                        <!-- effectiveDate -->\r\n                        <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"4\"  size-lg=\"4\">\r\n                          <div class=\"form-group\">\r\n                            <mat-form-field class=\"example-full-width\" appearance=\"outline\">\r\n                              <mat-label>Effective Date</mat-label>\r\n                              <input matInput type=\"date\"  name=\"date\"  [(ngModel)] = \"model.date\" (change)=\"changeDateFormat(model.date)\" required>\r\n                            </mat-form-field>\r\n                          </div>\r\n                          <!-- [min]=\"dateRange\" -->\r\n                          <input type=\"hidden\" name=\"effectiveDate\" [(ngModel)]=\"model.effectiveDate\">\r\n                        </ion-col>\r\n                         <!-- rateVision -->\r\n                         <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"4\"  size-lg=\"4\">\r\n                          <div class=\"form-group\">\r\n                            <mat-form-field class=\"example-full-width\" appearance=\"outline\">\r\n                              <mat-label>Rate Revision</mat-label>\r\n                              <input matInput type=\"number\" class=\"arrowHide\"  name=\"rateRevision\" [(ngModel)] = \"model.rateRevision\">\r\n                            </mat-form-field>\r\n                          </div>\r\n                        </ion-col>\r\n                        <!-- Description -->\r\n                        <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"4\"  size-lg=\"4\">\r\n                          <div class=\"form-group\">\r\n                            <mat-form-field class=\"example-full-width\" appearance=\"outline\">\r\n                              <mat-label>Description</mat-label>\r\n                              <textarea matInput  name=\"description\" [(ngModel)] = \"model.description\" required ></textarea>\r\n                            </mat-form-field>\r\n                          </div>\r\n                        </ion-col>\r\n                      </ion-row>\r\n                    </ion-grid>\r\n                </div>\r\n              </div>\r\n              <div class=\"card-footer\">\r\n                <div></div>\r\n                <div>\r\n                  <ion-button class=\"custom-btn\" [ngClass]=\"{'disabled' : btnloader}\" type=\"submit\"  [disabled]=\"!hsn.valid\">\r\n                    <ion-spinner *ngIf=\"btnloader\" slot=\"start\" name=\"crescent\"></ion-spinner>\r\n                    Save\r\n                  </ion-button>\r\n                  <ion-button color=\"danger\" [routerLink]=\"['/', 'hsn-list']\">\r\n                    Cancel\r\n                  </ion-button>\r\n                </div>\r\n              </div>\r\n            </form>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</ion-content>\r\n\r\n<!-- common footer show -->\r\n<common-footer></common-footer>\r\n";
+      /***/
+    }
+  }]);
+})();
+//# sourceMappingURL=src_app_pages_product_add-hsn_add-hsn_module_ts-es5.js.map

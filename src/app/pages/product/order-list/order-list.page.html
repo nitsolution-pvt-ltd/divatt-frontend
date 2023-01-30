@@ -282,10 +282,10 @@
                           <a [routerLink]="['/', 'order-products-list', item?.orderId,item?.productId]" class="text-decoration-none">{{item?.orderId}}</a>
                         </td>
                         <td>
-                          {{item?.invoiceId}}
+                          {{item?.invoiceId ? item?.invoiceId : 'N/A'}}
                         </td>
                         <td>
-                          {{item?.designerName}}
+                          {{item?.displayName}}
                         </td>
                         <td>
                           {{item?.createdOn}}
