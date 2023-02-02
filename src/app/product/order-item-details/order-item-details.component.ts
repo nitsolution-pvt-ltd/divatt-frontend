@@ -9,6 +9,9 @@ import { OrderService } from 'src/app/services/order.service';
 import * as html2pdf from 'html2pdf.js'
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgForm } from '@angular/forms';
+import { CommonUtils } from 'src/app/services/common-utils/common-utils';
 
 @Component({
   selector: 'app-order-item-details',
@@ -38,13 +41,47 @@ export class OrderItemDetailsComponent implements OnInit {
   orderItemStatus: any;
   giftWrapAmount: number = 0;
   returnFromAdmindate: string;
-
+  orderId: any;
+  selectedProduct: any ={};
+  model:any ={}
+  currentDateTime: any;
+  getUserDetailsList_api: string;
+  userData: any ={};
+  private getUserDetailss: Subscription;
+  statusChangeSubscribe: Subscription;
+  return_shipping: any ={};
   constructor(private activatedRoute: ActivatedRoute,private orderService: OrderService,
     private authService:LoginService,private toastrService:ToastrService,
-    private http:HttpClient) { }
+    private http:HttpClient,private modalService: NgbModal,private commonUtils: CommonUtils,) { }
 
   ngOnInit() {
+    let currentDate = Date.now()
+    this.currentDateTime = moment(currentDate).format('YYYY-MM-DD hh:mm:ss');
+    this.logoutDataSubscribe = this.authService.globalparamsData.subscribe(res => {
+      console.log('(header)  globalparamsData res ssss >>>>>>>>>>>', res);
+      if(res != null || res != undefined){
+        this.get_user_dtls = res.logininfo;
+        console.log('this.get_user_dtls************', this.get_user_dtls);
+        // user details set
+        this.commonUtils.onClicksigninCheck(res);
+      }
+    });
+
+
+    this.getUserDetailsList_api = 'auth/info/'+ this.get_user_dtls.authority+'/'+this.get_user_dtls.email;
+    this.getUserDetailsList();
     this.commonFunction();
+  }
+  getUserDetailsList(){
+    this.getUserDetailss = this.http.get(this.getUserDetailsList_api).subscribe(
+        (res:any) => {
+          
+          this.userData = res;
+        },
+        errRes => {
+           console.log("Get moduleList >", errRes); 
+        }
+      );
   }
   commonFunction()
   {
@@ -96,6 +133,18 @@ export class OrderItemDetailsComponent implements OnInit {
            {
               this.trackingDetails = this.orderDetails.OrderSKUDetails[index].orderStatusDetails;
               
+              this.http.get('user/designerProfile/'+this.orderDetails.OrderSKUDetails[index].designerId).subscribe(
+                (response:any) => {
+                  this.return_shipping = {
+                    displayName:response.designerProfileEntity.designerProfile.displayName,
+                    city:response.designerProfileEntity.designerProfile.city,
+                    pinCode:response.designerProfileEntity.designerProfile.pinCode,
+                    country:response.designerProfileEntity.designerProfile.country,
+                    mobileNo:response.designerProfileEntity.designerProfile.mobileNo,
+                    state:response.designerProfileEntity.designerProfile.state,
+                    address:response.designerProfileEntity.socialProfile.address,
+                  }
+                },(error:any) =>{})
               if(this.orderDetails.OrderSKUDetails[index].invoiceId != null)
               {
                 this.invoiceId = this.orderDetails.OrderSKUDetails[index].invoiceId;
@@ -132,6 +181,13 @@ export class OrderItemDetailsComponent implements OnInit {
                   if(this.trackingDetails.cancelOrderDetails.cancelationTime)
                   {
                     this.trackingDetails.cancelOrderDetails.cancelationTime =  moment(this.trackingDetails.cancelOrderDetails.cancelationTime,'DD/MM/YYYY hh:mm:ss').format('DD MMM YYYY')
+                  }
+                }
+                if(this.trackingDetails.returnRequestApprove)
+                {
+                  if(this.trackingDetails.returnRequestApprove.dateTime)
+                  {
+                    this.trackingDetails.returnRequestApprove.dateTime =  moment(this.trackingDetails.returnRequestApprove.dateTime,'YYYY/MM/DD hh:mm:ss').format('DD MMM YYYY')
                   }
                 }
               }
@@ -205,7 +261,54 @@ export class OrderItemDetailsComponent implements OnInit {
       );
     }
     //  Get tracking details end
-
+    openShippingModel(product,content)
+    {
+      this.modalService.open(content, { size: 'md' });
+      this.orderId = this.selectedProduct.orderId;
+      this.selectedProduct = product;
+      console.log(this.selectedProduct);
+      
+    }
+    productShipped(form:NgForm)
+    {
+      console.log(form.value);
+     
+     var body = {
+        "orderItemStatus": "Product shipped by user",
+        "orderStatusDetails":{
+          "userShippedProduct":{
+            "comments":form.value.comments,
+            "courierName":form.value.courierName,
+            "trakingNumber":form.value.trakingNumber,
+            "dateTime":this.currentDateTime,
+            "image":this.selectedProduct.images,
+            "updatedBy":{
+              "uId":this.userData.uid,
+              "email":this.userData.email,
+              "mobileNo":this.userData.mobileNo,
+              "firstName":this.userData.firstName,
+              "lastName":this.userData.lastName,
+              "name":this.userData.firstName + ' ' +this.userData.lastName
+            }
+          }
+        }
+        
+        
+      }
+      var orderStatusapi = 'userOrder/orderStatusUpdate/'+this.selectedProduct.orderId+'/'+this.selectedProduct.productId;
+    this.statusChangeSubscribe = this.http.put(orderStatusapi,body).subscribe(
+      (res:any) => {
+        this.toastrService.success(res.message);
+        this.getorderDetails();
+        this.modalService.dismissAll();
+      },
+      (errRes:any) => {
+        this.toastrService.error(errRes.error.message);
+        this.getorderDetails();
+      }
+    );
+      
+    }
     // getInvoice start
     
     getInvoice()
@@ -224,25 +327,7 @@ export class OrderItemDetailsComponent implements OnInit {
         }
       );
     }
-    // getInvoice end
-    // async  getBase64ImageFromUrl(imageUrl) {
-    //   var res = await fetch(imageUrl);
-    //   var blob = await res.blob();
-    
-    //   return new Promise((resolve, reject) => {
-    //     var reader  = new FileReader();
-    //     reader.addEventListener("load", function () {
-    //         resolve(reader.result);
-    //     }, false);
-    
-    //     reader.onerror = () => {
-    //       return reject(this);
-    //     };
-    //     reader.readAsDataURL(blob);
-    //   })
-    // }
-    // /* PdF genarate start */
-    onExportClick(){
+   onExportClick(){
       const options = {
         pagespilt: true,
         filename: 'order.pdf',
@@ -265,6 +350,9 @@ export class OrderItemDetailsComponent implements OnInit {
     ngOnDestroy() {
       if (this.getOrderDataSubscribe !== undefined) {
         this.getOrderDataSubscribe.unsubscribe();
+      }
+      if (this.getUserDetailss !== undefined) {
+        this.getUserDetailss.unsubscribe();
       }
       if (this.getInvoiceDataSubscribe !== undefined) {
         this.getInvoiceDataSubscribe.unsubscribe();

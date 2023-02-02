@@ -181,7 +181,7 @@
                   </div>
                   
                   <div class="btnBox" *ngIf='cartListData.length'>
-                    <a [ngClass]="{'disabled': !paymentType}" (click)="checkout()" class="btn btn-solid">Checkout</a>
+                    <a [ngClass]="{'disabled': !paymentType, 'disabledClick' : btnLoader}" (click)="checkout()" class="btn btn-solid d-flex align-items-center"><mat-spinner class="mini" *ngIf="btnLoader"></mat-spinner>&nbsp;Checkout</a>
                   </div>
                 </div>
               </div>

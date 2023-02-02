@@ -1,0 +1,7 @@
+.mat-spinner circle
+{
+  stroke: #fff !important;
+}
+.mat-progress-spinner.mat-progress-spinner-indeterminate-animation[mode=indeterminate] circle {
+    stroke-width: 7% !important;
+}

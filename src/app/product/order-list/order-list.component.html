@@ -75,7 +75,11 @@
                   <!-- <i class="ti-close"></i> -->
                   <span >No cancellation</span>
                 </a>
-                <a  style="min-width: 96px;font-size: 13px;" [ngClass]="{'text-danger': product.orderItemStatus == 'cancelled'}"  *ngIf="item?.paymentData && product.orderItemStatus == 'Shipped' || product.orderItemStatus == 'Packed' || product.orderItemStatus == 'cancelled'" class="icon canclebtn" >
+                <a style="min-width: 96px;font-size: 13px;"   *ngIf="product.orderItemStatus == 'Return rejected by admin'" class="icon canclebtn" >
+                  <!-- <i class="ti-close"></i> -->
+                  <span >Return rejected</span>
+                </a>
+                <a  style="min-width: 96px;font-size: 13px;"  *ngIf="item?.paymentData && product.orderItemStatus == 'Shipped' || product.orderItemStatus == 'Packed' || product.orderItemStatus == 'cancelled'" class="icon canclebtn" >
                   <!-- <i class="ti-close"></i> -->
                   <span >{{product.orderItemStatus == 'cancelled' ? 'Order cancelled' : 'Order Process'}}</span>
                 </a>
@@ -93,14 +97,26 @@
                 <a style="min-width: 96px;font-size: 13px;" *ngIf="!item?.paymentData"  class="icon canclebtn" >
                   <span>N/A</span>
                 </a>
-                <a  style="min-width: 96px;font-size: 13px;" *ngIf="product.orderItemStatus == 'Rejected' || product.orderItemStatus == 'returnRequest' || product.orderItemStatus == 'returnRefund'"  class="icon canclebtn" >
-                  <span *ngIf="product.orderItemStatus != 'Rejected'">{{product.orderItemStatus == 'returnRequest' ? 'Return Process' : 'Return/Refund' }}</span>
-                  <span class="text-warning2" *ngIf="product.orderItemStatus == 'Rejected'">Return Rejected</span>
+                <a  style="min-width: 96px;font-size: 13px;" *ngIf="product.orderItemStatus == 'Rejected' || product.orderItemStatus == 'returnRequest' || product.orderItemStatus == 'returnRefund' || product.orderItemStatus == 'Return request approved' || product.orderItemStatus == 'Product received from user' || product.orderItemStatus == 'Product shipped by user'"  class="icon canclebtn" >
+                  <span *ngIf="product.orderItemStatus != 'Rejected' && product.orderItemStatus != 'Return request approved' && product.orderItemStatus != 'Product received from user' && product.orderItemStatus != 'Product shipped by user'">{{product.orderItemStatus == 'returnRequest' ? 'Return Process' : 'Return/Refund' }}</span>
+                  <span  *ngIf="product.orderItemStatus == 'Rejected'">Return Rejected</span>
+                  <span  *ngIf="product.orderItemStatus == 'Return request approved'">Wait for shipping</span>
+                  <span  *ngIf="product.orderItemStatus == 'Product received from user'">Procuct received</span>
+                  <span  *ngIf="product.orderItemStatus == 'Product shipped by user'">Product shipping</span>
                 </a>
                 <!-- order-status -->
                 <a class="cart order-status pending text-capitalize" [ngClass]="{'success': product.orderItemStatus == 'Delivered','text-danger' : product?.orderItemStatu == 'Request for cancelation'}" *ngIf="item?.paymentData && product?.orderItemStatus != 'cancelled' && product?.orderItemStatus != 'Request for cancelation'" >
-                  <span style="font-size: 13px;" *ngIf="item?.paymentData && product?.orderItemStatus != 'returnRefund' && product?.orderItemStatus != 'Rejected' && product?.orderItemStatus != 'returnRequest' && product?.orderItemStatus != 'Request for cancelation'">
+                  <span style="font-size: 13px;" *ngIf="item?.paymentData && product?.orderItemStatus != 'returnRefund' && product?.orderItemStatus != 'Return rejected by admin' && product?.orderItemStatus != 'Rejected' && product?.orderItemStatus != 'Return request approved' && product?.orderItemStatus != 'Product shipped by user' && product?.orderItemStatus != 'returnRequest' && product?.orderItemStatus != 'Request for cancelation' && product?.orderItemStatus != 'Product received from user'">
                   {{product?.orderItemStatus}}
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'Return request approved'" class="text-success" style="font-size: 13px;">
+                    Return Approve
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'Return rejected by admin'" class="text-warning" style="font-size: 13px;">
+                    Return Rejected
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'Product received from user'" class="text-success" style="font-size: 13px;">
+                    Product received
                   </span>
                   <span *ngIf="product?.orderItemStatus == 'returnRefund'" class="text-success" style="font-size: 13px;">
                     Return Completed
@@ -108,7 +124,7 @@
                   <span *ngIf="product?.orderItemStatus == 'returnRequest'" style="font-size: 13px;">
                     Return Request
                   </span>
-                  <span *ngIf="product?.orderItemStatus == 'Rejected'" class="text-warning2" style="font-size: 13px;">
+                  <span *ngIf="product?.orderItemStatus == 'Rejected'" class="text-warning" style="font-size: 13px;">
                     Return Rejected
                   </span>
                 </a>

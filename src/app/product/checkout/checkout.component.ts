@@ -78,6 +78,7 @@ export class CheckoutComponent implements OnInit {
   total: number = 0;
   giftWrapAmount: number = 0;
   totalUnits: number = 0;
+  btnLoader: boolean;
   // Form Validator
   constructor(private fb: FormBuilder, private cartService: CartService, private http:HttpClient,
     private router: Router,
@@ -771,6 +772,7 @@ export class CheckoutComponent implements OnInit {
   // success order api call end
   onPaymentSubmitData()
   {
+    this.btnLoader = true;
     console.log('order paymentdata',this.paymentResponse);
     let paymentStatus;
     if(this.razorpay_payment_id != null)
@@ -802,6 +804,7 @@ export class CheckoutComponent implements OnInit {
     
     this.orderApiSubscribe = this.http.post('userOrder/payment/add', data).subscribe(
       (res:any) => {
+          this.btnLoader = false;
         if(res.status === 200){
           console.log("res.orderId",res,this.orderId);
 
@@ -812,6 +815,7 @@ export class CheckoutComponent implements OnInit {
         
       },
       errRes => {
+          this.btnLoader = false;
          console.log("errRes >", errRes); 
         //  this.removeAllcart();
         this.toastrService.error(errRes.error.message);

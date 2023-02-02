@@ -921,7 +921,12 @@ button.btn.btn-solid:active, button.btn.btn-outline:active {
   color: #ffffff;
   background: #87C048;
 }
-
+.btn-xs
+{
+  padding: 5px 5px 3px 5px!important;
+  font-size: 12px !important;
+  line-height: 12px !important;
+}
 .btn-classic:hover {
   background-color: #87C048;
 }
@@ -21170,4 +21175,61 @@ a.custom-button
   font-size: 12px;
   text-align: right;
   /* opacity: 0.7; */
+}
+.toggle-btn2
+{
+    width: fit-content;
+    background: rgb(204 204 204);
+    padding: 2px;
+    border-radius: 9999px;
+    transition: 0.2s ease-in-out;
+    margin-right: 20px;
+}
+.toggle-btn2 button
+{
+    width: 93px;
+    justify-content: center;
+    border: none;
+    border-radius: 9999px;
+    background: transparent;
+    transition: 0.2s ease-in-out;
+}
+.toggle-btn2 button mat-icon
+{
+    margin-right: 5px;
+    height: 18px;
+    width: 18px;
+    font-size: 18px;
+}
+.toggle-btn2 .active {
+    background: #000 !important; 
+    border-radius: 9999px !important; 
+    color: #fff !important;
+}
+.return_shipping .title
+{
+  font-weight: bold;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+  color: #000;
+  font-size: 13px;
+}
+.return_shipping .address
+{
+  line-height: 16px;
+  font-size: 13px;
+}
+mat-spinner.mini
+{
+  width: 20px !important;
+  height: 20px !important;
+}
+mat-spinner.mini svg
+{
+  width: 20px !important;
+  height: 20px !important;
+}
+mat-spinner.mini.mat-spinner circle
+{
+  stroke: #fff !important;
 }
