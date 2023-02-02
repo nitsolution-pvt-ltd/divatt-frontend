@@ -17863,6 +17863,16 @@ button.image_update_btn {
   margin-bottom: 10px;
   cursor: pointer;
 }
+#progressbar-1 .cursor-default#step2:before {
+  content: "⚬";
+  color: #fff;
+  width: 30px;
+  margin-left: 55px;
+  z-index: 9;
+  position: relative;
+  margin-bottom: 10px;
+  cursor: default;
+}
 #progressbar-1 #step2.active:before {
   content: "✔";
   color: #fff;
@@ -17888,6 +17898,26 @@ button.image_update_btn {
   margin-left: 55px;
   z-index: 9;
   position: relative;
+}
+#progressbar-1 .cursor-default#step3:before {
+  content: "⚬";
+  color: #fff;
+  width: 30px;
+  margin-left: 55px;
+  z-index: 9;
+  position: relative;
+  margin-bottom: 10px;
+  cursor: default;
+}
+#progressbar-1 .cursor-default#step3.active:before {
+  content: "✔";
+  color: #fff;
+  width: 30px;
+  margin-left: 55px;
+  z-index: 9;
+  position: relative;
+  margin-bottom: 10px;
+  cursor: default;
 }
 #progressbar-1 #step4:before {
   content: "⚬";
@@ -18764,9 +18794,6 @@ button.image_update_btn {
 }
 .cancellation li.active#step4::after {
   background: #df1a0c;
-}
-.refundRequest li.active {
-  pointer-events: none;
 }
 .refundRequest li.active#step1::before {
   background: #dfca0c;

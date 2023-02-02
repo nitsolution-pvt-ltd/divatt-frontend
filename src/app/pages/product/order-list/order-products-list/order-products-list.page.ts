@@ -16,13 +16,17 @@ import { environment } from 'src/environments/environment';
 })
 export class OrderProductsListPage implements OnInit {
   parms_action_id: any;
+  viewText:string;
+  model:any = {};
   parms_action_productId: any;
   showreturnRequesttmsg = false;
+  showRecivedtmsg = false;
   showreturnRefundtmsg = false;
   showcancelFromUsertmsg = false;
   showCancelRequestmsg = false;
   showCanceledtmsg = false;
   showreturnRefundmsg = false;
+  showreturnRequestApprove =false;
   url: string;
   invoiceId: any;
   showCustomization = false;
@@ -31,6 +35,8 @@ export class OrderProductsListPage implements OnInit {
   currentDateTime: string;
   trackingDetailsX: any ={};
   paymentData: any;
+  forceReturnOnDTOTime: string;
+  returnRequestApproveTime: string;
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -189,6 +195,7 @@ export class OrderProductsListPage implements OnInit {
   }
   // Display records end
   returnFromUserTime;
+  designerReceivedProductTime;
   cancelFromUserTime;
   returnFromAdminTime;
   cancelOrderDetailsTime;
@@ -209,6 +216,7 @@ export class OrderProductsListPage implements OnInit {
           this.paymentData = res.paymentData;
           if (this.parms_action_productId == res.OrderSKUDetails[i].productId) {
             this.tableData = res.OrderSKUDetails[i];
+            this.model.returnAcceptable = res.OrderSKUDetails[i]?.returnAcceptable;
             this.tableData.orderDate = moment(res?.OrderSKUDetails[i]?.createdOn,"DD/MM/YYYY HH:mm:ss").format('DD MMM YYYY');
             this.trackingDetailsX = res.OrderSKUDetails[i].orderStatusDetails;
             if(this.trackingDetailsX)
@@ -237,7 +245,18 @@ export class OrderProductsListPage implements OnInit {
               {
                 this.cancelFromUserTime = moment(this.trackingDetailsX?.cancelFromUser?.dateTime,"YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
               }
-
+              if(this.trackingDetailsX?.designerReceivedProduct)
+              {
+                this.designerReceivedProductTime = moment(this.trackingDetailsX?.designerReceivedProduct?.dateTime,"YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
+              }
+              if(this.trackingDetailsX?.forceReturnOnDTO)
+              {
+                this.forceReturnOnDTOTime = moment(this.trackingDetailsX?.forceReturnOnDTO?.dateTime,"YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
+              }
+              if(this.trackingDetailsX?.returnRequestApprove)
+              {
+                this.returnRequestApproveTime = moment(this.trackingDetailsX?.returnRequestApprove?.dateTime,"YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
+              }
             }
             console.log("table back data.....",this.tableData);
 
@@ -333,6 +352,10 @@ export class OrderProductsListPage implements OnInit {
 
   }
   // Referesh end
+  forceReturn(tableData:any,tableListData:any,returnAcceptable:any)
+  {
+
+  }
   // changeStatus end
   changeStatus(type,item:any={},moredata) {
     console.log("item",type,item,moredata);
@@ -429,6 +452,8 @@ export class OrderProductsListPage implements OnInit {
     {
       _item = _item.measurementObject;
       size = 'medium';
+    }else if(_identifier == 'forceReturnModal')
+    {
     }
     let orderCommentmodal;
     orderCommentmodal = await this.modalController.create({
@@ -444,7 +469,7 @@ export class OrderProductsListPage implements OnInit {
     // modal data back to Component
     orderCommentmodal.onDidDismiss()
     .then((getdata) => {
-      console.log("getdata........apurba>>>>>>",getdata);
+      console.log("getdata........",getdata);
       // console.log("getdata",getdata);
       this.packed_done = getdata.data;
       this.onRefresh();
@@ -458,7 +483,7 @@ export class OrderProductsListPage implements OnInit {
   async orders_modal(_identifier, _item, _items) {
     console.log('openordermodal ...........>>', _identifier);
     console.log('openordermodal _item ...........>>', _item,this.tableData);
-    if(_identifier == 'returnRequest')
+    if(_identifier == 'returnRequestConfirm')
     {
       console.log(_item);
        
@@ -478,7 +503,7 @@ export class OrderProductsListPage implements OnInit {
         // modal data back to Component
         orderCommentmodal.onDidDismiss()
         .then((getdata) => {
-          console.log("getdata........apurba>>>>>>",getdata);
+          console.log("getdata.......",getdata);
           // console.log("getdata",getdata);
           this.orders_done = getdata.data;
           setTimeout(()=>{                           // <<<---using ()=> syntax

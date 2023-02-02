@@ -4411,6 +4411,16 @@ position: relative;
 margin-bottom: 10px;
 cursor: pointer;
 }
+#progressbar-1 .cursor-default#step2:before {
+  content: "\26AC";
+  color: #fff;
+  width: 30px;
+  margin-left: 55px;
+  z-index: 9;
+  position: relative;
+  margin-bottom: 10px;
+  cursor: default;
+  }
 #progressbar-1 #step2.active:before {
 content: "\2714";
 color: #fff;
@@ -4436,6 +4446,26 @@ width: 30px;
 margin-left: 55px;
 z-index: 9;
 position: relative;
+}
+#progressbar-1 .cursor-default#step3:before {
+  content: "\26AC";
+  color: #fff;
+  width: 30px;
+  margin-left: 55px;
+  z-index: 9;
+  position: relative;
+  margin-bottom: 10px;
+  cursor: default;
+  }
+#progressbar-1 .cursor-default#step3.active:before {
+  content: "\2714";
+  color: #fff;
+  width: 30px;
+  margin-left: 55px;
+  z-index: 9;
+  position: relative;
+  margin-bottom: 10px;
+  cursor: default;
 }
 #progressbar-1 #step4:before {
 content: "\26AC";
@@ -5287,7 +5317,7 @@ z-index: 0
 .refundRequest
 {
   li.active{
-    pointer-events: none;
+    // pointer-events: none;
   }
   li.active#step1::before{
       background: #dfca0c;

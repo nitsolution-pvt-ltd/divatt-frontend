@@ -211,9 +211,9 @@ export class ModalPage implements OnInit {
       this.productId = this.get_item.productId;
       this.orderId = this.get_item.orderId;
       // this.api_url = 'user/user-login';
-    }else if (this.get_identifier == 'returnRequest') {
+    }else if (this.get_identifier == 'returnRequestConfirm') {
       // this.heder_title = 'Order Delivered Form';
-      this.heder_title = 'Return Request';
+      this.heder_title = 'Return Request confirm';
 
       // console.log("get_item",this.get_item,this.get_array);
       this.productId = this.get_item.productId;
@@ -308,7 +308,27 @@ export class ModalPage implements OnInit {
       this.heder_title = 'Standard Measurement Charts in '+type;
       // console.log("get_item",this.get_item,this.get_array);
       // this.api_url = 'user/user-login';
+    }else if (this.get_identifier == 'forceReturnModal') {
+      this.heder_title = 'Force Return Comment';
+      this.productId = this.get_item.productId;
+      this.orderId = this.get_item.orderId;
+    }else if (this.get_identifier == 'returnRefund') {
+      this.heder_title = 'Return/Refund product';
+      this.productId = this.get_item.productId;
+      this.orderId = this.get_item.orderId;
+      if(this.get_item?.orderStatusDetails?.returnFromAdmin?.isReturn)
+      {
+        this.model.isReturn = 'true'
+      }else if(!this.get_item?.orderStatusDetails?.returnFromAdmin?.isReturn){
+        this.model.isReturn = 'false'
+      }
+      this.model.comment = this.get_item?.orderStatusDetails?.returnFromAdmin?.comment
+    }else if (this.get_identifier == 'forceReturnOnModal') {
+      this.heder_title = 'Turn on Return';
+      this.productId = this.get_item.productId;
+      this.orderId = this.get_item.orderId;
     }
+    
     // get user name
     // console.log('get_identifier',this.get_identifier);
     this.storage.get('setStroageGlobalParamsData').then((val) => {
@@ -718,13 +738,14 @@ ordersSubmit(form: NgForm, identifier: any){
       
       
       
-  }else if(identifier == 'ForceReturn')
+  }else if(identifier == 'forceReturnOnModal')
   {
+    this.orderItemStatus = 'ForceReturnAdmin';
       body = {
-        "ForceReturnOnDTO":{
+        "forceReturnOnDTO":{
           "comments":form.value.comments,
           "dateTime":this.currentDateTime,
-          "upbatedBy":{
+          "updatedBy":{
             adminId:this.authData.uid,
             email:this.authData.email,
             mobileNo:this.authData.mobileNo,
@@ -732,25 +753,153 @@ ordersSubmit(form: NgForm, identifier: any){
             lastName:this.authData.lastName,
             name:this.authData.firstName + ' ' +this.authData.lastName
           }
-        },
-        "returnAcceptable":form.value.returnAcceptable
+        }
       } 
+       
+      
+  }else if(identifier == 'returnApprove')
+  {
+    var orderItemStatus = 'Return request approved',isReturn = true;
+    if(form.value.isReturn == "false")
+    {
+      orderItemStatus = 'Return rejected by admin'
+      isReturn = false;
+      body = {
+        "returnRejectedByAdmin":{
+          "comments":form.value.comment,
+          "isReturn":isReturn,
+          "dateTime":this.currentDateTime,
+          "updatedBy":{
+            adminId:this.authData.uid,
+            email:this.authData.email,
+            mobileNo:this.authData.mobileNo,
+            firstName:this.authData.firstName,
+            lastName:this.authData.lastName,
+            name:this.authData.firstName + ' ' +this.authData.lastName
+          }
+        }
+        
+      }
+    }
+    else{
+     let forceReturnByAdmin = false;
+      if(this.get_identifier == 'forceReturnModal')
+      {
+        forceReturnByAdmin = true
+      }
+      body = {
+        "ReturnRequestApproveDTO":{
+          "comments":form.value.comment,
+          "isReturn":true,
+          "dateTime":this.currentDateTime,
+          "forceReturnByAdmin":forceReturnByAdmin,
+          "updatedBy":{
+            adminId:this.authData.uid,
+            email:this.authData.email,
+            mobileNo:this.authData.mobileNo,
+            firstName:this.authData.firstName,
+            lastName:this.authData.lastName,
+            name:this.authData.firstName + ' ' +this.authData.lastName
+          }
+        }
+        
+      }
+    }
+    this.orderItemStatus = orderItemStatus;
+   
+  }else if(identifier == 'designerRecevedreturn')
+  {
+    body = {
+      "designerRecevedreturn":{
+        "courierName":form.value.courierName,
+        "awbNumber":form.value.awbNumber
+      }
+    }
+  }else if(identifier == 'returnRefund')
+  {
+    let isReturn = true;
+    if(form.value.isReturn == 'false')
+    {
+      this.orderItemStatus = "Rejected"
+      isReturn = false;
+    }
+    body = {
+        orderItemStatus: this.orderItemStatus,
+        orderStatusDetails:{
+          cancelOrderDetails:this.get_item.orderStatusDetails?.cancelOrderDetails,
+          cancelRequestDetails:this.get_item.orderStatusDetails?.cancelRequestDetails,
+          command:this.get_item.orderStatusDetails?.command,
+          deliveryDetails:this.get_item.orderStatusDetails?.deliveryDetails,
+          ordersDetails:this.get_item.orderStatusDetails?.ordersDetails,
+          packedDetails:this.get_item.orderStatusDetails?.packedDetails,
+          shippedDetails:this.get_item.orderStatusDetails?.shippedDetails,
+          cancelFromUser:this.get_item.orderStatusDetails?.cancelFromUser,
+          returnFromUser:this.get_item.orderStatusDetails?.returnApproveFromAdmin,
+          returnRequestApprove:this.get_item.orderStatusDetails?.returnRequestApprove,
+          designerReceivedProduct:this.get_item.orderStatusDetails?.designerReceivedProduct,
+          userShippedProduct:this.get_item.orderStatusDetails?.userShippedProduct,
+          forceReturnOnDTO:this.get_item.orderStatusDetails?.userShippedProduct,
+          returnApproveFromAdmin:this.get_item.orderStatusDetails?.returnApproveFromAdmin,
+          returnFromAdmin:{
+            comment:form.value.comment,
+            isReturn:isReturn,
+            dateTime:this.currentDateTime,
+          }
+          
+        }
+    }
+  }else if(identifier == 'ForceReturn')
+  {
     this.orderItemStatus = 'ForceReturnAdmin';
+      body = {
+        "forceReturnOnDTO":{
+          "comments":form.value.comments,
+          "dateTime":this.currentDateTime,
+          "updatedBy":{
+            adminId:this.authData.uid,
+            email:this.authData.email,
+            mobileNo:this.authData.mobileNo,
+            firstName:this.authData.firstName,
+            lastName:this.authData.lastName,
+            name:this.authData.firstName + ' ' +this.authData.lastName
+          }
+        }
+      } 
        
       
   }
   
-  setTimeout(() => {
-    var api = 'userOrder/itemStatusChangefromAdmin?orderId='+this.orderId+'&productId='+this.productId+'&orderItemStatus='+this.orderItemStatus;
-  this.statusChangeSubscribe = this.http.post(api,body).subscribe(
-    (res:any) => {
-      this.commonUtils.presentToast('success',res.message);
-      this.closeModal();
-    },
-    (errRes:any) => {
-      this.commonUtils.presentToast('error',errRes.error.message)
+  setTimeout(() => 
+  {
+    var api;
+    
+    if(identifier == 'returnRefund')
+    {
+      api = "userOrder/orderStatusUpdate/"+this.orderId+"/"+this.productId;
+      this.statusChangeSubscribe = this.http.put(api,body).subscribe(
+        (res:any) => {
+          this.commonUtils.presentToast('success',res.message);
+          this.closeModal();
+        },
+        (errRes:any) => {
+          this.commonUtils.presentToast('error',errRes.error.message)
+        }
+      );      
     }
-  );
+    else{
+      
+      api = 'userOrder/itemStatusChangefromAdmin?orderId='+this.orderId+'&productId='+this.productId+'&orderItemStatus='+this.orderItemStatus;
+      this.statusChangeSubscribe = this.http.post(api,body).subscribe(
+        (res:any) => {
+          this.commonUtils.presentToast('success',res.message);
+          this.closeModal();
+        },
+        (errRes:any) => {
+          this.commonUtils.presentToast('error',errRes.error.message)
+        }
+      );
+    }
+    
   }, 500);
 
 }
@@ -1624,7 +1773,7 @@ onSubmitChangepswForm(form: NgForm)
   // onSubmitRefundApprovalForm
   onSubmitReturnApprovalForm(form:NgForm)
   {
-    var orderStatusDetails:any = {},orderItemStatus = 'returnRefund',isReturn = true;
+    var orderStatusDetails:any = {},orderItemStatus = 'Return request approved',isReturn = true;
     if(form.value.isReturn == 'false')
     {
       orderItemStatus = 'Rejected'
@@ -1636,16 +1785,17 @@ onSubmitChangepswForm(form: NgForm)
       orderStatusDetails = {
         orderItemStatus: orderItemStatus,
         orderStatusDetails:{
-          cancelOrderDetails:this.get_item.orderStatusDetails.cancelOrderDetails,
-          cancelRequestDetails:this.get_item.orderStatusDetails.cancelRequestDetails,
-          command:this.get_item.orderStatusDetails.command,
-          deliveryDetails:this.get_item.orderStatusDetails.deliveryDetails,
-          ordersDetails:this.get_item.orderStatusDetails.ordersDetails,
-          packedDetails:this.get_item.orderStatusDetails.packedDetails,
-          shippedDetails:this.get_item.orderStatusDetails.shippedDetails,
-          cancelFromUser:this.get_item.orderStatusDetails.cancelFromUser,
-          returnFromUser:this.get_item.orderStatusDetails.returnFromUser,
-          returnFromAdmin:{
+          cancelOrderDetails:this.get_item.orderStatusDetails?.cancelOrderDetails,
+          cancelRequestDetails:this.get_item.orderStatusDetails?.cancelRequestDetails,
+          command:this.get_item.orderStatusDetails?.command,
+          deliveryDetails:this.get_item.orderStatusDetails?.deliveryDetails,
+          ordersDetails:this.get_item.orderStatusDetails?.ordersDetails,
+          packedDetails:this.get_item.orderStatusDetails?.packedDetails,
+          shippedDetails:this.get_item.orderStatusDetails?.shippedDetails,
+          cancelFromUser:this.get_item.orderStatusDetails?.cancelFromUser,
+          returnFromUser:this.get_item.orderStatusDetails?.returnFromUser,
+          returnFromAdmin:this.get_item.orderStatusDetails?.returnFromAdmin,
+          returnApproveFromAdmin:{
             comment:form.value.comment,
             isReturn:isReturn,
             dateTime:this.currentDateTime,
@@ -1658,7 +1808,12 @@ onSubmitChangepswForm(form: NgForm)
       orderStatusDetails = {
         orderItemStatus: orderItemStatus,
         orderStatusDetails:{
-        returnFromAdmin:{
+        // returnApproveFromAdmin:{
+        //   comment:form.value.comment,
+        //   isReturn:isReturn,
+        //   dateTime:this.currentDateTime,
+        // }
+        returnApproveFromAdmin:{
           comment:form.value.comment,
           isReturn:isReturn,
           dateTime:this.currentDateTime,

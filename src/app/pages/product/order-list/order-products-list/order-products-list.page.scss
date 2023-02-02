@@ -54,3 +54,18 @@
         text-align: left;
     }
 }
+.hiddentext
+{
+    li span{
+        max-width: 100px;
+        overflow: hidden;
+        width: 100%;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    li span.showtext
+    {
+        display: initial;
+    }
+}

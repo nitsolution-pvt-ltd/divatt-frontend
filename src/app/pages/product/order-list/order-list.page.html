@@ -142,33 +142,18 @@
                   </div>
                 </div>             
               </ion-col>
-              <!-- Return/Refund -->
-              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
-                <div class="note-item note-item2 note-box-danger card-outer order-cards">
-                  <div matRipple class="card card-box" (click)="datatype('returnRefund')">
-                      <div class="top">
-                          <div class="icon">
-                            <mat-icon>assignment_return</mat-icon>
-                          </div>
-                      </div>
-                      <div class="bottom">
-                        <p class="heading">Return/Refund</p>
-                        <p ><b>{{order_countData?.returnRefund ? order_countData?.returnRefund :'0'}}</b> Products</p>
-                      </div>
-                  </div>
-                </div>             
-              </ion-col>
+              
               <!-- Return Rejected -->
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
                 <div class="note-item note-item2 note-box-danger card-outer order-cards">
-                  <div matRipple class="card card-box" (click)="datatype('Rejected')">
+                  <div matRipple class="card card-box" (click)="datatype('Return rejected by admin')">
                       <div class="top">
                           <div class="icon">
                             <mat-icon>sync_disabled</mat-icon>
                           </div>
                       </div>
                       <div class="bottom">
-                        <p class="heading">Return Rejected</p>
+                        <p class="heading">Return Request Rejected</p>
                         <p ><b>{{order_countData?.Rejected ? order_countData?.Rejected :'0'}}</b> Products</p>
                       </div>
                   </div>
@@ -204,6 +189,88 @@
                         <p class="heading">Canceled</p>
                         <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
                         <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- return request approve -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Return request approved')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>done</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Return request approved</p>
+                        <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
+                        <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- Product Shipped by user -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Product Shipped by user')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>assignment_return</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Product Shipped by user</p>
+                        <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
+                        <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- Product received from user -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Product received from user')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>clear</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Product received from user</p>
+                        <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
+                        <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- Return/Refund -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('returnRefund')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>assignment_return</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Return/Refund</p>
+                        <p ><b>{{order_countData?.returnRefund ? order_countData?.returnRefund :'0'}}</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('returnRefund')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>assignment_return</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Return/Refund Rejected</p>
+                        <p ><b>{{order_countData?.returnRefund ? order_countData?.returnRefund :'0'}}</b> Products</p>
                       </div>
                   </div>
                 </div>             
@@ -321,7 +388,7 @@
                           <!-- <span class="status danger"  *ngIf="item.deliveryStatus == 'cancel'">
                             {{item?.deliveryStatus}}
                           </span>  -->
-                          <span class="status" *ngIf="item?.orderItemStatus != 'returnRefund' && item?.orderItemStatus != 'Rejected' && item?.paymentData" [ngClass]="{'success': item?.orderItemStatus == 'Delivered' ,'danger': item?.orderItemStatus == 'cancelled' || item?.orderItemStatus == 'Request for cancelation', 'warning': item?.orderItemStatus == 'New'  || item?.orderItemStatus == 'Orders' || item?.orderItemStatus == 'Packed' || item?.orderItemStatus == 'Shipped' || item?.orderItemStatus == 'returnRequest' }">
+                          <span class="status" *ngIf="item?.orderItemStatus != 'returnRefund' && item?.orderItemStatus != 'Rejected' && item?.paymentData" [ngClass]="{'success': item?.orderItemStatus == 'Delivered' ,'danger': item?.orderItemStatus == 'cancelled' || item?.orderItemStatus == 'Request for cancelation', 'warning': item?.orderItemStatus == 'New' || item?.orderItemStatus == 'Return request approved' || item?.orderItemStatus == 'Product received from user' || item?.orderItemStatus == 'Product shipped by user' || item?.orderItemStatus == 'Orders' || item?.orderItemStatus == 'Packed' || item?.orderItemStatus == 'Shipped' || item?.orderItemStatus == 'returnRequest' }">
                             {{item?.orderItemStatus == 'returnRequest' ? 'Return Request' : item?.orderItemStatus}}
                           </span>
                           <span class="status success" *ngIf="item?.orderItemStatus == 'returnRefund' && item?.paymentData">

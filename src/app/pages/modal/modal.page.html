@@ -1101,9 +1101,9 @@
             </div>
           </div>
           <!-- returnRequest modal start -->
-          <div class="profile_modal pt-2" *ngIf="get_identifier == 'returnRequest'">
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'returnRequestConfirm'">
             <div class="">
-              <form class="login" #ReturnApproval="ngForm" (ngSubmit)="onSubmitReturnApprovalForm(ReturnApproval)"  novalidate>
+              <form class="login" #ReturnApproval="ngForm" (ngSubmit)="ordersSubmit(ReturnApproval,'returnApprove')"  novalidate>
                 <label id="example-radio-group-label">Request</label>
                 <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
                   <div class="form-group">
@@ -1143,15 +1143,45 @@
           <!-- forceReturnModal modal start -->
           <div class="profile_modal pt-2" *ngIf="get_identifier == 'forceReturnModal'">
             <div class="">
-              <form class="login" #ForceReturn="ngForm" (ngSubmit)="ordersSubmit(ForceReturn,'ForceReturn')"  novalidate>
-                <label id="example-radio-group-label">Service Charge Status</label>
+              <form class="login" #forceReturn="ngForm" (ngSubmit)="ordersSubmit(forceReturn,'returnApprove')"  novalidate>
+                <label id="example-radio-group-label">Request</label>
+                <!-- <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-radio-group name="isReturn" [(ngModel)]="model.isReturn" required>
+                      <mat-radio-button value="true">Approve</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                      <mat-radio-button value="false">Reject</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </ion-col> -->
                 <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
                   <div class="form-group">
-                    <mat-checkbox name="returnAcceptable" [(ngModel)]="model.returnAcceptable" [disabled]="disabled">
-                    Return forcefully
-                  </mat-checkbox>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
                   </div>
                 </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!forceReturn.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'forceReturnOnModal'">
+            <div class="">
+              <form class="login" #ForceReturn="ngForm" (ngSubmit)="ordersSubmit(ForceReturn,'forceReturnOnModal')"  novalidate>
                 <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
                   <div class="form-group">
                     <mat-form-field appearance="outline">
@@ -1178,6 +1208,86 @@
             </div>
           </div>
           <!-- forceReturnModal modal end -->
+          <!-- returnRequest modal start -->
+          <!-- <div class="profile_modal pt-2" *ngIf="get_identifier == 'returnRefund'">
+            <div class="">
+              <form class="login" #returnRefundForm="ngForm" (ngSubmit)="ordersSubmit(returnRefundForm,'returnRefund')"  novalidate>
+                <label id="example-radio-group-label">Request</label>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-radio-group name="isReturn" [(ngModel)]="model.isReturn" required>
+                      <mat-radio-button value="true">Approve</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                      <mat-radio-button value="false">Reject</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!returnRefundForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div> -->
+          <!-- returnRequest modal end -->
+          <!-- returnRequest modal start -->
+          <div class="profile_modal pt-2" *ngIf="get_identifier == 'returnRefund'">
+            <div class="">
+              <form class="login" #returnRefundForm="ngForm" (ngSubmit)="ordersSubmit(returnRefundForm,'returnRefund')"  novalidate>
+                <label id="example-radio-group-label">Request</label>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-radio-group name="isReturn" [(ngModel)]="model.isReturn" required>
+                      <mat-radio-button value="true">Approve</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                      <mat-radio-button value="false">Reject</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </ion-col>
+                <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="6">
+                  <div class="form-group">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Comment</mat-label>
+                      <textarea matInput type="text"
+                      [(ngModel)]="model.comment"
+                      name="comment"
+                      rows="5"
+                      required
+                      clearInput>
+                      </textarea>
+                    </mat-form-field>
+                  </div>
+                </ion-col>
+                <div class="form-button">
+                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!returnRefundForm.valid" type="submit" style="padding-left: 19px;"   class="custom-btn">
+                    <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
+                    Submit
+                  </ion-button>
+                  <ion-button color="danger" (click)="closeModal()">
+                    Cancel
+                  </ion-button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- returnRequest modal end -->
         </div>
       </div>
     </div>
