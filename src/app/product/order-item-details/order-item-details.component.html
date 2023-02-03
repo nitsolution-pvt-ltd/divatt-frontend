@@ -268,9 +268,9 @@
                                     </p> 
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  shortNotes pt-2 pb-2" >
-                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6  pl-0" *ngIf="orderItemStatus == 'Return request approved'">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12  pl-0" *ngIf="orderItemStatus == 'Return request approved'">
                                         <div class="return_shipping">
-                                            <p class="title">Ship to </p>
+                                            <p class="title" style="color: #2828a7;">Please ship the product to below address and click bellow 'Ship Now' button to fill the shipment detils. After designer received the product your refund will be process.</p>
                                             <div class="address">{{return_shipping?.displayName}} <br>
                                                 {{return_shipping?.address}},
                                                 {{return_shipping?.city}} - {{return_shipping?.pinCode}}<br>
@@ -283,6 +283,13 @@
                                         </p>
                                     </div>
                                     <p *ngIf="orderItemStatus == 'Product shipped by user' || orderItemStatus == 'Product received from user'" class="mb-0 py-3"><mat-icon  [ngClass]="{'text-success': orderItemStatus == 'Product received from user','text-warning2' :orderItemStatus == 'Product shipped by user'}">{{orderItemStatus == 'Product shipped by user' ? 'help':'verified'}}</mat-icon><span>{{orderItemStatus == 'Product shipped by user'? 'Product shipping , waiting for seller confirmation' : 'Product received by the seller'}}.</span></p>
+                                    <p *ngIf="orderDetails?.OrderSKUDetails[0]?.orderStatusDetails?.userShippedProduct">
+                                        You shipped the return product by below shipment details: <br>
+                                        Courier Name: {{orderDetails?.OrderSKUDetails[0]?.orderStatusDetails?.userShippedProduct?.courierName}} <br>
+                                        Tracking Number: {{orderDetails?.OrderSKUDetails[0]?.orderStatusDetails?.userShippedProduct?.trakingNumber}} <br>
+                                        Date: {{orderDetails?.OrderSKUDetails[0]?.orderStatusDetails?.userShippedProduct?.dateTime}} <br>
+                                        Comments: {{orderDetails?.OrderSKUDetails[0]?.orderStatusDetails?.userShippedProduct?.comments}}
+                                    </p>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  shortNotes ">
                                     <p *ngIf="orderItemStatus == 'Orders'" class="mb-0 py-3"><mat-icon class="text-success">verified</mat-icon><span>Order verified by {{orderitem?.displayName}}.</span></p>
