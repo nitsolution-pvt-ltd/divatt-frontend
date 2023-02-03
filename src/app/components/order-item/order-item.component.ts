@@ -18,6 +18,7 @@ import { environment } from 'src/environments/environment';
 export class OrderItemComponent implements OnInit {
   private getOrderItemData: Subscription | undefined;
   orderItem: any = {};
+  viewText:string = '';
   orderId: any;
   invoiceurl: string = '';
   productId: any;
@@ -206,6 +207,27 @@ export class OrderItemComponent implements OnInit {
           message: data?.returnFromAdmin?.comment,
           reason: data?.returnFromAdmin?.reason,
           date: moment(data?.returnFromAdmin?.dateTime,'YYYY/MM/DD hh:mm:ss').format('DD MMM YYYY'),
+        };
+      }
+      
+    }else if(identifier == 'returnRejectedByAdmin') {
+      this.cancelmessageTitle = 'Return request reject by admin';
+      if(data?.returnRejectedByAdmin)
+      {
+        this.cancelMessages = {
+          message: data?.returnRejectedByAdmin?.comments,
+          // reason: data?.returnRejectedByAdmin?.reason,
+          date: moment(data?.returnRejectedByAdmin?.dateTime,'YYYY/MM/DD hh:mm:ss').format('DD MMM YYYY'),
+        };
+      }
+      
+    }else if(identifier == 'ForceReturnOnDTO') {
+      this.cancelmessageTitle = 'Return on forcefully by admin';
+      if(data?.forceReturnOnDTO)
+      {
+        this.cancelMessages = {
+          message: data?.forceReturnOnDTO?.comments,
+          date: moment(data?.forceReturnOnDTO?.dateTime,'YYYY/MM/DD hh:mm:ss').format('DD MMM YYYY'),
         };
       }
       
@@ -582,6 +604,27 @@ export class OrderItemComponent implements OnInit {
             }
           ); 
 
+    }else if(identifier == 'designerReceived')
+    {
+      this.orderItemStatus = 'Product received from user';
+      body = {
+        designerReceivedProduct:{
+            "comments":form.value.comments,
+            "courierName":this.orderView?.orderStatusDetails?.userShippedProduct?.courierName,
+            "trakingNumber":this.orderView?.orderStatusDetails?.userShippedProduct?.trakingNumber,
+            "dateTime":this.currentDateTime,
+            "image":this.orderView.images,
+            "correctProduct":form.value.correctProduct,
+            "updatedBy":{
+              "uId":this.designerData?.designerId,
+              "email":this.designerData?.designerProfile?.email,
+              "mobileNo":this.designerData?.designerProfile?.mobileNo,
+              "firstName":this.designerData?.designerProfile?.firstName,
+              "lastName":this.designerData?.designerProfile?.lastName,
+              "name":this.designerData?.designerProfile?.firstName + ' ' +this.designerData?.designerProfile?.lastName
+            }
+        }
+      }
     }
     
     this.isListLoading = true;

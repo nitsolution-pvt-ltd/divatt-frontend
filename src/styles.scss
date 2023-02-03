@@ -2111,6 +2111,12 @@ button{
             }
         }
     }
+    .font-12
+    {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+    }
 }
 .mat-select-panel{
     background: #ffffff;
@@ -3443,6 +3449,10 @@ button{
     margin-bottom: 10px;
     cursor: pointer;
 }
+#progressbar-1 .cursor-default#step2:before
+{
+    cursor: default;
+}
 #progressbar-1 #step2.active:before {
     content: "\2714";
     color: #fff;
@@ -3460,6 +3470,10 @@ button{
     position: relative;
     margin-bottom: 10px;
     cursor: pointer;
+}
+#progressbar-1 .cursor-default#step3:before
+{
+    cursor: default;
 }
 #progressbar-1 #step3.active:before {
     content: "\2714";
@@ -3488,6 +3502,10 @@ button{
     z-index: 9;
     position: relative;
 }
+#progressbar-1 .cursor-default#step4:before
+{
+    cursor: default;
+}
 #progressbar-1 li:before {
     line-height: 30px;
     display: block;
@@ -3496,7 +3514,7 @@ button{
     border-radius: 50%;
 }
 #progressbar-1 li.active{
-    pointer-events: none;
+    // pointer-events: none;
 }
 #progressbar-1 li.active:before {
     line-height: 29px;

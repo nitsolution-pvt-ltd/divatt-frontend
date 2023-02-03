@@ -503,9 +503,7 @@ getDesignerProfiledata()
        
       },
       (error) =>{
-        // console.log("error",error);
-        // this.commonUtils.presentToast('error', error.error.message);
-
+        this.toastrService.error(error.message);
 
       })
   }
@@ -515,19 +513,12 @@ getDesignerProfiledata()
   {
     console.log("hsndata",hsndata);
     
-    this.hsnData = hsndata
-    // if(hsndata == undefined)
-    // {
-    //   this.productdtl.amount = '';
-    //   this.productdtl.indmrp = '';
-    //   this.productdtl.salePrice = '';
-    //   this.productdtl.inddiscountType = 'None';
-    //   this.productdtl.inddiscountValue = '';
-    // }
+    this.hsnData = hsndata;
     this.productdtl.amount = 0;
     this.productdtl.indmrp = 0;
     this.productdtl.salePrice = 0;
     this.productdtl.inddiscountType = 'None';
+    this.productdtl.taxAmount = 0;
     this.productdtl.inddiscountValue = 0;
   }
   // hsnSelected end

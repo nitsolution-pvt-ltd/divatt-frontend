@@ -58,7 +58,7 @@
                        <div class="row p-rl-20">
                            <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4">
                                <div class="toggle-btn-content">
-                                   <span class="product-text-size">Customization : </span>
+                                   <span class="product-text-size">Size Customization : </span>
                                    <div class="on-off-toggle">
                                        <input class="on-off-toggle__input" type="checkbox"
                                        id="withCustomization"
@@ -84,21 +84,22 @@
                            </div>
                            <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4">
                                <div class="toggle-btn-content">
-                                   <span class="product-text-size">Return accept : </span>
-                                   <div class="on-off-toggle">
+                                   <span class="product-text-size">Return : </span>
+                                   <div class="on-off-toggle ms-3">
                                        <input class="on-off-toggle__input" type="checkbox"
                                        id="returnAcceptable"
                                        name="returnAcceptable"
                                        [(ngModel)]="productdtl.returnAcceptable" />
                                        <label for="returnAcceptable" class="on-off-toggle__slider"></label>
                                    </div>
+                                   <mat-icon matTooltip="Applicable for std measurement products." class="font-12">info</mat-icon>
                                </div>
                            </div>
                            <input type="hidden" name="cod"  [(ngModel)]="productdtl.cod" >
-                           <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4">
+                           <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4 d-flex justify-content-between">
                                <div class="toggle-btn-content">
-                                   <span class="product-text-size">Cancel accept : </span>
-                                   <div class="on-off-toggle">
+                                   <span class="product-text-size">Cancellation : </span>
+                                   <div class="on-off-toggle ms-3">
                                        <input class="on-off-toggle__input" type="checkbox"
                                        id="cancelAcceptable"
                                        name="cancelAcceptable"
@@ -106,7 +107,9 @@
                                        [(ngModel)]="productdtl.cancelAcceptable" />
                                        <label for="cancelAcceptable" class="on-off-toggle__slider"></label>
                                    </div>
+                                   <mat-icon matTooltip="Applicable for std measurement products.&#13;Applicable till the product is shipped" class="font-12">info</mat-icon>
                                </div>
+                               
                            </div>
                            <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4">
                                <div class="toggle-btn-content">
@@ -382,6 +385,7 @@
                                </button>
                             </mat-form-field>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                            <mat-form-field appearance="outline">
                                 <mat-label>Select Subcategory</mat-label>
                                 <mat-select
@@ -398,6 +402,7 @@
                                     <mat-icon>close</mat-icon>
                                   </button>
                            </mat-form-field>
+                        </div>
                        </div>
                        <div class="hr"></div>
                        <h2>Product Details</h2>
@@ -457,7 +462,7 @@
                            </div>
                            <div class="col-md-12">
                                <mat-form-field appearance="outline">
-                                   <mat-label>Composition</mat-label>
+                                   <mat-label>Size Composition</mat-label>
                                    <textarea matInput 
                                    type="text"
                                    name="composition" 
@@ -782,7 +787,7 @@
                        <div class="row p-rl-20">
                         <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4">
                             <div class="toggle-btn-content">
-                                <span class="product-text-size">Customization : </span>
+                                <span class="product-text-size">Size Customization : </span>
                                 <div class="on-off-toggle">
                                     <input class="on-off-toggle__input" type="checkbox"
                                     id="withCustomization"
@@ -808,22 +813,23 @@
                         </div>
                         <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4">
                             <div class="toggle-btn-content">
-                                <span class="product-text-size">Return accept : </span>
-                                <div class="on-off-toggle">
+                                <span class="product-text-size">Return : </span>
+                                <div class="on-off-toggle ms-4">
                                     <input class="on-off-toggle__input" type="checkbox"
                                     id="returnAcceptable"
                                     name="returnAcceptable"
                                     [(ngModel)]="productdtl.returnAcceptable" />
                                     <label for="returnAcceptable" class="on-off-toggle__slider"></label>
                                 </div>
+                                <mat-icon matTooltip="Applicable for std measurement products." class="font-12">info</mat-icon>
                             </div>
                         </div>
                         <input type="hidden" name="cod"  [(ngModel)]="productdtl.cod" >
 
-                        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4">
+                        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4 d-flex justify-content-between">
                             <div class="toggle-btn-content">
-                                <span class="product-text-size">Cancel accept : </span>
-                                <div class="on-off-toggle">
+                                <span class="product-text-size">Cancellation : </span>
+                                <div class="on-off-toggle ms-5">
                                     <input class="on-off-toggle__input" type="checkbox"
                                     id="cancelAcceptable"
                                     name="cancelAcceptable"
@@ -831,7 +837,9 @@
                                     [(ngModel)]="productdtl.cancelAcceptable" />
                                     <label for="cancelAcceptable" class="on-off-toggle__slider"></label>
                                 </div>
+                                <mat-icon matTooltip="Applicable for std measurement products.&#13;Applicable till the product is shipped" class="font-12">info</mat-icon>
                             </div>
+                            
                         </div>
                         <div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 col-xl-4">
                             <div class="toggle-btn-content">

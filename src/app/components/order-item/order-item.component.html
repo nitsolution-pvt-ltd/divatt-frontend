@@ -44,7 +44,7 @@
                             <h1>Order Status</h1>
                             <div class="order-steper">
                                 <!-- progress bar all step -->
-                                <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="paymentData && orderView?.orderItemStatus != 'New' && orderView?.orderItemStatus != 'Request for cancelation' &&  orderView?.orderItemStatus != 'cancelled' && orderView?.orderItemStatus != 'returnRequest' && orderView?.orderItemStatus != 'returnRefund' && orderView?.orderItemStatus != 'Rejected'">
+                                <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="paymentData && orderView?.orderItemStatus != 'New' && orderView?.orderItemStatus != 'Request for cancelation' &&  orderView?.orderItemStatus != 'cancelled' && orderView?.orderItemStatus != 'returnRequest' && orderView?.orderItemStatus != 'returnRefund' && orderView?.orderItemStatus != 'Rejected' && orderView?.orderItemStatus != 'Return request approved' && orderView?.orderItemStatus != 'Product shipped by user' && orderView?.orderItemStatus != 'Product received from user' && orderView?.orderItemStatus != 'Return rejected by admin'">
                                     <li class="step0 active" id="step1"><span><img src="assets/images/orders.png" />Order Verified</span></li>
                                     <li class="step0 text-center cursor-pointer" [ngClass]="{'disabledclick active': orderView?.orderItemStatus == 'Packed' || orderView?.orderItemStatus == 'Delivered' || orderView?.orderItemStatus == 'Shipped'}" (click)="orders_modal(orderpack)" id="step2"><span><img src="assets/images/packing.png" />Packed</span></li>
                                     <li class="step0 text-center cursor-pointer" id="step3" [ngClass]="{'active':  orderView?.orderItemStatus == 'Delivered' || orderView?.orderItemStatus == 'Shipped', 'disabledclick':  orderView?.orderItemStatus == 'Delivered' || orderView?.orderItemStatus == 'Shipped' || orderView?.orderStatusDetails?.packedDetails == null}" (click)="orders_modal(ordershipped)"><span><img src="assets/images/shipment.png" />Ship</span></li>
@@ -60,16 +60,16 @@
                                         style="margin-right: 22px;"><img src="assets/images/orders.png" />{{ orderView?.orderItemStatus == 'Request for cancelation' ||  orderView?.orderItemStatus == 'cancelled' ? orderView?.orderItemStatus : 'Orders'}}</span></li>
                                 </ul>
                                 <!-- returnRefund -->
-                                <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="paymentData && orderView?.orderItemStatus == 'returnRequest' || paymentData &&  orderView?.orderItemStatus == 'returnRefund' || paymentData &&  orderView?.orderItemStatus == 'Rejected'"  [ngClass]="{'return': orderView?.orderItemStatus == 'returnRequest' || orderView?.orderItemStatus == 'returnRefund'}">
+                                <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="paymentData && orderView?.orderItemStatus == 'returnRequest' || paymentData && orderView?.orderItemStatus == 'Return rejected by admin' && !orderView?.orderStatusDetails?.returnFromAdmin"  [ngClass]="{'return': orderView?.orderItemStatus == 'returnRequest' || orderView?.orderItemStatus == 'returnRefund'}">
                                     <li class="step0 active " id="step1">
-                                        <span><img src="assets/images/orders.png" />Delivered</span>
+                                        <span><img src="assets/images/orders.png" />Return Request</span>
                                     </li>
-                                    <li class="step0 text-muted text-end  text-capitalize disabledclick cursor-default"  id="step4" [ngClass]="{'active': orderView?.orderItemStatus == 'returnRefund' || orderView?.orderItemStatus == 'Rejected'}">
-                                        <span style="margin-right: 22px;" *ngIf="orderView?.orderItemStatus == 'returnRefund' || orderView?.orderItemStatus == 'returnRequest'">
-                                            <img src="assets/images/orders.png" />{{ orderView?.orderItemStatus == 'returnRefund' ? 'Return/Refund' : 'Return Request'}}
+                                    <li class="step0 text-muted text-end  text-capitalize disabledclick cursor-default"  id="step4" [ngClass]="{'active': orderView?.orderItemStatus == 'Return rejected by admin'}">
+                                        <span style="margin-right: 22px;" *ngIf="orderView?.orderItemStatus == 'Return rejected by admin'">
+                                            <img src="assets/images/orders.png" />Return Request Rejected
                                         </span>
-                                        <span style="margin-right: 22px;" *ngIf="orderView?.orderItemStatus == 'Rejected'">
-                                            <img src="assets/images/orders.png" />Return Rejected
+                                        <span style="margin-right: 22px;" *ngIf="orderView?.orderItemStatus == 'returnRequest'">
+                                            <img src="assets/images/orders.png" />Return approve
                                         </span>
                                     </li>
                                 </ul>
@@ -84,30 +84,45 @@
                                         </span>
                                     </li>
                                 </ul>
+                                <!-- Return approve -->
+                                <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4 refundRequest hiddentext" *ngIf="orderView?.orderItemStatus == 'Return request approved' || orderView?.orderItemStatus == 'Product shipped by user' || orderView?.orderItemStatus == 'Product received from user' || orderView?.orderItemStatus == 'returnRefund' || orderView?.orderItemStatus == 'Rejected' || orderView?.orderItemStatus == 'Rejected' && orderView?.orderStatusDetails?.returnFromAdmin?.isReturn">
+                                    <li class="step0 active" id="step1"><span  class="showtext"
+                                        ><img src="assets/images/orders.png" />Return approve</span></li>
+                                    <li class="step0 text-center cursor-default" [ngClass]="{'active': orderView?.orderStatusDetails?.userShippedProduct}"  id="step2"><span [ngClass]="{'showtext' : viewText == 'Product shipped'}" (click)="viewText = 'Product shipped'"><img src="assets/images/packing.png" />Shipped</span></li>
+                                    <li class="step0 text-center" id="step3" [ngClass]="{'active':  orderView?.orderStatusDetails?.designerReceivedProduct, 'disabledclick':  orderView?.orderStatusDetails?.designerReceivedProduct || orderView?.orderStatusDetails?.returnFromAdmin}" (click)="orders_modal(designerReceived)"><span [ngClass]="{'showtext' : viewText == 'Product received'}" (click)="viewText = 'Product received'" ><img src="assets/images/shipment.png" />Received</span></li>
+                                    <li class="step0 text-center text-muted cursor-default" [ngClass]="{'active': orderView?.orderItemStatus == 'returnRefund' || orderView?.orderItemStatus == 'Rejected'}" id="step4" ><span [ngClass]="{'showtext' : viewText == 'Return/Refund'}"  (click)="viewText = 'Return/Refund'" ><img [src]="orderView?.orderItemStatus == 'Rejected' ? 'assets/images/cancel-button.png' : 'assets/images/deliverd.png'" />{{orderView?.orderItemStatus == 'Rejected' ? 'Refund rejected' : 'Return/Refund'}}</span></li>
+                                </ul>
+                                <!-- Return approve end -->
                                 <p class="text-right" *ngIf="orderView?.orderItemStatus == 'New'"><a (click)="orders_modal(cancel)" class="text-danger text-decoration-none  font-weight-bold cursor-pointer">Cancel Order</a></p>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  shortNotes">
-                                <p *ngIf="orderView?.orderItemStatus == 'Orders'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Order verified by {{orderView?.displayName}}.</span></p>
-                                <p *ngIf="orderView?.orderItemStatus == 'Packed'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product packed in divatt cover & Recorded the packing video.</span></p>
-                                <p *ngIf="orderView?.orderItemStatus == 'Shipped'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product courier by {{orderView?.orderStatusDetails?.shippedDetails?.courierName}} on {{orderView?.orderStatusDetails?.shippedDetails?.orderShippedTime}}</span></p>
-                                <p *ngIf="orderView?.orderItemStatus == 'Shipped'" class="mb-0"><mat-icon class="text-success">info</mat-icon><span>Product AWB number : {{orderView?.orderStatusDetails?.shippedDetails?.awbNumber}}</span></p>
-                                <p *ngIf="orderView?.orderItemStatus == 'Delivered'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product delivered by {{orderView?.orderStatusDetails?.shippedDetails?.courierName}} on {{orderView?.orderStatusDetails?.deliveryDetails?.deliveredDate}}.</span></p>  
-                                <p *ngIf="orderView?.orderItemStatus == 'returnRefund'" class="mb-2 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product return completed and <b>₹{{orderView?.salesPrice ? orderView?.salesPrice : orderView?.mrp}}</b> refunded to buyer account on {{returnFromAdmindate}}.</span></p>  
+                                <p *ngIf="orderView?.orderItemStatus == 'Orders'" class="mb-0 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Order verified by {{orderView?.displayName}}.</span></p>
+                                <p *ngIf="orderView?.orderItemStatus == 'Packed'" class="mb-0 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Product packed in divatt cover & Recorded the packing video.</span></p>
+                                <p *ngIf="orderView?.orderItemStatus == 'Shipped'" class="mb-0 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Product courier by {{orderView?.orderStatusDetails?.shippedDetails?.courierName}} on {{orderView?.orderStatusDetails?.shippedDetails?.orderShippedTime}}</span></p>
+                                <p *ngIf="orderView?.orderItemStatus == 'Shipped'" class="mb-0  w-100"><mat-icon class="text-success">info</mat-icon><span>Product AWB number : {{orderView?.orderStatusDetails?.shippedDetails?.awbNumber}}</span></p>
+                                <p *ngIf="orderView?.orderItemStatus == 'Delivered'" class="mb-0 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Product delivered by {{orderView?.orderStatusDetails?.shippedDetails?.courierName}} on {{orderView?.orderStatusDetails?.deliveryDetails?.deliveredDate}}.</span></p>  
+                                <p *ngIf="orderView?.orderItemStatus == 'returnRefund'" class="mb-2 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Product return completed and <b>₹{{orderView?.salesPrice ? orderView?.salesPrice : orderView?.mrp}}</b> refunded to buyer account on {{returnFromAdmindate}}.</span></p>  
                             </div>
-                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold" *ngIf="orderView?.orderStatusDetails?.cancelOrderDetails">Reason of request For cancelation&nbsp;:&nbsp;
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold  w-100" *ngIf="orderView?.orderStatusDetails?.cancelOrderDetails">Reason of request For cancelation&nbsp;:&nbsp;
                                 <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'requestCancel')">chat</mat-icon>
                             </p>
-                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold" *ngIf="orderView?.orderStatusDetails?.cancelRequestDetails">Reason Of cancel request {{orderView?.orderStatusDetails?.cancelRequestDetails.adminRejectionComment ? 'rejected':'accepted'}}&nbsp;:&nbsp;
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.cancelRequestDetails">Reason Of cancel request {{orderView?.orderStatusDetails?.cancelRequestDetails.adminRejectionComment ? 'rejected':'accepted'}}&nbsp;:&nbsp;
                                 <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'requestResult')">chat</mat-icon>
                             </p>
-                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold" *ngIf="orderView?.orderStatusDetails?.cancelFromUser">Reason for cancelation by user&nbsp;:&nbsp;
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.cancelFromUser">Reason for cancelation by user&nbsp;:&nbsp;
                                 <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'cancelFromUser')">chat</mat-icon>
                             </p>
-                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold" *ngIf="orderView?.orderStatusDetails?.returnFromUser">Reason of request For Return&nbsp;:&nbsp;
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.returnFromUser">Reason of request For Return&nbsp;:&nbsp;
                                 <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'returnFromUser')">chat</mat-icon>
                             </p>
-                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold" *ngIf="orderView?.orderStatusDetails?.returnFromAdmin">Reason of Return request {{orderView?.orderStatusDetails?.returnFromAdmin?.isReturn ? 'accepted' : 'rejected'}} &nbsp;:&nbsp;
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.returnFromAdmin">Reason of Return/Refund {{orderView?.orderStatusDetails?.returnFromAdmin?.isReturn ? 'accepted' : 'rejected'}} &nbsp;:&nbsp;
                                 <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'returnFromAdmin')">chat</mat-icon>
+                            </p>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.returnRejectedByAdmin && orderView?.orderItemStatus == 'Return rejected by admin'">Reason of Return request {{orderView?.orderStatusDetails?.returnFromAdmin?.isReturn ? 'accepted' : 'rejected'}} &nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'returnRejectedByAdmin')">chat</mat-icon>
+                            </p>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold  w-100" *ngIf="orderView?.orderStatusDetails?.forceReturnOnDTO && orderView?.orderItemStatus == 'Delivered'">Reason of request For cancelation&nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'ForceReturnOnDTO')">chat</mat-icon>
                             </p>
                         </div>
                     </div>
@@ -295,7 +310,29 @@
           </form>
     </div>
 </ng-template>
-
+<!-- designerReceived order -->
+<ng-template #designerReceived let-modal>
+    <div class="packed_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Product received form</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form #designerReceivedForm="ngForm" (ngSubmit)="ordersSubmit(designerReceivedForm, 'designerReceived')">
+            <div class="modal-body">
+                <mat-checkbox class="example-margin mat-check mr-b-15" name="correctProduct" [(ngModel)]="model.correctProduct" required><p>Received currect product</p></mat-checkbox>
+                <mat-form-field appearance="outline" class="example-form-field">
+                    <mat-label>Comments</mat-label>
+                    <textarea matInput name="comments" [(ngModel)]="model.comments" required></textarea>
+                </mat-form-field>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!designerReceivedForm.valid">Submit</button>
+            </div>
+          </form>
+    </div>
+</ng-template>
 <!-- Message -->
 <ng-template #message let-modal>
     <div class="message_modal">
