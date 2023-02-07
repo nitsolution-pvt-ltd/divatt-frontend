@@ -7,10 +7,10 @@ export const environment = {
   apiMaster:'888',
   // apiUrl:'https://65.1.190.195:8083/dev',
   // fileUrl:'https://192.168.1.121:8085/dev'
-  apiUrl:'https://192.168.1.87:9095/default',
-  fileUrl:'https://192.168.1.87:9095/default' ,
-  // apiUrl:'https://dev.divatt.com/dev',
-  // fileUrl:'https://dev.divatt.com/dev',
+  // apiUrl:'https://192.168.1.87:9095/default',
+  // fileUrl:'https://192.168.1.87:9095/default' ,
+  apiUrl:'https://dev.divatt.com/dev',
+  fileUrl:'https://dev.divatt.com/dev',
   // facebook_client_Id:"2577899725685708",
   // facebook_client_secret:"21692e74cc78c0a9460ca5bb4a009a77",
 
