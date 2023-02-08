@@ -193,7 +193,7 @@ cancleOrder(form:NgForm)
   
   this.cancelOrderDataSubscribe = this.http.put('userOrder/orderStatusUpdate/'+this.orderId+'/'+this.selectedProduct.productId,orderStatusDetails).subscribe(
     (response:any) => {
-      this.stockRecorver(this.selectedProduct)
+      // this.stockRecorver(this.selectedProduct)
       this.toastrService.success(response.message);
       form.reset();
       this.modalService.dismissAll();
