@@ -737,7 +737,7 @@
             <a type="button" class="btn btn-outline-dark btn-danger submit-btn del pl-2 pr-2" mat-raised-button (click)="deleteMsment()"><mat-icon>delete</mat-icon>Delete Measurement </a>
           </div>
           <div class="add-button">
-            <button type="submit" class="btn btn-outline-dark submit-btn mr-2"  mat-raised-button [disabled]="!customchartform.valid">{{type == 'update' ? 'Update' : 'Add'}}</button>
+            <button type="submit" class="btn btn-outline-dark submit-btn mr-2"  mat-raised-button [disabled]="!customchartform.valid || !model.displyName">{{type == 'update' ? 'Update' : 'Add'}}</button>
             <a type="button" class="btn btn-outline-dark btn-danger submit-btn" mat-raised-button (click)="modal.dismiss('Cross click')">Cancel</a>
           </div>
           

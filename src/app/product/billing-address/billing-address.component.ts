@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, NgForm, FormGroupDirective } from '@angular/forms';
 // import { PayPalConfig, PayPalEnvironment, PayPalIntegrationType } from 'ngx-paypal';
 // import {  IPayPalConfig,  ICreateOrderRequest } from 'ngx-paypal';
 import { CartItem } from '../../classes/cart-item';
@@ -18,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./billing-address.component.css']
 })
 export class BillingAddressComponent implements OnInit {
+  @ViewChild('addressForm',{ static: false }  ) addressForm: FormGroupDirective; 
   Citys =[]
   Countrys =[
     {
@@ -44,7 +45,7 @@ export class BillingAddressComponent implements OnInit {
   update_api: string;
   private addressFormSubmitSubscribe: Subscription;
   private UpdateFormSubmitSubscribe: Subscription;
-  action;
+  action = '';
   alldata: any = {};
   total_price: number;
   getCartlistSubscribe: Subscription;
@@ -117,7 +118,7 @@ export class BillingAddressComponent implements OnInit {
     this.api_url = "user/address";
     this.add_api = 'user/address';
     
-    this.action = 'add';
+    // this.action = 'add';
     this.model.addressType = 'Home';
     this.getAddressList()
     this.getStates();
@@ -163,6 +164,7 @@ export class BillingAddressComponent implements OnInit {
   addressSelected(data)
   {
     console.log(data);
+    this.model = {};
     this.selectAddress = data.id;
   }
   // Paypal payment gateway
@@ -203,7 +205,7 @@ export class BillingAddressComponent implements OnInit {
   this.loader = true;
   this.model.addressType = 'Home';
   this.model.userId = this.get_user_dtls.uid;
-  this.action = 'add';
+  // this.action = 'add';
     this.getAddressSubscribe = this.http.get(this.api_url).subscribe(
       (response:any) => {
         this.addresslist = response;
@@ -244,11 +246,17 @@ export class BillingAddressComponent implements OnInit {
   //  editAddress start
   editAddress(data,type)
   {
+    var  ask:boolean;
     if(type == 'unsaveData')
     {
+      this.action = 'add'
       this.identifire = 'unsaveData';
-    }
+      ask = false;
+    }else{
+      ask = true;
     this.action = 'edit';
+
+    }
     this.model = 
     {
       fullName:data.fullName,
@@ -264,6 +272,7 @@ export class BillingAddressComponent implements OnInit {
       postalCode:data.postalCode,
       email:data.email,
       id:data.id,
+      ask:ask,
     }
     
     console.log(" this.model", this.model);
@@ -286,10 +295,17 @@ export class BillingAddressComponent implements OnInit {
       form.value.ask = false;
     }
     console.log("form.value",form.value);
-    if(form.value.address1 == undefined)
+    if(form.value.address1 == undefined || form.value.fullName==undefined || form.value.mobile==undefined 
+      || form.value.email==undefined || form.value.addressType==undefined || form.value.country==undefined
+      || form.value.state==undefined || form.value.city==undefined || form.value.landmark==undefined
+      || form.value.postalCode==undefined)
     {
-      this.toastrService.warning('Fill the details..');
-      this.action = 'add';
+      if(!this.selectAddress)
+      {
+        this.toastrService.warning('Fill the details..');
+      }
+      
+      // this.action = 'add';
       return false;
     }
 
@@ -337,8 +353,16 @@ export class BillingAddressComponent implements OnInit {
         
       }else if(this.action == 'add') 
       {
+        
         this.addressFormSubmitSubscribe = this.http.post(this.add_api,this.alldata).subscribe(
           (response:any) => {
+            if(this.model.id == "guest")
+            {
+              localStorage.removeItem('address');
+              var getsession = JSON.parse(localStorage.getItem("address"));
+              console.log("getsession",getsession,this.unsaveAddress);
+              this.unsaveAddress[0] = getsession;
+            }
             this.toastrService.success(response.message);
             this.getAddressList();
             form.reset();
@@ -371,6 +395,7 @@ export class BillingAddressComponent implements OnInit {
       }
       localStorage.setItem("address",JSON.stringify(this.alldata));
       var getsession = JSON.parse(localStorage.getItem("address"));
+
       console.log("getsession",getsession,this.unsaveAddress);
       this.nounsaveAddress = true;
       this.noadressFound = false;
@@ -448,7 +473,11 @@ export class BillingAddressComponent implements OnInit {
         }else 
         if(type == 'unsavedata')
         {
-          sessionStorage.clear();
+          // var getsession = JSON.parse(localStorage.getItem("address"));
+          localStorage.removeItem('address');
+
+          // localStorage.setItem("address",JSON.stringify(this.alldata));
+
           this.unsaveAddress[0] = '';
           this.nounsaveAddress = false;
           this.selectAddress = '';
@@ -526,7 +555,17 @@ export class BillingAddressComponent implements OnInit {
   formOpen = false;
   OpenForm()
   {
+    this.action = 'add';
     this.formOpen = !this.formOpen;
+  }
+  proceedClick()
+  {
+    if(!this.selectAddress || this.selectAddress == '' || this.selectAddress == null || this.selectAddress == undefined)
+    {
+
+    }else{
+      this.router.navigateByUrl('/checkout/'+this.selectAddress)
+    }
   }
   ngOnDestroy() {
     if (this.getAddressSubscribe !== undefined) {

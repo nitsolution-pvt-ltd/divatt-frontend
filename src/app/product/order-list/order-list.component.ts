@@ -60,6 +60,7 @@ export class OrderListComponent implements OnInit {
   ]
   currentDate: string;
   currentDateTime: string;
+  userData: any = {};
   constructor(private orderService: OrderService,private router: Router,private toastrService: ToastrService,private authService:LoginService,
     private http:HttpClient,private modalService: NgbModal) { 
     // this.product.subscribe(products => this.OrderlistItems = products);
@@ -86,6 +87,18 @@ export class OrderListComponent implements OnInit {
     // this.OrderlistItems = this.orderService.getOrderItems(this.get_user_dtls.uid);
     console.log("this.OrderlistItems",this.OrderlistItems);
     
+    this.OrderDataSubscribe = this.http.get('auth/info/'+this.get_user_dtls.authority+'/'+this.get_user_dtls.email).subscribe(  
+      (response:any) => {
+        this.userData = response;
+        console.log("response",this.userData);
+        
+      },
+      errRes => {
+        console.log("error handeller >>@@",errRes );
+        // this.toastrService.show(errRes.error.message);
+        this.loader = false;
+      }
+    );
   }
 getOrderList()
 {
@@ -112,41 +125,13 @@ getOrderList()
     );
   // getProductList end
 }
-// cancel order start
-// async askCancleOrder(orderId,product) {
-
-//   const swalWithBootstrapButtons = Swal.mixin({
-//     customClass: {
-//       confirmButton: 'btn btn-danger',
-//       cancelButton: 'btn btn-default'
-//     },
-//     buttonsStyling: true,
-//   });
-//   swalWithBootstrapButtons.fire(
-//   {
-//     showCloseButton: true,
-//     title: 'Order Cancel',
-//     text: 'Are you went to Cancel this order ?',
-//     showCancelButton: true,
-//     confirmButtonText: 'Yes',
-//     cancelButtonText: 'No',
-//     reverseButtons: false
-//   }
-//   ).then((result) => {
-//     if (result.value) {
-//       console.log('Delete');
-//       this.cancleOrder(orderId,product)
-//       return;
-//     }
-//     console.log('cancel');
-//   });
-// }
 askCancleOrder(orderId,product,content)
 {
+
   this.modalService.open(content, { size: 'md' });
   this.orderId = orderId;
   this.selectedProduct = product;
-  console.log(this.selectedProduct);
+  console.log(this.selectedProduct,this.get_user_dtls,this.userData);
   
 }
 
@@ -158,7 +143,7 @@ cancleOrder(form:NgForm)
   {
     
     orderStatusDetails = {
-      orderItemStatus: "cancelled",
+      orderItemStatus: "Request for cancelation",
       orderStatusDetails:{
         cancelOrderDetails:this.selectedProduct.orderStatusDetails.cancelOrderDetails,
         cancelRequestDetails:this.selectedProduct.orderStatusDetails.cancelRequestDetails,
@@ -171,6 +156,14 @@ cancleOrder(form:NgForm)
           comment:form.value.comment,
           reason:form.value.cancelReason,
           dateTime:this.currentDateTime,
+          canceledBy:'USER',
+          updatedBy:{
+            firstName:this.userData.firstName,
+            lastName:this.userData.lastName,
+            email:this.userData.email,
+            mobileNo:this.userData.mobileNo,
+            uId:this.userData.uId,
+          }
         }
       }
     }
@@ -178,13 +171,20 @@ cancleOrder(form:NgForm)
   }
   else{
     orderStatusDetails = {
-      orderItemStatus: "cancelled",
+      orderItemStatus: "Request for cancelation",
       orderStatusDetails:{
       cancelFromUser:{
         comment:form.value.comment,
         reason:form.value.cancelReason,
         dateTime:this.currentDateTime,
-
+        canceledBy:'USER',
+        updatedBy:{
+          firstName:this.userData.firstName,
+          lastName:this.userData.lastName,
+          email:this.userData.email,
+          mobileNo:this.userData.mobileNo,
+          uId:this.userData.uId,
+        }
       }
     }
     }

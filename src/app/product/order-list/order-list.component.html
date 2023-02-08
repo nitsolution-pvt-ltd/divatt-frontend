@@ -67,11 +67,11 @@
                 </div>
               </div>
               <div class="item_action">
-                <a style="min-width: 96px;font-size: 13px;"  (click)="askCancleOrder(item.orderId,product,cancelModal)" *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable == true || item?.paymentData && product.orderItemStatus == 'Orders'  && product.cancelAcceptable == true" class="icon canclebtn" >
+                <a style="min-width: 96px;font-size: 13px;"  (click)="askCancleOrder(item.orderId,product,cancelModal)" *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable == true && product.size!='Custom'" class="icon canclebtn" >
                   <i class="ti-close"></i>
                   <span>Cancel</span>
                 </a>
-                <a style="min-width: 96px;font-size: 13px;"   *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable != true || product.orderItemStatus == 'Orders'  && product.cancelAcceptable != true" class="icon canclebtn" >
+                <a style="min-width: 96px;font-size: 13px;"   *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable != true || product.size=='Custom' && item?.paymentData && product.orderItemStatus == 'New'" class="icon canclebtn" >
                   <!-- <i class="ti-close"></i> -->
                   <span >No cancellation</span>
                 </a>
@@ -79,13 +79,14 @@
                   <!-- <i class="ti-close"></i> -->
                   <span >Return rejected</span>
                 </a>
-                <a  style="min-width: 96px;font-size: 13px;"  *ngIf="item?.paymentData && product.orderItemStatus == 'Shipped' || product.orderItemStatus == 'Packed' || product.orderItemStatus == 'cancelled'" class="icon canclebtn" >
+                <a  style="min-width: 96px;font-size: 13px;"  *ngIf="item?.paymentData && product.orderItemStatus == 'Orders' || item?.paymentData && product.orderItemStatus == 'Shipped' || product.orderItemStatus == 'Packed' || product.orderItemStatus == 'cancelled' || product.orderItemStatus == 'Request for cancelation'" class="icon canclebtn" >
                   <!-- <i class="ti-close"></i> -->
-                  <span >{{product.orderItemStatus == 'cancelled' ? 'Order cancelled' : 'Order Process'}}</span>
+                  <span *ngIf="product.orderItemStatus == 'Request for cancelation'">Cancelation request</span>
+                  <span *ngIf="product.orderItemStatus != 'Request for cancelation'">{{product.orderItemStatus == 'cancelled' ? 'Order cancelled' : 'Order Process'}}</span>
                 </a>
-                <a  style="min-width: 96px;font-size: 13px;line-height:12px"  *ngIf="item?.paymentData && product.orderItemStatus == 'Request for cancelation'" class="icon canclebtn" >
+                <a  style="min-width: 96px;font-size: 13px;line-height:12px"  *ngIf="item?.paymentData && product.orderItemStatus == 'Request for cancelation'" class="icon canclebtn text-danger mr-0" >
                   <!-- <i class="ti-close"></i> -->
-                  <span >Order Process</span>
+                  <span class="w-100 text-right">On Process</span>
                 </a>
                 <a  style="min-width: 96px;font-size: 13px;" (click)="askCancleOrder(item.orderId,product,returnModal)" *ngIf="item?.paymentData && product.orderItemStatus == 'Delivered' && product.returnAcceptable == true"  class="icon canclebtn" >
                   <i class="ti-close"></i>
@@ -128,11 +129,11 @@
                     Return Rejected
                   </span>
                 </a>
-                <a class="cart order-status pending text-capitalize text-warning" style="font-size: 13px;line-height: 12px;"  *ngIf="product?.orderItemStatus == 'Request for cancelation'" >
+                <!-- <a class="cart order-status pending text-capitalize text-warning" style="font-size: 13px;line-height: 12px;"  *ngIf="product?.orderItemStatus == 'Request for cancelation'" >
                   <span >
                     Orders
                     </span>
-                </a>
+                </a> -->
                 <a class="cart order-status text-danger text-capitalize" style="font-size: 13px;line-height: 12px;" *ngIf="product?.orderItemStatus == 'cancelled'">
                   {{product?.orderItemStatus}}
                 </a>

@@ -34,7 +34,7 @@ export interface Product {
   designerName?:any;
   customization?:boolean;
   measurementObject?:{};
-  data?: any[];
+  data?: any;
 
 }
 

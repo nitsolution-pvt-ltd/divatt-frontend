@@ -702,7 +702,7 @@
       </div>
       <div class="modal-footer customization-btn">
         <a type="button" class="btn btn-outline-dark submit-btn" [ngClass]="{'disabled': !customchartform.valid}" (click)="UnsaveMesormenMen(customchartform)" mat-raised-button >Use</a>
-        <button type="submit" class="btn btn-outline-dark submit-btn"  mat-raised-button [disabled]="!customchartform.valid">Save and Continue</button>
+        <button type="submit" class="btn btn-outline-dark submit-btn"  mat-raised-button [disabled]="!customchartform.valid || !save  || !model.displyName">Continue</button>
       </div>
     </form>
   </div>
