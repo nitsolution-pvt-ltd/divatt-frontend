@@ -103,6 +103,10 @@ export class AppComponent {
     console.log('ionViewWillEnter');
   }
   ngOnInit() {
+
+    // this.router.url;
+    console.log('this.router.url',this.router.url);
+    this._document.getElementById('pageTitle').innerHTML = 'Divatt | Happy Shopping';
     console.log("designermodules",this.designermodules);
     this.commonfunction()
     $.getScript('assets/js/script.js');
@@ -124,19 +128,23 @@ commonfunction()
 // commonfunction end
 
 initializeApp() {
+  // this._document.getElementById('pageTitle').innerHTML = 'Divatt | Happy Shopping';
     this.platform.ready().then(() => {
 
       // user data call
       this.userInfoData();
 
       // ----get current active url name start---
-      this.activatedRoute.url.subscribe(activeUrl => {
+      this.activatedRoute.url.subscribe((activeUrl:any) => {
         this.url_name = window.location.pathname;
-        console.log('this.url_name app.componet.ts @@@>>', this.url_name.split('/')[1]);
+        console.log('this.url_name app.componet.ts @@@>>',activeUrl, this.url_name.split('/')[1]);
         var y = localStorage.getItem('userdata');
         console.log('retrievedObject: ', y);
         console.log(window.location.href)
         let x:any = window.location.href.split('#')[1];
+        let title = this.url_name.split('/')[1];
+       let pageTitle =  title.charAt(0).toUpperCase() + title.slice(1);
+        // this._document.getElementById('pageTitle').innerHTML = 'Divatt | ' + pageTitle;
         let current = x?.split('/')[1];
         console.log("this.href", window.location.href.split('#')[1], current);
         if (current == 'auth') {

@@ -378,6 +378,10 @@ export class DesignerViewPage implements OnInit {
     console.log("this.Lebellist",value,this.labelValue);
     
   }
+  openImg(url)
+  {
+    window.open(url, "_blank");
+  }
   // ----------- destroy unsubscription start ---------
   ngOnDestroy() {
     if (this.getProfileData !== undefined) {

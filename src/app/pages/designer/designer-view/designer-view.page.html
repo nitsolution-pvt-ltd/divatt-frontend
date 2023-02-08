@@ -205,7 +205,7 @@
                             <div class="custom-file"  tabindex="-1" >
                               <input class="custom-file-input"  tabindex="-1"  id="aadharCard" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'aadhar')" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}" required>
                               <label class="custom-file-label"  tabindex="-1"  for="aadharCard" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">Aadhar Image</label>
-                              <img [src]="designerData?.aadharCard" *ngIf="!aadhar_loader && designerData?.aadharCard"/>
+                              <img [src]="designerData?.aadharCard" *ngIf="!aadhar_loader && designerData?.aadharCard" (click)="openImg(designerData?.aadharCard)" />
                               <mat-spinner  class="ml-0 small_loader mt-3" *ngIf="aadhar_loader"></mat-spinner>
                             </div>
                             <input type="hidden" name="aadharCard" [(ngModel)]="designerData.aadharCard">
@@ -220,7 +220,7 @@
                             <div class="custom-file"  tabindex="-1" >
                               <input class="custom-file-input"  tabindex="-1"  id="panCard" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'panCard')" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}" required>
                               <label class="custom-file-label"  tabindex="-1"  for="panCard" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">PAN Image</label>
-                              <img [src]="designerData?.panCard" *ngIf="!pan_loader  && designerData?.panCard"/>
+                              <img [src]="designerData?.panCard" *ngIf="!pan_loader  && designerData?.panCard" (click)="openImg(designerData?.panCard)"/>
                               <mat-spinner  class="ml-0 small_loader mt-3" *ngIf="pan_loader"></mat-spinner>
                             </div>
                             <input type="hidden" name="panCard" [(ngModel)]="designerData.panCard">
@@ -236,7 +236,7 @@
                             <div class="custom-file" tabindex="-1">
                               <input class="custom-file-input" tabindex="-1" id="digitalSignature" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'digitalSignature')" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}" required>
                               <label class="custom-file-label" tabindex="-1" for="digitalSignature" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">Digital Signature</label>
-                              <img [src]="designerData?.digitalSignature" *ngIf="!digital_loader && designerData?.digitalSignature"/>
+                              <img [src]="designerData?.digitalSignature" *ngIf="!digital_loader && designerData?.digitalSignature" (click)="openImg(designerData?.digitalSignature)"/>
                               <mat-spinner  class="ml-0 small_loader mt-3" *ngIf="digital_loader"></mat-spinner>
                             </div>
                             <input type="hidden" name="digitalSignature" [(ngModel)]="designerData.digitalSignature">

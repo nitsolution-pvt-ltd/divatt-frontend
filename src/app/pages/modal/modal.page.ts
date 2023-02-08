@@ -94,6 +94,7 @@ export class ModalPage implements OnInit {
   mesorementData: any ={};
   userData: any = {};
    private GetAdminData: Subscription; 
+  stockRecorverSubscribe: Subscription;
 
   constructor(private navParams: NavParams, 
     private modalController: ModalController,
@@ -193,7 +194,7 @@ export class ModalPage implements OnInit {
     }else if (this.get_identifier == 'cancelledApprovalModal') {
       this.heder_title = 'Request for cancelation';
       this.model.orderStatus = 'Approve';
-      // console.log("get_item",this.get_item,this.get_array);
+      console.log("get_item",this.get_item,this.get_array);
       // this.api_url = 'user/user-login';
     }else if (this.get_identifier == 'orderExportModal') {
       this.heder_title = 'Export Order Document';
@@ -1763,6 +1764,11 @@ onSubmitChangepswForm(form: NgForm)
     this.changeorderStatusSubscribe = this.http.post("userOrder/adminApprovalCancelation?designerId="+this.get_item.designerId+"&orderId="+this.get_item.orderId+"&productId="+this.get_item.productId,data).subscribe(
       (res: any) => {
         this.commonUtils.presentToast("success", res.message);
+        if(form.value.orderStatus == 'cancelled')
+        {
+          this.stockRecorverSubscribe = this.http.put('designerProduct/stockRecoverService',this.get_item).subscribe((response:any) => {},
+          errRes => {this.commonUtils.presentToast("success", errRes.error.message);});
+        }
         this.closeModal();
       },
       (error) => {

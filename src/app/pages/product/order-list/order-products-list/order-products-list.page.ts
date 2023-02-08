@@ -483,11 +483,11 @@ export class OrderProductsListPage implements OnInit {
   async orders_modal(_identifier, _item, _items) {
     console.log('openordermodal ...........>>', _identifier);
     console.log('openordermodal _item ...........>>', _item,this.tableData);
-    if(_identifier == 'returnRequestConfirm')
-    {
-      console.log(_item);
+    // if(_identifier == 'returnRequestConfirm')
+    // {
+    //   console.log(_item);
        
-    }
+    // }
     // if(_item == 'true'){
         let orderCommentmodal;
         orderCommentmodal = await this.modalController.create({
