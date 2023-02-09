@@ -39,35 +39,35 @@ export class AddColorPage implements OnInit {
     this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
     this.parms_color_name = this.activatedRoute.snapshot.paramMap.get('name');
     
-    console.log('parms_action_name', this.parms_action_name);
-    console.log('parms_action_id', this.parms_color_name);
+    // console.log('parms_action_name', this.parms_action_name);
+    // console.log('parms_action_id', this.parms_color_name);
 
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res.authority == 'ADMIN'){
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if(data){
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
     
             let pageUrlName = this.router.url.split("/");
-            console.log('pageUrlName', pageUrlName);
+            // console.log('pageUrlName', pageUrlName);
             
             for(let item of data) {
               let moduleUrlName = item.modDetails.url.split("-");
-              console.log('moduleUrlName',moduleUrlName,pageUrlName);
+              // console.log('moduleUrlName',moduleUrlName,pageUrlName);
               
               if(pageUrlName[1] == moduleUrlName[0]){
                 if(this.parms_action_name == 'add' && item.modPrivs.create == true){
-                   console.log('-----Permission create Granted-----');
+                   // console.log('-----Permission create Granted-----');
                   break;
                 }else if(this.parms_action_name == 'edit' && item.modPrivs.update == true){
-                  console.log('-----Permission update Granted-----');
+                  // console.log('-----Permission update Granted-----');
                    this.getcolorByName();
                   break;
                 }else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
                 
@@ -86,7 +86,7 @@ export class AddColorPage implements OnInit {
   {
     this.loader = true;
     this.getColorSubscribe = this.http.get("adminMData/getColour/"+this.parms_color_name).subscribe((res:any) =>{
-      console.log("Color Data",this.allcolordata,"response",res);
+      // console.log("Color Data",this.allcolordata,"response",res);
       // this.commonUtils.presentToast('success', res.message);
     this.loader = false;
       this.model = {
@@ -107,11 +107,11 @@ export class AddColorPage implements OnInit {
   onSubmitColorForm(form:NgForm)
   {
     this.btnloader =true;
-    console.log("from",form.value);
+    // console.log("from",form.value);
     if(this.parms_action_name == 'add')
     {
       this.addColorSubscribe = this.http.put("adminMData/addColour",form.value).subscribe((res:any) =>{
-        console.log("Color Data",this.allcolordata,"response",res);
+        // console.log("Color Data",this.allcolordata,"response",res);
         this.btnloader =false;
         
         this.commonUtils.presentToast('success', res.message);
@@ -119,7 +119,7 @@ export class AddColorPage implements OnInit {
         form.reset();
         },error =>{
           this.btnloader =false;
-          // console.log("error",error);
+          // // console.log("error",error);
           this.commonUtils.presentToast('error', error.error.message);
           // recall category list
       })

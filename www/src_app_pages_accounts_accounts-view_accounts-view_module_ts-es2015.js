@@ -159,8 +159,8 @@ let AccountsViewPage = class AccountsViewPage {
         });
     }
     genaratePDF(order, identifier) {
+        // console.log('Data',order,identifier);
         var _a, _b;
-        console.log('Data', order, identifier);
         if (identifier == 'orderinvoice') {
             let url = src_environments_environment__WEBPACK_IMPORTED_MODULE_5__.environment.apiUrl + "/userOrder/getOrderSummary/" + order;
             window.open(url, "_blank");

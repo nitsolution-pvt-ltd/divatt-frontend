@@ -386,17 +386,14 @@
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log("res>>", res);
-
+              // console.log("res>>", res);
               if (res.authority == "ADMIN") {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log("menu>>", data);
-                    console.log("this.router.url>>", _this.router.url);
+                    // console.log("menu>>", data);
+                    // console.log("this.router.url>>", this.router.url);
+                    var pageUrl = _this.router.url.split("/"); // console.log("pageUrl", pageUrl);
 
-                    var pageUrl = _this.router.url.split("/");
-
-                    console.log("pageUrl", pageUrl);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -407,9 +404,9 @@
 
                         if (item.modDetails.url == 'order-list') {
                           if (item.modPrivs.list == true) {
-                            console.log("-----Permission Granted-----");
-                            _this.pagePermission = item;
-                            console.log("this.pagePermission", _this.pagePermission); // this.listing_url = "userOrder/list";
+                            // console.log("-----Permission Granted-----");
+                            _this.pagePermission = item; // console.log("this.pagePermission", this.pagePermission);
+                            // this.listing_url = "userOrder/list";
 
                             _this.listing_url = "userOrder/getOrder/" + _this.parms_action_id;
 
@@ -418,8 +415,7 @@
 
                             break;
                           } else {
-                            console.log("-------No Permission--------");
-
+                            // console.log("-------No Permission--------");
                             _this.router.navigateByUrl("/error");
                           }
                         }
@@ -441,7 +437,7 @@
         }, {
           key: "displayRecordChange",
           value: function displayRecordChange(_record) {
-            console.log("_record", _record);
+            // console.log("_record", _record);
             this.displayRecord = _record;
             this.pageNo = 0;
             this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -459,11 +455,10 @@
             this.tableListSubscribe = this.http.get(api).subscribe(function (res) {
               var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13;
 
-              _this2.isListLoading = false;
-              console.log("res", res);
+              _this2.isListLoading = false; // console.log("res", res);
 
               for (var i = 0; i < res.OrderSKUDetails.length; i++) {
-                // console.log("product Id....",this.orderItem.OrderSKUDetails[i].productId);
+                // // console.log("product Id....",this.orderItem.OrderSKUDetails[i].productId);
                 _this2.paymentData = res.paymentData;
 
                 if (_this2.parms_action_productId == res.OrderSKUDetails[i].productId) {
@@ -508,25 +503,24 @@
                     if ((_4 = _this2.trackingDetailsX) === null || _4 === void 0 ? void 0 : _4.returnRequestApprove) {
                       _this2.returnRequestApproveTime = moment__WEBPACK_IMPORTED_MODULE_2__((_6 = (_5 = _this2.trackingDetailsX) === null || _5 === void 0 ? void 0 : _5.returnRequestApprove) === null || _6 === void 0 ? void 0 : _6.dateTime, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
                     }
-                  }
+                  } // console.log("table back data.....",this.tableData);
 
-                  console.log("table back data.....", _this2.tableData);
 
                   if ((_9 = (_8 = (_7 = _this2.tableData) === null || _7 === void 0 ? void 0 : _7.orderStatusDetails) === null || _8 === void 0 ? void 0 : _8.deliveryDetails) === null || _9 === void 0 ? void 0 : _9.deliveredDate) {
                     _this2.tableData.orderStatusDetails.deliveryDetails.deliveredDate = moment__WEBPACK_IMPORTED_MODULE_2__((_12 = (_11 = (_10 = _this2.tableData) === null || _10 === void 0 ? void 0 : _10.orderStatusDetails) === null || _11 === void 0 ? void 0 : _11.deliveryDetails) === null || _12 === void 0 ? void 0 : _12.deliveredDate, 'YYYY-MM-DD').format('DD/MM/YYYY');
-                  }
+                  } // console.log("table back data.....",this.tableData);
 
-                  console.log("table back data.....", _this2.tableData);
+
                   var shippingDate = (_13 = _this2.tableData) === null || _13 === void 0 ? void 0 : _13.shippingDate.split(" ");
                   _this2.shippingDate = shippingDate[0];
                 }
               } // this.tableData = res;
+              // console.log("table back data.....",this.tableData);
 
 
-              console.log("table back data.....", _this2.tableData);
               _this2.bilingData = res.billingAddress;
-              _this2.tableListData = res;
-              console.log("this.tableListData....", res.billingAddress); // this.url = environment.apiUrl+"/"+"userOrder/getOrderByInvoiceId/"+res.invoiceId;
+              _this2.tableListData = res; // console.log("this.tableListData....", res.billingAddress);
+              // this.url = environment.apiUrl+"/"+"userOrder/getOrderByInvoiceId/"+res.invoiceId;
 
               _this2.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_6__.environment.apiUrl + "/userOrder/getOrderSummary/" + _this2.tableData.orderId;
               _this2.invoiceId = res.invoiceId;
@@ -540,8 +534,8 @@
         }, {
           key: "setPage",
           value: function setPage(page) {
-            console.log("page", page);
-            console.log("page");
+            // console.log("page", page);
+            // console.log("page");
             this.pageNo = page;
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Pagination end
@@ -550,9 +544,9 @@
         }, {
           key: "isSortTableHeader",
           value: function isSortTableHeader(_tableHeaderData, _headerItem) {
-            console.log("_tableHeaderData", _tableHeaderData);
-            console.log("_headerItem", _headerItem); // all field reset first
-
+            // console.log("_tableHeaderData", _tableHeaderData);
+            // console.log("_headerItem", _headerItem);
+            // all field reset first
             _tableHeaderData.forEach(function (val) {
               val.sortingButtonName = "";
             });
@@ -566,17 +560,17 @@
             }
 
             this.sortColumnName = _headerItem.column_name;
-            this.sortOrderName = _headerItem.sortingButtonName;
-            console.log("this.sortColumnName", this.sortColumnName);
-            console.log("this.sortOrderName", this.sortOrderName);
-            console.log("_tableHeaderData>>", _tableHeaderData);
+            this.sortOrderName = _headerItem.sortingButtonName; // console.log("this.sortColumnName", this.sortColumnName);
+            // console.log("this.sortOrderName", this.sortOrderName);
+            // console.log("_tableHeaderData>>", _tableHeaderData);
+
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           }
         }, {
           key: "searchList",
           value: function searchList(event) {
-            this.searchTerm = event.target.value;
-            console.log("this.searchTerm", this.searchTerm);
+            this.searchTerm = event.target.value; // console.log("this.searchTerm", this.searchTerm);
+
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Search end
           // Referesh start
@@ -602,7 +596,7 @@
           value: function changeStatus(type) {
             var item = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
             var moredata = arguments.length > 2 ? arguments[2] : undefined;
-            console.log("item", type, item, moredata);
+            // console.log("item",type,item,moredata);
             var data = {},
                 time,
                 todate;
@@ -616,20 +610,19 @@
               trackingHistory = item.TrackingData.trackingHistory;
             }
 
-            var day = new Date();
-            console.log(day, day.getMinutes());
+            var day = new Date(); // console.log(day,day.getMinutes());
 
             if (day.getSeconds() > 10) {
               time = day.getHours() + ':' + day.getMinutes() + ':' + day.getSeconds();
             } else {
               time = day.getHours() + ':' + day.getMinutes() + ':0' + day.getSeconds();
-            }
+            } // console.log(day,time);
 
-            console.log(day, time);
+
             todate = moment__WEBPACK_IMPORTED_MODULE_2__(day).format('YYYY/MM/DD'); // [Dispatch:{time:00.00,date:00/00/0000,comment:"",},Shipment:{time:00.00,date:00/00/0000,comment:""},Out for Delivery:{time:00.00,date:00/00/0000,comment:""},Delivered:{time:00.00,date:00/00/0000,comment:""}]
             // 4 obj
+            // console.log(todate,trackingHistory);
 
-            console.log(todate, trackingHistory);
             data = {
               deliveredDate: item.TrackingData.deliveredDate,
               deliveryExpectedDate: item.TrackingData.deliveryExpectedDate,
@@ -669,8 +662,7 @@
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      console.log('openProfilemodal ...........>>', _identifier);
-                      _context.next = 3;
+                      _context.next = 2;
                       return this.modalController.create({
                         component: src_app_pages_modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
                         cssClass: 'mymodalClass small profilemodal',
@@ -681,21 +673,20 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       orderCommentmodal = _context.sent;
                       // modal data back to Component
                       orderCommentmodal.onDidDismiss().then(function (getdata) {
-                        console.log("getdata", getdata);
-
+                        // console.log("getdata",getdata);
                         _this3.onRefresh();
                       });
-                      _context.next = 7;
+                      _context.next = 6;
                       return orderCommentmodal.present();
 
-                    case 7:
+                    case 6:
                       return _context.abrupt("return", _context.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context.stop();
                   }
@@ -715,7 +706,7 @@
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
-                      console.log('openordermodal ...........>>', _identifier, _item);
+                      // console.log('openordermodal ...........>>', _identifier,_item);
                       size = 'small';
 
                       if (_identifier == 'userCustomMesorment') {
@@ -723,7 +714,7 @@
                         size = 'medium';
                       } else if (_identifier == 'forceReturnModal') {}
 
-                      _context2.next = 5;
+                      _context2.next = 4;
                       return this.modalController.create({
                         component: src_app_pages_modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
                         cssClass: 'mymodalClass ' + size + ' profilemodal',
@@ -734,23 +725,23 @@
                         }
                       });
 
-                    case 5:
+                    case 4:
                       orderCommentmodal = _context2.sent;
                       // modal data back to Component
                       orderCommentmodal.onDidDismiss().then(function (getdata) {
-                        console.log("getdata........", getdata); // console.log("getdata",getdata);
-
+                        // console.log("getdata........",getdata);
+                        // // console.log("getdata",getdata);
                         _this4.packed_done = getdata.data;
 
                         _this4.onRefresh();
                       });
-                      _context2.next = 9;
+                      _context2.next = 8;
                       return orderCommentmodal.present();
 
-                    case 9:
+                    case 8:
                       return _context2.abrupt("return", _context2.sent);
 
-                    case 10:
+                    case 9:
                     case "end":
                       return _context2.stop();
                   }
@@ -771,14 +762,7 @@
                 while (1) {
                   switch (_context3.prev = _context3.next) {
                     case 0:
-                      console.log('openordermodal ...........>>', _identifier);
-                      console.log('openordermodal _item ...........>>', _item, this.tableData); // if(_identifier == 'returnRequestConfirm')
-                      // {
-                      //   console.log(_item);
-                      // }
-                      // if(_item == 'true'){
-
-                      _context3.next = 4;
+                      _context3.next = 2;
                       return this.modalController.create({
                         component: src_app_pages_modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
                         cssClass: 'mymodalClass small profilemodal',
@@ -789,12 +773,12 @@
                         }
                       });
 
-                    case 4:
+                    case 2:
                       orderCommentmodal = _context3.sent;
                       // modal data back to Component
                       orderCommentmodal.onDidDismiss().then(function (getdata) {
-                        console.log("getdata.......", getdata); // console.log("getdata",getdata);
-
+                        // console.log("getdata.......",getdata);
+                        // // console.log("getdata",getdata);
                         _this5.orders_done = getdata.data;
                         setTimeout(function () {
                           _this5.progressbar_1 = true;
@@ -802,13 +786,13 @@
 
                         _this5.onRefresh();
                       });
-                      _context3.next = 8;
+                      _context3.next = 6;
                       return orderCommentmodal.present();
 
-                    case 8:
+                    case 6:
                       return _context3.abrupt("return", _context3.sent);
 
-                    case 9:
+                    case 7:
                     case "end":
                       return _context3.stop();
                   }
@@ -824,12 +808,12 @@
           value: function createInvoice() {
             var _this6 = this;
 
-            console.log("tableData", this.tableData);
+            // console.log("tableData",this.tableData);
             var orders = this.tableData.OrderSKUDetails;
             var productIds = [],
                 userId;
             userId = this.tableData.userId;
-            var api = "/" + this.tableData.orderId + "/" + userId; // console.log("tableData",this.tableData,orders,orders.designerId,orders.orderId,productIds,userId);
+            var api = "/" + this.tableData.orderId + "/" + userId; // // console.log("tableData",this.tableData,orders,orders.designerId,orders.orderId,productIds,userId);
 
             this.tableListSubscribe = this.http.post(api, '').subscribe(function (res) {
               _this6.isListLoading = false;

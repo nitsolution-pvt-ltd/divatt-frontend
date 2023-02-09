@@ -137,30 +137,30 @@ export class OrderProductsListPage implements OnInit {
     this.checkedList = [];
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe((res) => {
-      console.log("res>>", res);
+      // console.log("res>>", res);
       if (res.authority == "ADMIN") {
         this.permissionDataSubscribe =
           this.commonUtils.menuPermissionObservable.subscribe((data) => {
             if (data) {
-              console.log("menu>>", data);
-              console.log("this.router.url>>", this.router.url);
+              // console.log("menu>>", data);
+              // console.log("this.router.url>>", this.router.url);
 
               let pageUrl = this.router.url.split("/");
-              console.log("pageUrl", pageUrl);
+              // console.log("pageUrl", pageUrl);
 
               for (let item of data) {
                 if (item.modDetails.url == 'order-list') {
                   if (item.modPrivs.list == true) {
-                    console.log("-----Permission Granted-----");
+                    // console.log("-----Permission Granted-----");
                     this.pagePermission = item;
-                    console.log("this.pagePermission", this.pagePermission);
+                    // console.log("this.pagePermission", this.pagePermission);
                     // this.listing_url = "userOrder/list";
                       this.listing_url = "userOrder/getOrder/"+this.parms_action_id;
                     this.onRefresh();
                     // delete api
                     break;
                   } else {
-                    console.log("-------No Permission--------");
+                    // console.log("-------No Permission--------");
                     this.router.navigateByUrl("/error");
                   }
                 }
@@ -187,7 +187,7 @@ export class OrderProductsListPage implements OnInit {
     // { id : '5', displayValue: '0'}
   ];
   displayRecordChange(_record) {
-    console.log("_record", _record);
+    // console.log("_record", _record);
 
     this.displayRecord = _record;
     this.pageNo = 0;
@@ -210,9 +210,9 @@ export class OrderProductsListPage implements OnInit {
     this.tableListSubscribe = this.http.get(api).subscribe(
       (res: any) => {
         this.isListLoading = false;
-        console.log("res", res);
+        // console.log("res", res);
         for (let i = 0; i < res.OrderSKUDetails.length; i++) {
-          // console.log("product Id....",this.orderItem.OrderSKUDetails[i].productId);
+          // // console.log("product Id....",this.orderItem.OrderSKUDetails[i].productId);
           this.paymentData = res.paymentData;
           if (this.parms_action_productId == res.OrderSKUDetails[i].productId) {
             this.tableData = res.OrderSKUDetails[i];
@@ -258,13 +258,13 @@ export class OrderProductsListPage implements OnInit {
                 this.returnRequestApproveTime = moment(this.trackingDetailsX?.returnRequestApprove?.dateTime,"YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
               }
             }
-            console.log("table back data.....",this.tableData);
+            // console.log("table back data.....",this.tableData);
 
             if(this.tableData?.orderStatusDetails?.deliveryDetails?.deliveredDate)
             { 
               this.tableData.orderStatusDetails.deliveryDetails.deliveredDate = moment(this.tableData?.orderStatusDetails?.deliveryDetails?.deliveredDate , 'YYYY-MM-DD').format('DD/MM/YYYY');
             }  
-          console.log("table back data.....",this.tableData);
+          // console.log("table back data.....",this.tableData);
 
           let shippingDate = this.tableData?.shippingDate.split(" ");
           this.shippingDate = shippingDate[0];
@@ -273,11 +273,11 @@ export class OrderProductsListPage implements OnInit {
       }
       
         // this.tableData = res;
-        console.log("table back data.....",this.tableData);
+        // console.log("table back data.....",this.tableData);
         this.bilingData = res.billingAddress;
         this.tableListData = res;
         
-        console.log("this.tableListData....", res.billingAddress);
+        // console.log("this.tableListData....", res.billingAddress);
         
         // this.url = environment.apiUrl+"/"+"userOrder/getOrderByInvoiceId/"+res.invoiceId;
         this.url = environment.apiUrl+"/userOrder/getOrderSummary/"+this.tableData.orderId;
@@ -292,8 +292,8 @@ export class OrderProductsListPage implements OnInit {
   // List data end
   // Pagination start
   setPage(page: number) {
-    console.log("page", page);
-    console.log("page");
+    // console.log("page", page);
+    // console.log("page");
 
     this.pageNo = page;
     this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
@@ -302,8 +302,8 @@ export class OrderProductsListPage implements OnInit {
 
   // Sorting start
   isSortTableHeader(_tableHeaderData, _headerItem) {
-    console.log("_tableHeaderData", _tableHeaderData);
-    console.log("_headerItem", _headerItem);
+    // console.log("_tableHeaderData", _tableHeaderData);
+    // console.log("_headerItem", _headerItem);
 
     // all field reset first
     _tableHeaderData.forEach((val) => {
@@ -320,9 +320,9 @@ export class OrderProductsListPage implements OnInit {
     this.sortColumnName = _headerItem.column_name;
     this.sortOrderName = _headerItem.sortingButtonName;
 
-    console.log("this.sortColumnName", this.sortColumnName);
-    console.log("this.sortOrderName", this.sortOrderName);
-    console.log("_tableHeaderData>>", _tableHeaderData);
+    // console.log("this.sortColumnName", this.sortColumnName);
+    // console.log("this.sortOrderName", this.sortOrderName);
+    // console.log("_tableHeaderData>>", _tableHeaderData);
     this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
     
   }
@@ -333,7 +333,7 @@ export class OrderProductsListPage implements OnInit {
   searchList(event) {
     this.searchTerm = event.target.value;
 
-    console.log("this.searchTerm", this.searchTerm);
+    // console.log("this.searchTerm", this.searchTerm);
 
     this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
 
@@ -358,7 +358,7 @@ export class OrderProductsListPage implements OnInit {
   }
   // changeStatus end
   changeStatus(type,item:any={},moredata) {
-    console.log("item",type,item,moredata);
+    // console.log("item",type,item,moredata);
     var data:any={},time,todate;
     var trackingHistory:any = [];
     // item={
@@ -370,7 +370,7 @@ export class OrderProductsListPage implements OnInit {
       trackingHistory = item.TrackingData.trackingHistory;
     }
     var day = new Date();
-    console.log(day,day.getMinutes());
+    // console.log(day,day.getMinutes());
     if(day.getSeconds() > 10)
     {
       time = day.getHours() + ':' + day.getMinutes() +':' + day.getSeconds();
@@ -378,14 +378,14 @@ export class OrderProductsListPage implements OnInit {
     else{
       time = day.getHours() + ':' + day.getMinutes() +':0' + day.getSeconds();
     }
-    console.log(day,time);
+    // console.log(day,time);
     todate = moment(day).format('YYYY/MM/DD');
     // [Dispatch:{time:00.00,date:00/00/0000,comment:"",},Shipment:{time:00.00,date:00/00/0000,comment:""},Out for Delivery:{time:00.00,date:00/00/0000,comment:""},Delivered:{time:00.00,date:00/00/0000,comment:""}]
     // 4 obj
    
     
       
-    console.log(todate,trackingHistory);
+    // console.log(todate,trackingHistory);
     
     data = 
     {
@@ -421,7 +421,7 @@ export class OrderProductsListPage implements OnInit {
   }
   // changeStatus start
   async openorderCommentmodal(_identifier, _item, _items) {
-    console.log('openProfilemodal ...........>>', _identifier);
+    // console.log('openProfilemodal ...........>>', _identifier);
 
     let orderCommentmodal;
     orderCommentmodal = await this.modalController.create({
@@ -437,7 +437,7 @@ export class OrderProductsListPage implements OnInit {
     // modal data back to Component
     orderCommentmodal.onDidDismiss()
     .then((getdata) => {
-      console.log("getdata",getdata);
+      // console.log("getdata",getdata);
       this.onRefresh();
       
     });
@@ -446,7 +446,7 @@ export class OrderProductsListPage implements OnInit {
   }
   // orderpack start
   async orderStatus_modal(_identifier, _item, _items) {
-    console.log('openordermodal ...........>>', _identifier,_item);
+    // console.log('openordermodal ...........>>', _identifier,_item);
     let size = 'small'
     if(_identifier == 'userCustomMesorment')
     {
@@ -469,8 +469,8 @@ export class OrderProductsListPage implements OnInit {
     // modal data back to Component
     orderCommentmodal.onDidDismiss()
     .then((getdata) => {
-      console.log("getdata........",getdata);
-      // console.log("getdata",getdata);
+      // console.log("getdata........",getdata);
+      // // console.log("getdata",getdata);
       this.packed_done = getdata.data;
       this.onRefresh();
       
@@ -481,11 +481,11 @@ export class OrderProductsListPage implements OnInit {
   // orderpack end
   // orders start
   async orders_modal(_identifier, _item, _items) {
-    console.log('openordermodal ...........>>', _identifier);
-    console.log('openordermodal _item ...........>>', _item,this.tableData);
+    // console.log('openordermodal ...........>>', _identifier);
+    // console.log('openordermodal _item ...........>>', _item,this.tableData);
     // if(_identifier == 'returnRequestConfirm')
     // {
-    //   console.log(_item);
+    //   // console.log(_item);
        
     // }
     // if(_item == 'true'){
@@ -503,8 +503,8 @@ export class OrderProductsListPage implements OnInit {
         // modal data back to Component
         orderCommentmodal.onDidDismiss()
         .then((getdata) => {
-          console.log("getdata.......",getdata);
-          // console.log("getdata",getdata);
+          // console.log("getdata.......",getdata);
+          // // console.log("getdata",getdata);
           this.orders_done = getdata.data;
           setTimeout(()=>{                           // <<<---using ()=> syntax
             this.progressbar_1 = true;
@@ -521,12 +521,12 @@ export class OrderProductsListPage implements OnInit {
   /*----------------Table list data end----------------*/
   createInvoice()
   {
-    console.log("tableData",this.tableData);
+    // console.log("tableData",this.tableData);
     var orders = this.tableData.OrderSKUDetails;
     var productIds:any=[],userId;
     userId = this.tableData.userId;
     let api ="/"+this.tableData.orderId+"/"+userId;
-    // console.log("tableData",this.tableData,orders,orders.designerId,orders.orderId,productIds,userId);
+    // // console.log("tableData",this.tableData,orders,orders.designerId,orders.orderId,productIds,userId);
     this.tableListSubscribe = this.http.post(api,'').subscribe(
       (res: any) => {
         this.isListLoading = false;

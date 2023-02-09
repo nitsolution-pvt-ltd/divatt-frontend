@@ -58,7 +58,7 @@ export class InterceptorProvider implements HttpInterceptor {
     let newParams = new HttpParams({fromString: request.params.toString()});
 
     let get_global_params = this.authService.getTokenSessionMaster();
-    console.log('get_global_params intercepter >>>>>>>>>>>>>>>>', get_global_params);
+    // console.log('get_global_params intercepter >>>>>>>>>>>>>>>>', get_global_params);
   
     if(get_global_params != null && get_global_params.master == undefined){
       get_global_params.master = API_MASTER;
@@ -72,11 +72,11 @@ export class InterceptorProvider implements HttpInterceptor {
 
       
     }
-    console.log('newParams >>>>>>>', get_global_params);
+    // console.log('newParams >>>>>>>', get_global_params);
     
     if(get_global_params == null || get_global_params.token == null){
       authorization = 'Bearer '
-      console.log('appkey false');
+      // console.log('appkey false');
     }else {
       authorization = 'Bearer '+get_global_params.token;
     }
@@ -161,13 +161,13 @@ export class InterceptorProvider implements HttpInterceptor {
             role: 'cancel',
             cssClass: 'popup-cancel-btn',
             handler: (blah) => {
-              console.log('Confirm Cancel: blah');
+              // console.log('Confirm Cancel: blah');
             }
           }, {
             text: 'Ok',
             cssClass: 'popup-ok-btn',
             handler: () => {
-              console.log('Confirm Okay');
+              // console.log('Confirm Okay');
             }
           }
         ]

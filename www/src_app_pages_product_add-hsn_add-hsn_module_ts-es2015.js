@@ -138,34 +138,34 @@ let AddHsnPage = class AddHsnPage {
         this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
         this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
         this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
-        console.log('parms_action_name', this.parms_action_name);
-        console.log('parms_action_id', this.parms_action_id);
+        // console.log('parms_action_name', this.parms_action_name);
+        // console.log('parms_action_id', this.parms_action_id);
         this.dateRange = moment__WEBPACK_IMPORTED_MODULE_2__(new Date()).format('YYYY-MM-DD');
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrlName = this.router.url.split("/");
-                        console.log('pageUrlName', pageUrlName);
+                        // console.log('pageUrlName', pageUrlName);
                         for (let item of data) {
                             let moduleUrlName = item.modDetails.url.split("-");
-                            console.log('moduleUrlName', moduleUrlName);
+                            // console.log('moduleUrlName',moduleUrlName);
                             if (pageUrlName[1] == moduleUrlName[0]) {
                                 if (this.parms_action_name == 'add' && item.modPrivs.create == true) {
-                                    console.log('-----Permission create Granted-----');
+                                    // console.log('-----Permission create Granted-----');
                                     break;
                                 }
                                 else if (this.parms_action_name == 'edit' && item.modPrivs.update == true) {
-                                    console.log('-----Permission update Granted-----');
+                                    // console.log('-----Permission update Granted-----');
                                     this.getHSNById();
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -184,7 +184,7 @@ let AddHsnPage = class AddHsnPage {
     getHSNById() {
         this.loader = true;
         this.getHsnbyIdSubscribe = this.http.get("hsn/view/" + this.parms_action_id).subscribe((res) => {
-            console.log("res", res);
+            // console.log("res",res);
             this.loader = false;
             this.model = res;
             // this.model = {
@@ -197,12 +197,12 @@ let AddHsnPage = class AddHsnPage {
             this.changeDateFormat(res.effectiveDate);
         }, (error) => {
             this.loader = false;
-            console.log("error", error);
+            // console.log("error",error);
         });
     }
     // getcatById end
     changeDateFormat(date) {
-        console.log(date);
+        // console.log(date);
         this.model.effectiveDate = moment__WEBPACK_IMPORTED_MODULE_2__(date).format('YYYY/MM/DD');
     }
     handleInputChange(e) {
@@ -213,7 +213,7 @@ let AddHsnPage = class AddHsnPage {
             alert('invalid format');
             return;
         }
-        console.log(this.imageSrc);
+        // console.log(this.imageSrc);
         this.imageSrc = null;
         // this.file = null;
         this.imageSrc = e.target.files[0];
@@ -222,10 +222,10 @@ let AddHsnPage = class AddHsnPage {
         this.http.post("admin/profile/s3/upload", fd).subscribe((res) => {
             this.imageSrc = res.path;
             this.model.categoryImage = res.path;
-            console.log("profileimgpath", this.imageSrc);
+            // console.log("profileimgpath",this.imageSrc);
             // this.commonUtils.presentToast('success', res.message);
         }, (error) => {
-            console.log("error", error);
+            // console.log("error",error);
             this.commonUtils.presentToast('error', error.error.message);
         });
         reader.onload = this._handleReaderLoaded.bind(this);
@@ -242,27 +242,27 @@ let AddHsnPage = class AddHsnPage {
         // add api start
         if (this.parms_action_name == 'add') {
             // set all val
-            console.log('form.value', form.value);
+            // console.log('form.value',form.value);
             this.addHsnSubscribe = this.http.post('hsn/add', form.value).subscribe((res) => {
                 // window.location.reload();
-                console.log("allhsndata", this.allhsndata, "response", res);
+                // console.log("allhsndata",this.allhsndata,"response",res);
                 this.btnloader = false;
                 this.router.navigateByUrl('/hsn-list');
                 this.commonUtils.presentToast('success', res.message);
                 form.reset();
             }, error => {
-                console.log(error);
+                // console.log(error);
                 this.btnloader = false;
                 this.commonUtils.presentToast('error', error.error.message);
             });
-            console.log("allda", this.allhsndata);
+            // console.log("allda",this.allhsndata);
         }
         // add api end
         // edit api start
         else if (this.parms_action_name == 'edit') {
-            console.log('form.value', form.value);
+            // console.log('form.value',form.value);
             this.addHsnSubscribe = this.http.put("hsn/update/" + this.parms_action_id, form.value).subscribe((res) => {
-                console.log("allhsndatay", this.allhsndata, "response", res);
+                // console.log("allhsndatay",this.allhsndata,"response",res);
                 this.btnloader = false;
                 // window.location.reload();
                 this.router.navigateByUrl('/hsn-list');
@@ -270,7 +270,7 @@ let AddHsnPage = class AddHsnPage {
                 form.reset();
             }, error => {
                 this.btnloader = false;
-                // console.log("error",error);
+                // // console.log("error",error);
                 this.commonUtils.presentToast('error', error.error.message);
                 // recall hsn list
             });

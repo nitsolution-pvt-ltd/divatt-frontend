@@ -173,20 +173,20 @@ let SubcategoryPage = class SubcategoryPage {
     commonFunction() {
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrl = this.router.url.split("/");
-                        console.log('pageUrl', pageUrl);
+                        // console.log('pageUrl', pageUrl);
                         for (let item of data) {
                             if (item.modDetails.url == pageUrl[1]) {
                                 if (item.modPrivs.list == true) {
-                                    console.log('-----Permission Granted-----');
+                                    // console.log('-----Permission Granted-----');
                                     this.pagePermission = item;
-                                    console.log('this.pagePermission', this.pagePermission);
+                                    // console.log('this.pagePermission', this.pagePermission);
                                     this.listing_url = 'subcategory/list';
                                     this.onRefresh();
                                     // delete api
@@ -194,7 +194,7 @@ let SubcategoryPage = class SubcategoryPage {
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -209,7 +209,7 @@ let SubcategoryPage = class SubcategoryPage {
         /*Check permission status end*/
     }
     displayRecordChange(_record) {
-        console.log('_record', _record);
+        // console.log('_record', _record);
         this.displayRecord = _record;
         this.pageNo = 0;
         this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -221,7 +221,7 @@ let SubcategoryPage = class SubcategoryPage {
         let api = _listUrl + '?page=' + _pageNo + '&limit=' + _displayRecord + '&sortName=' + _sortColumnName + '&sort=' + _sortOrderName + '&keyword=' + _searchTerm;
         this.tableListSubscribe = this.http.get(api).subscribe((res) => {
             this.isListLoading = false;
-            console.log('res', res);
+            // console.log('res', res);
             this.tableData = res;
             this.tableListData = res.data;
             //---------  check item show start ----------
@@ -242,16 +242,16 @@ let SubcategoryPage = class SubcategoryPage {
     // List data end
     // Pagination start
     setPage(page) {
-        console.log('page', page);
-        console.log("page");
+        // console.log('page', page);
+        // console.log("page");
         this.pageNo = page;
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Pagination end
     // Sorting start
     isSortTableHeader(_tableHeaderData, _headerItem) {
-        console.log('_tableHeaderData', _tableHeaderData);
-        console.log('_headerItem', _headerItem);
+        // console.log('_tableHeaderData', _tableHeaderData);
+        // console.log('_headerItem', _headerItem);
         // all field reset first
         _tableHeaderData.forEach((val) => {
             val.sortingButtonName = '';
@@ -265,14 +265,14 @@ let SubcategoryPage = class SubcategoryPage {
         }
         this.sortColumnName = _headerItem.column_name;
         this.sortOrderName = _headerItem.sortingButtonName;
-        console.log('this.sortColumnName', this.sortColumnName);
-        console.log('this.sortOrderName', this.sortOrderName);
-        console.log('_tableHeaderData>>', _tableHeaderData);
+        // console.log('this.sortColumnName', this.sortColumnName);
+        // console.log('this.sortOrderName', this.sortOrderName);
+        // console.log('_tableHeaderData>>', _tableHeaderData);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     searchList(event) {
         this.searchTerm = event.target.value;
-        console.log('this.searchTerm', this.searchTerm);
+        // console.log('this.searchTerm', this.searchTerm);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Search end
@@ -289,12 +289,12 @@ let SubcategoryPage = class SubcategoryPage {
     // Referesh end
     // Delete start
     deleteData(_id) {
-        console.log('id>>', _id);
+        // console.log('id>>', _id);
         let sentValues = { 'id': _id };
         this.deleteLoading = true;
         this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe((res) => {
             this.deleteLoading = false;
-            console.log("Edit data  res >", res.return_data);
+            // console.log("Edit data  res >", res.return_data);
             if (res.status == 200) {
                 this.commonUtils.presentToast('success', res.message);
                 this.onRefresh();
@@ -328,13 +328,13 @@ let SubcategoryPage = class SubcategoryPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            console.log('Confirm Cancel: blah');
+                            // console.log('Confirm Cancel: blah');
                         }
                     }, {
                         text: 'Okay',
                         cssClass: 'popup-ok-btn',
                         handler: () => {
-                            console.log('Confirm Okay');
+                            // console.log('Confirm Okay');
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == 'delete') {
@@ -361,32 +361,32 @@ let SubcategoryPage = class SubcategoryPage {
     statusChange(subcatid) {
         var id = { id: subcatid };
         this.changeStatusSubscribe = this.http.put('subcategory/status', id).subscribe((res) => {
-            console.log("res", res);
+            // console.log("res",res);
             this.commonUtils.presentToast('success', res.message);
             // this.getSubcategoryList();
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
         }, (error) => {
-            console.log("error", error);
+            // console.log("error",error);
             this.commonUtils.presentToast('error', error.messagee);
         });
     }
     // select all check box start
     allSelectItem(event) {
-        console.log(event);
+        // console.log(event);
         if (event.target.checked) {
             this.itemcheckClick = false;
-            // console.log('check item selkectedddddddddddddd');
+            // // console.log('check item selkectedddddddddddddd');
             for (let i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
                 if (this.checkedList.indexOf(this.tableListData[i].subCategory) === -1 && this.tableListData[i].subCategory !== null) {
                     this.checkedList.push(this.tableListData[i].subCategory);
                     this.tableListData[i].isSelected = true;
                 }
-                console.log("this.checkedList", this.checkedList);
+                // console.log("this.checkedList",this.checkedList);
             }
         }
         else if (this.itemcheckClick == false) {
-            // console.log('not check item selectionnnnnnnnnnn')
+            // // console.log('not check item selectionnnnnnnnnnn')
             this.checkedList = [];
             for (let i = 0; i < this.tableListData.length; i++) {
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1) {
@@ -394,8 +394,8 @@ let SubcategoryPage = class SubcategoryPage {
                 }
             }
         }
-        console.log('checked item all @@ >>', this.checkedList);
-        console.log('tableListData item all @@ >>', this.tableListData);
+        // console.log('checked item all @@ >>', this.checkedList);
+        // console.log('tableListData item all @@ >>', this.tableListData);
     }
     // Select all checkbox end
     // Select single checkbox start
@@ -414,14 +414,14 @@ let SubcategoryPage = class SubcategoryPage {
         }
         if (this.tableListData.length <= this.checkedList.length) {
             this.allselectModel = true;
-            console.log('length 4');
+            // console.log('length 4');
         }
         else {
-            console.log('length 0');
+            // console.log('length 0');
             this.allselectModel = false;
             this.itemcheckClick = true;
         }
-        console.log('checked item single >>', this.checkedList);
+        // console.log('checked item single >>', this.checkedList);
     }
     onClickDeleteItem(_identifire, _item, _items, _index) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
@@ -435,7 +435,7 @@ let SubcategoryPage = class SubcategoryPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            // console.log('Confirm Cancel: blah');
+                            // // console.log('Confirm Cancel: blah');
                         }
                     },
                     {
@@ -444,12 +444,12 @@ let SubcategoryPage = class SubcategoryPage {
                         handler: () => {
                             // ------------ single item delete start ------------
                             if (_identifire == 'single') {
-                                console.log('_item', _item);
+                                // console.log('_item', _item);
                                 let sentValues = { 'id': _item.subCategory.id };
                                 _item.deleteLodershow = true;
                                 this.deleteDataSubscribe = this.http.put("subcategory/delete", sentValues).subscribe((res) => {
                                     _item.deleteLodershow = false;
-                                    console.log("Edit data  res >", res.return_data);
+                                    // console.log("Edit data  res >", res.return_data);
                                     if (res.status == 200) {
                                         _items.splice(_index, 1);
                                         this.commonUtils.presentToast('success', res.return_message);
@@ -496,8 +496,8 @@ let SubcategoryPage = class SubcategoryPage {
                                                         // _items.splice(_items.indexOf(_items[i]), 1);
                                                         this.deleteLodershow = false; //loader hide
                                                         this.alldeleteLoaderShow = false;
-                                                        // console.log('delete items >>', _items);
-                                                        // console.log('delete this.checkedList >>', this.checkedList);
+                                                        // // console.log('delete items >>', _items);
+                                                        // // console.log('delete this.checkedList >>', this.checkedList);
                                                         this.allselectModel = false;
                                                     }
                                                 }

@@ -150,26 +150,26 @@ let ProductViewPage = class ProductViewPage {
         $.getScript('assets/js/menu.js');
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrl = this.router.url.split("/");
-                        console.log('pageUrl', pageUrl);
+                        // console.log('pageUrl', pageUrl);
                         for (let item of data) {
                             if (item.modDetails.url == 'product-list') {
                                 if (item.modPrivs.list == true) {
-                                    console.log('-----Permission Granted-----');
+                                    // console.log('-----Permission Granted-----');
                                     this.pagePermission = item;
-                                    console.log('this.pagePermission', this.pagePermission);
+                                    // console.log('this.pagePermission', this.pagePermission);
                                     this.api_url = 'user/viewAdmin/' + this.productId;
                                     this.getProductdetails();
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -188,15 +188,15 @@ let ProductViewPage = class ProductViewPage {
         /*Check permission status end*/
     }
     getProductdetails() {
-        console.log("response----", this.productDetail);
+        // console.log("response----",this.productDetail);
         this.productDataSubscribe = this.http.get(this.api_url).subscribe((response) => {
+            // console.log("response----",response);
             var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
-            console.log("response----", response);
             this.productDetail = response;
             if (response.productId == null) {
                 this.router.navigateByUrl('/error');
             }
-            console.log("response----", this.productDetail);
+            // console.log("response----",this.productDetail);
             var discountAmount, taxAmount, amount;
             amount = parseInt(((100 * (response === null || response === void 0 ? void 0 : response.mrp)) / (100 + ((_b = (_a = response === null || response === void 0 ? void 0 : response.deal) === null || _a === void 0 ? void 0 : _a.taxAmount) === null || _b === void 0 ? void 0 : _b.taxValue))).toFixed(0));
             this.basicAmount = parseInt(((100 * (response === null || response === void 0 ? void 0 : response.mrp)) / (100 + ((_d = (_c = response === null || response === void 0 ? void 0 : response.deal) === null || _c === void 0 ? void 0 : _c.taxAmount) === null || _d === void 0 ? void 0 : _d.taxValue))).toFixed(0));
@@ -229,7 +229,7 @@ let ProductViewPage = class ProductViewPage {
             }
             this.getColorList();
         }, errRes => {
-            console.log("error handeller >>@@", errRes);
+            // console.log("error handeller >>@@",errRes );
             if (errRes.status == 400) {
                 this.router.navigateByUrl('/error');
             }
@@ -244,7 +244,7 @@ let ProductViewPage = class ProductViewPage {
                     this.productColors.push(this.colourlist[index].colorValue);
                 }
             }
-            console.log("color list.....", this.productColors);
+            // console.log("color list.....",this.productColors);
         }, (error) => {
         });
     }
@@ -252,7 +252,7 @@ let ProductViewPage = class ProductViewPage {
     // openRejectemodal start
     openRejectemodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openRejectemodal ...........>>', _identifier, _item);
+            // console.log('openRejectemodal ...........>>', _identifier,_item);
             let profile_modal;
             profile_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_4__.ModalPage,
@@ -266,7 +266,7 @@ let ProductViewPage = class ProductViewPage {
             // modal data back to Component
             profile_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 if (getdata.data == 'submitClose') {
                 }
             });

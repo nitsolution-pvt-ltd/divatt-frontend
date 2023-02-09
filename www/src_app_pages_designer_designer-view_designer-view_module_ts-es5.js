@@ -279,17 +279,14 @@
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrl = _this.router.url.split("/"); // console.log('pageUrl', pageUrl);
 
-                    var pageUrl = _this.router.url.split("/");
-
-                    console.log('pageUrl', pageUrl);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -300,16 +297,14 @@
 
                         if (item.modDetails.url == 'designer-list') {
                           if (item.modPrivs.list == true) {
-                            console.log('-----Permission Granted-----');
-                            _this.pagePermission = item;
-                            console.log('this.pagePermission', _this.pagePermission);
+                            // console.log('-----Permission Granted-----');
+                            _this.pagePermission = item; // console.log('this.pagePermission', this.pagePermission);
 
                             _this.getDesignerProfiledata();
 
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -364,8 +359,7 @@
               } // this.commonUtils.presentToast('success', res.message);
 
             }, function (error) {
-              console.log("error", error);
-
+              // console.log("error",error);
               _this2.commonUtils.presentToast('error', error.error.message);
             });
           } // getDesignerProfiledata start
@@ -509,12 +503,10 @@
                 _this3.profileStatus = "COMPLETED";
               } else if (res.profileStatus == 'SAVED') {
                 _this3.profileStatus = "SAVED";
-              }
+              } // console.log("this.profileStatus",this.profileStatus,res.profileStatus);
 
-              console.log("this.profileStatus", _this3.profileStatus, res.profileStatus);
-            }, function (error) {
-              // this.formBtn = true;
-              console.log("error", error);
+            }, function (error) {// this.formBtn = true;
+              // console.log("error",error);
             });
           } // getDesignerProfiledata end
           // onSubmitdesignerApproveForm start
@@ -524,7 +516,7 @@
           value: function onSubmitAdminUpdateForm(form) {
             var _this4 = this;
 
-            console.log("this.profileStatus", this.profileStatus);
+            // console.log("this.profileStatus",this.profileStatus);
             var formData = {};
 
             if (this.profileStatus == "APPROVE" || this.profileStatus == "waitForApprove") {
@@ -585,7 +577,7 @@
 
               _this4.router.navigateByUrl('/designer-list');
             }, function (error) {
-              console.log("errorerror", error);
+              // console.log("errorerror",error);
               _this4.btnloader = false;
 
               _this4.commonUtils.presentToast('error', error.error.message);
@@ -601,16 +593,14 @@
             this.LebellistDataSubcribe = this.http.get("adminMData/getDesignerCategory").subscribe(function (res) {
               _this5.Lebellist = res.data;
             }, function (error) {
-              console.log(error);
-
+              // console.log(error);
               _this5.commonUtils.presentToast('error', error.error.message);
             });
           }
         }, {
           key: "selectLabel",
           value: function selectLabel(value) {
-            this.labelValue = value;
-            console.log("this.Lebellist", value, this.labelValue);
+            this.labelValue = value; // console.log("this.Lebellist",value,this.labelValue);
           }
         }, {
           key: "openImg",

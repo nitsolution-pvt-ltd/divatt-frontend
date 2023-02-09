@@ -271,24 +271,21 @@
             // get active url name
             this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
             this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
-            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
-            console.log('parms_action_name', this.parms_action_name);
-            console.log('parms_action_id', this.parms_action_id);
+            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id'); // console.log('parms_action_name', this.parms_action_name);
+            // console.log('parms_action_id', this.parms_action_id);
+
             this.getcategoryList();
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrlName = _this.router.url.split("/"); // console.log('pageUrlName', pageUrlName);
 
-                    var pageUrlName = _this.router.url.split("/");
-
-                    console.log('pageUrlName', pageUrlName);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -296,22 +293,19 @@
                     try {
                       for (_iterator.s(); !(_step = _iterator.n()).done;) {
                         var item = _step.value;
-                        var moduleUrlName = item.modDetails.url.split("-");
-                        console.log('moduleUrlName', moduleUrlName);
+                        var moduleUrlName = item.modDetails.url.split("-"); // console.log('moduleUrlName',moduleUrlName);
 
                         if (pageUrlName[1] == moduleUrlName[0]) {
                           if (_this.parms_action_name == 'add' && item.modPrivs.create == true) {
-                            console.log('-----Permission create Granted-----');
+                            // console.log('-----Permission create Granted-----');
                             break;
                           } else if (_this.parms_action_name == 'edit' && item.modPrivs.update == true) {
-                            console.log('-----Permission update Granted-----');
-
+                            // console.log('-----Permission update Granted-----');
                             _this.getcatById();
 
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -348,11 +342,9 @@
                 parentId: parseInt(res.parentId)
               };
               _this2.imageSrc = res.categoryImage;
-              _this2.previewimageSrc = res.categoryImage;
-              console.log("this.model", _this2.model);
+              _this2.previewimageSrc = res.categoryImage; // console.log("this.model",this.model);
             }, function (error) {
-              _this2.loader = false;
-              console.log("error", error);
+              _this2.loader = false; // console.log("error",error);
             });
           }
         }, {
@@ -375,11 +367,10 @@
             this.http.post("admin/profile/s3/upload", fd).subscribe(function (res) {
               _this3.imageSrc = res.path;
               _this3.previewimageSrc = res.path;
-              _this3.model.categoryImage = res.path;
-              console.log("profileimgpath", _this3.imageSrc); // this.commonUtils.presentToast('success', res.message);
+              _this3.model.categoryImage = res.path; // console.log("profileimgpath",this.imageSrc);
+              // this.commonUtils.presentToast('success', res.message);
             }, function (error) {
-              console.log("error", error);
-
+              // console.log("error",error);
               _this3.commonUtils.presentToast('error', error.error.message);
             });
             reader.onload = this._handleReaderLoaded.bind(this);
@@ -389,8 +380,7 @@
           key: "_handleReaderLoaded",
           value: function _handleReaderLoaded(e) {
             var reader = e.target;
-            this.previewimageSrc = reader.result;
-            console.log("imageSrc1", this.imageSrc);
+            this.previewimageSrc = reader.result; // console.log("imageSrc1",this.imageSrc);
           }
           /* Image uploading end */
           // form submit start
@@ -418,8 +408,7 @@
               fd.append("categoryImage", this.imageSrc);
               this.addsubCategorySubscribe = this.http.post('subcategory/add', this.allcategorydata).subscribe(function (res) {
                 // window.location.reload();
-                console.log("allcategorydata", _this4.allcategorydata, "response", res);
-
+                // console.log("allcategorydata",this.allcategorydata,"response",res);
                 _this4.router.navigateByUrl('/subcategory-list');
 
                 _this4.btnloader = false;
@@ -428,15 +417,14 @@
 
                 form.reset();
               }, function (error) {
-                _this4.btnloader = false;
-                console.log(error);
+                _this4.btnloader = false; // console.log(error);
 
                 _this4.commonUtils.presentToast('error', error.error.message);
               });
             } // add api end
             // edit api start
             else if (this.parms_action_name == 'edit') {
-              console.log("else", this.imageSrc, this.model.categoryImage);
+              // console.log("else",this.imageSrc,this.model.categoryImage);      
               this.allcategorydata = {
                 categoryDescription: form.value.categoryDescription,
                 categoryName: form.value.categoryName,
@@ -445,10 +433,10 @@
                 id: this.model.id,
                 parentId: form.value.parentId,
                 createdBy: this.model.createdBy
-              };
-              console.log("this.allcategorydata", this.allcategorydata);
+              }; // console.log("this.allcategorydata",this.allcategorydata);
+
               this.addsubCategorySubscribe = this.http.put("subcategory/update/" + this.parms_action_id, this.allcategorydata).subscribe(function (res) {
-                console.log("allcategorydatay", _this4.allcategorydata, "response", res);
+                // console.log("allcategorydatay",this.allcategorydata,"response",res);
                 _this4.btnloader = false;
 
                 _this4.commonUtils.presentToast('success', res.message);
@@ -457,7 +445,7 @@
 
                 form.reset();
               }, function (error) {
-                _this4.btnloader = false; // console.log("error",error);
+                _this4.btnloader = false; // // console.log("error",error);
 
                 _this4.commonUtils.presentToast('error', error.error.message); // recall category list
 
@@ -473,10 +461,9 @@
             var _this5 = this;
 
             this.getCategoryListSubscribe = this.http.get("category/list?limit=0").subscribe(function (res) {
-              console.log("res", res);
+              // console.log("res",res);
               _this5.categoryslist = res.data;
-            }, function (error) {
-              console.log("error", error);
+            }, function (error) {// console.log("error",error);
             });
           } // getcategoryList end
 

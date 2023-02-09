@@ -545,17 +545,14 @@
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrl = _this.router.url.split("/"); // // console.log('pageUrl', pageUrl);
 
-                    var pageUrl = _this.router.url.split("/");
-
-                    console.log('pageUrl', pageUrl);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -566,16 +563,14 @@
 
                         if (item.modDetails.url == pageUrl[1]) {
                           if (item.modPrivs.list == true) {
-                            console.log('-----Permission Granted-----');
-                            _this.pagePermission = item;
-                            console.log('this.pagePermission', _this.pagePermission);
+                            // // console.log('-----Permission Granted-----');
+                            _this.pagePermission = item; // // console.log('this.pagePermission', this.pagePermission);
 
                             _this.setPageData();
 
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -597,21 +592,20 @@
           value: function setPageData() {
             /*Check permission status end*/
             this.allselectModel = false;
-            this.model.filter = true;
-            console.log('this.model.filter', this.model.filter);
+            this.model.filter = true; // // console.log('this.model.filter', this.model.filter);
+
             this.getDesignerList();
             this.checkedList = [];
             this.endYear = moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY');
             this.currentMonth = moment__WEBPACK_IMPORTED_MODULE_2__().format('MMMM');
-            this.model.year = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY'));
-            console.log("this.endYear.......", this.endYear);
-            console.log("this.model.year.....", this.model.year);
+            this.model.year = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY')); // // console.log("this.endYear.......", this.endYear);
+            // // console.log("this.model.year.....", this.model.year);
+
             this.selectedYear = this.model.year;
 
             if (this.model.year == this.endYear) {
               for (var index = 0; index < 12; index++) {
-                console.log(this.currentMonth, this.allmonthList[index].id);
-
+                // // console.log(this.currentMonth, this.allmonthList[index].id);
                 if (this.currentMonth == this.allmonthList[index].id) {
                   this.mounthCount = index;
                   break;
@@ -626,21 +620,21 @@
               }
             } else {
               this.monthList = this.allmonthList;
-            }
+            } // // console.log("moment", this.endYear, this.currentMonth, this.model.year, moment().format('YYYY'));
 
-            console.log("moment", this.endYear, this.currentMonth, this.model.year, moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY'));
+
             var count;
 
             if (this.endYear > this.startYear || this.endYear == this.startYear) {
               count = parseInt(this.endYear) - parseInt(this.startYear) + 1;
 
               for (var _index3 = 0; _index3 < count; _index3++) {
-                console.log("moment", count);
+                // // console.log("moment", count);
                 this.yearList.push(parseInt(this.startYear) + _index3);
               }
             } else {
               this.yearList.push(this.startYear); // for (let index = 0; index < 100; index++) {
-              //   console.log("moment",count);  
+              //   // console.log("moment",count);  
               //   this.yearList.push(parseInt(this.startYear) + index);
               // }
             }
@@ -654,7 +648,7 @@
         }, {
           key: "displayRecordChange",
           value: function displayRecordChange(_record) {
-            console.log('_record', _record);
+            // // console.log('_record', _record);
             this.tableListData = [];
             this.displayRecord = _record;
             this.pageNo = 0;
@@ -664,7 +658,7 @@
         }, {
           key: "applyFilter",
           value: function applyFilter(event) {
-            console.log(event);
+            // // console.log(event);
             this.onRefresh();
           } // List data start
 
@@ -696,8 +690,8 @@
             this.tableListSubscribe = this.http.get(api).subscribe(function (res) {
               var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, _31, _32, _33, _34, _35, _36, _37, _38, _39, _40, _41, _42, _43, _44, _45, _46, _47, _48, _49, _50, _51, _52, _53, _54, _55, _56, _57, _58, _59, _60, _61, _62, _63, _64, _65, _66, _67, _68, _69, _70, _71, _72, _73, _74, _75, _76, _77, _78, _79, _80, _81, _82, _83, _84, _85, _86, _87, _88, _89, _90, _91, _92, _93, _94, _95, _96, _97, _98, _99, _100, _101, _102, _103, _104, _105, _106, _107, _108, _109, _110, _111, _112, _113, _114, _115, _116, _117, _118, _119, _120, _121, _122, _123, _124, _125, _126;
 
-              _this2.isListLoading = false;
-              console.log('res', res);
+              _this2.isListLoading = false; // // console.log('res', res);
+
               _this2.tableData = res; // this.tableListData = res.data;
 
               for (var i = 0; i < res.data.length; i++) {
@@ -785,8 +779,7 @@
                     designerName: (_117 = (_116 = res.data[i]) === null || _116 === void 0 ? void 0 : _116.designer_details) === null || _117 === void 0 ? void 0 : _117.designer_name,
                     display_name: (_119 = (_118 = res.data[i]) === null || _118 === void 0 ? void 0 : _118.designer_details) === null || _119 === void 0 ? void 0 : _119.display_name,
                     designer_id: (_121 = (_120 = res.data[i]) === null || _120 === void 0 ? void 0 : _120.designer_details) === null || _121 === void 0 ? void 0 : _121.designer_id
-                  };
-                  console.log("res.data[i]", res.data[i]);
+                  }; // // console.log("res.data[i]", res.data[i]);
 
                   var _id = void 0,
                       id = void 0;
@@ -809,9 +802,8 @@
                     designer_details: designer_details
                   });
                 }
-              }
-
-              console.log("tableListData", _this2.tableListData); //---------  check item show start ----------
+              } // // console.log("tableListData", this.tableListData);
+              //---------  check item show start ----------
               // if (this.tableListData && this.checkedList) {
               //   for (let i = 0; i < this.tableListData.length; i++) {
               //     for (let j = 0; j < this.checkedList.length; j++) {
@@ -821,11 +813,11 @@
               //     }
               //   }
               // }
+
             }, function (errRes) {
               // this.selectLoadingDepend = false;
               _this2.isListLoading = false;
-            }, function () {
-              console.log("In complete");
+            }, function () {// // console.log("In complete");
             });
           } // List data end
           // Pagination start
@@ -833,8 +825,8 @@
         }, {
           key: "setPage",
           value: function setPage(page) {
-            console.log('page', page);
-            console.log("page");
+            // // console.log('page', page);
+            // // console.log("page");
             this.tableListData = [];
             this.pageNo = page;
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -843,18 +835,15 @@
         }, {
           key: "selectFiltter",
           value: function selectFiltter(event, identifier) {
-            console.log("selectFiltter......", event === null || event === void 0 ? void 0 : event.value, identifier);
-
+            // // console.log("selectFiltter......", event?.value, identifier);
             if (identifier == 'year') {
               this.monthList = [];
               this.model.month = '';
-              this.selectedYear = event === null || event === void 0 ? void 0 : event.value;
-              console.log(this.selectedYear, this.endYear);
+              this.selectedYear = event === null || event === void 0 ? void 0 : event.value; // console.log(this.selectedYear, this.endYear);
 
               if (this.selectedYear == this.endYear) {
                 for (var index = 0; index < 12; index++) {
-                  console.log(this.currentMonth, this.allmonthList[index].id);
-
+                  // console.log(this.currentMonth, this.allmonthList[index].id);
                   if (this.currentMonth == this.allmonthList[index].id) {
                     this.mounthCount = index;
                     break;
@@ -887,18 +876,18 @@
               } else {
                 this.designerId = event;
               }
-            }
+            } // console.log(event);
 
-            console.log(event);
+
             this.onRefresh();
           } // Sorting start
 
         }, {
           key: "isSortTableHeader",
           value: function isSortTableHeader(_tableHeaderData, _headerItem) {
-            this.tableListData = [];
-            console.log('_tableHeaderData', _tableHeaderData);
-            console.log('_headerItem', _headerItem); // all field reset first
+            this.tableListData = []; // console.log('_tableHeaderData', _tableHeaderData);
+            // console.log('_headerItem', _headerItem);
+            // all field reset first
 
             _tableHeaderData.forEach(function (val) {
               val.sortingButtonName = '';
@@ -913,18 +902,18 @@
             }
 
             this.sortColumnName = _headerItem.column_name;
-            this.sortOrderName = _headerItem.sortingButtonName;
-            console.log('this.sortColumnName', this.sortColumnName);
-            console.log('this.sortOrderName', this.sortOrderName);
-            console.log('_tableHeaderData>>', _tableHeaderData);
+            this.sortOrderName = _headerItem.sortingButtonName; // console.log('this.sortColumnName', this.sortColumnName);
+            // console.log('this.sortOrderName', this.sortOrderName);
+            // console.log('_tableHeaderData>>', _tableHeaderData);
+
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           }
         }, {
           key: "searchList",
           value: function searchList(event) {
             this.tableListData = [];
-            this.searchTerm = event.target.value;
-            console.log('this.searchTerm', this.searchTerm);
+            this.searchTerm = event.target.value; // console.log('this.searchTerm', this.searchTerm);
+
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Search end
           // Referesh start
@@ -948,13 +937,13 @@
           value: function deleteData(_id) {
             var _this3 = this;
 
-            console.log('id>>', _id);
+            // console.log('id>>', _id);
             var sentValues = {
               'id': _id
             };
             this.deleteLoading = true;
             this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe(function (res) {
-              _this3.deleteLoading = false; // console.log("Delete data  res >", res.return_data);
+              _this3.deleteLoading = false; // // console.log("Delete data  res >", res.return_data);
 
               if (res.status == 200) {
                 _this3.commonUtils.presentToast('success', res.message);
@@ -999,16 +988,13 @@
                           text: 'Cancel',
                           role: 'cancel',
                           cssClass: 'popup-cancel-btn',
-                          handler: function handler(blah) {
-                            console.log('Confirm Cancel: blah');
+                          handler: function handler(blah) {// console.log('Confirm Cancel: blah');
                           }
                         }, {
                           text: 'Okay',
                           cssClass: 'popup-ok-btn',
                           handler: function handler() {
-                            console.log('Confirm Okay'); // this.clickActionBtn('', 'delete');
-                            // this.deleteData(_id);
-
+                            // console.log('Confirm Okay');
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == 'delete') {
@@ -1064,9 +1050,8 @@
         }, {
           key: "changeStatus",
           value: function changeStatus(_identifier, item) {
-            var _a, _b;
+            var _a, _b; // console.log(item, this.tableData.data);
 
-            console.log(item, this.tableData.data);
 
             var _items;
 
@@ -1091,8 +1076,7 @@
                 while (1) {
                   switch (_context3.prev = _context3.next) {
                     case 0:
-                      console.log('openAccountStatusModal ...........>>', _identifier);
-                      _context3.next = 3;
+                      _context3.next = 2;
                       return this.modalController.create({
                         component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_5__.ModalPage,
                         cssClass: 'mymodalClass small openProductComment',
@@ -1103,21 +1087,20 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       profile_modal = _context3.sent;
                       // modal data back to Component
                       profile_modal.onDidDismiss().then(function (getdata) {
-                        console.log('getdata >>>>>>>>>>>', getdata);
-
+                        // console.log('getdata >>>>>>>>>>>', getdata);
                         _this5.onRefresh();
                       });
-                      _context3.next = 7;
+                      _context3.next = 6;
                       return profile_modal.present();
 
-                    case 7:
+                    case 6:
                       return _context3.abrupt("return", _context3.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context3.stop();
                   }
@@ -1145,7 +1128,7 @@
                           text: 'Cancel',
                           role: 'cancel',
                           cssClass: 'popup-cancel-btn',
-                          handler: function handler(blah) {// console.log('Confirm Cancel: blah');
+                          handler: function handler(blah) {// // console.log('Confirm Cancel: blah');
                           }
                         }, {
                           text: 'Ok',
@@ -1153,15 +1136,15 @@
                           handler: function handler() {
                             // ------------ single item delete start ------------
                             if (_identifire == 'single') {
-                              console.log('_item', _item);
+                              // console.log('_item', _item);
                               var sentValues = {
                                 'id': _item.id
                               };
                               _item.deleteLodershow = true;
                               _this6.deleteDataSubscribe = _this6.http.put("category/delete", sentValues).subscribe(function (res) {
-                                _item.deleteLodershow = false;
-                                console.log("Edit data  res >", res.return_data);
+                                _item.deleteLodershow = false; // console.log("Edit data  res >", res.return_data);
 
+                                // console.log("Edit data  res >", res.return_data);
                                 if (res.status == 200) {
                                   _items.splice(_index, 1);
 
@@ -1218,11 +1201,11 @@
                                           _this6.deleteLodershow = false; //loader hide
 
                                           //loader hide
-                                          _this6.alldeleteLoaderShow = false; // console.log('delete items >>', _items);
-                                          // console.log('delete this.checkedList >>', this.checkedList);
+                                          _this6.alldeleteLoaderShow = false; // // console.log('delete items >>', _items);
+                                          // // console.log('delete this.checkedList >>', this.checkedList);
 
-                                          // console.log('delete items >>', _items);
-                                          // console.log('delete this.checkedList >>', this.checkedList);
+                                          // // console.log('delete items >>', _items);
+                                          // // console.log('delete this.checkedList >>', this.checkedList);
                                           _this6.allselectModel = false;
                                         }
                                       }
@@ -1280,8 +1263,7 @@
 
         }, {
           key: "Check",
-          value: function Check(e) {
-            console.log("Val", e);
+          value: function Check(e) {// console.log("Val", e);
           }
         }, {
           key: "getDesignerList",
@@ -1300,10 +1282,8 @@
                 }); // this.filteredDesignerList.push(res?.data[i]?.designerProfileEntity?.designerProfile?.displayName);
               }
 
-              _this7.designerList = designerList;
-              console.log("designerList", _this7.designerList, designerList, res.data);
-            }, function (error) {});
-            console.log("designerList", this.designerList);
+              _this7.designerList = designerList; // console.log("designerList", this.designerList, designerList, res.data);
+            }, function (error) {}); // console.log("designerList", this.designerList);
           } // public filteredDesignerList = this.designerList.slice();
 
         }, {

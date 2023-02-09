@@ -281,24 +281,21 @@
             // get active url name
             this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
             this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
-            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
-            console.log('parms_action_name', this.parms_action_name);
-            console.log('parms_action_id', this.parms_action_id);
+            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id'); // console.log('parms_action_name', this.parms_action_name);
+            // console.log('parms_action_id', this.parms_action_id);
+
             this.dateRange = moment__WEBPACK_IMPORTED_MODULE_2__(new Date()).format('YYYY-MM-DD');
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrlName = _this.router.url.split("/"); // console.log('pageUrlName', pageUrlName);
 
-                    var pageUrlName = _this.router.url.split("/");
-
-                    console.log('pageUrlName', pageUrlName);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -306,22 +303,19 @@
                     try {
                       for (_iterator.s(); !(_step = _iterator.n()).done;) {
                         var item = _step.value;
-                        var moduleUrlName = item.modDetails.url.split("-");
-                        console.log('moduleUrlName', moduleUrlName);
+                        var moduleUrlName = item.modDetails.url.split("-"); // console.log('moduleUrlName',moduleUrlName);
 
                         if (pageUrlName[1] == moduleUrlName[0]) {
                           if (_this.parms_action_name == 'add' && item.modPrivs.create == true) {
-                            console.log('-----Permission create Granted-----');
+                            // console.log('-----Permission create Granted-----');
                             break;
                           } else if (_this.parms_action_name == 'edit' && item.modPrivs.update == true) {
-                            console.log('-----Permission update Granted-----');
-
+                            // console.log('-----Permission update Granted-----');
                             _this.getHSNById();
 
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -348,7 +342,7 @@
 
             this.loader = true;
             this.getHsnbyIdSubscribe = this.http.get("hsn/view/" + this.parms_action_id).subscribe(function (res) {
-              console.log("res", res);
+              // console.log("res",res);
               _this2.loader = false;
               _this2.model = res; // this.model = {
               //   hsnCode:res.hsnCode,
@@ -360,15 +354,14 @@
 
               _this2.changeDateFormat(res.effectiveDate);
             }, function (error) {
-              _this2.loader = false;
-              console.log("error", error);
+              _this2.loader = false; // console.log("error",error);
             });
           } // getcatById end
 
         }, {
           key: "changeDateFormat",
           value: function changeDateFormat(date) {
-            console.log(date);
+            // console.log(date);
             this.model.effectiveDate = moment__WEBPACK_IMPORTED_MODULE_2__(date).format('YYYY/MM/DD');
           }
         }, {
@@ -383,9 +376,9 @@
             if (!file.type.match(pattern)) {
               alert('invalid format');
               return;
-            }
+            } // console.log(this.imageSrc);
 
-            console.log(this.imageSrc);
+
             this.imageSrc = null; // this.file = null;
 
             this.imageSrc = e.target.files[0];
@@ -393,11 +386,10 @@
             fd.append("file", e.target.files[0]);
             this.http.post("admin/profile/s3/upload", fd).subscribe(function (res) {
               _this3.imageSrc = res.path;
-              _this3.model.categoryImage = res.path;
-              console.log("profileimgpath", _this3.imageSrc); // this.commonUtils.presentToast('success', res.message);
+              _this3.model.categoryImage = res.path; // console.log("profileimgpath",this.imageSrc);
+              // this.commonUtils.presentToast('success', res.message);
             }, function (error) {
-              console.log("error", error);
-
+              // console.log("error",error);
               _this3.commonUtils.presentToast('error', error.error.message);
             });
             reader.onload = this._handleReaderLoaded.bind(this);
@@ -421,10 +413,10 @@
 
             if (this.parms_action_name == 'add') {
               // set all val
-              console.log('form.value', form.value);
+              // console.log('form.value',form.value);
               this.addHsnSubscribe = this.http.post('hsn/add', form.value).subscribe(function (res) {
                 // window.location.reload();
-                console.log("allhsndata", _this4.allhsndata, "response", res);
+                // console.log("allhsndata",this.allhsndata,"response",res);
                 _this4.btnloader = false;
 
                 _this4.router.navigateByUrl('/hsn-list');
@@ -433,18 +425,17 @@
 
                 form.reset();
               }, function (error) {
-                console.log(error);
+                // console.log(error);
                 _this4.btnloader = false;
 
                 _this4.commonUtils.presentToast('error', error.error.message);
-              });
-              console.log("allda", this.allhsndata);
+              }); // console.log("allda",this.allhsndata);
             } // add api end
             // edit api start
             else if (this.parms_action_name == 'edit') {
-              console.log('form.value', form.value);
+              // console.log('form.value',form.value);
               this.addHsnSubscribe = this.http.put("hsn/update/" + this.parms_action_id, form.value).subscribe(function (res) {
-                console.log("allhsndatay", _this4.allhsndata, "response", res);
+                // console.log("allhsndatay",this.allhsndata,"response",res);
                 _this4.btnloader = false; // window.location.reload();
 
                 _this4.router.navigateByUrl('/hsn-list');
@@ -453,7 +444,7 @@
 
                 form.reset();
               }, function (error) {
-                _this4.btnloader = false; // console.log("error",error);
+                _this4.btnloader = false; // // console.log("error",error);
 
                 _this4.commonUtils.presentToast('error', error.error.message); // recall hsn list
 

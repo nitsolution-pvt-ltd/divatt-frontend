@@ -322,24 +322,24 @@ let ProductPage = class ProductPage {
         this.currentDate = moment__WEBPACK_IMPORTED_MODULE_5__(currentDate).format('YYYY/MM/DD');
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrl = this.router.url.split("/");
-                        console.log('pageUrl', pageUrl);
+                        // console.log('pageUrl', pageUrl);
                         for (let item of data) {
                             if (item.modDetails.url == pageUrl[1]) {
                                 if (item.modPrivs.list == true) {
-                                    console.log('-----Permission Granted-----');
+                                    // console.log('-----Permission Granted-----');
                                     this.pagePermission = item;
-                                    console.log('this.pagePermission', this.pagePermission);
+                                    // console.log('this.pagePermission', this.pagePermission);
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -348,7 +348,7 @@ let ProductPage = class ProductPage {
                 });
             }
             else if (res.authority == 'DESIGNER') {
-                console.log("res.authority", res.authority);
+                // console.log("res.authority",res.authority);
                 this.getDesignerProfiledata(res.uid);
             }
         });
@@ -356,13 +356,13 @@ let ProductPage = class ProductPage {
         // delete api
         this.deleteApi = 'category/delete';
         this.storage.get('setStroageGlobalParamsData').then((val) => {
-            console.log('User ID', val.uid);
+            // console.log('User ID', val.uid);
             this.role = val.authority;
             this.designerId = val.uid;
-            console.log("Role", this.role);
+            // console.log("Role",this.role);
             this.setApis(this.role, this.designerId);
         });
-        console.log("this.listing_url", this.listing_url);
+        // console.log("this.listing_url",this.listing_url);
     }
     // getDesignerProfiledata for check perpession start
     getDesignerProfiledata(uid) {
@@ -372,14 +372,14 @@ let ProductPage = class ProductPage {
             }
             else {
                 let pageUrl = this.router.url.split("/");
-                console.log('pageUrl', pageUrl[1]);
+                // console.log('pageUrl', pageUrl[1]);
                 if (pageUrl[1] == 'product-list') {
                     this.commonUtils.presentToast('error', "Sorry ! You don't have any permission on product.");
                     this.router.navigateByUrl('/error');
                 }
             }
         }, (error) => {
-            console.log("error", error);
+            // console.log("error",error);
         });
     }
     // getDesignerProfiledata for check perpession  end
@@ -396,7 +396,7 @@ let ProductPage = class ProductPage {
     }
     // datatype start
     datatype(identifier) {
-        console.log(identifier);
+        // console.log(identifier);
         this.statustype = identifier;
         this.tableTitle = identifier;
         // if(identifier == 0)
@@ -423,7 +423,7 @@ let ProductPage = class ProductPage {
     // changeStatus start
     changeStatus(identifier, item) {
         this.approvalApi = 'product/changeProductApprovalStatus';
-        console.log("identifier,id", identifier, item);
+        // console.log("identifier,id",identifier,item);
         if (identifier == 'reject') {
             var _items;
             var data = {
@@ -440,11 +440,11 @@ let ProductPage = class ProductPage {
             data = item.productStageDetails.comment;
             var body = [];
             body = item.productStageDetails.comment;
-            // console.log(this.get_item,this.get_item.item.comments.length);
+            // // console.log(this.get_item,this.get_item.item.comments.length);
             // if no comment
             if (item.productStageDetails.comment == null) {
                 this.storage.get('setStroageGlobalParamsData').then((val) => {
-                    console.log('All User Data', val.uid);
+                    // console.log('All User Data', val.uid);
                     this.role = val.authority;
                     body = [
                         {
@@ -459,14 +459,14 @@ let ProductPage = class ProductPage {
             // // if comment have
             else {
                 this.storage.get('setStroageGlobalParamsData').then((val) => {
-                    console.log('All User Data', val.uid);
+                    // console.log('All User Data', val.uid);
                     this.role = val.authority;
                     body.push({ Reason: 'Approved', comments: '', adminId: val.uid, dateTime: this.currentDate,
                     });
                 });
             }
             this.storage.get('setStroageGlobalParamsData').then((val) => {
-                console.log('All User Data', val.uid);
+                // console.log('All User Data', val.uid);
                 this.role = val.authority;
                 let comment = {
                     adminStatus: "Approved",
@@ -475,12 +475,12 @@ let ProductPage = class ProductPage {
                     productId: item.productId,
                     designerId: item.designerId,
                 };
-                console.log("comment", comment);
+                // console.log("comment",comment);
                 this.approveProductSubscribe = this.http.put('product/changeProductApprovalStatus', comment).subscribe((res) => {
                     this.onRefresh();
                     this.commonUtils.presentToast('success', res.message);
                 }, (error) => {
-                    console.log("errorerror", error);
+                    // console.log("errorerror",error);
                     this.commonUtils.presentToast('error', error.error.message);
                 });
             });
@@ -491,9 +491,9 @@ let ProductPage = class ProductPage {
     // changeStatus end
     // approveProduct start
     onapproveProduct(data) {
-        console.log(data);
+        // console.log(data);
         this.storage.get('setStroageGlobalParamsData').then((val) => {
-            console.log('All User Data', val.uid);
+            // console.log('All User Data', val.uid);
             this.role = val.authority;
             var alldata = [
                 {
@@ -515,14 +515,14 @@ let ProductPage = class ProductPage {
                 // this.btnloader = false;
                 this.onRefresh();
             }, (error) => {
-                console.log("errorerror", error);
+                // console.log("errorerror",error);
                 //  this.btnloader = false;
                 this.commonUtils.presentToast('error', error.error.message);
             });
         });
     }
     displayRecordChange(_record) {
-        console.log('_record Apurba....', _record);
+        // console.log('_record Apurba....', _record);
         this.displayRecord = _record;
         this.pageNo = 0;
         this.onListDate(this.statustype, this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -540,7 +540,7 @@ let ProductPage = class ProductPage {
         }
         this.tableListSubscribe = this.http.get(api).subscribe((res) => {
             this.isListLoading = false;
-            console.log('res', res);
+            // console.log('res', res);
             this.tableData = res;
             this.tableListData = res.data;
             if (this.tableListData.length != 0) {
@@ -567,16 +567,16 @@ let ProductPage = class ProductPage {
     // List data end
     // Pagination start
     setPage(page) {
-        console.log('page', page);
-        console.log("page");
+        // console.log('page', page);
+        // console.log("page");
         this.pageNo = page;
         this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Pagination end
     // Sorting start
     isSortTableHeader(_tableHeaderData, _headerItem) {
-        console.log('_tableHeaderData', _tableHeaderData);
-        console.log('_headerItem', _headerItem);
+        // console.log('_tableHeaderData', _tableHeaderData);
+        // console.log('_headerItem', _headerItem);
         // all field reset first
         _tableHeaderData.forEach((val) => {
             val.sortingButtonName = '';
@@ -590,14 +590,14 @@ let ProductPage = class ProductPage {
         }
         this.sortColumnName = _headerItem.column_name;
         this.sortOrderName = _headerItem.sortingButtonName;
-        console.log('this.sortColumnName', this.sortColumnName);
-        console.log('this.sortOrderName', this.sortOrderName);
-        console.log('_tableHeaderData>>', _tableHeaderData);
+        // console.log('this.sortColumnName', this.sortColumnName);
+        // console.log('this.sortOrderName', this.sortOrderName);
+        // console.log('_tableHeaderData>>', _tableHeaderData);
         this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     searchList(event) {
         this.searchTerm = event.target.value;
-        console.log('this.searchTerm', this.searchTerm);
+        // console.log('this.searchTerm', this.searchTerm);
         this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Search end
@@ -614,12 +614,12 @@ let ProductPage = class ProductPage {
     // Referesh end
     // Delete start
     deleteData(_id) {
-        console.log('id>>', _id);
+        // console.log('id>>', _id);
         let sentValues = { 'id': _id };
         this.deleteLoading = true;
         this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe((res) => {
             this.deleteLoading = false;
-            console.log("Edit data  res >", res.return_data);
+            // console.log("Edit data  res >", res.return_data);
             if (res.status == 200) {
                 this.commonUtils.presentToast('success', res.message);
                 this.onRefresh();
@@ -652,13 +652,13 @@ let ProductPage = class ProductPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            console.log('Confirm Cancel: blah');
+                            // console.log('Confirm Cancel: blah');
                         }
                     }, {
                         text: 'Okay',
                         cssClass: 'popup-ok-btn',
                         handler: () => {
-                            console.log('Confirm Okay');
+                            // console.log('Confirm Okay');
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == 'delete') {
@@ -704,7 +704,7 @@ let ProductPage = class ProductPage {
     allSelectItem(event) {
         if (event.target.checked) {
             this.itemcheckClick = false;
-            // console.log('check item selkectedddddddddddddd');
+            // // console.log('check item selkectedddddddddddddd');
             for (let i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1 && this.tableListData[i] !== null) {
@@ -714,7 +714,7 @@ let ProductPage = class ProductPage {
             }
         }
         else if (this.itemcheckClick == false) {
-            // console.log('not check item selectionnnnnnnnnnn')
+            // // console.log('not check item selectionnnnnnnnnnn')
             this.checkedList = [];
             for (let i = 0; i < this.tableListData.length; i++) {
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1) {
@@ -722,8 +722,8 @@ let ProductPage = class ProductPage {
                 }
             }
         }
-        console.log('checked item all @@ >>', this.checkedList);
-        console.log('tableListData item all @@ >>', this.tableListData);
+        // console.log('checked item all @@ >>', this.checkedList);
+        // console.log('tableListData item all @@ >>', this.tableListData);
     }
     // Select all checkbox end
     // Select single checkbox start
@@ -742,18 +742,18 @@ let ProductPage = class ProductPage {
         }
         if (this.tableListData.length <= this.checkedList.length) {
             this.allselectModel = true;
-            console.log('length 4');
+            // console.log('length 4');
         }
         else {
-            console.log('length 0');
+            // console.log('length 0');
             this.allselectModel = false;
             this.itemcheckClick = true;
         }
-        console.log('checked item single >>', this.checkedList);
+        // console.log('checked item single >>', this.checkedList);
     }
     onClickDeleteItem(_identifire, _item, _items, _index) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            console.log("_item", _item);
+            // console.log("_item",_item);
             const alert = yield this.alertController.create({
                 cssClass: 'aleart-popupBox',
                 header: 'Delete',
@@ -764,7 +764,7 @@ let ProductPage = class ProductPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            // console.log('Confirm Cancel: blah');
+                            // // console.log('Confirm Cancel: blah');
                         }
                     },
                     {
@@ -773,12 +773,12 @@ let ProductPage = class ProductPage {
                         handler: () => {
                             // ------------ single item delete start ------------
                             if (_identifire == 'single') {
-                                console.log('_item', _item);
+                                // console.log('_item', _item);
                                 let sentValues = { 'id': _item };
                                 // _item.deleteLodershow = true;
                                 this.deleteDataSubscribe = this.http.put("designerProduct/delete/" + _item, '').subscribe((res) => {
                                     // _item.deleteLodershow = false;
-                                    console.log("Edit data  res >", res.return_data);
+                                    // console.log("Edit data  res >", res.return_data);
                                     if (res.status == 200) {
                                         // _items.splice( _index, 1 );
                                         // this.commonUtils.presentToast('success', res.return_message);
@@ -826,8 +826,8 @@ let ProductPage = class ProductPage {
                                                         // _items.splice(_items.indexOf(_items[i]), 1);
                                                         // this.deleteLodershow = false; //loader hide
                                                         this.alldeleteLoaderShow = false;
-                                                        // console.log('delete items >>', _items);
-                                                        // console.log('delete this.checkedList >>', this.checkedList);
+                                                        // // console.log('delete items >>', _items);
+                                                        // // console.log('delete this.checkedList >>', this.checkedList);
                                                         this.allselectModel = false;
                                                     }
                                                 }
@@ -868,7 +868,7 @@ let ProductPage = class ProductPage {
     // Click Delete Item end
     openProductCommentmodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openProductCommentmodal ...........>>', _identifier);
+            // console.log('openProductCommentmodal ...........>>', _identifier);
             let profile_modal;
             profile_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
@@ -882,7 +882,7 @@ let ProductPage = class ProductPage {
             // modal data back to Component
             profile_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
                 if (getdata.data == 'submitClose') {
                 }
@@ -893,7 +893,7 @@ let ProductPage = class ProductPage {
     // openRejectemodal start
     openRejectemodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openRejectemodal ...........>>', _identifier, _item);
+            // console.log('openRejectemodal ...........>>', _identifier,_item);
             let profile_modal;
             profile_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
@@ -907,7 +907,7 @@ let ProductPage = class ProductPage {
             // modal data back to Component
             profile_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 if (getdata.data == 'submitClose') {
                 }
             });

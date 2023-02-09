@@ -366,17 +366,14 @@
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log("res>>", res);
-
+              // console.log("res>>", res);
               if (res.authority == "ADMIN") {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log("menu>>", data);
-                    console.log("this.router.url>>", _this.router.url);
+                    // console.log("menu>>", data);
+                    // console.log("this.router.url>>", this.router.url);
+                    var pageUrl = _this.router.url.split("/"); // console.log("pageUrl", pageUrl);
 
-                    var pageUrl = _this.router.url.split("/");
-
-                    console.log("pageUrl", pageUrl);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -387,9 +384,9 @@
 
                         if (item.modDetails.url == pageUrl[1]) {
                           if (item.modPrivs.list == true) {
-                            console.log("-----Permission Granted-----");
-                            _this.pagePermission = item;
-                            console.log("this.pagePermission", _this.pagePermission);
+                            // console.log("-----Permission Granted-----");
+                            _this.pagePermission = item; // console.log("this.pagePermission", this.pagePermission);
+
                             _this.listing_url = "userOrder/skuList";
 
                             _this.onRefresh(); // delete api
@@ -397,8 +394,7 @@
 
                             break;
                           } else {
-                            console.log("-------No Permission--------");
-
+                            // console.log("-------No Permission--------");
                             _this.router.navigateByUrl("/error");
                           }
                         }
@@ -420,7 +416,7 @@
         }, {
           key: "datatype",
           value: function datatype(identifier) {
-            console.log(identifier);
+            // console.log(identifier);
             this.statustype = identifier;
             this.tableTitle = identifier;
             this.onRefresh(); //  this.onListDate(this.statustype,this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -428,7 +424,7 @@
         }, {
           key: "displayRecordChange",
           value: function displayRecordChange(_record) {
-            console.log("_record", _record);
+            // console.log("_record", _record);
             this.displayRecord = _record;
             this.pageNo = 0;
             this.onListDate(this.statustype, this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -443,8 +439,8 @@
             this.isListLoading = true;
             var api = _listUrl + '?orderItemStatus=' + status + '&page=' + _pageNo + '&limit=' + _displayRecord + '&sortName=' + _sortColumnName + '&sort=' + _sortOrderName + '&keyword=' + _searchTerm;
             this.tableListSubscribe = this.http.get(api).subscribe(function (res) {
-              _this2.isListLoading = false;
-              console.log("res data......", res);
+              _this2.isListLoading = false; // console.log("res data......", res);
+
               _this2.tableData = res;
               var count = [];
               count = res === null || res === void 0 ? void 0 : res.data;
@@ -467,8 +463,8 @@
                 returnRequest: res.returnRequest,
                 Rejected: res.rejected,
                 requestForCancelation: res.requestForCancelation
-              };
-              console.log("Order Count Data....", _this2.order_countData); //---------  check item show start ----------
+              }; // console.log("Order Count Data....",this.order_countData);
+              //---------  check item show start ----------
 
               if (_this2.tableListData && _this2.checkedList) {
                 for (var i = 0; i < _this2.tableListData.length; i++) {
@@ -489,8 +485,8 @@
         }, {
           key: "setPage",
           value: function setPage(page) {
-            console.log("page", page);
-            console.log("page");
+            // console.log("page", page);
+            // console.log("page");
             this.pageNo = page;
             this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Pagination end
@@ -499,9 +495,9 @@
         }, {
           key: "isSortTableHeader",
           value: function isSortTableHeader(_tableHeaderData, _headerItem) {
-            console.log("_tableHeaderData", _tableHeaderData);
-            console.log("_headerItem", _headerItem); // all field reset first
-
+            // console.log("_tableHeaderData", _tableHeaderData);
+            // console.log("_headerItem", _headerItem);
+            // all field reset first
             _tableHeaderData.forEach(function (val) {
               val.sortingButtonName = "";
             });
@@ -515,17 +511,17 @@
             }
 
             this.sortColumnName = _headerItem.column_name;
-            this.sortOrderName = _headerItem.sortingButtonName;
-            console.log("this.sortColumnName", this.sortColumnName);
-            console.log("this.sortOrderName", this.sortOrderName);
-            console.log("_tableHeaderData>>", _tableHeaderData);
+            this.sortOrderName = _headerItem.sortingButtonName; // console.log("this.sortColumnName", this.sortColumnName);
+            // console.log("this.sortOrderName", this.sortOrderName);
+            // console.log("_tableHeaderData>>", _tableHeaderData);
+
             this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           }
         }, {
           key: "searchList",
           value: function searchList(event) {
-            this.searchTerm = event.target.value;
-            console.log("this.searchTerm", this.searchTerm);
+            this.searchTerm = event.target.value; // console.log("this.searchTerm", this.searchTerm);
+
             this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Search end
           // Referesh start
@@ -556,8 +552,7 @@
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      console.log('openProfilemodal ...........>>', _identifier);
-                      _context.next = 3;
+                      _context.next = 2;
                       return this.modalController.create({
                         component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_5__.ModalPage,
                         cssClass: 'mymodalClass small profilemodal',
@@ -568,21 +563,20 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       orderCommentmodal = _context.sent;
                       // modal data back to Component
                       orderCommentmodal.onDidDismiss().then(function (getdata) {
-                        console.log("getdata", getdata);
-
+                        // console.log("getdata",getdata);
                         _this3.onRefresh();
                       });
-                      _context.next = 7;
+                      _context.next = 6;
                       return orderCommentmodal.present();
 
-                    case 7:
+                    case 6:
                       return _context.abrupt("return", _context.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context.stop();
                   }

@@ -184,25 +184,25 @@ export class ProductPage implements OnInit {
     this.currentDate = moment(currentDate).format('YYYY/MM/DD');
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res.authority == 'ADMIN'){
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if(data){
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
     
             let pageUrl = this.router.url.split("/");
-            console.log('pageUrl', pageUrl);
+            // console.log('pageUrl', pageUrl);
     
             for(let item of data) {
               if(item.modDetails.url == pageUrl[1]){
                 if(item.modPrivs.list == true){
-                  console.log('-----Permission Granted-----');
+                  // console.log('-----Permission Granted-----');
                   this.pagePermission = item;
-                  console.log('this.pagePermission', this.pagePermission);
+                  // console.log('this.pagePermission', this.pagePermission);
                   break;
                 }else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
                 
@@ -212,7 +212,7 @@ export class ProductPage implements OnInit {
         })
       }else if(res.authority == 'DESIGNER')
       {
-        console.log("res.authority",res.authority);
+        // console.log("res.authority",res.authority);
         
         this.getDesignerProfiledata(res.uid)
       }
@@ -222,15 +222,15 @@ export class ProductPage implements OnInit {
        // delete api
     this.deleteApi = 'category/delete';
     this.storage.get('setStroageGlobalParamsData').then((val) => {
-      console.log('User ID', val.uid);
+      // console.log('User ID', val.uid);
       this.role=val.authority
       this.designerId = val.uid;
-      console.log("Role",this.role);
+      // console.log("Role",this.role);
       this.setApis(this.role,this.designerId)
 
       
     });
-    console.log("this.listing_url",this.listing_url);
+    // console.log("this.listing_url",this.listing_url);
     
   }
   // getDesignerProfiledata for check perpession start
@@ -246,7 +246,7 @@ getDesignerProfiledata(uid)
       }else
       {
         let pageUrl = this.router.url.split("/");
-        console.log('pageUrl', pageUrl[1]);
+        // console.log('pageUrl', pageUrl[1]);
         if(pageUrl[1] == 'product-list')
         {
           this.commonUtils.presentToast('error',"Sorry ! You don't have any permission on product.");
@@ -257,7 +257,7 @@ getDesignerProfiledata(uid)
       
     },
     (error) =>{
-      console.log("error",error);
+      // console.log("error",error);
     })
 }
 // getDesignerProfiledata for check perpession  end
@@ -278,7 +278,7 @@ getDesignerProfiledata(uid)
   // datatype start
   datatype(identifier)
   {
-      console.log(identifier);
+      // console.log(identifier);
       this.statustype = identifier
       this.tableTitle = identifier;
     // if(identifier == 0)
@@ -306,7 +306,7 @@ getDesignerProfiledata(uid)
   changeStatus(identifier,item)
   {
     this.approvalApi = 'product/changeProductApprovalStatus';
-    console.log("identifier,id",identifier,item);
+    // console.log("identifier,id",identifier,item);
     
     if(identifier == 'reject')
     {
@@ -327,12 +327,12 @@ getDesignerProfiledata(uid)
     data = item.productStageDetails.comment;
     var body = [];
     body = item.productStageDetails.comment;
-    // console.log(this.get_item,this.get_item.item.comments.length);
+    // // console.log(this.get_item,this.get_item.item.comments.length);
     // if no comment
     if(item.productStageDetails.comment == null)
     {
       this.storage.get('setStroageGlobalParamsData').then((val) => {
-        console.log('All User Data', val.uid);
+        // console.log('All User Data', val.uid);
         this.role = val.authority;
         body = [
           {
@@ -348,14 +348,14 @@ getDesignerProfiledata(uid)
     else 
     {
       this.storage.get('setStroageGlobalParamsData').then((val) => {
-        console.log('All User Data', val.uid);
+        // console.log('All User Data', val.uid);
         this.role = val.authority;
         body.push({Reason : 'Approved',comments:'',adminId:val.uid,dateTime : this.currentDate,
         })
         });
     }
     this.storage.get('setStroageGlobalParamsData').then((val) => {
-      console.log('All User Data', val.uid);
+      // console.log('All User Data', val.uid);
       this.role = val.authority;
       let comment ={
         adminStatus:"Approved",
@@ -364,7 +364,7 @@ getDesignerProfiledata(uid)
         productId:item.productId,
         designerId:item.designerId,
       }
-      console.log("comment",comment);
+      // console.log("comment",comment);
       
       this.approveProductSubscribe =this.http.put('product/changeProductApprovalStatus',comment).subscribe(
         (res:any) => {
@@ -372,7 +372,7 @@ getDesignerProfiledata(uid)
           this.commonUtils.presentToast('success', res.message);
            },
         (error) =>{
-          console.log("errorerror",error);
+          // console.log("errorerror",error);
           this.commonUtils.presentToast('error', error.error.message);
          
         })
@@ -386,9 +386,9 @@ getDesignerProfiledata(uid)
   onapproveProduct(data)
   {
     
-      console.log(data);
+      // console.log(data);
     this.storage.get('setStroageGlobalParamsData').then((val) => {
-      console.log('All User Data', val.uid);
+      // console.log('All User Data', val.uid);
       this.role = val.authority;
       var alldata = [
         {
@@ -412,7 +412,7 @@ getDesignerProfiledata(uid)
           this.onRefresh()
         },
         (error) =>{
-          console.log("errorerror",error);
+          // console.log("errorerror",error);
           //  this.btnloader = false;
           this.commonUtils.presentToast('error', error.error.message);
           
@@ -432,7 +432,7 @@ getDesignerProfiledata(uid)
       // { id : '5', displayValue: '0'}
     ];
     displayRecordChange(_record) {
-      console.log('_record Apurba....', _record);
+      // console.log('_record Apurba....', _record);
       
       this.displayRecord = _record;
       this.pageNo = 0;
@@ -455,7 +455,7 @@ getDesignerProfiledata(uid)
       this.tableListSubscribe = this.http.get(api).subscribe(
         (res:any) => {
           this.isListLoading = false;
-          console.log('res', res);
+          // console.log('res', res);
           this.tableData = res;
           this.tableListData = res.data;
           if(this.tableListData.length != 0 )
@@ -486,8 +486,8 @@ getDesignerProfiledata(uid)
     // List data end
     // Pagination start
     setPage(page: number) {
-      console.log('page', page);
-      console.log("page");
+      // console.log('page', page);
+      // console.log("page");
       
       this.pageNo = page;
       this.onListDate(this.statustype,this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -497,8 +497,8 @@ getDesignerProfiledata(uid)
 
     // Sorting start
     isSortTableHeader(_tableHeaderData,  _headerItem ){
-      console.log('_tableHeaderData', _tableHeaderData);
-      console.log('_headerItem', _headerItem);
+      // console.log('_tableHeaderData', _tableHeaderData);
+      // console.log('_headerItem', _headerItem);
 
       // all field reset first
       _tableHeaderData.forEach((val) => {
@@ -516,9 +516,9 @@ getDesignerProfiledata(uid)
       this.sortColumnName = _headerItem.column_name;
       this.sortOrderName = _headerItem.sortingButtonName;
 
-      console.log('this.sortColumnName', this.sortColumnName);
-      console.log('this.sortOrderName', this.sortOrderName);
-      console.log('_tableHeaderData>>', _tableHeaderData);
+      // console.log('this.sortColumnName', this.sortColumnName);
+      // console.log('this.sortOrderName', this.sortOrderName);
+      // console.log('_tableHeaderData>>', _tableHeaderData);
 
       this.onListDate(this.statustype,this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
@@ -529,7 +529,7 @@ getDesignerProfiledata(uid)
     searchList(event){
       this.searchTerm = event.target.value;
 
-      console.log('this.searchTerm', this.searchTerm);
+      // console.log('this.searchTerm', this.searchTerm);
       
       this.onListDate(this.statustype,this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
@@ -549,13 +549,13 @@ getDesignerProfiledata(uid)
 
     // Delete start
     deleteData(_id){
-      console.log('id>>', _id);
+      // console.log('id>>', _id);
       let sentValues = {'id': _id};
       this.deleteLoading = true;
       this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe(
         (res:any) => {
           this.deleteLoading = false;
-          console.log("Edit data  res >", res.return_data);
+          // console.log("Edit data  res >", res.return_data);
           if(res.status == 200){
             this.commonUtils.presentToast('success', res.message);
             this.onRefresh();
@@ -593,13 +593,13 @@ getDesignerProfiledata(uid)
           role: 'cancel',
           cssClass: 'popup-cancel-btn',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            // console.log('Confirm Cancel: blah');
           }
         }, {
           text: 'Okay',
           cssClass: 'popup-ok-btn',
           handler: () => {
-            console.log('Confirm Okay');
+            // console.log('Confirm Okay');
             // this.clickActionBtn('', 'delete');
              // this.deleteData(_id);
             if(_identifier == 'delete'){
@@ -649,7 +649,7 @@ getDesignerProfiledata(uid)
   allSelectItem(event) {
     if (event.target.checked) {
       this.itemcheckClick = false;
-      // console.log('check item selkectedddddddddddddd');
+      // // console.log('check item selkectedddddddddddddd');
       for (let i = 0 ; i < this.tableListData.length; i++) {
         // if(this.checkedList.includes(this.items[i].id) === false)
         if (this.checkedList.indexOf(this.tableListData[i]) === -1 && this.tableListData[i] !== null) {
@@ -659,7 +659,7 @@ getDesignerProfiledata(uid)
         }
       }
     } else if (this.itemcheckClick == false) {
-      // console.log('not check item selectionnnnnnnnnnn')
+      // // console.log('not check item selectionnnnnnnnnnn')
       this.checkedList = [];
       for (let i = 0 ; i < this.tableListData.length; i++) {
         if (this.checkedList.indexOf(this.tableListData[i]) === -1)
@@ -670,8 +670,8 @@ getDesignerProfiledata(uid)
       }
     }
 
-    console.log('checked item all @@ >>', this.checkedList);
-    console.log('tableListData item all @@ >>', this.tableListData);
+    // console.log('checked item all @@ >>', this.checkedList);
+    // console.log('tableListData item all @@ >>', this.tableListData);
   }
   // Select all checkbox end
     // Select single checkbox start
@@ -690,22 +690,22 @@ getDesignerProfiledata(uid)
   
       if (this.tableListData.length <= this.checkedList.length) {
       this.allselectModel = true;
-      console.log('length 4');
+      // console.log('length 4');
       } else {
-        console.log('length 0');
+        // console.log('length 0');
         this.allselectModel = false;
         this.itemcheckClick = true;
   
       }
   
-      console.log('checked item single >>', this.checkedList);
+      // console.log('checked item single >>', this.checkedList);
     }
     // Select single checkbox end
         // ---------------- Click Delete Item start ---------------------
     // deleteLodershow = false; 
     alldeleteLoaderShow = false;
     async onClickDeleteItem(_identifire, _item, _items, _index){
-      console.log("_item",_item);
+      // console.log("_item",_item);
       
       const alert = await this.alertController.create({
         cssClass: 'aleart-popupBox',
@@ -717,7 +717,7 @@ getDesignerProfiledata(uid)
             role: 'cancel',
             cssClass: 'popup-cancel-btn',
             handler: (blah) => {
-              // console.log('Confirm Cancel: blah');
+              // // console.log('Confirm Cancel: blah');
             }
           }, {
             text: 'Ok',
@@ -726,14 +726,14 @@ getDesignerProfiledata(uid)
   
               // ------------ single item delete start ------------
               if(_identifire == 'single'){
-                console.log('_item', _item);
+                // console.log('_item', _item);
                 
                 let sentValues = {'id': _item};
                 // _item.deleteLodershow = true;
                 this.deleteDataSubscribe = this.http.put("designerProduct/delete/"+_item,'').subscribe(
                   (res:any) => {
                     // _item.deleteLodershow = false;
-                    console.log("Edit data  res >", res.return_data);
+                    // console.log("Edit data  res >", res.return_data);
                     if(res.status == 200){
                       // _items.splice( _index, 1 );
                       // this.commonUtils.presentToast('success', res.return_message);
@@ -784,8 +784,8 @@ getDesignerProfiledata(uid)
                             // _items.splice(_items.indexOf(_items[i]), 1);
                             // this.deleteLodershow = false; //loader hide
                             this.alldeleteLoaderShow = false;
-                            // console.log('delete items >>', _items);
-                            // console.log('delete this.checkedList >>', this.checkedList);
+                            // // console.log('delete items >>', _items);
+                            // // console.log('delete this.checkedList >>', this.checkedList);
                             
                             this.allselectModel = false; 
                           }
@@ -828,7 +828,7 @@ getDesignerProfiledata(uid)
     // Click Delete Item end
     
     async openProductCommentmodal(_identifier, _item, _items) {
-      console.log('openProductCommentmodal ...........>>', _identifier);
+      // console.log('openProductCommentmodal ...........>>', _identifier);
   
       let profile_modal;
       profile_modal = await this.modalController.create({
@@ -844,7 +844,7 @@ getDesignerProfiledata(uid)
       // modal data back to Component
       profile_modal.onDidDismiss()
       .then((getdata) => {
-        console.log('getdata >>>>>>>>>>>', getdata);
+        // console.log('getdata >>>>>>>>>>>', getdata);
         this.onListDate(this.statustype,this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
         if(getdata.data == 'submitClose'){
           
@@ -856,7 +856,7 @@ getDesignerProfiledata(uid)
     }
     // openRejectemodal start
     async openRejectemodal(_identifier, _item, _items) {
-    console.log('openRejectemodal ...........>>', _identifier,_item);
+    // console.log('openRejectemodal ...........>>', _identifier,_item);
 
     let profile_modal;
     profile_modal = await this.modalController.create({
@@ -873,7 +873,7 @@ getDesignerProfiledata(uid)
     profile_modal.onDidDismiss()
     .then((getdata) => {
       
-      console.log('getdata >>>>>>>>>>>', getdata);
+      // console.log('getdata >>>>>>>>>>>', getdata);
       if(getdata.data == 'submitClose'){
         
       }

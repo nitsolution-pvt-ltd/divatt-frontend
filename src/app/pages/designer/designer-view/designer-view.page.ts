@@ -53,26 +53,26 @@ export class DesignerViewPage implements OnInit {
     
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res.authority == 'ADMIN'){
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if(data){
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
     
             let pageUrl = this.router.url.split("/");
-            console.log('pageUrl', pageUrl);
+            // console.log('pageUrl', pageUrl);
     
             for(let item of data) {
               if(item.modDetails.url == 'designer-list'){
                 if(item.modPrivs.list == true){
-                  console.log('-----Permission Granted-----');
+                  // console.log('-----Permission Granted-----');
                   this.pagePermission = item;
-                  console.log('this.pagePermission', this.pagePermission);
+                  // console.log('this.pagePermission', this.pagePermission);
                   this.getDesignerProfiledata();
                   break;
                 }else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
                 
@@ -126,7 +126,7 @@ export class DesignerViewPage implements OnInit {
         // this.commonUtils.presentToast('success', res.message);
       },
       (error) =>{
-        console.log("error",error);
+        // console.log("error",error);
         this.commonUtils.presentToast('error', error.error.message);
       })
     }
@@ -277,19 +277,19 @@ export class DesignerViewPage implements OnInit {
         {
           this.profileStatus = "SAVED"
         }
-        console.log("this.profileStatus",this.profileStatus,res.profileStatus);
+        // console.log("this.profileStatus",this.profileStatus,res.profileStatus);
         
       },
       (error) =>{
         // this.formBtn = true;
-        console.log("error",error);
+        // console.log("error",error);
       })
   }
   // getDesignerProfiledata end
   // onSubmitdesignerApproveForm start
   onSubmitAdminUpdateForm(form: NgForm)
   {
-    console.log("this.profileStatus",this.profileStatus);
+    // console.log("this.profileStatus",this.profileStatus);
     var formData:any = {};
     if(this.profileStatus == "APPROVE" || this.profileStatus == "waitForApprove")
     {
@@ -352,7 +352,7 @@ export class DesignerViewPage implements OnInit {
         
       },
       (error) =>{
-        console.log("errorerror",error);
+        // console.log("errorerror",error);
           this.btnloader = false;
         this.commonUtils.presentToast('error', error.error.message);
         
@@ -366,7 +366,7 @@ export class DesignerViewPage implements OnInit {
     this.LebellistDataSubcribe = this.http.get("adminMData/getDesignerCategory").subscribe((res:any) =>{
       this.Lebellist = res.data;
       },error =>{
-        console.log(error);
+        // console.log(error);
         this.commonUtils.presentToast('error', error.error.message);
     })
   }
@@ -375,7 +375,7 @@ export class DesignerViewPage implements OnInit {
   selectLabel(value)
   {
     this.labelValue = value;
-    console.log("this.Lebellist",value,this.labelValue);
+    // console.log("this.Lebellist",value,this.labelValue);
     
   }
   openImg(url)

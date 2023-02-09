@@ -299,9 +299,9 @@
             // get active url name
             this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
             this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
-            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
-            console.log('parms_action_name', this.parms_action_name);
-            console.log('parms_action_id', this.parms_action_id); // get module api
+            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id'); // console.log('parms_action_name', this.parms_action_name);
+            // console.log('parms_action_id', this.parms_action_id);
+            // get module api
 
             this.getroleList_api = 'admin/roles'; // form_api Api
 
@@ -309,17 +309,14 @@
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrlName = _this.router.url.split("/"); // console.log('pageUrlName', pageUrlName);
 
-                    var pageUrlName = _this.router.url.split("/");
-
-                    console.log('pageUrlName', pageUrlName);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -327,19 +324,16 @@
                     try {
                       for (_iterator.s(); !(_step = _iterator.n()).done;) {
                         var item = _step.value;
-                        var moduleUrlName = item.modDetails.url.split("-");
-                        console.log('moduleUrlName', moduleUrlName);
+                        var moduleUrlName = item.modDetails.url.split("-"); // console.log('moduleUrlName',moduleUrlName);
 
                         if (pageUrlName[1] == moduleUrlName[0]) {
                           if (_this.parms_action_name == 'add' && item.modPrivs.create == true) {
-                            console.log('-----Permission create Granted-----');
-
+                            // console.log('-----Permission create Granted-----');
                             _this.getroleList();
 
                             break;
                           } else if (_this.parms_action_name == 'edit' && item.modPrivs.update == true) {
-                            console.log('-----Permission update Granted-----');
-
+                            // console.log('-----Permission update Granted-----');
                             _this.getroleList();
 
                             _this.editApi = 'admin/profile/' + _this.parms_action_id; // form api
@@ -350,8 +344,7 @@
 
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -378,11 +371,11 @@
 
             this.editLoading = true;
             this.getroles = this.http.get(this.getroleList_api).subscribe(function (res) {
-              _this2.roleList = res;
-              console.log("Get roleList", _this2.roleList);
+              _this2.roleList = res; // console.log("Get roleList",this.roleList);
+
               _this2.editLoading = false;
             }, function (errRes) {
-              console.log("Get roleList >", errRes);
+              // console.log("Get roleList >", errRes); 
               _this2.editLoading = false;
             });
           }
@@ -404,11 +397,10 @@
             fd.append("file", e.target.files[0]);
             this.http.post("admin/profile/s3/upload", fd).subscribe(function (res) {
               _this3.imageSrc = res.path;
-              _this3.model.profilePic = res.path;
-              console.log("profileimgpath", _this3.imageSrc); // this.commonUtils.presentToast('success', res.message);
+              _this3.model.profilePic = res.path; // console.log("profileimgpath",this.imageSrc);
+              // this.commonUtils.presentToast('success', res.message);
             }, function (error) {
-              console.log("error", error);
-
+              // console.log("error",error);
               _this3.commonUtils.presentToast('error', error.error.message);
             });
           }
@@ -418,25 +410,22 @@
 
         }, {
           key: "ngsel",
-          value: function ngsel(value) {
-            console.log('Select >>>', value);
+          value: function ngsel(value) {// console.log('Select >>>', value);
           } // Date format change start
 
         }, {
           key: "changeDateFormat",
           value: function changeDateFormat(_identifier, _date) {
-            console.log('_date', _date);
-            console.log('_identifier', _identifier);
-
+            // console.log('_date', _date);
+            // console.log('_identifier', _identifier);
             if (_identifier == 'registrationDate') {
               this.model.isntRegDate = moment__WEBPACK_IMPORTED_MODULE_3__(_date).format('YYYY/MM/DD');
             } else if (_identifier == 'establishmentDate') {
               this.model.instEndDate = moment__WEBPACK_IMPORTED_MODULE_3__(_date).format('YYYY/MM/DD');
             } else if (_identifier == 'dateOfBirth') {
               this.model.dob = moment__WEBPACK_IMPORTED_MODULE_3__(_date).format('YYYY/MM/DD');
-            }
+            } // console.log('model.isntRegDate', this.model.isntRegDate);
 
-            console.log('model.isntRegDate', this.model.isntRegDate);
           } // Date format change end
           // ---------- init start ----------
 
@@ -450,8 +439,8 @@
               this.editLoading = true; //edit data call
 
               this.editDataSubscribe = this.http.get(this.editApi).subscribe(function (res) {
-                _this4.editLoading = false;
-                console.log("Edit data  res >", res.return_data);
+                _this4.editLoading = false; // console.log("Edit data  res >", res.return_data);
+
                 _this4.model = {
                   firstName: res.firstName,
                   lastName: res.lastName,
@@ -466,11 +455,10 @@
                 };
                 _this4.imageSrc = res.profilePic; // this.ngsel(this.model.instId);
 
-                _this4.model.chkdob = moment__WEBPACK_IMPORTED_MODULE_3__(res.dob).format('YYYY-MM-DD');
-                console.log('this.model.creatDate', _this4.model); // edit data
+                _this4.model.chkdob = moment__WEBPACK_IMPORTED_MODULE_3__(res.dob).format('YYYY-MM-DD'); // console.log('this.model.creatDate', this.model);
+                // edit data
 
-                _this4.allEditData = res;
-                console.log('this.allEditData', _this4.allEditData);
+                _this4.allEditData = res; // console.log('this.allEditData', this.allEditData);
               }, function (errRes) {
                 // this.selectLoadingDepend = false;
                 _this4.editLoading = false;
@@ -484,10 +472,9 @@
           value: function onSubmitForm(form) {
             var _this5 = this;
 
-            console.log("add form submit >", form.value);
+            // console.log("add form submit >", form.value);
             this.formLoading = true;
-            var formValue = form.value;
-            console.log('formValue', formValue);
+            var formValue = form.value; // console.log('formValue', formValue);
 
             if (!form.valid) {
               return;
@@ -495,8 +482,7 @@
 
             if (this.parms_action_name == 'edit') {
               this.formSubmitSubscribe = this.http.put(this.editForm_api, form.value).subscribe(function (response) {
-                _this5.formLoading = false;
-                console.log("add form response >", response);
+                _this5.formLoading = false; // console.log("add form response >", response);
 
                 if (response.status == 200) {
                   _this5.router.navigateByUrl('employee-list');
@@ -514,8 +500,7 @@
               });
             } else if (this.parms_action_name == 'add') {
               this.formSubmitSubscribe = this.http.post(this.form_api, form.value).subscribe(function (response) {
-                _this5.formLoading = false;
-                console.log("add form response >", response);
+                _this5.formLoading = false; // console.log("add form response >", response);
 
                 if (response.status == 200) {
                   _this5.router.navigateByUrl('employee-list');

@@ -165,26 +165,26 @@ export class AccountsPage implements OnInit {
 
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // // console.log('res>>', res);
       if (res.authority == 'ADMIN') {
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if (data) {
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
 
             let pageUrl = this.router.url.split("/");
-            console.log('pageUrl', pageUrl);
+            // // console.log('pageUrl', pageUrl);
 
             for (let item of data) {
               if (item.modDetails.url == pageUrl[1]) {
                 if (item.modPrivs.list == true) {
-                  console.log('-----Permission Granted-----');
+                  // // console.log('-----Permission Granted-----');
                   this.pagePermission = item;
-                  console.log('this.pagePermission', this.pagePermission);
+                  // // console.log('this.pagePermission', this.pagePermission);
                   this.setPageData();
                   break;
                 } else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
 
@@ -203,19 +203,19 @@ export class AccountsPage implements OnInit {
     /*Check permission status end*/
     this.allselectModel = false;
     this.model.filter = true;
-    console.log('this.model.filter', this.model.filter);
+    // // console.log('this.model.filter', this.model.filter);
     this.getDesignerList();
     this.checkedList = [];
     this.endYear = moment().format('YYYY');
     this.currentMonth = moment().format('MMMM');
     this.model.year = parseInt(moment().format('YYYY'));
-    console.log("this.endYear.......", this.endYear);
+    // // console.log("this.endYear.......", this.endYear);
 
-    console.log("this.model.year.....", this.model.year);
+    // // console.log("this.model.year.....", this.model.year);
     this.selectedYear = this.model.year;
     if (this.model.year == this.endYear) {
       for (let index = 0; index < 12; index++) {
-        console.log(this.currentMonth, this.allmonthList[index].id);
+        // // console.log(this.currentMonth, this.allmonthList[index].id);
 
         if (this.currentMonth == this.allmonthList[index].id) {
           this.mounthCount = index;
@@ -231,19 +231,19 @@ export class AccountsPage implements OnInit {
     } else {
       this.monthList = this.allmonthList;
     }
-    console.log("moment", this.endYear, this.currentMonth, this.model.year, moment().format('YYYY'));
+    // // console.log("moment", this.endYear, this.currentMonth, this.model.year, moment().format('YYYY'));
     var count;
     if (this.endYear > this.startYear || this.endYear == this.startYear) {
       count = parseInt(this.endYear) - parseInt(this.startYear) + 1;
       for (let index = 0; index < count; index++) {
-        console.log("moment", count);
+        // // console.log("moment", count);
         this.yearList.push(parseInt(this.startYear) + index);
 
       }
     } else {
       this.yearList.push(this.startYear);
       // for (let index = 0; index < 100; index++) {
-      //   console.log("moment",count);  
+      //   // console.log("moment",count);  
       //   this.yearList.push(parseInt(this.startYear) + index);
 
       // }
@@ -265,7 +265,7 @@ export class AccountsPage implements OnInit {
     { id: '4', displayValue: 100 },
   ];
   displayRecordChange(_record) {
-    console.log('_record', _record);
+    // // console.log('_record', _record);
     this.tableListData = [];
     this.displayRecord = _record;
     this.pageNo = 0;
@@ -273,7 +273,7 @@ export class AccountsPage implements OnInit {
   }
   // Display records end
   applyFilter(event) {
-    console.log(event);
+    // // console.log(event);
     this.onRefresh();
   }
   // List data start
@@ -292,7 +292,7 @@ export class AccountsPage implements OnInit {
     this.tableListSubscribe = this.http.get(api).subscribe(
       (res: any) => {
         this.isListLoading = false;
-        console.log('res', res);
+        // // console.log('res', res);
         this.tableData = res;
         // this.tableListData = res.data;
         for (let i = 0; i < res.data.length; i++) {
@@ -382,7 +382,7 @@ export class AccountsPage implements OnInit {
               display_name: res.data[i]?.designer_details?.display_name,
               designer_id: res.data[i]?.designer_details?.designer_id,
             }
-            console.log("res.data[i]", res.data[i]);
+            // // console.log("res.data[i]", res.data[i]);
 
             let _id, id;
             if (res.data[i]?._id) {
@@ -396,7 +396,7 @@ export class AccountsPage implements OnInit {
           }
 
         }
-        console.log("tableListData", this.tableListData);
+        // // console.log("tableListData", this.tableListData);
 
         //---------  check item show start ----------
         // if (this.tableListData && this.checkedList) {
@@ -414,7 +414,7 @@ export class AccountsPage implements OnInit {
         this.isListLoading = false;
       },
       () => {
-        console.log("In complete");
+        // // console.log("In complete");
 
       }
     );
@@ -422,8 +422,8 @@ export class AccountsPage implements OnInit {
   // List data end
   // Pagination start
   setPage(page: number) {
-    console.log('page', page);
-    console.log("page");
+    // // console.log('page', page);
+    // // console.log("page");
     this.tableListData = [];
     this.pageNo = page;
     this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -432,17 +432,17 @@ export class AccountsPage implements OnInit {
   // Pagination end
   selectFiltter(event: any, identifier: any) {
 
-    console.log("selectFiltter......", event?.value, identifier);
+    // // console.log("selectFiltter......", event?.value, identifier);
     if (identifier == 'year') {
       this.monthList = [];
       this.model.month = '';
 
       this.selectedYear = event?.value;
-      console.log(this.selectedYear, this.endYear);
+      // console.log(this.selectedYear, this.endYear);
 
       if (this.selectedYear == this.endYear) {
         for (let index = 0; index < 12; index++) {
-          console.log(this.currentMonth, this.allmonthList[index].id);
+          // console.log(this.currentMonth, this.allmonthList[index].id);
 
           if (this.currentMonth == this.allmonthList[index].id) {
             this.mounthCount = index;
@@ -477,15 +477,15 @@ export class AccountsPage implements OnInit {
         this.designerId = event;
       }
     }
-    console.log(event);
+    // console.log(event);
 
     this.onRefresh();
   }
   // Sorting start
   isSortTableHeader(_tableHeaderData, _headerItem) {
     this.tableListData = [];
-    console.log('_tableHeaderData', _tableHeaderData);
-    console.log('_headerItem', _headerItem);
+    // console.log('_tableHeaderData', _tableHeaderData);
+    // console.log('_headerItem', _headerItem);
 
     // all field reset first
     _tableHeaderData.forEach((val) => {
@@ -502,9 +502,9 @@ export class AccountsPage implements OnInit {
     this.sortColumnName = _headerItem.column_name;
     this.sortOrderName = _headerItem.sortingButtonName;
 
-    console.log('this.sortColumnName', this.sortColumnName);
-    console.log('this.sortOrderName', this.sortOrderName);
-    console.log('_tableHeaderData>>', _tableHeaderData);
+    // console.log('this.sortColumnName', this.sortColumnName);
+    // console.log('this.sortOrderName', this.sortOrderName);
+    // console.log('_tableHeaderData>>', _tableHeaderData);
 
     this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
   }
@@ -516,7 +516,7 @@ export class AccountsPage implements OnInit {
     this.tableListData = [];
     this.searchTerm = event.target.value;
 
-    console.log('this.searchTerm', this.searchTerm);
+    // console.log('this.searchTerm', this.searchTerm);
 
     this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
   }
@@ -537,13 +537,13 @@ export class AccountsPage implements OnInit {
 
   // Delete start
   deleteData(_id) {
-    console.log('id>>', _id);
+    // console.log('id>>', _id);
     let sentValues = { 'id': _id };
     this.deleteLoading = true;
     this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe(
       (res: any) => {
         this.deleteLoading = false;
-        // console.log("Delete data  res >", res.return_data);
+        // // console.log("Delete data  res >", res.return_data);
         if (res.status == 200) {
           this.commonUtils.presentToast('success', res.message);
           this.onRefresh();
@@ -583,13 +583,13 @@ export class AccountsPage implements OnInit {
           role: 'cancel',
           cssClass: 'popup-cancel-btn',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            // console.log('Confirm Cancel: blah');
           }
         }, {
           text: 'Okay',
           cssClass: 'popup-ok-btn',
           handler: () => {
-            console.log('Confirm Okay');
+            // console.log('Confirm Okay');
             // this.clickActionBtn('', 'delete');
             // this.deleteData(_id);
             if (_identifier == 'delete') {
@@ -614,7 +614,7 @@ export class AccountsPage implements OnInit {
   }
   // changeStatus start
   changeStatus(_identifier, item) {
-    console.log(item, this.tableData.data);
+    // console.log(item, this.tableData.data);
     var _items;
     var data: any = {};
     for (let i = 0; i < this.tableData.data.length; i++) {
@@ -625,7 +625,7 @@ export class AccountsPage implements OnInit {
     this.openAccountStatusModal(_identifier, data, _items);
   }
   async openAccountStatusModal(_identifier, _item, _items) {
-    console.log('openAccountStatusModal ...........>>', _identifier);
+    // console.log('openAccountStatusModal ...........>>', _identifier);
 
     let profile_modal;
     profile_modal = await this.modalController.create({
@@ -641,7 +641,7 @@ export class AccountsPage implements OnInit {
     // modal data back to Component
     profile_modal.onDidDismiss()
       .then((getdata) => {
-        console.log('getdata >>>>>>>>>>>', getdata);
+        // console.log('getdata >>>>>>>>>>>', getdata);
         this.onRefresh();
 
       });
@@ -663,7 +663,7 @@ export class AccountsPage implements OnInit {
           role: 'cancel',
           cssClass: 'popup-cancel-btn',
           handler: (blah) => {
-            // console.log('Confirm Cancel: blah');
+            // // console.log('Confirm Cancel: blah');
           }
         }, {
           text: 'Ok',
@@ -672,14 +672,14 @@ export class AccountsPage implements OnInit {
 
             // ------------ single item delete start ------------
             if (_identifire == 'single') {
-              console.log('_item', _item);
+              // console.log('_item', _item);
 
               let sentValues = { 'id': _item.id };
               _item.deleteLodershow = true;
               this.deleteDataSubscribe = this.http.put("category/delete", sentValues).subscribe(
                 (res: any) => {
                   _item.deleteLodershow = false;
-                  console.log("Edit data  res >", res.return_data);
+                  // console.log("Edit data  res >", res.return_data);
                   if (res.status == 200) {
                     _items.splice(_index, 1);
                     this.commonUtils.presentToast('success', res.return_message);
@@ -730,8 +730,8 @@ export class AccountsPage implements OnInit {
                             // _items.splice(_items.indexOf(_items[i]), 1);
                             this.deleteLodershow = false; //loader hide
                             this.alldeleteLoaderShow = false;
-                            // console.log('delete items >>', _items);
-                            // console.log('delete this.checkedList >>', this.checkedList);
+                            // // console.log('delete items >>', _items);
+                            // // console.log('delete this.checkedList >>', this.checkedList);
 
                             this.allselectModel = false;
                           }
@@ -774,7 +774,7 @@ export class AccountsPage implements OnInit {
   }
   // Click Delete Item end
   Check(e) {
-    console.log("Val", e);
+    // console.log("Val", e);
 
   }
   getDesignerList() {
@@ -787,13 +787,13 @@ export class AccountsPage implements OnInit {
 
         }
         this.designerList = designerList;
-        console.log("designerList", this.designerList, designerList, res.data);
+        // console.log("designerList", this.designerList, designerList, res.data);
 
       },
       (error: any) => {
 
       });
-    console.log("designerList", this.designerList);
+    // console.log("designerList", this.designerList);
 
   }
 

@@ -170,20 +170,20 @@ let BannerListPage = class BannerListPage {
         this.checkedList = [];
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrl = this.router.url.split("/");
-                        console.log('pageUrl', pageUrl);
+                        // console.log('pageUrl', pageUrl);
                         for (let item of data) {
                             if (item.modDetails.url == pageUrl[1]) {
                                 if (item.modPrivs.list == true) {
-                                    console.log('-----Permission Granted-----');
+                                    // console.log('-----Permission Granted-----');
                                     this.pagePermission = item;
-                                    console.log('this.pagePermission', this.pagePermission);
+                                    // console.log('this.pagePermission', this.pagePermission);
                                     this.listing_url = 'adminMData/bannerList';
                                     this.onRefresh();
                                     // delete api
@@ -191,7 +191,7 @@ let BannerListPage = class BannerListPage {
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -208,7 +208,7 @@ let BannerListPage = class BannerListPage {
         this.onRefresh();
     }
     displayRecordChange(_record) {
-        console.log('_record', _record);
+        // console.log('_record', _record);
         this.displayRecord = _record;
         this.pageNo = 0;
         this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -220,7 +220,7 @@ let BannerListPage = class BannerListPage {
         let api = _listUrl + '?page=' + _pageNo + '&limit=' + _displayRecord + '&sortName=' + _sortColumnName + '&sort=' + _sortOrderName + '&keyword=' + _searchTerm;
         this.tableListSubscribe = this.http.get(api).subscribe((res) => {
             this.isListLoading = false;
-            console.log('res', res);
+            // console.log('res', res);
             this.tableData = res;
             this.tableListData = res.data;
             //---------  check item show start ----------
@@ -241,16 +241,16 @@ let BannerListPage = class BannerListPage {
     // List data end
     // Pagination start
     setPage(page) {
-        console.log('page', page);
-        console.log("page");
+        // console.log('page', page);
+        // console.log("page");
         this.pageNo = page;
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Pagination end
     // Sorting start
     isSortTableHeader(_tableHeaderData, _headerItem) {
-        console.log('_tableHeaderData', _tableHeaderData);
-        console.log('_headerItem', _headerItem);
+        // console.log('_tableHeaderData', _tableHeaderData);
+        // console.log('_headerItem', _headerItem);
         // all field reset first
         _tableHeaderData.forEach((val) => {
             val.sortingButtonName = '';
@@ -264,14 +264,14 @@ let BannerListPage = class BannerListPage {
         }
         this.sortColumnName = _headerItem.column_name;
         this.sortOrderName = _headerItem.sortingButtonName;
-        console.log('this.sortColumnName', this.sortColumnName);
-        console.log('this.sortOrderName', this.sortOrderName);
-        console.log('_tableHeaderData>>', _tableHeaderData);
+        // console.log('this.sortColumnName', this.sortColumnName);
+        // console.log('this.sortOrderName', this.sortOrderName);
+        // console.log('_tableHeaderData>>', _tableHeaderData);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     searchList(event) {
         this.searchTerm = event.target.value;
-        console.log('this.searchTerm', this.searchTerm);
+        // console.log('this.searchTerm', this.searchTerm);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Search end
@@ -288,12 +288,12 @@ let BannerListPage = class BannerListPage {
     // Referesh end
     // Delete start
     deleteData(_id) {
-        console.log('id>>', _id);
+        // console.log('id>>', _id);
         let sentValues = { 'id': _id };
         this.deleteLoading = true;
         this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe((res) => {
             this.deleteLoading = false;
-            // console.log("Delete data  res >", res.return_data);
+            // // console.log("Delete data  res >", res.return_data);
             if (res.status == 200) {
                 this.commonUtils.presentToast('success', res.message);
                 this.onRefresh();
@@ -327,13 +327,13 @@ let BannerListPage = class BannerListPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            console.log('Confirm Cancel: blah');
+                            // console.log('Confirm Cancel: blah');
                         }
                     }, {
                         text: 'Okay',
                         cssClass: 'popup-ok-btn',
                         handler: () => {
-                            console.log('Confirm Okay');
+                            // console.log('Confirm Okay');
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == 'delete') {
@@ -374,7 +374,7 @@ let BannerListPage = class BannerListPage {
     allSelectItem(event) {
         if (event.target.checked) {
             this.itemcheckClick = false;
-            // console.log('check item selkectedddddddddddddd');
+            // // console.log('check item selkectedddddddddddddd');
             for (let i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1 && this.tableListData[i] !== null) {
@@ -384,7 +384,7 @@ let BannerListPage = class BannerListPage {
             }
         }
         else if (this.itemcheckClick == false) {
-            // console.log('not check item selectionnnnnnnnnnn')
+            // // console.log('not check item selectionnnnnnnnnnn')
             this.checkedList = [];
             for (let i = 0; i < this.tableListData.length; i++) {
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1) {
@@ -392,8 +392,8 @@ let BannerListPage = class BannerListPage {
                 }
             }
         }
-        console.log('checked item all @@ >>', this.checkedList);
-        console.log('tableListData item all @@ >>', this.tableListData);
+        // console.log('checked item all @@ >>', this.checkedList);
+        // console.log('tableListData item all @@ >>', this.tableListData);
     }
     // Select all checkbox end
     // Select single checkbox start
@@ -412,14 +412,14 @@ let BannerListPage = class BannerListPage {
         }
         if (this.tableListData.length <= this.checkedList.length) {
             this.allselectModel = true;
-            console.log('length 4');
+            // console.log('length 4');
         }
         else {
-            console.log('length 0');
+            // console.log('length 0');
             this.allselectModel = false;
             this.itemcheckClick = true;
         }
-        console.log('checked item single >>', this.checkedList);
+        // console.log('checked item single >>', this.checkedList);
     }
     onClickDeleteItem(_identifire, _item, _items, _index) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
@@ -433,7 +433,7 @@ let BannerListPage = class BannerListPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            // console.log('Confirm Cancel: blah');
+                            // // console.log('Confirm Cancel: blah');
                         }
                     },
                     {
@@ -442,12 +442,12 @@ let BannerListPage = class BannerListPage {
                         handler: () => {
                             // ------------ single item delete start ------------
                             if (_identifire == 'single') {
-                                console.log('_item', _item);
+                                // console.log('_item', _item);
                                 let sentValues = { 'id': _item.id };
                                 _item.deleteLodershow = true;
                                 this.deleteDataSubscribe = this.http.put("adminMData/deleteBanner/" + _item.id, '').subscribe((res) => {
                                     _item.deleteLodershow = false;
-                                    console.log("Edit data  res >", res.return_data);
+                                    // console.log("Edit data  res >", res.return_data);
                                     if (res.status == 200) {
                                         _items.splice(_index, 1);
                                         this.commonUtils.presentToast('success', res.return_message);
@@ -495,8 +495,8 @@ let BannerListPage = class BannerListPage {
                                                         // _items.splice(_items.indexOf(_items[i]), 1);
                                                         this.deleteLodershow = false; //loader hide
                                                         this.alldeleteLoaderShow = false;
-                                                        // console.log('delete items >>', _items);
-                                                        // console.log('delete this.checkedList >>', this.checkedList);
+                                                        // // console.log('delete items >>', _items);
+                                                        // // console.log('delete this.checkedList >>', this.checkedList);
                                                         this.allselectModel = false;
                                                     }
                                                 }

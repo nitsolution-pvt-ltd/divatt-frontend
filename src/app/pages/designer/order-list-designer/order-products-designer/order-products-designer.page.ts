@@ -118,31 +118,31 @@ export class OrderProductsDesignerPage implements OnInit {
     this.checkedList = [];
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe((res) => {
-      console.log("res>>9", res);
+      // console.log("res>>9", res);
       if (res.authority == "DESIGNER") {
         this.listing_url = "userOrder/getOrder/"+this.parms_action_id;
         this.onRefresh();
         this.permissionDataSubscribe =
           this.commonUtils.menuPermissionObservable.subscribe((data) => {
             if (data) {
-              console.log("menu>>", data);
-              console.log("this.router.url>>", this.router.url);
+              // console.log("menu>>", data);
+              // console.log("this.router.url>>", this.router.url);
 
               let pageUrl = this.router.url.split("/");
-              console.log("pageUrl", pageUrl);
+              // console.log("pageUrl", pageUrl);
 
               for (let item of data) {
                 if (item.modDetails.url == pageUrl[1]) {
                   if (item.modPrivs.list == true) {
-                    console.log("-----Permission Granted-----");
+                    // console.log("-----Permission Granted-----");
                     this.pagePermission = item;
-                    console.log("this.pagePermission", this.pagePermission,res.uid);
+                    // console.log("this.pagePermission", this.pagePermission,res.uid);
                     
                     this.onRefresh();
                     // delete api
                     break;
                   } else {
-                    console.log("-------No Permission--------");
+                    // console.log("-------No Permission--------");
                     this.router.navigateByUrl("/error");
                   }
                 }
@@ -168,7 +168,7 @@ export class OrderProductsDesignerPage implements OnInit {
     // { id : '5', displayValue: '0'}
   ];
   displayRecordChange(_record) {
-    console.log("_record", _record);
+    // console.log("_record", _record);
 
     this.displayRecord = _record;
     this.pageNo = 0;
@@ -182,7 +182,7 @@ export class OrderProductsDesignerPage implements OnInit {
     this.tableListSubscribe = this.http.get(api).subscribe(
       (res: any) => {
         this.isListLoading = false;
-        console.log("restableData", res);
+        // console.log("restableData", res);
         this.tableData = res;
         this.tableListData = res.data;
         // this.createInvoice();       //---------  check item show start ----------
@@ -207,8 +207,8 @@ export class OrderProductsDesignerPage implements OnInit {
   // List data end
   // Pagination start
   setPage(page: number) {
-    console.log("page", page);
-    console.log("page");
+    // console.log("page", page);
+    // console.log("page");
 
     this.pageNo = page;
     this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
@@ -217,8 +217,8 @@ export class OrderProductsDesignerPage implements OnInit {
 
   // Sorting start
   isSortTableHeader(_tableHeaderData, _headerItem) {
-    console.log("_tableHeaderData", _tableHeaderData);
-    console.log("_headerItem", _headerItem);
+    // console.log("_tableHeaderData", _tableHeaderData);
+    // console.log("_headerItem", _headerItem);
 
     // all field reset first
     _tableHeaderData.forEach((val) => {
@@ -235,9 +235,9 @@ export class OrderProductsDesignerPage implements OnInit {
     this.sortColumnName = _headerItem.column_name;
     this.sortOrderName = _headerItem.sortingButtonName;
 
-    console.log("this.sortColumnName", this.sortColumnName);
-    console.log("this.sortOrderName", this.sortOrderName);
-    console.log("_tableHeaderData>>", _tableHeaderData);
+    // console.log("this.sortColumnName", this.sortColumnName);
+    // console.log("this.sortOrderName", this.sortOrderName);
+    // console.log("_tableHeaderData>>", _tableHeaderData);
 
     this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
   }
@@ -248,7 +248,7 @@ export class OrderProductsDesignerPage implements OnInit {
   searchList(event) {
     this.searchTerm = event.target.value;
 
-    console.log("this.searchTerm", this.searchTerm);
+    // console.log("this.searchTerm", this.searchTerm);
 
     this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
   }
@@ -269,7 +269,7 @@ export class OrderProductsDesignerPage implements OnInit {
 
   // Delete start
   deleteData(_id) {
-    console.log("id>>", _id);
+    // console.log("id>>", _id);
     let sentValues = { id: _id };
     this.deleteLoading = true;
     this.deleteDataSubscribe = this.http
@@ -277,7 +277,7 @@ export class OrderProductsDesignerPage implements OnInit {
       .subscribe(
         (res: any) => {
           this.deleteLoading = false;
-          // console.log("Delete data  res >", res.return_data);
+          // // console.log("Delete data  res >", res.return_data);
           if (res.status == 200) {
             this.commonUtils.presentToast("success", res.message);
             this.onRefresh();
@@ -314,14 +314,14 @@ export class OrderProductsDesignerPage implements OnInit {
           role: "cancel",
           cssClass: "popup-cancel-btn",
           handler: (blah) => {
-            console.log("Confirm Cancel: blah");
+            // console.log("Confirm Cancel: blah");
           },
         },
         {
           text: "Okay",
           cssClass: "popup-ok-btn",
           handler: () => {
-            console.log("Confirm Okay");
+            // console.log("Confirm Okay");
             // this.clickActionBtn('', 'delete');
             // this.deleteData(_id);
             if (_identifier == "delete") {
@@ -359,12 +359,12 @@ export class OrderProductsDesignerPage implements OnInit {
     else{
       time = day.getHours() + ':' + day.getMinutes() +':0' + day.getSeconds();
     }
-    console.log(day,time);
+    // console.log(day,time);
     todate = moment(day).format('YYYY/MM/DD');
     // [Dispatch:{time:00.00,date:00/00/0000,comment:"",},Shipment:{time:00.00,date:00/00/0000,comment:""},Out for Delivery:{time:00.00,date:00/00/0000,comment:""},Delivered:{time:00.00,date:00/00/0000,comment:""}]
     // 4 obj
     this.authService.globalparamsData.subscribe((res) => {
-      console.log("res>>9", res);
+      // console.log("res>>9", res);
       if (res.authority == "DESIGNER") {
        {
         trackingHistory[0] = {time:time,date:todate,comment:"",designerId:res.uid,auth:res.authority,type:'Dispatch'}
@@ -373,7 +373,7 @@ export class OrderProductsDesignerPage implements OnInit {
     // trackingHistory=[
     //   {time:time,date:todate,comment:""}
     // ]
-    console.log(todate,trackingHistory);
+    // console.log(todate,trackingHistory);
     
     data = 
     {
@@ -393,11 +393,11 @@ export class OrderProductsDesignerPage implements OnInit {
       trackingUrl: "",
       orderItemStatus:"dispatch"
     }
-    console.log(day,day.getMinutes());
-    console.log("item",type,item,moredata);
+    // console.log(day,day.getMinutes());
+    // console.log("item",type,item,moredata);
     if(type == 'Cancel')
     {
-      console.log('Cancel',item,moredata);
+      // console.log('Cancel',item,moredata);
       if(item.TrackingData)
       {
         data = 
@@ -434,7 +434,7 @@ export class OrderProductsDesignerPage implements OnInit {
   }
   // changeStatus start
   async openorderCommentmodal(_identifier, _item, _items) {
-    console.log('openProfilemodal ...........>>', _identifier);
+    // console.log('openProfilemodal ...........>>', _identifier);
 
     let orderCommentmodal;
     orderCommentmodal = await this.modalController.create({
@@ -450,7 +450,7 @@ export class OrderProductsDesignerPage implements OnInit {
     // modal data back to Component
     orderCommentmodal.onDidDismiss()
     .then((getdata) => {
-      console.log("getdata",getdata);
+      // console.log("getdata",getdata);
       this.onRefresh();
     });
 
@@ -460,7 +460,7 @@ export class OrderProductsDesignerPage implements OnInit {
   allSelectItem(event) {
     if (event.target.checked) {
       this.itemcheckClick = false;
-      // console.log('check item selkectedddddddddddddd');
+      // // console.log('check item selkectedddddddddddddd');
       for (let i = 0; i < this.tableListData.length; i++) {
         // if(this.checkedList.includes(this.items[i].id) === false)
         if (
@@ -472,7 +472,7 @@ export class OrderProductsDesignerPage implements OnInit {
         }
       }
     } else if (this.itemcheckClick == false) {
-      // console.log('not check item selectionnnnnnnnnnn')
+      // // console.log('not check item selectionnnnnnnnnnn')
       this.checkedList = [];
       for (let i = 0; i < this.tableListData.length; i++) {
         if (this.checkedList.indexOf(this.tableListData[i]) === -1) {
@@ -481,8 +481,8 @@ export class OrderProductsDesignerPage implements OnInit {
       }
     }
 
-    console.log("checked item all @@ >>", this.checkedList);
-    console.log("tableListData item all @@ >>", this.tableListData);
+    // console.log("checked item all @@ >>", this.checkedList);
+    // console.log("tableListData item all @@ >>", this.tableListData);
   }
   // Select all checkbox end
   // Select single checkbox start
@@ -501,14 +501,14 @@ export class OrderProductsDesignerPage implements OnInit {
 
     if (this.tableListData.length <= this.checkedList.length) {
       this.allselectModel = true;
-      console.log("length 4");
+      // console.log("length 4");
     } else {
-      console.log("length 0");
+      // console.log("length 0");
       this.allselectModel = false;
       this.itemcheckClick = true;
     }
 
-    console.log("checked item single >>", this.checkedList);
+    // console.log("checked item single >>", this.checkedList);
   }
   // Select single checkbox end
   // ---------------- Click Delete Item start ---------------------
@@ -525,7 +525,7 @@ export class OrderProductsDesignerPage implements OnInit {
           role: "cancel",
           cssClass: "popup-cancel-btn",
           handler: (blah) => {
-            // console.log('Confirm Cancel: blah');
+            // // console.log('Confirm Cancel: blah');
           },
         },
         {
@@ -534,7 +534,7 @@ export class OrderProductsDesignerPage implements OnInit {
           handler: () => {
             // ------------ single item delete start ------------
             if (_identifire == "single") {
-              console.log("_item", _item);
+              // console.log("_item", _item);
 
               let sentValues = { id: _item.id };
               _item.deleteLodershow = true;
@@ -543,7 +543,7 @@ export class OrderProductsDesignerPage implements OnInit {
                 .subscribe(
                   (res: any) => {
                     _item.deleteLodershow = false;
-                    console.log("Edit data  res >", res.return_data);
+                    // console.log("Edit data  res >", res.return_data);
                     if (res.status == 200) {
                       _items.splice(_index, 1);
                       this.commonUtils.presentToast(
@@ -602,8 +602,8 @@ export class OrderProductsDesignerPage implements OnInit {
                               // _items.splice(_items.indexOf(_items[i]), 1);
                               this.deleteLodershow = false; //loader hide
                               this.alldeleteLoaderShow = false;
-                              // console.log('delete items >>', _items);
-                              // console.log('delete this.checkedList >>', this.checkedList);
+                              // // console.log('delete items >>', _items);
+                              // // console.log('delete this.checkedList >>', this.checkedList);
 
                               this.allselectModel = false;
                             }

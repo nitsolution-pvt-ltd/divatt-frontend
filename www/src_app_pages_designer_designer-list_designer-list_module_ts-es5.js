@@ -354,17 +354,14 @@
 
             /*Check permission status start*/
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrl = _this.router.url.split("/"); // console.log('pageUrl', pageUrl);
 
-                    var pageUrl = _this.router.url.split("/");
-
-                    console.log('pageUrl', pageUrl);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -375,9 +372,9 @@
 
                         if (item.modDetails.url == pageUrl[1]) {
                           if (item.modPrivs.list == true) {
-                            console.log('-----Permission Granted-----');
-                            _this.pagePermission = item;
-                            console.log('this.pagePermission', _this.pagePermission);
+                            // console.log('-----Permission Granted-----');
+                            _this.pagePermission = item; // console.log('this.pagePermission', this.pagePermission);
+
                             _this.listing_url = "designer/list";
 
                             _this.onRefresh(); // delete api
@@ -386,8 +383,7 @@
                             _this.deleteApi = "adminMData/deleteDesignerLevels";
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -466,7 +462,7 @@
         }, {
           key: "displayRecordChange",
           value: function displayRecordChange(_record) {
-            console.log("_record", _record);
+            // console.log("_record", _record);
             this.displayRecord = _record;
             this.pageNo = 0;
             this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
@@ -489,8 +485,8 @@
             }
 
             this.tableListSubscribe = this.http.get(api).subscribe(function (res) {
-              _this2.isListLoading = false;
-              console.log("res", res);
+              _this2.isListLoading = false; // console.log("res", res);
+
               _this2.tableData = res;
               _this2.tableListData = res.data; //---------  check item show start ----------
 
@@ -513,8 +509,8 @@
         }, {
           key: "setPage",
           value: function setPage(page) {
-            console.log("page", page);
-            console.log("page");
+            // console.log("page", page);
+            // console.log("page");
             this.pageNo = page;
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
           } // Pagination end
@@ -523,9 +519,9 @@
         }, {
           key: "isSortTableHeader",
           value: function isSortTableHeader(_tableHeaderData, _headerItem) {
-            console.log("_tableHeaderData", _tableHeaderData);
-            console.log("_headerItem", _headerItem); // all field reset first
-
+            // console.log("_tableHeaderData", _tableHeaderData);
+            // console.log("_headerItem", _headerItem);
+            // all field reset first
             _tableHeaderData.forEach(function (val) {
               val.sortingButtonName = "";
             });
@@ -539,10 +535,10 @@
             }
 
             this.sortColumnName = _headerItem.column_name;
-            this.sortOrderName = _headerItem.sortingButtonName;
-            console.log("this.sortColumnName", this.sortColumnName);
-            console.log("this.sortOrderName", this.sortOrderName);
-            console.log("_tableHeaderData>>", _tableHeaderData);
+            this.sortOrderName = _headerItem.sortingButtonName; // console.log("this.sortColumnName", this.sortColumnName);
+            // console.log("this.sortOrderName", this.sortOrderName);
+            // console.log("_tableHeaderData>>", _tableHeaderData);
+
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
           }
         }, {
@@ -572,13 +568,13 @@
           value: function deleteData(_id) {
             var _this3 = this;
 
-            console.log("id>>", _id);
+            // console.log("id>>", _id);
             var sentValues = {
               id: _id
             };
             this.deleteLoading = true;
             this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe(function (res) {
-              _this3.deleteLoading = false; // console.log("Delete data  res >", res.return_data);
+              _this3.deleteLoading = false; // // console.log("Delete data  res >", res.return_data);
 
               if (res.status == 200) {
                 _this3.commonUtils.presentToast("success", res.message);
@@ -623,16 +619,13 @@
                           text: "Cancel",
                           role: "cancel",
                           cssClass: "popup-cancel-btn",
-                          handler: function handler(blah) {
-                            console.log("Confirm Cancel: blah");
+                          handler: function handler(blah) {// console.log("Confirm Cancel: blah");
                           }
                         }, {
                           text: "Okay",
                           cssClass: "popup-ok-btn",
                           handler: function handler() {
-                            console.log("Confirm Okay"); // this.clickActionBtn('', 'delete');
-                            // this.deleteData(_id);
-
+                            // console.log("Confirm Okay");
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == "delete") {
@@ -687,8 +680,7 @@
         }, {
           key: "selectLabel",
           value: function selectLabel(value) {
-            this.labelValue = value.Name;
-            console.log("this.Lebellist", value, this.labelValue);
+            this.labelValue = value.Name; // console.log("this.Lebellist",value,this.labelValue);
           } // selectLabel end
 
         }, {
@@ -696,9 +688,8 @@
           value: function changeStatus(type, actiontype, _item) {
             var _this5 = this;
 
+            // console.log("_item",_item);
             var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
-
-            console.log("_item", _item);
 
             if (actiontype == 'waitForApprove') {
               var _items;
@@ -803,9 +794,8 @@
                   _this5.commonUtils.presentToast("error", error.error.message);
                 });
               }
-            }
+            } // console.log('_item', _item);
 
-            console.log('_item', _item);
           } // select all check box start
 
         }, {
@@ -819,8 +809,7 @@
                 while (1) {
                   switch (_context3.prev = _context3.next) {
                     case 0:
-                      console.log('openProductCommentmodal ...........>>', _identifier);
-                      _context3.next = 3;
+                      _context3.next = 2;
                       return this.modalController.create({
                         component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_4__.ModalPage,
                         cssClass: 'mymodalClass small openProductComment',
@@ -831,23 +820,22 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       profile_modal = _context3.sent;
                       // modal data back to Component
                       profile_modal.onDidDismiss().then(function (getdata) {
-                        console.log('getdata >>>>>>>>>>>', getdata);
-
+                        // console.log('getdata >>>>>>>>>>>', getdata);
                         _this6.onListDate(_this6.listing_url, _this6.pageNo, _this6.displayRecord, _this6.sortColumnName, _this6.filttertype, _this6.sortOrderName, _this6.searchTerm, _this6.profileStatus);
 
                         if (getdata.data == 'submitClose') {}
                       });
-                      _context3.next = 7;
+                      _context3.next = 6;
                       return profile_modal.present();
 
-                    case 7:
+                    case 6:
                       return _context3.abrupt("return", _context3.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context3.stop();
                   }
@@ -860,7 +848,7 @@
           key: "allSelectItem",
           value: function allSelectItem(event) {
             if (event.target.checked) {
-              this.itemcheckClick = false; // console.log('check item selkectedddddddddddddd');
+              this.itemcheckClick = false; // // console.log('check item selkectedddddddddddddd');
 
               for (var i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
@@ -870,7 +858,7 @@
                 }
               }
             } else if (this.itemcheckClick == false) {
-              // console.log('not check item selectionnnnnnnnnnn')
+              // // console.log('not check item selectionnnnnnnnnnn')
               this.checkedList = [];
 
               for (var _i = 0; _i < this.tableListData.length; _i++) {
@@ -878,10 +866,9 @@
                   this.tableListData[_i].isSelected = false;
                 }
               }
-            }
+            } // console.log("checked item all @@ >>", this.checkedList);
+            // console.log("tableListData item all @@ >>", this.tableListData);
 
-            console.log("checked item all @@ >>", this.checkedList);
-            console.log("tableListData item all @@ >>", this.tableListData);
           } // Select all checkbox end
           // Select single checkbox start
 
@@ -901,15 +888,13 @@
             }
 
             if (this.tableListData.length <= this.checkedList.length) {
-              this.allselectModel = true;
-              console.log("length 4");
+              this.allselectModel = true; // console.log("length 4");
             } else {
-              console.log("length 0");
+              // console.log("length 0");
               this.allselectModel = false;
               this.itemcheckClick = true;
-            }
+            } // console.log("checked item single >>", this.checkedList);
 
-            console.log("checked item single >>", this.checkedList);
           }
         }, {
           key: "onClickDeleteItem",
@@ -931,7 +916,7 @@
                           text: "Cancel",
                           role: "cancel",
                           cssClass: "popup-cancel-btn",
-                          handler: function handler(blah) {// console.log('Confirm Cancel: blah');
+                          handler: function handler(blah) {// // console.log('Confirm Cancel: blah');
                           }
                         }, {
                           text: "Ok",
@@ -942,7 +927,7 @@
 
                             // ------------ single item delete start ------------
                             if (_identifire == "single") {
-                              console.log("_item", _item);
+                              // console.log("_item", _item);
                               var formData;
                               formData = {
                                 dId: _item.dId,
@@ -1002,11 +987,11 @@
                                           _this7.deleteLodershow = false; //loader hide
 
                                           //loader hide
-                                          _this7.alldeleteLoaderShow = false; // console.log('delete items >>', _items);
-                                          // console.log('delete this.checkedList >>', this.checkedList);
+                                          _this7.alldeleteLoaderShow = false; // // console.log('delete items >>', _items);
+                                          // // console.log('delete this.checkedList >>', this.checkedList);
 
-                                          // console.log('delete items >>', _items);
-                                          // console.log('delete this.checkedList >>', this.checkedList);
+                                          // // console.log('delete items >>', _items);
+                                          // // console.log('delete this.checkedList >>', this.checkedList);
                                           _this7.allselectModel = false;
                                         }
                                       }
@@ -1072,8 +1057,7 @@
                 while (1) {
                   switch (_context5.prev = _context5.next) {
                     case 0:
-                      console.log('openDesignerCommentmodal ...........>>', _identifier);
-                      _context5.next = 3;
+                      _context5.next = 2;
                       return this.modalController.create({
                         component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_4__.ModalPage,
                         cssClass: 'mymodalClass small openProductComment',
@@ -1084,23 +1068,22 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       profile_modal = _context5.sent;
                       // modal data back to Component
                       profile_modal.onDidDismiss().then(function (getdata) {
-                        console.log('getdata >>>>>>>>>>>', getdata);
-
+                        // console.log('getdata >>>>>>>>>>>', getdata);
                         _this8.onListDate(_this8.listing_url, _this8.pageNo, _this8.displayRecord, _this8.sortColumnName, _this8.filttertype, _this8.sortOrderName, _this8.searchTerm, _this8.profileStatus);
 
                         if (getdata.data == 'submitClose') {}
                       });
-                      _context5.next = 7;
+                      _context5.next = 6;
                       return profile_modal.present();
 
-                    case 7:
+                    case 6:
                       return _context5.abrupt("return", _context5.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context5.stop();
                   }
@@ -1119,8 +1102,7 @@
                 while (1) {
                   switch (_context6.prev = _context6.next) {
                     case 0:
-                      console.log('openRejectemodal ...........>>', _identifier, _item);
-                      _context6.next = 3;
+                      _context6.next = 2;
                       return this.modalController.create({
                         component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_4__.ModalPage,
                         cssClass: 'mymodalClass small rejectemodal',
@@ -1131,21 +1113,20 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       profile_modal = _context6.sent;
                       // modal data back to Component
                       profile_modal.onDidDismiss().then(function (getdata) {
-                        console.log('getdata >>>>>>>>>>>', getdata);
-
+                        // console.log('getdata >>>>>>>>>>>', getdata);
                         if (getdata.data == 'submitClose') {}
                       });
-                      _context6.next = 7;
+                      _context6.next = 6;
                       return profile_modal.present();
 
-                    case 7:
+                    case 6:
                       return _context6.abrupt("return", _context6.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context6.stop();
                   }
@@ -1163,8 +1144,7 @@
             this.LebellistDataSubcribe = this.http.get("adminMData/getDesignerCategory").subscribe(function (res) {
               _this9.Lebellist = res.data;
             }, function (error) {
-              console.log(error);
-
+              // console.log(error);
               _this9.commonUtils.presentToast('error', error.error.message);
             });
           } // getLebellist end

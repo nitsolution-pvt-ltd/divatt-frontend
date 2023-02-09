@@ -475,17 +475,14 @@
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrl = _this.router.url.split("/"); // console.log('pageUrl', pageUrl);
 
-                    var pageUrl = _this.router.url.split("/");
-
-                    console.log('pageUrl', pageUrl);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -496,13 +493,12 @@
 
                         if (item.modDetails.url == pageUrl[1]) {
                           if (item.modPrivs.list == true) {
-                            console.log('-----Permission Granted-----');
-                            _this.pagePermission = item;
-                            console.log('this.pagePermission', _this.pagePermission);
+                            // console.log('-----Permission Granted-----');
+                            _this.pagePermission = item; // console.log('this.pagePermission', this.pagePermission);
+
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -515,8 +511,7 @@
                   }
                 });
               } else if (res.authority == 'DESIGNER') {
-                console.log("res.authority", res.authority);
-
+                // console.log("res.authority",res.authority);
                 _this.getDesignerProfiledata(res.uid);
               }
             });
@@ -525,14 +520,12 @@
 
             this.deleteApi = 'category/delete';
             this.storage.get('setStroageGlobalParamsData').then(function (val) {
-              console.log('User ID', val.uid);
+              // console.log('User ID', val.uid);
               _this.role = val.authority;
-              _this.designerId = val.uid;
-              console.log("Role", _this.role);
+              _this.designerId = val.uid; // console.log("Role",this.role);
 
               _this.setApis(_this.role, _this.designerId);
-            });
-            console.log("this.listing_url", this.listing_url);
+            }); // console.log("this.listing_url",this.listing_url);
           } // getDesignerProfiledata for check perpession start
 
         }, {
@@ -544,9 +537,8 @@
               _this2.designerprofiledata = res;
 
               if (res.profileStatus == 'COMPLETED') {} else {
-                var pageUrl = _this2.router.url.split("/");
+                var pageUrl = _this2.router.url.split("/"); // console.log('pageUrl', pageUrl[1]);
 
-                console.log('pageUrl', pageUrl[1]);
 
                 if (pageUrl[1] == 'product-list') {
                   _this2.commonUtils.presentToast('error', "Sorry ! You don't have any permission on product.");
@@ -554,8 +546,7 @@
                   _this2.router.navigateByUrl('/error');
                 }
               }
-            }, function (error) {
-              console.log("error", error);
+            }, function (error) {// console.log("error",error);
             });
           } // getDesignerProfiledata for check perpession  end
 
@@ -575,7 +566,7 @@
         }, {
           key: "datatype",
           value: function datatype(identifier) {
-            console.log(identifier);
+            // console.log(identifier);
             this.statustype = identifier;
             this.tableTitle = identifier; // if(identifier == 0)
             // {
@@ -604,8 +595,7 @@
           value: function changeStatus(identifier, item) {
             var _this3 = this;
 
-            this.approvalApi = 'product/changeProductApprovalStatus';
-            console.log("identifier,id", identifier, item);
+            this.approvalApi = 'product/changeProductApprovalStatus'; // console.log("identifier,id",identifier,item);
 
             if (identifier == 'reject') {
               var _items;
@@ -622,12 +612,12 @@
               };
               data = item.productStageDetails.comment;
               var body = [];
-              body = item.productStageDetails.comment; // console.log(this.get_item,this.get_item.item.comments.length);
+              body = item.productStageDetails.comment; // // console.log(this.get_item,this.get_item.item.comments.length);
               // if no comment
 
               if (item.productStageDetails.comment == null) {
                 this.storage.get('setStroageGlobalParamsData').then(function (val) {
-                  console.log('All User Data', val.uid);
+                  // console.log('All User Data', val.uid);
                   _this3.role = val.authority;
                   body = [{
                     Reason: 'Approved',
@@ -639,7 +629,7 @@
               } // // if comment have
               else {
                 this.storage.get('setStroageGlobalParamsData').then(function (val) {
-                  console.log('All User Data', val.uid);
+                  // console.log('All User Data', val.uid);
                   _this3.role = val.authority;
                   body.push({
                     Reason: 'Approved',
@@ -651,7 +641,7 @@
               }
 
               this.storage.get('setStroageGlobalParamsData').then(function (val) {
-                console.log('All User Data', val.uid);
+                // console.log('All User Data', val.uid);
                 _this3.role = val.authority;
                 var comment = {
                   adminStatus: "Approved",
@@ -659,15 +649,14 @@
                   comments: data,
                   productId: item.productId,
                   designerId: item.designerId
-                };
-                console.log("comment", comment);
+                }; // console.log("comment",comment);
+
                 _this3.approveProductSubscribe = _this3.http.put('product/changeProductApprovalStatus', comment).subscribe(function (res) {
                   _this3.onRefresh();
 
                   _this3.commonUtils.presentToast('success', res.message);
                 }, function (error) {
-                  console.log("errorerror", error);
-
+                  // console.log("errorerror",error);
                   _this3.commonUtils.presentToast('error', error.error.message);
                 });
               }); // this.onapproveProduct(data)
@@ -681,9 +670,9 @@
           value: function onapproveProduct(data) {
             var _this4 = this;
 
-            console.log(data);
+            // console.log(data);
             this.storage.get('setStroageGlobalParamsData').then(function (val) {
-              console.log('All User Data', val.uid);
+              // console.log('All User Data', val.uid);
               _this4.role = val.authority;
               var alldata = [{
                 Reason: data.type,
@@ -704,8 +693,8 @@
 
                 _this4.onRefresh();
               }, function (error) {
-                console.log("errorerror", error); //  this.btnloader = false;
-
+                // console.log("errorerror",error);
+                //  this.btnloader = false;
                 _this4.commonUtils.presentToast('error', error.error.message);
               });
             });
@@ -713,7 +702,7 @@
         }, {
           key: "displayRecordChange",
           value: function displayRecordChange(_record) {
-            console.log('_record Apurba....', _record);
+            // console.log('_record Apurba....', _record);
             this.displayRecord = _record;
             this.pageNo = 0;
             this.onListDate(this.statustype, this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -734,8 +723,8 @@
             }
 
             this.tableListSubscribe = this.http.get(api).subscribe(function (res) {
-              _this5.isListLoading = false;
-              console.log('res', res);
+              _this5.isListLoading = false; // console.log('res', res);
+
               _this5.tableData = res;
               _this5.tableListData = res.data;
 
@@ -767,8 +756,8 @@
         }, {
           key: "setPage",
           value: function setPage(page) {
-            console.log('page', page);
-            console.log("page");
+            // console.log('page', page);
+            // console.log("page");
             this.pageNo = page;
             this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Pagination end
@@ -777,9 +766,9 @@
         }, {
           key: "isSortTableHeader",
           value: function isSortTableHeader(_tableHeaderData, _headerItem) {
-            console.log('_tableHeaderData', _tableHeaderData);
-            console.log('_headerItem', _headerItem); // all field reset first
-
+            // console.log('_tableHeaderData', _tableHeaderData);
+            // console.log('_headerItem', _headerItem);
+            // all field reset first
             _tableHeaderData.forEach(function (val) {
               val.sortingButtonName = '';
             });
@@ -793,17 +782,17 @@
             }
 
             this.sortColumnName = _headerItem.column_name;
-            this.sortOrderName = _headerItem.sortingButtonName;
-            console.log('this.sortColumnName', this.sortColumnName);
-            console.log('this.sortOrderName', this.sortOrderName);
-            console.log('_tableHeaderData>>', _tableHeaderData);
+            this.sortOrderName = _headerItem.sortingButtonName; // console.log('this.sortColumnName', this.sortColumnName);
+            // console.log('this.sortOrderName', this.sortOrderName);
+            // console.log('_tableHeaderData>>', _tableHeaderData);
+
             this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           }
         }, {
           key: "searchList",
           value: function searchList(event) {
-            this.searchTerm = event.target.value;
-            console.log('this.searchTerm', this.searchTerm);
+            this.searchTerm = event.target.value; // console.log('this.searchTerm', this.searchTerm);
+
             this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Search end
           // Referesh start
@@ -826,14 +815,13 @@
           value: function deleteData(_id) {
             var _this6 = this;
 
-            console.log('id>>', _id);
+            // console.log('id>>', _id);
             var sentValues = {
               'id': _id
             };
             this.deleteLoading = true;
             this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe(function (res) {
-              _this6.deleteLoading = false;
-              console.log("Edit data  res >", res.return_data);
+              _this6.deleteLoading = false; // console.log("Edit data  res >", res.return_data);
 
               if (res.status == 200) {
                 _this6.commonUtils.presentToast('success', res.message);
@@ -876,16 +864,13 @@
                           text: 'Cancel',
                           role: 'cancel',
                           cssClass: 'popup-cancel-btn',
-                          handler: function handler(blah) {
-                            console.log('Confirm Cancel: blah');
+                          handler: function handler(blah) {// console.log('Confirm Cancel: blah');
                           }
                         }, {
                           text: 'Okay',
                           cssClass: 'popup-ok-btn',
                           handler: function handler() {
-                            console.log('Confirm Okay'); // this.clickActionBtn('', 'delete');
-                            // this.deleteData(_id);
-
+                            // console.log('Confirm Okay');
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == 'delete') {
@@ -966,7 +951,7 @@
           key: "allSelectItem",
           value: function allSelectItem(event) {
             if (event.target.checked) {
-              this.itemcheckClick = false; // console.log('check item selkectedddddddddddddd');
+              this.itemcheckClick = false; // // console.log('check item selkectedddddddddddddd');
 
               for (var i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
@@ -976,7 +961,7 @@
                 }
               }
             } else if (this.itemcheckClick == false) {
-              // console.log('not check item selectionnnnnnnnnnn')
+              // // console.log('not check item selectionnnnnnnnnnn')
               this.checkedList = [];
 
               for (var _i = 0; _i < this.tableListData.length; _i++) {
@@ -984,10 +969,9 @@
                   this.tableListData[_i].isSelected = false;
                 }
               }
-            }
+            } // console.log('checked item all @@ >>', this.checkedList);
+            // console.log('tableListData item all @@ >>', this.tableListData);
 
-            console.log('checked item all @@ >>', this.checkedList);
-            console.log('tableListData item all @@ >>', this.tableListData);
           } // Select all checkbox end
           // Select single checkbox start
 
@@ -1007,15 +991,13 @@
             }
 
             if (this.tableListData.length <= this.checkedList.length) {
-              this.allselectModel = true;
-              console.log('length 4');
+              this.allselectModel = true; // console.log('length 4');
             } else {
-              console.log('length 0');
+              // console.log('length 0');
               this.allselectModel = false;
               this.itemcheckClick = true;
-            }
+            } // console.log('checked item single >>', this.checkedList);
 
-            console.log('checked item single >>', this.checkedList);
           }
         }, {
           key: "onClickDeleteItem",
@@ -1028,8 +1010,7 @@
                 while (1) {
                   switch (_context3.prev = _context3.next) {
                     case 0:
-                      console.log("_item", _item);
-                      _context3.next = 3;
+                      _context3.next = 2;
                       return this.alertController.create({
                         cssClass: 'aleart-popupBox',
                         header: 'Delete',
@@ -1038,7 +1019,7 @@
                           text: 'Cancel',
                           role: 'cancel',
                           cssClass: 'popup-cancel-btn',
-                          handler: function handler(blah) {// console.log('Confirm Cancel: blah');
+                          handler: function handler(blah) {// // console.log('Confirm Cancel: blah');
                           }
                         }, {
                           text: 'Ok',
@@ -1046,7 +1027,7 @@
                           handler: function handler() {
                             // ------------ single item delete start ------------
                             if (_identifire == 'single') {
-                              console.log('_item', _item);
+                              // console.log('_item', _item);
                               var sentValues = {
                                 'id': _item
                               }; // _item.deleteLodershow = true;
@@ -1054,8 +1035,7 @@
                               // _item.deleteLodershow = true;
                               _this9.deleteDataSubscribe = _this9.http.put("designerProduct/delete/" + _item, '').subscribe(function (res) {
                                 // _item.deleteLodershow = false;
-                                console.log("Edit data  res >", res.return_data);
-
+                                // console.log("Edit data  res >", res.return_data);
                                 if (res.status == 200) {
                                   // _items.splice( _index, 1 );
                                   // this.commonUtils.presentToast('success', res.return_message);
@@ -1105,11 +1085,11 @@
 
                                           // _items.splice(_items.indexOf(_items[i]), 1);
                                           // this.deleteLodershow = false; //loader hide
-                                          _this9.alldeleteLoaderShow = false; // console.log('delete items >>', _items);
-                                          // console.log('delete this.checkedList >>', this.checkedList);
+                                          _this9.alldeleteLoaderShow = false; // // console.log('delete items >>', _items);
+                                          // // console.log('delete this.checkedList >>', this.checkedList);
 
-                                          // console.log('delete items >>', _items);
-                                          // console.log('delete this.checkedList >>', this.checkedList);
+                                          // // console.log('delete items >>', _items);
+                                          // // console.log('delete this.checkedList >>', this.checkedList);
                                           _this9.allselectModel = false;
                                         }
                                       }
@@ -1148,12 +1128,12 @@
                         }]
                       });
 
-                    case 3:
+                    case 2:
                       alert = _context3.sent;
-                      _context3.next = 6;
+                      _context3.next = 5;
                       return alert.present();
 
-                    case 6:
+                    case 5:
                     case "end":
                       return _context3.stop();
                   }
@@ -1173,8 +1153,7 @@
                 while (1) {
                   switch (_context4.prev = _context4.next) {
                     case 0:
-                      console.log('openProductCommentmodal ...........>>', _identifier);
-                      _context4.next = 3;
+                      _context4.next = 2;
                       return this.modalController.create({
                         component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
                         cssClass: 'mymodalClass small openProductComment',
@@ -1185,23 +1164,22 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       profile_modal = _context4.sent;
                       // modal data back to Component
                       profile_modal.onDidDismiss().then(function (getdata) {
-                        console.log('getdata >>>>>>>>>>>', getdata);
-
+                        // console.log('getdata >>>>>>>>>>>', getdata);
                         _this10.onListDate(_this10.statustype, _this10.listing_url, _this10.pageNo, _this10.displayRecord, _this10.sortColumnName, _this10.sortOrderName, _this10.searchTerm);
 
                         if (getdata.data == 'submitClose') {}
                       });
-                      _context4.next = 7;
+                      _context4.next = 6;
                       return profile_modal.present();
 
-                    case 7:
+                    case 6:
                       return _context4.abrupt("return", _context4.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context4.stop();
                   }
@@ -1219,8 +1197,7 @@
                 while (1) {
                   switch (_context5.prev = _context5.next) {
                     case 0:
-                      console.log('openRejectemodal ...........>>', _identifier, _item);
-                      _context5.next = 3;
+                      _context5.next = 2;
                       return this.modalController.create({
                         component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
                         cssClass: 'mymodalClass small rejectemodal',
@@ -1231,21 +1208,20 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       profile_modal = _context5.sent;
                       // modal data back to Component
                       profile_modal.onDidDismiss().then(function (getdata) {
-                        console.log('getdata >>>>>>>>>>>', getdata);
-
+                        // console.log('getdata >>>>>>>>>>>', getdata);
                         if (getdata.data == 'submitClose') {}
                       });
-                      _context5.next = 7;
+                      _context5.next = 6;
                       return profile_modal.present();
 
-                    case 7:
+                    case 6:
                       return _context5.abrupt("return", _context5.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context5.stop();
                   }

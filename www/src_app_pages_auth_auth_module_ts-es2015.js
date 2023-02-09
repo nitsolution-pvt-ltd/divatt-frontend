@@ -185,7 +185,7 @@ let AuthPage = class AuthPage {
         this.commonFunction();
         this.menuCtrl.enable(false);
         this.formSubmitSubscribe = this.authService.globalparamsData.subscribe(res => {
-            console.log('authService', res);
+            // console.log('authService',res);
             if (res && res != null && res != undefined && res != '') {
                 if (res.token != undefined) {
                     this.router.navigateByUrl('/dashboard');
@@ -229,7 +229,7 @@ let AuthPage = class AuthPage {
     //---------------- login form submit start-----------------
     onSubmitForm(form) {
         this.isLoading = true;
-        console.log('form >>', form.value);
+        // console.log('form >>', form.value);
         if (!form.valid) {
             return;
         }
@@ -245,13 +245,13 @@ let AuthPage = class AuthPage {
         // form.reset();
     }
     radioChange(e) {
-        console.log(e.value);
+        // console.log(e.value);
         this.gender = e.value;
     }
     // register form start
     onSubmitRegForm(form) {
         this.btnloader2 = true;
-        console.log("REG-->", form.value);
+        // console.log("REG-->",form.value);
         this.designerProfile = {
             firstName1: form.value.firstName1,
             lastName1: form.value.lastName1,
@@ -277,7 +277,7 @@ let AuthPage = class AuthPage {
             designerProfile: this.designerProfile,
         };
         this.http.post("designer/add", this.data).subscribe((res) => {
-            console.log("res", res);
+            // console.log("res",res);
             this.btnloader2 = false;
             this.commonUtils.presentToast("success", res.message);
             // setTimeout(() => {
@@ -288,7 +288,7 @@ let AuthPage = class AuthPage {
             }, 1500);
         }, (error) => {
             this.btnloader2 = false;
-            console.log("error", error);
+            // console.log("error",error);
             this.message2 = error.error.message;
         });
     }
@@ -303,16 +303,16 @@ let AuthPage = class AuthPage {
             let authObs;
             if (this.isLogin) {
                 authObs = this.authService.login('auth/login', form_data, '');
-                console.log('###########>>>', authObs);
-                console.log('######form_data#####>>>', form_data);
+                // console.log('###########>>>', authObs);
+                // console.log('######form_data#####>>>', form_data);
             }
             else {
                 // authObs = this.authService.signup(email, password);
             }
-            console.log('authenticate@@', authObs);
-            console.log('authenticate...........');
+            // console.log('authenticate@@', authObs);
+            // console.log('authenticate...........');
             this.formSubmitSubscribe = authObs.subscribe(resData => {
-                console.log('resData =============))))))))))))))>', resData);
+                // console.log('resData =============))))))))))))))>', resData);
                 this.btnloader = false;
                 this.router.navigateByUrl('/dashboard');
                 // .then(() => {
@@ -327,12 +327,12 @@ let AuthPage = class AuthPage {
                 }, 2000);
                 loadingEl.dismiss();
                 // this.commonUtils.presentToast('error', resData.message);
-                // console.log("data login after resData ++++++>", resData);
+                // // console.log("data login after resData ++++++>", resData);
                 this.btnloader = false;
                 // loadingEl.dismiss();
                 // this.router.navigateByUrl('/places/tabs/discover');
             }, errRes => {
-                console.log("errRes", errRes);
+                // console.log("errRes",errRes);
                 this.btnloader = false;
                 loadingEl.dismiss();
                 // this.commonUtils.presentToast('error', errRes.error.message);
@@ -356,7 +356,7 @@ let AuthPage = class AuthPage {
     // ..... resetPasswordOpenModal start ......
     resetPasswordOpenModal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
-            // console.log('_identifier >>', _identifier);
+            // // console.log('_identifier >>', _identifier);
             let profileDetails_modal;
             profileDetails_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_7__.ModalPage,
@@ -370,7 +370,7 @@ let AuthPage = class AuthPage {
             // modal data back to Component
             profileDetails_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 if (getdata.data == 'submitClose') {
                 }
             });
@@ -379,20 +379,20 @@ let AuthPage = class AuthPage {
     }
     // resetPasswordOpenModal end 
     tabClick(tab) {
-        // console.log(tab);
+        // // console.log(tab);
     }
     termsConditions(e) {
-        // console.log("Event",e);
+        // // console.log("Event",e);
     }
     // Date format change start
     dateFormatChange(_identifier, event) {
-        console.log('_identifier', _identifier);
-        console.log('_data', event);
+        // console.log('_identifier', _identifier);
+        // console.log('_data', event);
         this.model.dob = moment__WEBPACK_IMPORTED_MODULE_2__(event.value).format('YYYY/MM/DD');
-        console.log('this.model.dob ', this.model.dob);
+        // console.log('this.model.dob ', this.model.dob );
     }
     passwordvalid(new_password, conform_password) {
-        console.log(new_password, conform_password);
+        // console.log(new_password,conform_password);
         if (conform_password == undefined) {
             this.errormsg = '';
         }

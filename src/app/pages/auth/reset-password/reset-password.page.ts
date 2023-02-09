@@ -53,13 +53,13 @@ export class ResetPasswordPage implements OnInit {
   }
   onsubmitResetform(form:NgForm)
   {
-  console.log(form.value.newPass);
+  // console.log(form.value.newPass);
   
     this.data = {newPass:form.value.newPass};
     this.btnloader = true;
     this.http.post("auth/resetPassword/"+this.link+"/"+this.time,this.data).subscribe(
       (res:any) => {
-        console.log("p",res);
+        // console.log("p",res);
         
         if(res.status == 200)
         {
@@ -73,7 +73,7 @@ export class ResetPasswordPage implements OnInit {
         this.btnloader = false;
       },
       (error) =>{
-        console.log(error);
+        // console.log(error);
         
         this.btnloader = false;
         this.commonUtils.presentToast('error', error.error.message);
@@ -81,7 +81,7 @@ export class ResetPasswordPage implements OnInit {
   }
   passwordvalid(new_password,conform_password)
   {
-    console.log(new_password,conform_password);
+    // console.log(new_password,conform_password);
     if (conform_password == undefined) {
       this.errormsg = '';
         

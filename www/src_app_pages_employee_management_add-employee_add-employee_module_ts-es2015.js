@@ -149,33 +149,33 @@ let AddEmployeePage = class AddEmployeePage {
         this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
         this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
         this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
-        console.log('parms_action_name', this.parms_action_name);
-        console.log('parms_action_id', this.parms_action_id);
+        // console.log('parms_action_name', this.parms_action_name);
+        // console.log('parms_action_id', this.parms_action_id);
         // get module api
         this.getroleList_api = 'admin/roles';
         // form_api Api
         this.form_api = 'admin/profile/add';
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrlName = this.router.url.split("/");
-                        console.log('pageUrlName', pageUrlName);
+                        // console.log('pageUrlName', pageUrlName);
                         for (let item of data) {
                             let moduleUrlName = item.modDetails.url.split("-");
-                            console.log('moduleUrlName', moduleUrlName);
+                            // console.log('moduleUrlName',moduleUrlName);
                             if (pageUrlName[1] == moduleUrlName[0]) {
                                 if (this.parms_action_name == 'add' && item.modPrivs.create == true) {
-                                    console.log('-----Permission create Granted-----');
+                                    // console.log('-----Permission create Granted-----');
                                     this.getroleList();
                                     break;
                                 }
                                 else if (this.parms_action_name == 'edit' && item.modPrivs.update == true) {
-                                    console.log('-----Permission update Granted-----');
+                                    // console.log('-----Permission update Granted-----');
                                     this.getroleList();
                                     this.editApi = 'admin/profile/' + this.parms_action_id;
                                     // form api
@@ -185,7 +185,7 @@ let AddEmployeePage = class AddEmployeePage {
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -204,10 +204,10 @@ let AddEmployeePage = class AddEmployeePage {
         this.editLoading = true;
         this.getroles = this.http.get(this.getroleList_api).subscribe((res) => {
             this.roleList = res;
-            console.log("Get roleList", this.roleList);
+            // console.log("Get roleList",this.roleList);
             this.editLoading = false;
         }, errRes => {
-            console.log("Get roleList >", errRes);
+            // console.log("Get roleList >", errRes); 
             this.editLoading = false;
         });
     }
@@ -224,22 +224,22 @@ let AddEmployeePage = class AddEmployeePage {
         this.http.post("admin/profile/s3/upload", fd).subscribe((res) => {
             this.imageSrc = res.path;
             this.model.profilePic = res.path;
-            console.log("profileimgpath", this.imageSrc);
+            // console.log("profileimgpath",this.imageSrc);
             // this.commonUtils.presentToast('success', res.message);
         }, (error) => {
-            console.log("error", error);
+            // console.log("error",error);
             this.commonUtils.presentToast('error', error.error.message);
         });
     }
     /* Image uploading end */
     /* Default select start */
     ngsel(value) {
-        console.log('Select >>>', value);
+        // console.log('Select >>>', value);
     }
     // Date format change start
     changeDateFormat(_identifier, _date) {
-        console.log('_date', _date);
-        console.log('_identifier', _identifier);
+        // console.log('_date', _date);
+        // console.log('_identifier', _identifier);
         if (_identifier == 'registrationDate') {
             this.model.isntRegDate = moment__WEBPACK_IMPORTED_MODULE_3__(_date).format('YYYY/MM/DD');
         }
@@ -249,7 +249,7 @@ let AddEmployeePage = class AddEmployeePage {
         else if (_identifier == 'dateOfBirth') {
             this.model.dob = moment__WEBPACK_IMPORTED_MODULE_3__(_date).format('YYYY/MM/DD');
         }
-        console.log('model.isntRegDate', this.model.isntRegDate);
+        // console.log('model.isntRegDate', this.model.isntRegDate);
     }
     // Date format change end
     // ---------- init start ----------
@@ -260,7 +260,7 @@ let AddEmployeePage = class AddEmployeePage {
             //edit data call
             this.editDataSubscribe = this.http.get(this.editApi).subscribe((res) => {
                 this.editLoading = false;
-                console.log("Edit data  res >", res.return_data);
+                // console.log("Edit data  res >", res.return_data);
                 this.model = {
                     firstName: res.firstName,
                     lastName: res.lastName,
@@ -276,10 +276,10 @@ let AddEmployeePage = class AddEmployeePage {
                 this.imageSrc = res.profilePic;
                 // this.ngsel(this.model.instId);
                 this.model.chkdob = moment__WEBPACK_IMPORTED_MODULE_3__(res.dob).format('YYYY-MM-DD');
-                console.log('this.model.creatDate', this.model);
+                // console.log('this.model.creatDate', this.model);
                 // edit data
                 this.allEditData = res;
-                console.log('this.allEditData', this.allEditData);
+                // console.log('this.allEditData', this.allEditData);
             }, errRes => {
                 // this.selectLoadingDepend = false;
                 this.editLoading = false;
@@ -290,17 +290,17 @@ let AddEmployeePage = class AddEmployeePage {
         }
     }
     onSubmitForm(form) {
-        console.log("add form submit >", form.value);
+        // console.log("add form submit >", form.value);
         this.formLoading = true;
         let formValue = form.value;
-        console.log('formValue', formValue);
+        // console.log('formValue', formValue);
         if (!form.valid) {
             return;
         }
         if (this.parms_action_name == 'edit') {
             this.formSubmitSubscribe = this.http.put(this.editForm_api, form.value).subscribe((response) => {
                 this.formLoading = false;
-                console.log("add form response >", response);
+                // console.log("add form response >", response);
                 if (response.status == 200) {
                     this.router.navigateByUrl('employee-list');
                     this.commonUtils.presentToast('success', response.message);
@@ -317,7 +317,7 @@ let AddEmployeePage = class AddEmployeePage {
         else if (this.parms_action_name == 'add') {
             this.formSubmitSubscribe = this.http.post(this.form_api, form.value).subscribe((response) => {
                 this.formLoading = false;
-                console.log("add form response >", response);
+                // console.log("add form response >", response);
                 if (response.status == 200) {
                     this.router.navigateByUrl('employee-list');
                     this.commonUtils.presentToast('success', response.message);

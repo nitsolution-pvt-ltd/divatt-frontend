@@ -197,28 +197,28 @@ let UserListPage = class UserListPage {
         // this.onRefresh();
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe((res) => {
-            console.log("res>>", res);
+            // console.log("res>>", res);
             if (res.authority == "ADMIN") {
                 this.permissionDataSubscribe =
                     this.commonUtils.menuPermissionObservable.subscribe((data) => {
                         if (data) {
-                            console.log("menu>>", data);
-                            console.log("this.router.url>>", this.router.url);
+                            // console.log("menu>>", data);
+                            // console.log("this.router.url>>", this.router.url);
                             let pageUrl = this.router.url.split("/");
-                            console.log("pageUrl", pageUrl);
+                            // console.log("pageUrl", pageUrl);
                             for (let item of data) {
                                 if (item.modDetails.url == pageUrl[1]) {
                                     if (item.modPrivs.list == true) {
-                                        console.log("-----Permission Granted-----");
+                                        // console.log("-----Permission Granted-----");
                                         this.pagePermission = item;
-                                        console.log("this.pagePermission", this.pagePermission);
+                                        // console.log("this.pagePermission", this.pagePermission);
                                         this.listing_url = "user/getUserList";
                                         this.onRefresh();
                                         // delete api
                                         break;
                                     }
                                     else {
-                                        console.log("-------No Permission--------");
+                                        // console.log("-------No Permission--------");
                                         this.router.navigateByUrl("/error");
                                     }
                                 }
@@ -233,7 +233,7 @@ let UserListPage = class UserListPage {
         /*Check permission status end*/
     }
     displayRecordChange(_record) {
-        console.log("_record", _record);
+        // console.log("_record", _record);
         this.displayRecord = _record;
         this.pageNo = 0;
         this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -245,7 +245,7 @@ let UserListPage = class UserListPage {
         let api = _listUrl + "?page=" + _pageNo + "&limit=" + _displayRecord + "&sortName=" + _sortColumnName + "&sort=" + _sortOrderName + "&keyword=" + _searchTerm;
         this.tableListSubscribe = this.http.get(api).subscribe((res) => {
             this.isListLoading = false;
-            console.log("res", res);
+            // console.log("res", res);
             this.tableData = res;
             for (let index = 0; index < res.data.length; index++) {
                 this.tableData.data[index].createdOn = moment__WEBPACK_IMPORTED_MODULE_2__(this.tableData.data[index].createdOn).format('DD MMM YYYY');
@@ -269,16 +269,16 @@ let UserListPage = class UserListPage {
     // List data end
     // Pagination start
     setPage(page) {
-        console.log("page", page);
-        console.log("page");
+        // console.log("page", page);
+        // console.log("page");
         this.pageNo = page;
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Pagination end
     // Sorting start
     isSortTableHeader(_tableHeaderData, _headerItem) {
-        console.log("_tableHeaderData", _tableHeaderData);
-        console.log("_headerItem", _headerItem);
+        // console.log("_tableHeaderData", _tableHeaderData);
+        // console.log("_headerItem", _headerItem);
         // all field reset first
         _tableHeaderData.forEach((val) => {
             val.sortingButtonName = "";
@@ -292,14 +292,14 @@ let UserListPage = class UserListPage {
         }
         this.sortColumnName = _headerItem.column_name;
         this.sortOrderName = _headerItem.sortingButtonName;
-        console.log("this.sortColumnName", this.sortColumnName);
-        console.log("this.sortOrderName", this.sortOrderName);
-        console.log("_tableHeaderData>>", _tableHeaderData);
+        // console.log("this.sortColumnName", this.sortColumnName);
+        // console.log("this.sortOrderName", this.sortOrderName);
+        // console.log("_tableHeaderData>>", _tableHeaderData);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     searchList(event) {
         this.searchTerm = event.target.value;
-        console.log("this.searchTerm", this.searchTerm);
+        // console.log("this.searchTerm", this.searchTerm);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Search end

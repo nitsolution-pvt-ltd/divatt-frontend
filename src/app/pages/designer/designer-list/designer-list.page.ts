@@ -111,29 +111,29 @@ export class DesignerListPage implements OnInit {
   commonFunction() {
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res.authority == 'ADMIN'){
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if(data){
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
     
             let pageUrl = this.router.url.split("/");
-            console.log('pageUrl', pageUrl);
+            // console.log('pageUrl', pageUrl);
     
             for(let item of data) {
               if(item.modDetails.url == pageUrl[1]){
                 if(item.modPrivs.list == true){
-                  console.log('-----Permission Granted-----');
+                  // console.log('-----Permission Granted-----');
                   this.pagePermission = item;
-                  console.log('this.pagePermission', this.pagePermission);
+                  // console.log('this.pagePermission', this.pagePermission);
                   this.listing_url = "designer/list";
                   this.onRefresh();
                   // delete api
                   this.deleteApi = "adminMData/deleteDesignerLevels";
                   break;
                 }else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
                 
@@ -219,7 +219,7 @@ export class DesignerListPage implements OnInit {
     // { id : '5', displayValue: '0'}
   ];
   displayRecordChange(_record) {
-    console.log("_record", _record);
+    // console.log("_record", _record);
 
     this.displayRecord = _record;
     this.pageNo = 0;
@@ -242,7 +242,7 @@ export class DesignerListPage implements OnInit {
     this.tableListSubscribe = this.http.get(api).subscribe(
       (res: any) => {
         this.isListLoading = false;
-        console.log("res", res);
+        // console.log("res", res);
         this.tableData = res;
         this.tableListData = res.data;
 
@@ -266,8 +266,8 @@ export class DesignerListPage implements OnInit {
   // List data end
   // Pagination start
   setPage(page: number) {
-    console.log("page", page);
-    console.log("page");
+    // console.log("page", page);
+    // console.log("page");
 
     this.pageNo = page;
     this.onListDate( this.listing_url,this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName, this.searchTerm, this.profileStatus);
@@ -276,8 +276,8 @@ export class DesignerListPage implements OnInit {
 
   // Sorting start
   isSortTableHeader(_tableHeaderData, _headerItem) {
-    console.log("_tableHeaderData", _tableHeaderData);
-    console.log("_headerItem", _headerItem);
+    // console.log("_tableHeaderData", _tableHeaderData);
+    // console.log("_headerItem", _headerItem);
 
     // all field reset first
     _tableHeaderData.forEach((val) => {
@@ -294,9 +294,9 @@ export class DesignerListPage implements OnInit {
     this.sortColumnName = _headerItem.column_name;
     this.sortOrderName = _headerItem.sortingButtonName;
 
-    console.log("this.sortColumnName", this.sortColumnName);
-    console.log("this.sortOrderName", this.sortOrderName);
-    console.log("_tableHeaderData>>", _tableHeaderData);
+    // console.log("this.sortColumnName", this.sortColumnName);
+    // console.log("this.sortOrderName", this.sortOrderName);
+    // console.log("_tableHeaderData>>", _tableHeaderData);
 
     this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName,this.searchTerm,this.profileStatus);
   }
@@ -326,13 +326,13 @@ export class DesignerListPage implements OnInit {
 
   // Delete start
   deleteData(_id) {
-    console.log("id>>", _id);
+    // console.log("id>>", _id);
     let sentValues = { id: _id };
     this.deleteLoading = true;
     this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe(
         (res: any) => {
           this.deleteLoading = false;
-          // console.log("Delete data  res >", res.return_data);
+          // // console.log("Delete data  res >", res.return_data);
           if (res.status == 200) {
             this.commonUtils.presentToast("success", res.message);
             this.onRefresh();
@@ -369,14 +369,14 @@ export class DesignerListPage implements OnInit {
           role: "cancel",
           cssClass: "popup-cancel-btn",
           handler: (blah) => {
-            console.log("Confirm Cancel: blah");
+            // console.log("Confirm Cancel: blah");
           },
         },
         {
           text: "Okay",
           cssClass: "popup-ok-btn",
           handler: () => {
-            console.log("Confirm Okay");
+            // console.log("Confirm Okay");
             // this.clickActionBtn('', 'delete');
             // this.deleteData(_id);
             if (_identifier == "delete") {
@@ -404,12 +404,12 @@ export class DesignerListPage implements OnInit {
   selectLabel(value)
   {
     this.labelValue = value.Name;
-    console.log("this.Lebellist",value,this.labelValue);
+    // console.log("this.Lebellist",value,this.labelValue);
     
   }
   // selectLabel end
   changeStatus(type,actiontype,_item) {
-    console.log("_item",_item);
+    // console.log("_item",_item);
     
     if(actiontype == 'waitForApprove')
     {
@@ -522,14 +522,14 @@ export class DesignerListPage implements OnInit {
         );
       }
     }
-    console.log('_item', _item);
+    // console.log('_item', _item);
    
     
       
   }
   // select all check box start
   async openProductCommentmodal(_identifier, _item, _items) {
-    console.log('openProductCommentmodal ...........>>', _identifier);
+    // console.log('openProductCommentmodal ...........>>', _identifier);
 
     let profile_modal;
     profile_modal = await this.modalController.create({
@@ -545,7 +545,7 @@ export class DesignerListPage implements OnInit {
     // modal data back to Component
     profile_modal.onDidDismiss()
     .then((getdata) => {
-      console.log('getdata >>>>>>>>>>>', getdata);
+      // console.log('getdata >>>>>>>>>>>', getdata);
       this.onListDate( this.listing_url, this.pageNo,this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName,this.searchTerm, this.profileStatus);
 
       if(getdata.data == 'submitClose'){
@@ -560,7 +560,7 @@ export class DesignerListPage implements OnInit {
   allSelectItem(event) {
     if (event.target.checked) {
       this.itemcheckClick = false;
-      // console.log('check item selkectedddddddddddddd');
+      // // console.log('check item selkectedddddddddddddd');
       for (let i = 0; i < this.tableListData.length; i++) {
         // if(this.checkedList.includes(this.items[i].id) === false)
         if (
@@ -572,7 +572,7 @@ export class DesignerListPage implements OnInit {
         }
       }
     } else if (this.itemcheckClick == false) {
-      // console.log('not check item selectionnnnnnnnnnn')
+      // // console.log('not check item selectionnnnnnnnnnn')
       this.checkedList = [];
       for (let i = 0; i < this.tableListData.length; i++) {
         if (this.checkedList.indexOf(this.tableListData[i]) === -1) {
@@ -581,8 +581,8 @@ export class DesignerListPage implements OnInit {
       }
     }
 
-    console.log("checked item all @@ >>", this.checkedList);
-    console.log("tableListData item all @@ >>", this.tableListData);
+    // console.log("checked item all @@ >>", this.checkedList);
+    // console.log("tableListData item all @@ >>", this.tableListData);
   }
   // Select all checkbox end
   // Select single checkbox start
@@ -601,14 +601,14 @@ export class DesignerListPage implements OnInit {
 
     if (this.tableListData.length <= this.checkedList.length) {
       this.allselectModel = true;
-      console.log("length 4");
+      // console.log("length 4");
     } else {
-      console.log("length 0");
+      // console.log("length 0");
       this.allselectModel = false;
       this.itemcheckClick = true;
     }
 
-    console.log("checked item single >>", this.checkedList);
+    // console.log("checked item single >>", this.checkedList);
   }
   // Select single checkbox end
   // ---------------- Click Delete Item start ---------------------
@@ -625,7 +625,7 @@ export class DesignerListPage implements OnInit {
           role: "cancel",
           cssClass: "popup-cancel-btn",
           handler: (blah) => {
-            // console.log('Confirm Cancel: blah');
+            // // console.log('Confirm Cancel: blah');
           },
         },
         {
@@ -634,7 +634,7 @@ export class DesignerListPage implements OnInit {
           handler: () => {
             // ------------ single item delete start ------------
             if (_identifire == "single") {
-              console.log("_item", _item);
+              // console.log("_item", _item);
               let formData;
               formData = {
                 dId: _item.dId,
@@ -693,8 +693,8 @@ export class DesignerListPage implements OnInit {
                               // _items.splice(_items.indexOf(_items[i]), 1);
                               this.deleteLodershow = false; //loader hide
                               this.alldeleteLoaderShow = false;
-                              // console.log('delete items >>', _items);
-                              // console.log('delete this.checkedList >>', this.checkedList);
+                              // // console.log('delete items >>', _items);
+                              // // console.log('delete this.checkedList >>', this.checkedList);
 
                               this.allselectModel = false;
                             }
@@ -739,7 +739,7 @@ export class DesignerListPage implements OnInit {
   }
   // Click Delete Item end
   async openDesignerCommentmodal(_identifier, _item, _items) {
-    console.log('openDesignerCommentmodal ...........>>', _identifier);
+    // console.log('openDesignerCommentmodal ...........>>', _identifier);
 
     let profile_modal;
     profile_modal = await this.modalController.create({
@@ -755,7 +755,7 @@ export class DesignerListPage implements OnInit {
     // modal data back to Component
     profile_modal.onDidDismiss()
     .then((getdata) => {
-      console.log('getdata >>>>>>>>>>>', getdata);
+      // console.log('getdata >>>>>>>>>>>', getdata);
       this.onListDate(this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
       if(getdata.data == 'submitClose'){
         
@@ -768,7 +768,7 @@ export class DesignerListPage implements OnInit {
   // openRejectemodal start
   // openRejectemodal start
   async openRejectemodal(_identifier, _item, _items) {
-    console.log('openRejectemodal ...........>>', _identifier,_item);
+    // console.log('openRejectemodal ...........>>', _identifier,_item);
 
     let profile_modal;
     profile_modal = await this.modalController.create({
@@ -785,7 +785,7 @@ export class DesignerListPage implements OnInit {
     profile_modal.onDidDismiss()
     .then((getdata) => {
       
-      console.log('getdata >>>>>>>>>>>', getdata);
+      // console.log('getdata >>>>>>>>>>>', getdata);
       if(getdata.data == 'submitClose'){
         
       }
@@ -801,7 +801,7 @@ export class DesignerListPage implements OnInit {
     this.LebellistDataSubcribe = this.http.get("adminMData/getDesignerCategory").subscribe((res:any) =>{
       this.Lebellist = res.data;
       },error =>{
-        console.log(error);
+        // console.log(error);
         this.commonUtils.presentToast('error', error.error.message);
     })
   }

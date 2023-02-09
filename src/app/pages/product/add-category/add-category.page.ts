@@ -46,36 +46,36 @@ export class AddCategoryPage implements OnInit {
     this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
     this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
     
-    console.log('parms_action_name', this.parms_action_name);
-    console.log('parms_action_id', this.parms_action_id);
+    // console.log('parms_action_name', this.parms_action_name);
+    // console.log('parms_action_id', this.parms_action_id);
 
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res.authority == 'ADMIN'){
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if(data){
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
     
             let pageUrlName = this.router.url.split("/");
-            console.log('pageUrlName', pageUrlName);
+            // console.log('pageUrlName', pageUrlName);
             
             for(let item of data) {
               let moduleUrlName = item.modDetails.url.split("-");
-              console.log('moduleUrlName',moduleUrlName);
+              // console.log('moduleUrlName',moduleUrlName);
               
               if(pageUrlName[1] == moduleUrlName[0]){
                 if(this.parms_action_name == 'add' && item.modPrivs.create == true){
-                   console.log('-----Permission create Granted-----');
+                   // console.log('-----Permission create Granted-----');
 
                   break;
                 }else if(this.parms_action_name == 'edit' && item.modPrivs.update == true){
-                  console.log('-----Permission update Granted-----');
+                  // console.log('-----Permission update Granted-----');
                   this.getcatById();
                   break;
                 }else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
                 
@@ -96,7 +96,7 @@ export class AddCategoryPage implements OnInit {
     this.loader = true;
     this.getCategorybyIdSubscribe = this.http.get("category/view/"+this.parms_action_id).subscribe(
       (res:any) => {
-        console.log("res",res);
+        // console.log("res",res);
         this.loader = false;
         this.model = {
           categoryName:res.categoryName,
@@ -110,7 +110,7 @@ export class AddCategoryPage implements OnInit {
       },
       (error) =>{
         this.loader = false;
-        console.log("error",error);
+        // console.log("error",error);
       })
   }
   // getcatById end
@@ -127,7 +127,7 @@ export class AddCategoryPage implements OnInit {
       return;
     }
     
-    console.log(this.imageSrc);
+    // console.log(this.imageSrc);
     this.imageSrc = null;
     // this.file = null;
     this.imageSrc= e.target.files[0];
@@ -137,11 +137,11 @@ export class AddCategoryPage implements OnInit {
       (res:any) => {
         this.imageSrc = res.path;
         this.model.categoryImage = res.path;
-        console.log("profileimgpath",this.imageSrc);
+        // console.log("profileimgpath",this.imageSrc);
         // this.commonUtils.presentToast('success', res.message);
       },
       (error) =>{
-        console.log("error",error);
+        // console.log("error",error);
         this.commonUtils.presentToast('error', error.error.message);
       })
     reader.onload = this._handleReaderLoaded.bind(this);
@@ -174,18 +174,18 @@ export class AddCategoryPage implements OnInit {
         
         this.addCategorySubscribe = this.http.post('category/add',this.allcategorydata).subscribe((res:any) =>{
           // window.location.reload();
-          console.log("allcategorydata",this.allcategorydata,"response",res);
+          // console.log("allcategorydata",this.allcategorydata,"response",res);
           this.btnloader =false;
          
           this.commonUtils.presentToast('success', res.message);
           this.router.navigateByUrl('/category-list')
           form.reset();
         },error =>{
-            console.log(error);
+            // console.log(error);
             this.btnloader =false;
             this.commonUtils.presentToast('error', error.error.message);
         })
-        console.log("allda",this.allcategorydata);
+        // console.log("allda",this.allcategorydata);
         
     }
     // add api end
@@ -206,7 +206,7 @@ export class AddCategoryPage implements OnInit {
           }
     
       this.addCategorySubscribe = this.http.put("category/update/"+this.parms_action_id,this.allcategorydata).subscribe((res:any) =>{
-        console.log("allcategorydatay",this.allcategorydata,"response",res);
+        // console.log("allcategorydatay",this.allcategorydata,"response",res);
         this.btnloader =false;
         
         // window.location.reload();
@@ -215,7 +215,7 @@ export class AddCategoryPage implements OnInit {
         form.reset();
          },error =>{
           this.btnloader =false;
-          // console.log("error",error);
+          // // console.log("error",error);
           this.commonUtils.presentToast('error', error.error.message);
           // recall category list
       })

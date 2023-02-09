@@ -293,9 +293,9 @@
             // get active url name
             this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
             this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
-            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
-            console.log('parms_action_name', this.parms_action_name);
-            console.log('parms_action_id', this.parms_action_id); // get module api
+            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id'); // console.log('parms_action_name', this.parms_action_name);
+            // console.log('parms_action_id', this.parms_action_id);
+            // get module api
 
             this.getmoduleList_api = 'admin/modules'; // form_api Api
 
@@ -303,17 +303,14 @@
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrlName = _this.router.url.split("/"); // console.log('pageUrlName', pageUrlName);
 
-                    var pageUrlName = _this.router.url.split("/");
-
-                    console.log('pageUrlName', pageUrlName);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -321,18 +318,16 @@
                     try {
                       for (_iterator.s(); !(_step = _iterator.n()).done;) {
                         var item = _step.value;
-                        var moduleUrlName = item.modDetails.url.split("-");
-                        console.log('moduleUrlName', moduleUrlName);
+                        var moduleUrlName = item.modDetails.url.split("-"); // console.log('moduleUrlName',moduleUrlName);
 
                         if (pageUrlName[1] == moduleUrlName[0]) {
                           if (_this.parms_action_name == 'add' && item.modPrivs.create == true) {
-                            console.log('-----Permission create Granted-----');
-
+                            // console.log('-----Permission create Granted-----');
                             _this.getmoduleList();
 
                             break;
                           } else if (_this.parms_action_name == 'edit' && item.modPrivs.update == true) {
-                            console.log('-----Permission update Granted-----');
+                            // console.log('-----Permission update Granted-----');
                             _this.editApi = 'admin/role/' + _this.parms_action_id; // init call
 
                             _this.init();
@@ -341,8 +336,7 @@
 
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -369,11 +363,11 @@
 
             this.editLoading = true;
             this.getmodules = this.http.get(this.getmoduleList_api).subscribe(function (res) {
-              _this2.moduleList = res;
-              console.log("Get moduleList", _this2.moduleList);
+              _this2.moduleList = res; // console.log("Get moduleList",this.moduleList);
+
               _this2.editLoading = false;
             }, function (errRes) {
-              console.log("Get moduleList >", errRes);
+              // console.log("Get moduleList >", errRes); 
               _this2.editLoading = false;
             });
           }
@@ -390,19 +384,18 @@
               this.editLoading = true; //edit data call
 
               this.editDataSubscribe = this.http.get(this.editApi).subscribe(function (res) {
-                _this3.editLoading = false;
-                console.log("Edit data  res >", res.return_data);
+                _this3.editLoading = false; // console.log("Edit data  res >", res.return_data);
+
                 _this3.model = {
                   roleName: res.roleName,
                   modules: res.modules
-                };
-                console.log('modules', _this3.model.modules); // this.ngsel(this.model.instId);
+                }; // console.log('modules', this.model.modules);
+                // this.ngsel(this.model.instId);
 
-                _this3.model.creatDate = moment__WEBPACK_IMPORTED_MODULE_3__(res.lcCreatDate).format('YYYY-MM-DD');
-                console.log('this.model.creatDate', _this3.model); // edit data
+                _this3.model.creatDate = moment__WEBPACK_IMPORTED_MODULE_3__(res.lcCreatDate).format('YYYY-MM-DD'); // console.log('this.model.creatDate', this.model);
+                // edit data
 
-                _this3.allEditData = res;
-                console.log('this.allEditData', _this3.allEditData);
+                _this3.allEditData = res; // console.log('this.allEditData', this.allEditData);
               }, function (errRes) {
                 // this.selectLoadingDepend = false;
                 _this3.editLoading = false;
@@ -416,13 +409,12 @@
           value: function onSubmitForm(form) {
             var _this4 = this;
 
-            console.log("add form submit >", form.value);
+            // console.log("add form submit >", form.value);
             this.formLoading = true;
-            var formValue = form.value;
-            console.log('formValue', formValue);
-            var modules = [];
-            console.log('formValue.length', formValue.length);
-            console.log('formValue.modules[index].modName', formValue.modules0modName);
+            var formValue = form.value; // console.log('formValue', formValue);
+
+            var modules = []; // console.log('formValue.length', formValue.length);
+            // console.log('formValue.modules[index].modName', formValue.modules0modName);
 
             for (var index = 0; index < formValue.length; index++) {
               modules.push({
@@ -434,14 +426,13 @@
                   "delete": formValue["modules" + index + "delete"]
                 }
               });
-            }
+            } // console.log('modules', modules);
 
-            console.log('modules', modules);
+
             var formAllData = {
               "roleName": formValue.roleName,
               "modules": modules
-            };
-            console.log('formAllData', formAllData);
+            }; // console.log('formAllData',formAllData);
 
             if (!form.valid) {
               return;
@@ -449,8 +440,7 @@
 
             if (this.parms_action_name == 'edit') {
               this.formSubmitSubscribe = this.http.post(this.editForm_api, formAllData).subscribe(function (response) {
-                _this4.formLoading = false;
-                console.log("add form response >", response);
+                _this4.formLoading = false; // console.log("add form response >", response);
 
                 if (response.status == 200) {
                   _this4.router.navigateByUrl('role-list');
@@ -466,8 +456,7 @@
               });
             } else if (this.parms_action_name == 'add') {
               this.formSubmitSubscribe = this.http.post(this.form_api, formAllData).subscribe(function (response) {
-                _this4.formLoading = false;
-                console.log("add form response >", response);
+                _this4.formLoading = false; // console.log("add form response >", response);
 
                 if (response.status == 200) {
                   _this4.router.navigateByUrl('role-list');

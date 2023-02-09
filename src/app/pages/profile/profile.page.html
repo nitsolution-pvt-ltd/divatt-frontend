@@ -17,12 +17,6 @@
                       <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
                               <mat-icon>home</mat-icon>
                           </a></li>
-                      <!-- <li class="breadcrumb-item" *ngIf="role == 'ADMIN'">
-                        Admin
-                      </li>
-                      <li class="breadcrumb-item" *ngIf="role == 'DESIGNER'">
-                        Designer
-                      </li> -->
                       <li class="breadcrumb-item active">
                         Profile
                       </li>
@@ -66,9 +60,6 @@
                           </mat-slide-toggle>
                         </p>
                         </div>
-                     <!-- <p class="text-center m-0 mt-2">
-                        <a (click)="deleteData(profiledata.id)" class="link">Delete Profile</a>
-                      </p> -->
                   </div>
               </div>
             </div>
@@ -85,7 +76,6 @@
                           <div class="d-flex align-items-center justify-content-between">
                             <h3 class="font-weight-500 mb-3 h3 mt-3">Profile</h3>
                            
-                            <!-- <button  type="button" (click)="openProfilemodal('profile_modal', profiledata, '');" class="btn btn-primary">Edit</button> -->
                           </div>
                           <div class="table-responsive">
                             <table>
@@ -130,188 +120,8 @@
                         </div>
                         
                     </mat-tab>
-                    <mat-tab *ngIf="role == 'DESIGNER'">
-                      <ng-template mat-tab-label>
-                        <mat-icon>person_outline</mat-icon>
-                        <span >Profile</span>
-                      </ng-template>
-                        <div class="dtl-body pt-2 pb-2 p-4">
-                          <div class="d-flex align-items-center justify-content-between">
-                            <h3 class="font-weight-500 mb-3 h3 mt-3">Profile</h3>
-                            
-                            
-                          </div>
-                          <div class="table-responsive">
-                            <table>
-                              <tr>
-                                <td class="p-0">
-                                  <table class="w-100">
-                                    <tr >
-                                      <td class="border-0"><span class="text-black">Designer 1</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td class="border-0"  ><span class="text-black">First Name:</span></td>
-                                      <td class="border-0"><span>{{designerprofiledata?.designerProfile?.firstName1}}</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td class="border-0"><span class="text-black">Last Name:</span></td>
-                                      <td class="border-0"><span>{{designerprofiledata?.designerProfile?.lastName1}}</span></td>
-                                    </tr>
-                                  </table>
-                                </td>
-                                <td class="p-0">
-                                  <table class="w-100">
-                                    <tr >
-                                      <td class="border-0"><span class="text-black">Designer 2</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td class="border-0"  ><span class="text-black">First Name:</span></td>
-                                      <td class="border-0"><span>{{designerprofiledata?.designerProfile?.firstName2}}</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td class="border-0"><span class="text-black">Last Name:</span></td>
-                                      <td class="border-0"><span>{{designerprofiledata?.designerProfile?.lastName2}}</span></td>
-                                    </tr>
-                                  </table>
-                                </td>
-                              </tr>
-                              <!-- <tr >
-                                <td class="border-0"><span class="text-black">Designer 2</span></td>
-                              </tr>
-                              <tr >
-                                <td class="border-0"  ><span class="text-black">First Name:</span></td>
-                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.firstName2}}</span></td>
-                              </tr>
-                              <tr >
-                                <td class="border-0"><span class="text-black">Last Name:</span></td>
-                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.lastName2}}</span></td>
-                              </tr>-->
-                              <tr > 
-                                <td class="border-0" ><span class="text-black">Email:</span></td>
-                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.email}}</span></td>
-                              </tr>
-                              <tr>
-                                <td class="border-0"><span class="text-black">Gender:</span></td>
-                                <td class="border-0"><span class="text-capitalize">{{designerprofiledata?.designerProfile?.gender}}</span></td>
-                              </tr>
-                              <tr >
-                                <td class="border-0"  ><span class="text-black">Mobile No:</span></td>
-                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.mobileNo}}</span></td>
-                              </tr>
-                              <tr  >
-                                <td class="border-0" ><span class="text-black">DOB:</span></td>
-                                <td class="border-0"><span>{{designerprofiledata?.designerProfile?.dob}}</span></td>
-                              </tr>
-                            </table>
-                          </div>
-                        </div>
-                        
-                    </mat-tab>
-                    <mat-tab *ngIf="role == 'DESIGNER'">
-                      <ng-template mat-tab-label>
-                        <mat-icon>people</mat-icon>
-                        <span>Social</span>
-                      </ng-template>
-                      <div class="table-responsive" *ngIf="designerprofiledata?.designerPersonalInfoEntity">
-                        <table>
-                          <!-- <tr  >
-                            <td class="border-0"  ><span class="text-black">Achievements:</span></td>
-                            <td class="border-0"  [ngClass]="{ 'd-none': designerprofiledata?.socialProfile?.achievements.length > 100}"><div class="description_text" >{{designerprofiledata?.socialProfile?.achievements}} </div></td>
-                            <td class="border-0" *ngIf="designerprofiledata?.socialProfile?.achievements.length > 100"><div class="description_text"  [ngClass]="{ 'visible': showmore1}">{{designerprofiledata?.socialProfile?.achievements}} </div><a (click)="showmore1 = !showmore1" *ngIf="designerprofiledata?.socialProfile?.achievements" class="text-primary">{{showmore1 ? 'Show less' : 'Show more'}}</a></td>
-                          </tr> -->
-                          <tr >
-                            <td class="border-0" ><span class="text-black">Address:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.socialProfile?.address}}</span></td>
-                          </tr>
-                          <tr >
-                            <td class="border-0" ><span class="text-black">Description:</span></td>
-                            <td class="border-0"  [ngClass]="{ 'd-none': designerprofiledata?.socialProfile?.description.length > 100}"><div class="description_text" >{{designerprofiledata?.socialProfile?.description}} </div></td>
-                            <td class="border-0" *ngIf="designerprofiledata?.socialProfile?.description.length > 100"><div class="description_text"  [ngClass]="{ 'visible': showmore}">{{designerprofiledata?.socialProfile?.description}} </div><a (click)="showmore = !showmore" class="text-primary" *ngIf="designerprofiledata?.socialProfile?.description">{{showmore ? 'Show less' : 'Show more'}}</a></td>
-                          </tr>
-                          <tr >
-                            <td class="border-0" ><span class="text-black">Facebook Link:</span></td>
-                            <td class="border-0"><span class="text-capitalize">{{designerprofiledata?.socialProfile?.facebookLink}}</span></td>
-                          </tr>
-                          <tr >
-                            <td class="border-0"><span class="text-black">Instagram Link:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.socialProfile?.instagramLink}}</span></td>
-                          </tr>
-                          <tr >
-                            <td class="border-0"><span class="text-black">Youtube Link:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.socialProfile?.youtubeLink}}</span></td>
-                          </tr>
-                          <tr >
-                            <td class="border-0" ><span class="text-black">Website URL:</span></td>
-                            <td class="border-0"><span class="text-capitalize">{{designerprofiledata?.socialProfile?.facebookLink}}</span></td>
-                          </tr>
-                        </table>
-                      </div>
-                    </mat-tab>
-                    <mat-tab *ngIf="role == 'DESIGNER'">
-                      <ng-template mat-tab-label>
-                        <mat-icon>account_balance</mat-icon>
-                        <span>Bank Details</span>
-                      </ng-template>
-                      <div class="table-responsive" *ngIf="designerprofiledata?.designerPersonalInfoEntity">
-                        <table>
-                          <tr>
-                            <td class="border-0"  ><span class="text-black">Account Number:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.designerPersonalInfoEntity?.bankDetails?.accountNumber}}</span></td>
-                          </tr>
-                          <tr>
-                            <td class="border-0" ><span class="text-black">Bank Name:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.designerPersonalInfoEntity?.bankDetails?.bankName}}</span></td>
-                          </tr>
-                          <tr>
-                            <td class="border-0" ><span class="text-black">Ifsc Code:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.designerPersonalInfoEntity?.bankDetails?.ifscCode}}</span></td>
-                          </tr>
-                        </table>
-                      </div>
-                    </mat-tab>
-                    <mat-tab *ngIf="role == 'DESIGNER'">
-                      <ng-template mat-tab-label>
-                        <mat-icon>description</mat-icon>
-                        <span>More</span>
-                      </ng-template>
-                      <div class="table-responsive" *ngIf="designerprofiledata?.designerPersonalInfoEntity">
-
-                        <table>
-                          
-                          <tr >
-                            <td class="border-0"><span class="text-black">Firm Name:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.boutiqueProfile?.firmName}}</span></td>
-                          </tr>
-                          <tr >
-                            <td class="border-0"><span class="text-black">GST in:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.boutiqueProfile?.gstin}}</span></td>
-                          </tr>
-                          <tr >
-                            <td class="border-0"><span class="text-black">Operating City:</span></td>
-                            <td class="border-0" ><span class="text-capitalize">{{designerprofiledata?.boutiqueProfile?.operatingCity}}</span></td>
-                          </tr>
-                          <tr>
-                            <td class="border-0"  ><span class="text-black">Designer Category:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.boutiqueProfile?.professionalCategory}}</span></td>
-                          </tr>
-                          <!-- <tr >
-                            <td class="border-0"><span class="text-black">Year Of Operation:</span></td>
-                            <td class="border-0"><span>{{designerprofiledata?.boutiqueProfile?.yearOfOperation}}</span></td>
-                          </tr> -->
-                        </table>
-                      </div>
-                    </mat-tab>
-                    <!-- <mat-tab *ngIf="role == 'DESIGNER'">
-                      <ng-template mat-tab-label>
-                        <mat-icon>settings</mat-icon>
-                        <span>Permission</span>
-                      </ng-template>
-                    </mat-tab> -->
                   </mat-tab-group>
                   <p>
-                    <ion-button *ngIf="role == 'DESIGNER'" type="button" (click)="openDesignerProfilemodal('designerprofile_modal', designerprofiledata, '');" class="custom-btn float-right">
-                      Edit
-                    </ion-button>
                     <ion-button *ngIf="role == 'ADMIN'"    type="button"   (click)="openAdminProfilemodal('adminprofile_modal', adminprofiledata, '');" class="custom-btn float-right">
                       Edit
                     </ion-button>

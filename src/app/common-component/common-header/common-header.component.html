@@ -260,7 +260,7 @@
           <!-- ngif submenu -->
           <!-- <a   class="main-link" (click)="closeNav()" routerLink="/designer-list/all"  [ngClass]="{'noSubMenu':!designerlists.length}"><span>Designer</span></a> -->
          <!-- /admin -->
-          <a   class="main-link" [href]="'/admin/'+item.modDetails.url">
+          <a   class="main-link" [routerLink]="'/'+item.modDetails.url">
              <mat-icon >{{item.modDetails.title_icon}}</mat-icon>
            <span >{{item.modDetails.title == 'Color List' ? 'Colour List' : item.modDetails.title}}</span>  </a>
        </li>

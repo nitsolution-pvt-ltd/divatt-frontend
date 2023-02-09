@@ -231,21 +231,21 @@ let OrderProductsListPage = class OrderProductsListPage {
         this.checkedList = [];
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe((res) => {
-            console.log("res>>", res);
+            // console.log("res>>", res);
             if (res.authority == "ADMIN") {
                 this.permissionDataSubscribe =
                     this.commonUtils.menuPermissionObservable.subscribe((data) => {
                         if (data) {
-                            console.log("menu>>", data);
-                            console.log("this.router.url>>", this.router.url);
+                            // console.log("menu>>", data);
+                            // console.log("this.router.url>>", this.router.url);
                             let pageUrl = this.router.url.split("/");
-                            console.log("pageUrl", pageUrl);
+                            // console.log("pageUrl", pageUrl);
                             for (let item of data) {
                                 if (item.modDetails.url == 'order-list') {
                                     if (item.modPrivs.list == true) {
-                                        console.log("-----Permission Granted-----");
+                                        // console.log("-----Permission Granted-----");
                                         this.pagePermission = item;
-                                        console.log("this.pagePermission", this.pagePermission);
+                                        // console.log("this.pagePermission", this.pagePermission);
                                         // this.listing_url = "userOrder/list";
                                         this.listing_url = "userOrder/getOrder/" + this.parms_action_id;
                                         this.onRefresh();
@@ -253,7 +253,7 @@ let OrderProductsListPage = class OrderProductsListPage {
                                         break;
                                     }
                                     else {
-                                        console.log("-------No Permission--------");
+                                        // console.log("-------No Permission--------");
                                         this.router.navigateByUrl("/error");
                                     }
                                 }
@@ -269,7 +269,7 @@ let OrderProductsListPage = class OrderProductsListPage {
         // this.onRefresh();
     }
     displayRecordChange(_record) {
-        console.log("_record", _record);
+        // console.log("_record", _record);
         this.displayRecord = _record;
         this.pageNo = 0;
         this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -283,9 +283,9 @@ let OrderProductsListPage = class OrderProductsListPage {
         this.tableListSubscribe = this.http.get(api).subscribe((res) => {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13;
             this.isListLoading = false;
-            console.log("res", res);
+            // console.log("res", res);
             for (let i = 0; i < res.OrderSKUDetails.length; i++) {
-                // console.log("product Id....",this.orderItem.OrderSKUDetails[i].productId);
+                // // console.log("product Id....",this.orderItem.OrderSKUDetails[i].productId);
                 this.paymentData = res.paymentData;
                 if (this.parms_action_productId == res.OrderSKUDetails[i].productId) {
                     this.tableData = res.OrderSKUDetails[i];
@@ -321,20 +321,20 @@ let OrderProductsListPage = class OrderProductsListPage {
                             this.returnRequestApproveTime = moment__WEBPACK_IMPORTED_MODULE_2__((_6 = (_5 = this.trackingDetailsX) === null || _5 === void 0 ? void 0 : _5.returnRequestApprove) === null || _6 === void 0 ? void 0 : _6.dateTime, "YYYY-MM-DD HH:mm:ss").format('DD MMM YYYY');
                         }
                     }
-                    console.log("table back data.....", this.tableData);
+                    // console.log("table back data.....",this.tableData);
                     if ((_9 = (_8 = (_7 = this.tableData) === null || _7 === void 0 ? void 0 : _7.orderStatusDetails) === null || _8 === void 0 ? void 0 : _8.deliveryDetails) === null || _9 === void 0 ? void 0 : _9.deliveredDate) {
                         this.tableData.orderStatusDetails.deliveryDetails.deliveredDate = moment__WEBPACK_IMPORTED_MODULE_2__((_12 = (_11 = (_10 = this.tableData) === null || _10 === void 0 ? void 0 : _10.orderStatusDetails) === null || _11 === void 0 ? void 0 : _11.deliveryDetails) === null || _12 === void 0 ? void 0 : _12.deliveredDate, 'YYYY-MM-DD').format('DD/MM/YYYY');
                     }
-                    console.log("table back data.....", this.tableData);
+                    // console.log("table back data.....",this.tableData);
                     let shippingDate = (_13 = this.tableData) === null || _13 === void 0 ? void 0 : _13.shippingDate.split(" ");
                     this.shippingDate = shippingDate[0];
                 }
             }
             // this.tableData = res;
-            console.log("table back data.....", this.tableData);
+            // console.log("table back data.....",this.tableData);
             this.bilingData = res.billingAddress;
             this.tableListData = res;
-            console.log("this.tableListData....", res.billingAddress);
+            // console.log("this.tableListData....", res.billingAddress);
             // this.url = environment.apiUrl+"/"+"userOrder/getOrderByInvoiceId/"+res.invoiceId;
             this.url = src_environments_environment__WEBPACK_IMPORTED_MODULE_6__.environment.apiUrl + "/userOrder/getOrderSummary/" + this.tableData.orderId;
             this.invoiceId = res.invoiceId;
@@ -346,16 +346,16 @@ let OrderProductsListPage = class OrderProductsListPage {
     // List data end
     // Pagination start
     setPage(page) {
-        console.log("page", page);
-        console.log("page");
+        // console.log("page", page);
+        // console.log("page");
         this.pageNo = page;
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Pagination end
     // Sorting start
     isSortTableHeader(_tableHeaderData, _headerItem) {
-        console.log("_tableHeaderData", _tableHeaderData);
-        console.log("_headerItem", _headerItem);
+        // console.log("_tableHeaderData", _tableHeaderData);
+        // console.log("_headerItem", _headerItem);
         // all field reset first
         _tableHeaderData.forEach((val) => {
             val.sortingButtonName = "";
@@ -369,14 +369,14 @@ let OrderProductsListPage = class OrderProductsListPage {
         }
         this.sortColumnName = _headerItem.column_name;
         this.sortOrderName = _headerItem.sortingButtonName;
-        console.log("this.sortColumnName", this.sortColumnName);
-        console.log("this.sortOrderName", this.sortOrderName);
-        console.log("_tableHeaderData>>", _tableHeaderData);
+        // console.log("this.sortColumnName", this.sortColumnName);
+        // console.log("this.sortOrderName", this.sortOrderName);
+        // console.log("_tableHeaderData>>", _tableHeaderData);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     searchList(event) {
         this.searchTerm = event.target.value;
-        console.log("this.searchTerm", this.searchTerm);
+        // console.log("this.searchTerm", this.searchTerm);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Search end
@@ -395,7 +395,7 @@ let OrderProductsListPage = class OrderProductsListPage {
     }
     // changeStatus end
     changeStatus(type, item = {}, moredata) {
-        console.log("item", type, item, moredata);
+        // console.log("item",type,item,moredata);
         var data = {}, time, todate;
         var trackingHistory = [];
         // item={
@@ -406,18 +406,18 @@ let OrderProductsListPage = class OrderProductsListPage {
             trackingHistory = item.TrackingData.trackingHistory;
         }
         var day = new Date();
-        console.log(day, day.getMinutes());
+        // console.log(day,day.getMinutes());
         if (day.getSeconds() > 10) {
             time = day.getHours() + ':' + day.getMinutes() + ':' + day.getSeconds();
         }
         else {
             time = day.getHours() + ':' + day.getMinutes() + ':0' + day.getSeconds();
         }
-        console.log(day, time);
+        // console.log(day,time);
         todate = moment__WEBPACK_IMPORTED_MODULE_2__(day).format('YYYY/MM/DD');
         // [Dispatch:{time:00.00,date:00/00/0000,comment:"",},Shipment:{time:00.00,date:00/00/0000,comment:""},Out for Delivery:{time:00.00,date:00/00/0000,comment:""},Delivered:{time:00.00,date:00/00/0000,comment:""}]
         // 4 obj
-        console.log(todate, trackingHistory);
+        // console.log(todate,trackingHistory);
         data =
             {
                 deliveredDate: item.TrackingData.deliveredDate,
@@ -451,7 +451,7 @@ let OrderProductsListPage = class OrderProductsListPage {
     // changeStatus start
     openorderCommentmodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openProfilemodal ...........>>', _identifier);
+            // console.log('openProfilemodal ...........>>', _identifier);
             let orderCommentmodal;
             orderCommentmodal = yield this.modalController.create({
                 component: src_app_pages_modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
@@ -465,7 +465,7 @@ let OrderProductsListPage = class OrderProductsListPage {
             // modal data back to Component
             orderCommentmodal.onDidDismiss()
                 .then((getdata) => {
-                console.log("getdata", getdata);
+                // console.log("getdata",getdata);
                 this.onRefresh();
             });
             return yield orderCommentmodal.present();
@@ -474,7 +474,7 @@ let OrderProductsListPage = class OrderProductsListPage {
     // orderpack start
     orderStatus_modal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openordermodal ...........>>', _identifier, _item);
+            // console.log('openordermodal ...........>>', _identifier,_item);
             let size = 'small';
             if (_identifier == 'userCustomMesorment') {
                 _item = _item.measurementObject;
@@ -495,8 +495,8 @@ let OrderProductsListPage = class OrderProductsListPage {
             // modal data back to Component
             orderCommentmodal.onDidDismiss()
                 .then((getdata) => {
-                console.log("getdata........", getdata);
-                // console.log("getdata",getdata);
+                // console.log("getdata........",getdata);
+                // // console.log("getdata",getdata);
                 this.packed_done = getdata.data;
                 this.onRefresh();
             });
@@ -507,11 +507,11 @@ let OrderProductsListPage = class OrderProductsListPage {
     // orders start
     orders_modal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openordermodal ...........>>', _identifier);
-            console.log('openordermodal _item ...........>>', _item, this.tableData);
+            // console.log('openordermodal ...........>>', _identifier);
+            // console.log('openordermodal _item ...........>>', _item,this.tableData);
             // if(_identifier == 'returnRequestConfirm')
             // {
-            //   console.log(_item);
+            //   // console.log(_item);
             // }
             // if(_item == 'true'){
             let orderCommentmodal;
@@ -527,8 +527,8 @@ let OrderProductsListPage = class OrderProductsListPage {
             // modal data back to Component
             orderCommentmodal.onDidDismiss()
                 .then((getdata) => {
-                console.log("getdata.......", getdata);
-                // console.log("getdata",getdata);
+                // console.log("getdata.......",getdata);
+                // // console.log("getdata",getdata);
                 this.orders_done = getdata.data;
                 setTimeout(() => {
                     this.progressbar_1 = true;
@@ -541,12 +541,12 @@ let OrderProductsListPage = class OrderProductsListPage {
     // orders end
     /*----------------Table list data end----------------*/
     createInvoice() {
-        console.log("tableData", this.tableData);
+        // console.log("tableData",this.tableData);
         var orders = this.tableData.OrderSKUDetails;
         var productIds = [], userId;
         userId = this.tableData.userId;
         let api = "/" + this.tableData.orderId + "/" + userId;
-        // console.log("tableData",this.tableData,orders,orders.designerId,orders.orderId,productIds,userId);
+        // // console.log("tableData",this.tableData,orders,orders.designerId,orders.orderId,productIds,userId);
         this.tableListSubscribe = this.http.post(api, '').subscribe((res) => {
             this.isListLoading = false;
         }, (errRes) => {

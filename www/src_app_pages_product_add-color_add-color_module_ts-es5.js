@@ -266,23 +266,20 @@
             // get active url name
             this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
             this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
-            this.parms_color_name = this.activatedRoute.snapshot.paramMap.get('name');
-            console.log('parms_action_name', this.parms_action_name);
-            console.log('parms_action_id', this.parms_color_name);
+            this.parms_color_name = this.activatedRoute.snapshot.paramMap.get('name'); // console.log('parms_action_name', this.parms_action_name);
+            // console.log('parms_action_id', this.parms_color_name);
+
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrlName = _this.router.url.split("/"); // console.log('pageUrlName', pageUrlName);
 
-                    var pageUrlName = _this.router.url.split("/");
-
-                    console.log('pageUrlName', pageUrlName);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -290,22 +287,19 @@
                     try {
                       for (_iterator.s(); !(_step = _iterator.n()).done;) {
                         var item = _step.value;
-                        var moduleUrlName = item.modDetails.url.split("-");
-                        console.log('moduleUrlName', moduleUrlName, pageUrlName);
+                        var moduleUrlName = item.modDetails.url.split("-"); // console.log('moduleUrlName',moduleUrlName,pageUrlName);
 
                         if (pageUrlName[1] == moduleUrlName[0]) {
                           if (_this.parms_action_name == 'add' && item.modPrivs.create == true) {
-                            console.log('-----Permission create Granted-----');
+                            // console.log('-----Permission create Granted-----');
                             break;
                           } else if (_this.parms_action_name == 'edit' && item.modPrivs.update == true) {
-                            console.log('-----Permission update Granted-----');
-
+                            // console.log('-----Permission update Granted-----');
                             _this.getcolorByName();
 
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -331,8 +325,8 @@
 
             this.loader = true;
             this.getColorSubscribe = this.http.get("adminMData/getColour/" + this.parms_color_name).subscribe(function (res) {
-              console.log("Color Data", _this2.allcolordata, "response", res); // this.commonUtils.presentToast('success', res.message);
-
+              // console.log("Color Data",this.allcolordata,"response",res);
+              // this.commonUtils.presentToast('success', res.message);
               _this2.loader = false;
               _this2.model = {
                 colorName: res.colorName,
@@ -354,12 +348,11 @@
           value: function onSubmitColorForm(form) {
             var _this3 = this;
 
-            this.btnloader = true;
-            console.log("from", form.value);
+            this.btnloader = true; // console.log("from",form.value);
 
             if (this.parms_action_name == 'add') {
               this.addColorSubscribe = this.http.put("adminMData/addColour", form.value).subscribe(function (res) {
-                console.log("Color Data", _this3.allcolordata, "response", res);
+                // console.log("Color Data",this.allcolordata,"response",res);
                 _this3.btnloader = false;
 
                 _this3.commonUtils.presentToast('success', res.message);
@@ -368,7 +361,7 @@
 
                 form.reset();
               }, function (error) {
-                _this3.btnloader = false; // console.log("error",error);
+                _this3.btnloader = false; // // console.log("error",error);
 
                 _this3.commonUtils.presentToast('error', error.error.message); // recall category list
 

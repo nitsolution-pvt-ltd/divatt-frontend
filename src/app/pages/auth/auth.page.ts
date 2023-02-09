@@ -91,7 +91,7 @@ export class AuthPage implements OnInit {
     this.menuCtrl.enable(false);
 
     this.formSubmitSubscribe =  this.authService.globalparamsData.subscribe(res => {
-      console.log('authService',res);
+      // console.log('authService',res);
       
       if(res && res != null && res != undefined && res != ''){
         if(res.token != undefined ){
@@ -153,7 +153,7 @@ export class AuthPage implements OnInit {
   //---------------- login form submit start-----------------
     onSubmitForm(form:NgForm){
       this.isLoading = true;
-      console.log('form >>', form.value);
+      // console.log('form >>', form.value);
       if(!form.valid){
         return;
       }
@@ -172,7 +172,7 @@ export class AuthPage implements OnInit {
     }
     radioChange(e)
     {
-      console.log(e.value);
+      // console.log(e.value);
       this.gender = e.value;
     }
     // register form start
@@ -180,7 +180,7 @@ export class AuthPage implements OnInit {
     {
       
       this.btnloader2 = true;
-      console.log("REG-->",form.value);
+      // console.log("REG-->",form.value);
        
       this.designerProfile = {
         firstName1:form.value.firstName1,
@@ -208,7 +208,7 @@ export class AuthPage implements OnInit {
       }
       this.http.post("designer/add",this.data).subscribe(
         (res:any) => {
-          console.log("res",res);
+          // console.log("res",res);
           this.btnloader2 = false;
           this.commonUtils.presentToast("success",res.message);
           
@@ -221,7 +221,7 @@ export class AuthPage implements OnInit {
         },
         (error) =>{
           this.btnloader2 = false;
-          console.log("error",error);
+          // console.log("error",error);
           this.message2 = error.error.message;
         })
     }
@@ -238,17 +238,17 @@ export class AuthPage implements OnInit {
           
           if (this.isLogin) {
             authObs = this.authService.login('auth/login', form_data, '');
-            console.log('###########>>>', authObs);
-            console.log('######form_data#####>>>', form_data);
+            // console.log('###########>>>', authObs);
+            // console.log('######form_data#####>>>', form_data);
             
           } else {
             // authObs = this.authService.signup(email, password);
           }
-          console.log('authenticate@@', authObs);
-          console.log('authenticate...........');
+          // console.log('authenticate@@', authObs);
+          // console.log('authenticate...........');
           this.formSubmitSubscribe = authObs.subscribe(
             resData => {
-              console.log('resData =============))))))))))))))>', resData);
+              // console.log('resData =============))))))))))))))>', resData);
               this.btnloader = false;
                 this.router.navigateByUrl('/dashboard')
                 // .then(() => {
@@ -268,13 +268,13 @@ export class AuthPage implements OnInit {
                 loadingEl.dismiss();
                 // this.commonUtils.presentToast('error', resData.message);
               
-              // console.log("data login after resData ++++++>", resData);
+              // // console.log("data login after resData ++++++>", resData);
               this.btnloader = false;
               // loadingEl.dismiss();
               // this.router.navigateByUrl('/places/tabs/discover');
             },
             errRes => {
-              console.log("errRes",errRes);
+              // console.log("errRes",errRes);
               this.btnloader = false;
               loadingEl.dismiss();
               // this.commonUtils.presentToast('error', errRes.error.message);
@@ -300,7 +300,7 @@ export class AuthPage implements OnInit {
 
     // ..... resetPasswordOpenModal start ......
     async resetPasswordOpenModal(_identifier, _item, _items) {
-      // console.log('_identifier >>', _identifier);
+      // // console.log('_identifier >>', _identifier);
       let profileDetails_modal;
       profileDetails_modal = await this.modalController.create({
         component: ModalPage,
@@ -315,7 +315,7 @@ export class AuthPage implements OnInit {
       // modal data back to Component
       profileDetails_modal.onDidDismiss()
       .then((getdata) => {
-        console.log('getdata >>>>>>>>>>>', getdata);
+        // console.log('getdata >>>>>>>>>>>', getdata);
         if(getdata.data == 'submitClose'){
         }
 
@@ -326,25 +326,25 @@ export class AuthPage implements OnInit {
     // resetPasswordOpenModal end 
 
     tabClick(tab) {
-      // console.log(tab);
+      // // console.log(tab);
     }
     termsConditions(e)
     {
-      // console.log("Event",e);
+      // // console.log("Event",e);
       
     }
    // Date format change start
   dateFormatChange(_identifier, event: MatDatepickerInputEvent<Date>){
-    console.log('_identifier', _identifier);
-    console.log('_data', event);
+    // console.log('_identifier', _identifier);
+    // console.log('_data', event);
     
     this.model.dob = moment(event.value).format('YYYY/MM/DD');
-    console.log('this.model.dob ', this.model.dob );
+    // console.log('this.model.dob ', this.model.dob );
     
   }
   passwordvalid(new_password,conform_password)
   {
-    console.log(new_password,conform_password);
+    // console.log(new_password,conform_password);
     if (conform_password == undefined) {
       this.errormsg = '';
         

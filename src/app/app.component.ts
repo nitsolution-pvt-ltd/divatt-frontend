@@ -79,7 +79,7 @@ export class AppComponent {
     this.onSiteInformation();
   }
   toggleMenu(_item) {
-    console.log('', this.toggle);
+    // console.log('', this.toggle);
     if (_item == false) {
       this.toggle = true;
       // this.menuCtrl.enable(true);
@@ -90,24 +90,24 @@ export class AppComponent {
   }
 
   ionViewWillEnter() {
-    console.log(window.location.href)
+    // console.log(window.location.href)
     let x = window.location.href.split('#')[1];
     let current = x.split('/')[1];
-    console.log("this.href", window.location.href.split('#')[1], current);
+    // console.log("this.href", window.location.href.split('#')[1], current);
     if (current == 'auth') {
       this.menuicon = true;
     }else if (current == 'error') {
       this.menuicon = true;
     }
 
-    console.log('ionViewWillEnter');
+    // console.log('ionViewWillEnter');
   }
   ngOnInit() {
 
     // this.router.url;
-    console.log('this.router.url',this.router.url);
+    // console.log('this.router.url',this.router.url);
     this._document.getElementById('pageTitle').innerHTML = 'Divatt | Happy Shopping';
-    console.log("designermodules",this.designermodules);
+    // console.log("designermodules",this.designermodules);
     this.commonfunction()
     $.getScript('assets/js/script.js');
     $.getScript('assets/js/sticky-kit.js');
@@ -118,7 +118,7 @@ export class AppComponent {
 commonfunction()
 {
   this.storage.get('setStroageGlobalParamsData').then((val) => {
-    // console.log('User ID', val.uid);
+    // // console.log('User ID', val.uid);
     
     
     
@@ -137,16 +137,16 @@ initializeApp() {
       // ----get current active url name start---
       this.activatedRoute.url.subscribe((activeUrl:any) => {
         this.url_name = window.location.pathname;
-        console.log('this.url_name app.componet.ts @@@>>',activeUrl, this.url_name.split('/')[1]);
+        // console.log('this.url_name app.componet.ts @@@>>',activeUrl, this.url_name.split('/')[1]);
         var y = localStorage.getItem('userdata');
-        console.log('retrievedObject: ', y);
-        console.log(window.location.href)
+        // console.log('retrievedObject: ', y);
+        // console.log(window.location.href)
         let x:any = window.location.href.split('#')[1];
         let title = this.url_name.split('/')[1];
        let pageTitle =  title.charAt(0).toUpperCase() + title.slice(1);
         // this._document.getElementById('pageTitle').innerHTML = 'Divatt | ' + pageTitle;
         let current = x?.split('/')[1];
-        console.log("this.href", window.location.href.split('#')[1], current);
+        // console.log("this.href", window.location.href.split('#')[1], current);
         if (current == 'auth') {
           this.menuicon = true;
         }
@@ -159,7 +159,7 @@ initializeApp() {
 
       // observable data for all page url name get
       this.commonUtils.pagePathNameAnywhereObsv.subscribe(pathRes => {
-        // console.log('common utility path page url name #### @@@@@@@ >>', pathRes);
+        // // console.log('common utility path page url name #### @@@@@@@ >>', pathRes);
         this.url_path_name = pathRes;
       });
 
@@ -170,16 +170,16 @@ initializeApp() {
 
   /*--------------------User info data get start--------------------*/
   userInfoData() {
-    console.log('userInfoData');
+    // console.log('userInfoData');
     this.userInfodDataLoading = true;
 
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res != null || res != undefined) {
         this.userInfoSubscribe = this.http.get('auth/info/'+res.authority+'/'+res.username).subscribe(
           (response: any) => {
             this.userInfodDataLoading = false;
-            console.log('this.get_user_dtls',response);
+            // console.log('this.get_user_dtls',response);
             this.get_user_dtls = response;
             if(res.authority == 'ADMIN')
             {
@@ -205,7 +205,7 @@ initializeApp() {
     })
 
     this.storage.get('setStroageGlobalParamsData').then((val) => {
-      console.log('User ID', val);
+      // console.log('User ID', val);
       if(val != null || val != undefined) {
         if(this.url_name.split('/')[1] == 'auth' && val != null)
         {
@@ -214,7 +214,7 @@ initializeApp() {
         this.userInfoSubscribe = this.http.get('auth/info/'+val.authority+'/'+val.username).subscribe(
           (response: any) => {
             this.userInfodDataLoading = false;
-            console.log('this.get_user_dtls',response);
+            // console.log('this.get_user_dtls',response);
             this.get_user_dtls = response;
             if(val.authority == 'ADMIN')
             {
@@ -255,7 +255,7 @@ getDesignerProfiledata(uid)
       
     },
     (error) =>{
-      console.log("error",error);
+      // console.log("error",error);
     })
 }
 // getDesignerProfiledata end
@@ -265,9 +265,9 @@ getDesignerProfiledata(uid)
     this.userPermissionDataSubscribe = this.http.get('admin/role/'+_role).subscribe(
       (response: any) => {
         this.permissionMenuLoading = false;
-        console.log('this.get_user_permission',response);
+        // console.log('this.get_user_permission',response);
         this.get_user_permission = response;
-        console.log("designermodules",this.designermodules);
+        // console.log("designermodules",this.designermodules);
         this.commonUtils.menuPermissionService(response.modules);
       },
       errRes => {
@@ -279,7 +279,7 @@ getDesignerProfiledata(uid)
 
 
   closeModal() {
-    console.log('Clicked');
+    // console.log('Clicked');
     // this.menuCtrl.enable(false);
     this.menuCtrl.toggle();
   }
@@ -291,7 +291,7 @@ getDesignerProfiledata(uid)
   site_path_split;
   site_url_name;
   onSiteInformation() {
-    // console.log('this.url_name app.componet.ts  pathname @@@>>',  window.location.pathname);
+    // // console.log('this.url_name app.componet.ts  pathname @@@>>',  window.location.pathname);
 
     this.site_path = window.location.pathname;
     this.site_href = window.location.href;
@@ -306,8 +306,8 @@ getDesignerProfiledata(uid)
 
     const parsedUrl = new URL(window.location.href);
     const baseUrl = parsedUrl.hostname;
-    //console.log('parsedUrl> ', parsedUrl);
-    console.log('baseUrl> ', baseUrl); // this will print http://example.com or http://localhost:4200
+    //// console.log('parsedUrl> ', parsedUrl);
+    // console.log('baseUrl> ', baseUrl); // this will print http://example.com or http://localhost:4200
     if (baseUrl == 'localhost' || baseUrl == '192.168.1.218') {
       this.site_url_name = 'https://www.marketing-crm.bongtechsolutions.com/';
     } else {

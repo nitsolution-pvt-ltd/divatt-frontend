@@ -145,11 +145,11 @@ let ResetPasswordPage = class ResetPasswordPage {
         this.time = this.activatedRoute.snapshot.params.linktime;
     }
     onsubmitResetform(form) {
-        console.log(form.value.newPass);
+        // console.log(form.value.newPass);
         this.data = { newPass: form.value.newPass };
         this.btnloader = true;
         this.http.post("auth/resetPassword/" + this.link + "/" + this.time, this.data).subscribe((res) => {
-            console.log("p", res);
+            // console.log("p",res);
             if (res.status == 200) {
                 this.commonUtils.presentToast('success', res.message);
                 this.route.navigateByUrl('/auth');
@@ -159,13 +159,13 @@ let ResetPasswordPage = class ResetPasswordPage {
             }
             this.btnloader = false;
         }, (error) => {
-            console.log(error);
+            // console.log(error);
             this.btnloader = false;
             this.commonUtils.presentToast('error', error.error.message);
         });
     }
     passwordvalid(new_password, conform_password) {
-        console.log(new_password, conform_password);
+        // console.log(new_password,conform_password);
         if (conform_password == undefined) {
             this.errormsg = '';
         }
