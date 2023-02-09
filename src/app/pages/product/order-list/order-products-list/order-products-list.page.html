@@ -244,6 +244,15 @@
                             
                           </div>
                         </div>
+
+                        <!-- product shipped information -->
+                        <p *ngIf="tableData?.orderStatusDetails?.userShippedProduct">
+                          User shipped the return product by below shipment details: <br>
+                          Courier Name: {{tableData?.orderStatusDetails?.userShippedProduct?.courierName}} <br>
+                          Tracking Number: {{tableData?.orderStatusDetails?.userShippedProduct?.trakingNumber}} <br>
+                          Date: {{tableData?.orderStatusDetails?.userShippedProduct?.dateTime}} <br>
+                          Comments: {{tableData?.orderStatusDetails?.userShippedProduct?.comments}}
+                        </p>
                       </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
