@@ -176,7 +176,7 @@ export class HeaderWidgetsComponent implements OnInit {
       this.showScreen = 'forgotpassword';
       // this.loginNav.addNavLogin();
       // this.loginNav.addNavRegister();
-      this.api_url = 'auth/mailForgotPasswordLink'
+      this.api_url = 'auth/mailForgotPasswordLink/User/'
       this.loginNav.addNavforgotpassword();
       this.redirectFromForgotPsw = true;
     }

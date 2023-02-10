@@ -46,6 +46,9 @@ export class HomeComponent implements OnInit {
     hideOnClick: false
   };
   public products: Product[] = [];
+  public bestSellerproducts: Product[] = []
+  public newProducts: Product[] = []
+  public recentViewproducts: Product[] = []
   allcompareproduct: any;
   private productDataSubscribe: Subscription;
   api_url: string;
@@ -106,41 +109,87 @@ export class HomeComponent implements OnInit {
       this.designerListapi_url = 'designer/getDesignerDetails/all';
     }
     this.getDesignerList();
-    this.getProductList();
+    this.getbestDesignerProductList();
+    this.getnewProductList();
+    this.getrecentProductList();
 
   }
-  getProductList()
+  getbestDesignerProductList()
   {
-    
- 
     this.productDataSubscribe = this.http.get(this.api_url).subscribe(
       (response:any) => {
-        console.log("response",response);
-        this.products = response;
-        console.log("this.products",this.products);
-        for (let index = 0; index < this.products.length; index++) {
-          if(!this.products[index].slug)
+        this.bestSellerproducts = response;
+        console.log("this.products",this.bestSellerproducts);
+        for (let index = 0; index < this.bestSellerproducts.length; index++) {
+          if(!this.bestSellerproducts[index].slug)
           {
-            let name = this.products[index].productDetails.productName.toLowerCase( );
-            this.products[index].slug = name.replace(/ /g, "-");
+            let name = this.bestSellerproducts[index].productDetails.productName.toLowerCase( );
+            this.bestSellerproducts[index].slug = name.replace(/ /g, "-");
           }
           
-          
         }
-        if(response.status === 200){
-          this.toastrService.success(response.message);
-        }else {
-          // this.toastrService.error(response.message);
-        }
+        // this.toastrService.success(response.message);
       },
       errRes => {
-        console.log("error handeller >>@@",errRes );
         if(errRes.error.message){
           this.errorMsg = errRes.error.message;
         }else if(errRes.error.messagee){
           this.errorMsg = errRes.error.messagee;
         } else {
-          // this.toastrService.error();
+          this.errorMsg = errRes.message
+        }
+        this.toastrService.error(this.errorMsg);
+      }
+    );
+  }
+  getnewProductList()
+  {
+    this.productDataSubscribe = this.http.get(this.api_url).subscribe(
+      (response:any) => {
+        this.newProducts = response;
+        console.log("this.products",this.newProducts);
+        for (let index = 0; index < this.newProducts.length; index++) {
+          if(!this.newProducts[index].slug)
+          {
+            let name = this.newProducts[index].productDetails.productName.toLowerCase( );
+            this.newProducts[index].slug = name.replace(/ /g, "-");
+          }
+        }
+        // this.toastrService.success(response.message);
+      },
+      errRes => {
+        if(errRes.error.message){
+          this.errorMsg = errRes.error.message;
+        }else if(errRes.error.messagee){
+          this.errorMsg = errRes.error.messagee;
+        } else {
+          this.errorMsg = errRes.message
+        }
+        this.toastrService.error(this.errorMsg);
+      }
+    );
+  }
+  getrecentProductList()
+  {
+    this.productDataSubscribe = this.http.get(this.api_url).subscribe(
+      (response:any) => {
+        this.recentViewproducts = response;
+        console.log("this.products",this.recentViewproducts);
+        for (let index = 0; index < this.recentViewproducts.length; index++) {
+          if(!this.recentViewproducts[index].slug)
+          {
+            let name = this.recentViewproducts[index].productDetails.productName.toLowerCase( );
+            this.recentViewproducts[index].slug = name.replace(/ /g, "-");
+          }
+        }
+        // this.toastrService.success(response.message);
+      },
+      errRes => {
+        if(errRes.error.message){
+          this.errorMsg = errRes.error.message;
+        }else if(errRes.error.messagee){
+          this.errorMsg = errRes.error.messagee;
+        } else {
           this.errorMsg = errRes.message
         }
         this.toastrService.error(this.errorMsg);
@@ -149,7 +198,97 @@ export class HomeComponent implements OnInit {
   }
 // opfollow start
 // onfollow end
-  public productSlideConfig: any = {
+  public bestDesignerproductSlideConfig: any = {
+    infinite: true,
+    speed: 300,
+    slidesToShow: 6,
+    slidesToScroll: 6,
+    autoplay: false,
+    dots: true,
+    autoplaySpeed: 3000,
+    nextArrow:"<div class='nav-btn next-slide fa fa-angle-right'></div>",
+    prevArrow:"<div class='nav-btn prev-slide fa fa-angle-left'></div>",
+    responsive: [{
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 5,
+          dots:false,
+        }
+      },
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          dots:false,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          dots:false,
+        }
+      },
+      {
+        breakpoint: 427,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows:false,
+          dots:false,
+        }
+      }
+    ]
+  };
+  public newproductSlideConfig: any = {
+    infinite: true,
+    speed: 300,
+    slidesToShow: 6,
+    slidesToScroll: 6,
+    autoplay: false,
+    dots: true,
+    autoplaySpeed: 3000,
+    nextArrow:"<div class='nav-btn next-slide fa fa-angle-right'></div>",
+    prevArrow:"<div class='nav-btn prev-slide fa fa-angle-left'></div>",
+    responsive: [{
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 5,
+          dots:false,
+        }
+      },
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          dots:false,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          dots:false,
+        }
+      },
+      {
+        breakpoint: 427,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows:false,
+          dots:false,
+        }
+      }
+    ]
+  };
+  public recentViewproductSlideConfig: any = {
     infinite: true,
     speed: 300,
     slidesToShow: 6,
@@ -196,19 +335,16 @@ export class HomeComponent implements OnInit {
   };
   public addToCompare(product: Product) {
     console.log(product);
-    
-     this.productsService.addToCompare(product);
-     
-     this.allcompareproduct= JSON.parse(localStorage.getItem("compareItem"));   
-     
+    this.productsService.addToCompare(product);
+    this.allcompareproduct= JSON.parse(localStorage.getItem("compareItem"));    
   }
   // Change variant images
   public changeVariantImage(image) {
     this.variantImage = image;
     this.selectedItem = image; 
- }
- designerlist=[];
- getDesignerList()
+  }
+  designerlist=[];
+  getDesignerList()
   {
     this.designerloader = true;
     this.designerlist=[];
@@ -237,53 +373,51 @@ export class HomeComponent implements OnInit {
     );
   }
   // openfollowModal start
-openfollowModal(_identifier,followmodal,designer:any) {
-  console.log("_identifier", _identifier,designer);
-  // this.model = designer;
-    this.model = {
-      designerId:designer.dId,
-      userId:this.get_user_dtls.uid,
-      isFollowing:true,
-    }
-  if(_identifier == 'follow')
-  {
-  }else if(_identifier == 'unfollow')
-  {
-    this.model.isFollowing=false;
-    
-  }
-  this.designerFollowSubscribe = this.http.post(this.followapi_url,this.model).subscribe(
-      (response:any) => {
-        console.log("response",response);
-        if(response.status === 200){
-          this.toastrService.success(response.message);
-          this.modalService.dismissAll();
-        }else {
-        }
-        this.getDesignerList();
-      },
-      errRes => {
-        console.log("error handeller >>@@",errRes );
-        if(errRes.error.message){
-          this.errorMsg = errRes.error.message;
-        }else if(errRes.error.messagee){
-          this.errorMsg = errRes.error.messagee;
-        } else {
-          this.errorMsg = errRes.message
-        }
-        this.toastrService.error(this.errorMsg);
+  openfollowModal(_identifier,followmodal,designer:any) {
+    console.log("_identifier", _identifier,designer);
+    // this.model = designer;
+      this.model = {
+        designerId:designer.dId,
+        userId:this.get_user_dtls.uid,
+        isFollowing:true,
       }
-    ); 
-}
-// openfollowModal end
-
+    if(_identifier == 'follow')
+    {
+    }else if(_identifier == 'unfollow')
+    {
+      this.model.isFollowing=false;
+      
+    }
+    this.designerFollowSubscribe = this.http.post(this.followapi_url,this.model).subscribe(
+        (response:any) => {
+          console.log("response",response);
+          if(response.status === 200){
+            this.toastrService.success(response.message);
+            this.modalService.dismissAll();
+          }else {
+          }
+          this.getDesignerList();
+        },
+        errRes => {
+          console.log("error handeller >>@@",errRes );
+          if(errRes.error.message){
+            this.errorMsg = errRes.error.message;
+          }else if(errRes.error.messagee){
+            this.errorMsg = errRes.error.messagee;
+          } else {
+            this.errorMsg = errRes.message
+          }
+          this.toastrService.error(this.errorMsg);
+        }
+      ); 
+  }
+  // openfollowModal end
   openLoginNav()
   {
-    // this.showScreen = 'login';
     this.loginNav.addNavLogin();
   }
    // ----------- destroy unsubscription start ---------
-   ngOnDestroy() {
+  ngOnDestroy() {
     if (this.productDataSubscribe !== undefined) {
       this.productDataSubscribe.unsubscribe();
     }
