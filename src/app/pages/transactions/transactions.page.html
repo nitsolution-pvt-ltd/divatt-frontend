@@ -139,7 +139,7 @@
                           {{item?.paymentDetails?.razorpay_payment_id}}
                         </td>
                         <td>
-                          N/A
+                          {{item?.refund?.id ? item?.refund?.id : 'N/A'}}
                         </td>
                         <td>
                           {{item?.paymentMode}}
@@ -151,7 +151,7 @@
                           {{item?.paymentResponse?.amount_refunded}}
                         </td>
                         <td class="text-center">
-                          <span class="status" [ngClass]="{ 'warning': item?.paymentResponse?.refund_status == 'COMPLETED' , 'danger': item.paymentResponse?.refund_status == 'Rejected','success': item?.paymentResponse?.refund_status == 'COMPLETED'}">
+                          <span class="status" [ngClass]="{ 'warning': item?.paymentResponse?.refund_status != 'full' , 'success': item?.paymentResponse?.refund_status == 'full'}">
                             {{item?.paymentResponse?.refund_status ? item?.paymentResponse?.refund_status :'N/A'}}
                           </span>
                         </td>

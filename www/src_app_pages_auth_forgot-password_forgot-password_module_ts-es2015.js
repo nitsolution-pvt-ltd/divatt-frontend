@@ -143,7 +143,7 @@ let ForgotPasswordPage = class ForgotPasswordPage {
     onsubmitForgetform(form) {
         this.btnloader = true;
         var mail = form.value.username;
-        this.http.get("auth/mailForgotPasswordLink/" + mail).subscribe((res) => {
+        this.http.get("auth/mailForgotPasswordLink/Admin/" + mail).subscribe((res) => {
             this.btnloader = false;
             // this.commonUtils.presentToast('success', res.message);
             this.message2 = res.message;
