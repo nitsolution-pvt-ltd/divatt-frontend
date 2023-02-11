@@ -1,7 +1,9 @@
 import { Options } from '@angular-slider/ngx-slider';
+import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Meta } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -110,13 +112,16 @@ export class DesignerProfileComponent implements OnInit {
   pagination: any = {};
   noProductfound: boolean;
   loader: boolean;
+  href;
   constructor(private http:HttpClient,
     private route: ActivatedRoute, 
     private toastrService: ToastrService,
     private activatedRoute : ActivatedRoute,
     private loginNav: LoginNavService,private wishlistService: WishlistService,
     private router: Router,private modalService: NgbModal,
-    private authService:LoginService,) {   }
+    private authService:LoginService,
+    @Inject(DOCUMENT) private _document: HTMLDocument,
+    private meta: Meta,) {   }
 
   ngOnInit() {
   	// this.productsService.getProducts().subscribe(product => this.products = product);
@@ -126,6 +131,8 @@ export class DesignerProfileComponent implements OnInit {
   commonFunction()
   {
     this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.href = 'whatsapp://send?text=https://dev.divatt.com/divatt';
+    console.log('this.router.url', this.href);
     this.api_url = 'user/designerProfile';
     this.productapi_url = 'designerProduct/UserDesignerProductList';
     this.followapi_url = 'user/followDesigner';
@@ -242,6 +249,19 @@ this.getalldata();
      this.getDesignerSubscribe = this.http.get(this.api_url+'/'+this.parms_action_id).subscribe(
        (response:any) => {
          this.designer = response;
+
+        //  for meta start
+        console.log('this.designer>>', this.designer);
+        
+        this._document.getElementById('pageTitle').innerHTML = this.designer.designerProfileEntity.designerProfile.displayName ;
+
+        this.meta.addTags([
+          { name: 'title', content: this.designer.designerProfileEntity.designerProfile.displayName },
+          { name: 'keywords', content: this.designer.designerProfileEntity.socialProfile.description },
+          { name: 'description', content: this.designer.designerProfileEntity.socialProfile.description, },
+        ]);
+        //  for meta end
+
         //  console.log("Designer",this.designer.UserDesigner.length);
          if(response.status === 200){
           //  this.toastrService.success(response.message);
