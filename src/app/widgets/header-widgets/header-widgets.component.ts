@@ -30,7 +30,7 @@ declare var $: any;
 export class HeaderWidgetsComponent implements OnInit {
 
   @Input() shoppingCartItems  :   CartItem[] = [];
-
+  userType = 'user'
   public show  :   boolean = false;
   hide = true;
   hide2 = true;
@@ -169,7 +169,7 @@ export class HeaderWidgetsComponent implements OnInit {
       // this.loginNav.addNavRegister();
       this.showScreen = 'changepassword';
       this.api_url = 'auth/changePassword';
-      
+      this.model.userType = 'user';
       this.loginNav.addNavchangepassword();
     }
     else if(_identifier == 'forgotpassword'){
