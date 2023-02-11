@@ -85,7 +85,7 @@ export class LeftMenuComponent implements OnInit {
     this.currentUrl = url;
     this.router.navigate(['/designer-list/'+url])
     .then(() => {
-      window.location.reload();
+      // window.location.reload();
     });
   }
   men = false;

@@ -13,12 +13,13 @@ import { WishlistService } from 'src/app/services/wishlist.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Options } from '@angular-slider/ngx-slider';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-collection',
   templateUrl: './product-collection.component.html',
   styleUrls: ['./product-collection.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCollectionComponent implements OnInit {
   value: number = 0;
@@ -102,7 +103,7 @@ export class ProductCollectionComponent implements OnInit {
   countproducts:any = [];
   banner: any;
   pagination: any = {};
-  subcategoris = [];
+  subcategoris:any = [];
   subcategoryId: string;
   noProductfound: boolean;
   searchCategoryName: string;
@@ -115,25 +116,71 @@ export class ProductCollectionComponent implements OnInit {
     private activatedRoute : ActivatedRoute,
     private _cdr: ChangeDetectorRef,
     private http:HttpClient,private wishlistService: WishlistService,) {
-    
-      this.route.params.subscribe(params => {
-      //   this.xyz = params['subcategory'];
-      //  this.collection_title = this.category;
-      //  console.log("this.route",this.route.url);
-      //  this.ngOnInit()
-    },
-    
-    
-    );
+      this.route.params.subscribe(event => {
+        this.category = event.category;
+        // this.setCategoryName(event.category);
+        let id = event.category;
+        if(id == 'all' || id == 'category')
+        {
+          this.categoryName = 'All' 
+        }else{
+          
+          this.getCategoryList =  this.http.get('category/viewByCategoryName').subscribe(
+            (res:any) => {
+            let categoris:any = [] = res;
+              for (let index = 0; index < res.length; index++) {
+                if(id == categoris[index].id)
+                {
+                  this.categoryName = categoris[index].categoryName;
+                }
+              }
+            },
+            (error:any) => {this.toastrService.error(error.error.message);}
+          );
+        }
+        this.activatedRoutecategory = event.category;
+        this.subcategory = event.subcategory;
+        this.searchevent = event.keywords;
+        this.subcategoryName = event.subcategoryname;
+        console.log("Route event",event);
+        this.commonFunction()
+        
+       });
+      console.log("Route event",event);
+      
       
   }
   ngOnInit() {
-    this.category = this.activatedRoute.snapshot.params.category;
-    this.activatedRoutecategory = this.activatedRoute.snapshot.params.category;
-    this.subcategory = this.activatedRoute.snapshot.params.subcategory;
-    this.searchevent = this.activatedRoute.snapshot.params.keywords;
-    this.subcategoryName = this.activatedRoute.snapshot.params.subcategoryname;
-    this.categoryName = 'all';
+  }
+  throttle = 300;
+  scrollDistance = 0.1;
+  scrollUpDistance = 2;
+  direction = "";
+  setCategoryName(id)
+  {
+    if(id == 'all' || id == 'category')
+    {
+      this.categoryName = 'All' 
+    }else{
+      
+      this.getCategoryList =  this.http.get('category/viewByCategoryName').subscribe(
+        (res:any) => {
+         let categoris:any = [] = res;
+          for (let index = 0; index < res.length; index++) {
+            if(id == categoris[index].id)
+            {
+              this.categoryName = categoris[index].categoryName;
+            }
+          }
+        },
+        (error:any) => {this.toastrService.error(error.error.message);}
+      );
+    }
+    
+  } 
+  commonFunction()
+  {
+    this.subcategoris = [];
     console.log("URL",this.category,this.subcategory,this.searchevent);
     // category 
     if(this.searchevent == 'search' || this.searchevent == 'false')
@@ -148,32 +195,18 @@ export class ProductCollectionComponent implements OnInit {
           this.categoris[index].isActive = false;
           if(this.category == this.categoris[index].id)
           {
-            this.categoryName= this.categoris[index].categoryName;
             this.categoris[index].isActive = true;
             console.log("TESTTEST",this.category,this.categoris[index].id,this.categoryName);
             
           }else{
-
           }
           
-          if(this.activatedRoute.snapshot.params.category == 'all' || this.activatedRoute.snapshot.params.category == 'category')
-          {
-            // this.getSubcategory(this.categoris[index].id)
-          }
+          
           
         }
       },
       (error:any) => {this.toastrService.error(error.error.message);}
     );
-      // category end
-    this.commonFunction()
-  }
-  throttle = 300;
-  scrollDistance = 0.1;
-  scrollUpDistance = 2;
-  direction = "";
-  commonFunction()
-  {
     if(this.subcategory == 'all'  || this.subcategory == 'subcategory')
     {
       this.subcategory = '';
@@ -185,13 +218,17 @@ export class ProductCollectionComponent implements OnInit {
     }else{
       // this.categoryId = this.category;
       this.category = this.activatedRoute.snapshot.params.category;
-      this.getSubcategory(this.activatedRoute.snapshot.params.category)
+      if(this.category != 'category' && this.category != 'all')
+      {
+        this.getSubcategory(this.activatedRoute.snapshot.params.category)
+      }
     }
     this.getalldata();
     this.allproducts = [];
     this.getProductList();
     
   }
+ 
   choseCategory(catId,event){
     if(event.target.checked)
     {
@@ -212,21 +249,25 @@ export class ProductCollectionComponent implements OnInit {
     this.allproducts = [];
     this.getProductList();
   }
+  count = 0;
   getSubcategory(id)
-  {
+  { 
     this.designerListSubscribe = this.http.get('subcategory/getAllSubcategory/'+id).subscribe(
       (response:any) => {
         for (let index = 0; index < response.length; index++) {
-          this.subcategoris.push({categoryName:response[index].categoryName,id:response[index].id,isSelected:false}) 
-          
+            this.subcategoris.push({categoryName:response[index].categoryName,id:response[index].id,isSelected:false})          
         }
-        for (let index = 0; index < this.subcategoris.length; index++) {
-          if(this.subcategoris[index].categoryName == response[index].categoryName) 
-          {
-
-          }
+        // for (let index = 0; index < response.length; index++) {
+        //   if(this.subcategoris.length && this.count == 1)
+        //   {
+        //     if(this.subcategoris[index].id == response[index].id)
+        //     {
+        //       this.subcategoris.splice(1,index) 
+        //     }
+        //   }
           
-        }
+        // }
+        this.count ++;
         // this.subcategoris = response;
       },
       error => {this.toastrService.error(error.error.message);}
@@ -240,6 +281,7 @@ export class ProductCollectionComponent implements OnInit {
     // designerlist
     this.designerListSubscribe = this.http.get('user/designer/list').subscribe(
       (response:any) => {
+        this.designers = [];
         for (let index = 0; index < response.length; index++) {
           this.designers.push({dId:response[index].dId,designerName:response[index].designerProfileEntity.designerName,isSelected:false})
 
@@ -253,6 +295,7 @@ export class ProductCollectionComponent implements OnInit {
       // colors
       this.getcolorsList =  this.http.get('adminMData/coloreList').subscribe(
         (res:any) => {
+          this.colors = [];
           for (let index = 0; index < res.length; index++) {
             this.colors.push({colorName:res[index].colorName,colorValue:res[index].colorValue,isSelected:false})
             
@@ -320,8 +363,12 @@ export class ProductCollectionComponent implements OnInit {
   scrollToTop(){
     // window.scrollTo(0,0);
      //or document.body.scrollTop = 0;
+    //  delay(10000)
+    // document.querySelector('body').animate({ transform: 'translateY(0px)' },{  // timing options
+    //   duration: 2000
+    // })
      document.querySelector('body').scrollTo(0,0)
-    console.log("window.scroll",window.scroll);
+    console.log("window.scroll",window.scroll,);
     
   }
   searchevent;

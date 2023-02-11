@@ -142,7 +142,7 @@
                         <mat-icon (click)="designCustomizationFeatures=!designCustomizationFeatures" class="cursor-pointer">chat</mat-icon>
                       </span>
                     </a>
-                    <div class="shopping customizationMessage mt-0 p-0 text-black" [ngClass]="{'showCustomization mt-1 mb-2 p-1':designCustomizationFeatures}">
+                    <div *ngIf="productDetail?.withDesignCustomization"class="shopping customizationMessage mt-0 p-0 text-black" [ngClass]="{'showCustomization mt-1 mb-2 p-1':designCustomizationFeatures}">
                       {{productDetail?.designCustomizationFeatures}}
                     </div>
                   </div>
@@ -150,6 +150,9 @@
                     <b>Note : </b>
                     <div>
                       Custom made orders are not returnable.No COD for Custom made orders.
+                    </div>
+                    <div *ngIf="productDetail?.withDesignCustomization">
+                      Design customization option available at checkout.
                     </div>
                   </div>
 
@@ -1366,7 +1369,7 @@
       </div>
       <div class="modal-footer customization-btn">
         <a type="button" class="btn btn-outline-dark submit-btn " [ngClass]="{'disabled': !customchartform.valid}" (click)="UnsaveMesormenMen(customchartform)" mat-raised-button >Use</a>
-        <button type="submit" class="btn btn-outline-dark submit-btn ml-2 mt-1"  mat-raised-button [disabled]="!customchartform.valid">Save and Continue</button>
+        <button type="submit" class="btn btn-outline-dark submit-btn ml-2 mt-1"  mat-raised-button [disabled]="!customchartform.valid || !save  || !model.displyName">Continue</button>
       </div>
     </form>
   </div>

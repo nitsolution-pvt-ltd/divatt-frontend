@@ -20862,6 +20862,13 @@ ngx-slick-carousel .product-detail2
   margin-left: auto !important;
   margin-right: auto !important;
 }
+@media screen and (max-width:426px) 
+{
+  .container-fluid.fixed-width.collection-page
+  {
+    margin-top: 40px;
+  }
+}
 .slick-dotted.slick-slider {
   max-width: 1530px;
   margin-left: auto;

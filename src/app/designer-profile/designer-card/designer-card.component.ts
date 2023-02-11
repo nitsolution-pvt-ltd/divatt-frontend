@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,9 @@ import { LoginNavService } from 'src/app/services/login-nav.service';
 @Component({
   selector: 'app-designer-card',
   templateUrl: './designer-card.component.html',
-  styleUrls: ['./designer-card.component.css']
+  styleUrls: ['./designer-card.component.css'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class DesignerCardComponent implements OnInit {
   private designerListSubscribe: Subscription;
@@ -44,7 +46,14 @@ export class DesignerCardComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private authService:LoginService,
-    private loginNav: LoginNavService,) { }
+    private loginNav: LoginNavService,) {
+      this.activatedRoute.params.subscribe(event => {
+        this.type = event.type
+        console.log("Route event",event);
+        this.ngOnInit()
+
+       });
+     }
 
   ngOnInit() {
     this.commonFunction();
@@ -70,7 +79,7 @@ export class DesignerCardComponent implements OnInit {
       }
     });
     this.gridMode = true;
-    this.type = this.activatedRoute.snapshot.params.type;
+    // this.type = this.activatedRoute.snapshot.params.type;
     if(this.activatedRoute.snapshot.params.type == 'all')
     {
       this.designerType = 'Pop'
@@ -89,13 +98,14 @@ export class DesignerCardComponent implements OnInit {
         this.get_user_dtls = res.logininfo;
         console.log('this.get_user_dtls************', this.get_user_dtls);
         // user details set
+        console.log('this.designerList_api ',this.designerList_api );
+        this.getUserDetailsList_api = 'auth/info/'+ this.get_user_dtls.authority+'/'+this.get_user_dtls.email;
       }
     });
 
-   
     this.getDesignerList();
-    console.log('this.designerList_api ',this.designerList_api );
-    this.getUserDetailsList_api = 'auth/info/'+ this.get_user_dtls.authority+'/'+this.get_user_dtls.email;
+   
+    
     // this.getUserDetailsList();
   }
   // commonFunction end

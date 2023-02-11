@@ -19,12 +19,12 @@
       <span>{{navitem?.categoryName}}</span>
       <mat-icon>chevron_right</mat-icon>
     </a>
-    <a class="main-link" *ngIf="!navitem?.subCategoryEntities" href="/collections/{{navitem?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!navitem.subCategoryEntities}">
+    <a class="main-link" *ngIf="!navitem?.subCategoryEntities" routerLink="/collections/{{navitem?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!navitem.subCategoryEntities}">
       <span>{{navitem?.categoryName}}</span>
     </a>
     <ul class="sub-menu" *ngIf="navitem?.subCategoryEntities">
       <li *ngFor="let subnavitem of navitem?.subCategoryEntities" >
-        <a href="/divatt/collections/{{navitem?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
+        <a routerLink="/collections/{{navitem?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
       </li>
     </ul>
   </li>
@@ -51,28 +51,13 @@
       <span>{{navitem.categoryName}}</span>
       <mat-icon>chevron_right</mat-icon>
     </a>
-    <a class="main-link" *ngIf="!navitem.subCategoryEntities" href="/divatt/collections/{{navitem?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!navitem?.subCategoryEntities}">
+    <a class="main-link" *ngIf="!navitem.subCategoryEntities" routerLink="/collections/{{navitem?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!navitem?.subCategoryEntities}">
       <span>{{navitem?.categoryName}}</span>
     </a>
     <ul class="sub-menu" *ngIf="categoryName == navitem?.categoryName">
       <li *ngFor="let subnavitem of navitem?.subCategoryEntities" >
-        <a href="/divatt/collections/{{navitem?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
+        <a routerLink="/collections/{{navitem?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
       </li>
     </ul>
   </li>
 </ul>
-<!-- mobile mobile screen start -->
-<!-- <ul class="sm pixelstrap sm-vertical mobile">
-  <li class="main-item noSubMenu">
-    <a  routerLink="/designer-list" class="main-link" (click)="closeNav()"><span>Designer</span><mat-icon>chevron_right</mat-icon></a>
-  </li>
-  <li class="main-item noSubMenu">
-    <a  routerLink="/collections/collection/MEN" class="main-link" (click)="closeNav()"><span>MEN</span><mat-icon>chevron_right</mat-icon></a>
-  </li>
-  <li class="main-item noSubMenu">
-    <a  routerLink="/collections/collection/WOMEN" class="main-link" (click)="closeNav()"><span>WOMEN</span><mat-icon>chevron_right</mat-icon></a>
-  </li>
-  <li class="main-item noSubMenu">
-    <a  routerLink="/collections/collection/KIDS" class="main-link" (click)="closeNav()"><span>KIDS</span><mat-icon>chevron_right</mat-icon></a>
-  </li>
-</ul> -->

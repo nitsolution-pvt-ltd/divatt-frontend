@@ -88,14 +88,14 @@
   <div class="container-fluid fixed-width two-on-small nospace-mobile">
     <div class="row">
       <div class="col">
-        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
-          <div ngxSlickItem class="product-box" *ngFor="let product of products">
+        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="bestDesignerproductSlideConfig">
+          <div ngxSlickItem class="product-box" *ngFor="let product of bestSellerproducts">
              <app-product [product]="product"></app-product>   
           </div>
         </ngx-slick-carousel>
       </div>
     </div>
-    <div class="row justify-content-center empty-cart-cls" *ngIf="!products.length">
+    <div class="row justify-content-center empty-cart-cls" *ngIf="!bestSellerproducts.length">
       <div class="text-center">
         <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
         <p class="custom-title">No product found!!</p>
@@ -115,14 +115,14 @@
   <div class="container-fluid fixed-width two-on-small nospace-mobile">
     <div class="row">
       <div class="col">
-        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
-          <div ngxSlickItem class="product-box" *ngFor="let product of products">
+        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="newproductSlideConfig">
+          <div ngxSlickItem class="product-box" *ngFor="let product of newProducts">
              <app-product [product]="product"></app-product>
           </div>
         </ngx-slick-carousel>
       </div>
     </div>
-    <div class="row justify-content-center empty-cart-cls" *ngIf="!products.length">
+    <div class="row justify-content-center empty-cart-cls" *ngIf="!newProducts.length">
       <div class="text-center">
         <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
         <p class="custom-title">No product found!!</p>
@@ -140,14 +140,14 @@
   <div class="container-fluid fixed-width two-on-small nospace-mobile mb-4">
     <div class="row">
       <div class="col">
-        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
-          <div ngxSlickItem class="product-box" *ngFor="let product of products">
+        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="recentViewproductSlideConfig">
+          <div ngxSlickItem class="product-box" *ngFor="let product of recentViewproducts">
             <app-product [product]="product"></app-product>
           </div>
         </ngx-slick-carousel>
       </div>
     </div>
-    <div class="row justify-content-center empty-cart-cls" *ngIf="!products.length">
+    <div class="row justify-content-center empty-cart-cls" *ngIf="!recentViewproducts.length">
       <div class="text-center">
         <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
         <p class="custom-title">No product found!!</p>

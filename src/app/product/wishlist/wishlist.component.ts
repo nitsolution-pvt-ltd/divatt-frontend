@@ -21,7 +21,7 @@ export class WishlistComponent implements OnInit {
   model:any = {};
   productId;
   public product: Observable<Product[]> = of([]);
-  public wishlistItems: Product[] = [];
+  public wishlistItems: any = [];
   variantImage: any;
   selectedItem: any;
   get_user_dtls;
@@ -117,14 +117,16 @@ export class WishlistComponent implements OnInit {
       (response: any) => {
         console.log('Wish list', response);
         this.wishlistItems = response;
-        // for (let index = 0; index < this.wishlistItems.data.length; index++) {
-        //   if(!this.wishlistItems.data[index].slug)
-        //   {
-        //     let name = this.wishlistItems.data[index].productDetails.productName.toLowerCase( );
-        //     this.wishlistItems.data[index].slug = name.replace(/ /g, "-");
-        //   }
+        console.log('Wish list', this.wishlistItems);
+
+        for (let index = 0; index < this.wishlistItems.data.length; index++) {
+          if(!this.wishlistItems.data[index].slug)
+          {
+            let name = this.wishlistItems.data[index].productDetails.productName.toLowerCase( );
+            this.wishlistItems.data[index].slug = name.replace(/ /g, "-");
+          }
           
-        // }
+        }
         this.pagination = true;
         this.pageDisabled = false;
         this.loader = false;

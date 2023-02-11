@@ -69,7 +69,7 @@
                                         <p *ngIf="orderItemStatus == 'cancelled' || orderItemStatus == 'Request for cancelation'" class="text-dark font-weight-bold d-flex align-items-center text-capitalize">
                                             <i class="ti ti-control-record text-danger line-height-0" *ngIf="orderItemStatus == 'cancelled'"></i>&nbsp;
                                             <i class="ti ti-control-record text-warning2 line-height-0" *ngIf="orderItemStatus == 'Request for cancelation'"></i>&nbsp;
-                                            <span>{{orderItemStatus == 'Request for cancelation' ? 'Orders' : orderItemStatus}}</span>
+                                            <span>{{orderItemStatus}}</span>
                                         </p>
                                      </div>
                                  </div>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="border row">
                             <div class="col-lg-12">
-                                <ul *ngIf="orderDetails?.paymentData && orderItemStatus != 'cancelled' && orderItemStatus != 'returnRequest' && orderItemStatus != 'returnRefund' && orderItemStatus != 'Rejected' && orderItemStatus != 'Return request approved' && orderItemStatus != 'Product shipped by user' && orderItemStatus != 'Product received from user'" id="progressbar" class="text-center">
+                                <ul *ngIf="orderDetails?.paymentData && orderItemStatus != 'cancelled' && orderItemStatus != 'returnRequest' && orderItemStatus != 'returnRefund' && orderItemStatus != 'Rejected' && orderItemStatus != 'Return request approved' && orderItemStatus != 'Product shipped by user' && orderItemStatus != 'Product received from user' &&  orderItemStatus != 'Request for cancelation'" id="progressbar" class="text-center">
                                     <li class="active step0"></li>
                                     <li [ngClass]="{'active': trackingDetails?.packedDetails || trackingDetails?.shippedDetails ||  trackingDetails?.deliveryDetails}" class="step0"></li>
                                     <li [ngClass]="{'active': trackingDetails?.shippedDetails ||  trackingDetails?.deliveryDetails}" class="step0"></li>
@@ -85,11 +85,11 @@
                                 </ul>
                                 <ul *ngIf="orderItemStatus == 'Return request approved' || orderItemStatus == 'Product received from user' || orderItemStatus == 'Product shipped by user' || orderItemStatus == 'returnRefund' || orderItemStatus == 'Rejected'" id="progressbar" class="text-center">
                                     <li class="active step0"></li>
-                                    <li [ngClass]="{'active': trackingDetails?.userShippedProduct}" class="step0"></li>
+                                    <li [ngClass]="{'active': trackingDetails?.userShippedProduct}" class="step0 cursor-pointer" (click)="openShippingModel(orderDetails,productShipping)"></li>
                                     <li [ngClass]="{'active': trackingDetails?.designerReceivedProduct}" class="step0"></li>
                                     <li [ngClass]="{'active': trackingDetails?.returnFromAdmin}" class="step0"></li>
                                 </ul>
-                                <ul *ngIf="orderDetails?.paymentData && orderItemStatus == 'cancelled'" id="progressbar" class="text-center cancelTracking">
+                                <ul *ngIf="orderDetails?.paymentData && orderItemStatus == 'cancelled' || orderItemStatus == 'Request for cancelation'" id="progressbar" class="text-center cancelTracking">
                                     <li class="step0 active" ></li>
                                     <li class="step0" [ngClass]="{'active':orderItemStatus == 'cancelled'}"></li>
                                 </ul>
@@ -114,15 +114,15 @@
                                     <div class="row d-flex icon-content">
                                         <img class="icon" src="assets/images/cancel.png">
                                         <div class="d-flex flex-column justify-content-center">
-                                            <p class="font-weight-bold no-margin">OrderNot<br> Confirmed</p>
+                                            <p class="font-weight-bold no-margin">Order Not<br> Confirmed</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngIf="orderDetails?.paymentData && orderItemStatus != 'cancelled' && orderItemStatus != 'returnRequest' && orderItemStatus != 'returnRefund'&& orderItemStatus != 'Rejected' && orderItemStatus != 'Return request approved' && orderItemStatus != 'Product shipped by user' && orderItemStatus != 'Product received from user'" class="row justify-content-between top">
+                                <div *ngIf="orderDetails?.paymentData && orderItemStatus != 'cancelled' && orderItemStatus != 'returnRequest' && orderItemStatus != 'returnRefund'&& orderItemStatus != 'Rejected' && orderItemStatus != 'Return request approved' && orderItemStatus != 'Product shipped by user' && orderItemStatus != 'Product received from user' && orderItemStatus != 'Request for cancelation'" class="row justify-content-between top">
                                     <div class="row d-flex icon-content">
                                         <img class="icon" src="assets/images/dispatch.png">
                                         <div class="d-flex flex-column justify-content-center">
-                                            <p class="font-weight-bold no-margin">Order<br>Dispatch</p>
+                                            <p class="font-weight-bold no-margin">Order<br>verified</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex icon-content">
@@ -176,13 +176,27 @@
                                     <div class="row d-flex icon-content">
                                         <img class="icon" src="assets/images/dispatch.png">
                                         <div class="d-flex flex-column justify-content-center">
-                                            <p class="font-weight-bold no-margin">Order<br>Dispatch</p>
+                                            <p class="font-weight-bold no-margin">Order<br>verified</p>
                                         </div>
                                     </div>
                                     <div class="row d-flex icon-content">
                                         <img class="icon" src="assets/images/cancel.png">
                                         <div class="d-flex flex-column justify-content-center">
-                                            <p class="font-weight-bold no-margin">Order<br>cancelled</p>
+                                            <p class="font-weight-bold no-margin">Order<br>canceled</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="orderDetails?.paymentData && orderItemStatus == 'Request for cancelation'"  class="row justify-content-between top cancelTrackingImage">
+                                    <div class="row d-flex icon-content">
+                                        <img class="icon" src="assets/images/dispatch.png">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <p class="font-weight-bold no-margin">Request <br> for cancelation</p>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex icon-content">
+                                        <img class="icon" src="assets/images/cancel.png">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <p class="font-weight-bold no-margin">Order<br>canceled</p>
                                         </div>
                                     </div>
                                 </div>
@@ -228,20 +242,21 @@
                             </div>
                             <div class="w-100 border" *ngIf="parms_product_id == orderitem?.productId">
                                 <div class=" orderStatusComments">
-                                    <div *ngIf="orderitem?.orderItemStatus == 'cancelled' && trackingDetails?.cancelOrderDetails" class="head mb-1 p-3">Your product is cancelled by the seller because of-
+                                    <div *ngIf="orderitem?.orderItemStatus == 'Request for cancelation'" class="head mb-1 p-3">
+                                        Requested a {{trackingDetails?.cancelOrderDetails ? 'order rejection' : 'cancelation'}} by  {{trackingDetails?.cancelOrderDetails  ? 'seller' : 'you'}} because of-
                                         <p class="comment text-danger mb-0">
                                             <br>
-                                            {{trackingDetails?.cancelOrderDetails?.cancelComment}}
-                                            <br *ngIf="trackingDetails?.cancelOrderDetails?.cancelationTime">
-                                            <br *ngIf="trackingDetails?.cancelOrderDetails?.cancelationTime">
-                                        <span class="text-black" *ngIf="trackingDetails?.cancelOrderDetails?.cancelationTime">on {{trackingDetails?.cancelOrderDetails?.cancelationTime}}</span>
+                                            {{trackingDetails?.cancelOrderDetails ? trackingDetails?.cancelOrderDetails?.cancelComment : trackingDetails?.cancelFromUser?.comment}}
+                                            <br *ngIf="trackingDetails?.cancelOrderDetails?.cancelationTime || trackingDetails?.cancelFromUser?.dateTime">
+                                            <br *ngIf="trackingDetails?.cancelOrderDetails?.cancelationTime || trackingDetails?.cancelFromUser?.dateTime">
+                                        <span class="text-black" *ngIf="trackingDetails?.cancelOrderDetails?.cancelationTime || trackingDetails?.cancelFromUser?.dateTime">on {{trackingDetails?.cancelOrderDetails ? trackingDetails?.cancelOrderDetails?.cancelationTime : trackingDetails?.cancelFromUser?.dateTime}}</span>
                                         </p> 
                                     </div>   
-                                    <p *ngIf="orderitem?.orderItemStatus == 'cancelled' && trackingDetails?.cancelFromUser" class="reason mb-1 text-danger mb-0 p-3"> 
-                                        You requested a cancellation because the {{trackingDetails?.cancelFromUser?.reason}} .
-                                        <br *ngIf="trackingDetails?.cancelFromUser?.dateTime">
-                                        <br *ngIf="trackingDetails?.cancelFromUser?.dateTime">
-                                        <span class="text-black" *ngIf="trackingDetails?.cancelFromUser?.dateTime">on {{trackingDetails?.cancelFromUser?.dateTime}}</span>
+                                    <p *ngIf="orderitem?.orderItemStatus == 'cancelled'" class="reason mb-1 text-danger mb-0 p-3"> 
+                                        Order is canceled for {{trackingDetails?.cancelFromUser?.reason ? trackingDetails?.cancelFromUser?.reason : trackingDetails?.cancelOrderDetails?.cancelComment}} .
+                                        <br *ngIf="trackingDetails?.cancelFromUser?.dateTime || trackingDetails?.cancelOrderDetails?.cancelationTime">
+                                        <br *ngIf="trackingDetails?.cancelFromUser?.dateTime || trackingDetails?.cancelOrderDetails?.cancelationTime">
+                                        <span class="text-black" *ngIf="trackingDetails?.cancelFromUser?.dateTime || trackingDetails?.cancelOrderDetails?.cancelationTime">on {{trackingDetails?.cancelFromUser?.dateTime ? trackingDetails?.cancelFromUser?.dateTime : trackingDetails?.cancelOrderDetails?.cancelationTime}}</span>
                                     </p>  
                                     <p *ngIf="orderitem?.orderItemStatus == 'returnRequest' && trackingDetails?.returnFromUser && !trackingDetails?.returnFromAdmin" class="head text-warning2 pl-2 mb-0 p-3">
                                         You requested a return because the {{trackingDetails?.returnFromUser?.reason}}
@@ -278,9 +293,9 @@
                                                 Mob-{{return_shipping?.mobileNo}}
                                             </div>
                                         </div>
-                                        <p  class="mb-0 mt-1">
+                                        <!-- <p  class="mb-0 mt-1">
                                             <a (click)="openShippingModel(orderitem,productShipping)" class="ship-now btn btn-solid btn-xs">Ship Now</a> 
-                                        </p>
+                                        </p> -->
                                     </div>
                                     <p *ngIf="orderItemStatus == 'Product shipped by user' || orderItemStatus == 'Product received from user'" class="mb-0 py-3"><mat-icon  [ngClass]="{'text-success': orderItemStatus == 'Product received from user','text-warning2' :orderItemStatus == 'Product shipped by user'}">{{orderItemStatus == 'Product shipped by user' ? 'help':'verified'}}</mat-icon><span>{{orderItemStatus == 'Product shipped by user'? 'Product shipping , waiting for seller confirmation' : 'Product received by the seller'}}.</span></p>
                                     <p *ngIf="orderDetails?.OrderSKUDetails[0]?.orderStatusDetails?.userShippedProduct">
@@ -297,6 +312,7 @@
                                     <p *ngIf="orderItemStatus == 'Shipped'" class="mb-1 py-3"><mat-icon class="text-success">verified</mat-icon><span>Product courier by {{orderitem?.orderStatusDetails?.shippedDetails?.courierName}} on {{orderitem?.orderStatusDetails?.shippedDetails?.orderShippedTime}}</span></p>
                                     <p *ngIf="orderItemStatus == 'Shipped'" class="mb-0  py-3"><mat-icon class="text-success">info</mat-icon><span>Product AWB number : {{orderitem?.orderStatusDetails?.shippedDetails?.awbNumber}}</span></p>
                                     <p *ngIf="orderItemStatus == 'Delivered'" class="mb-0 py-3"><mat-icon class="text-success">verified</mat-icon><span>Product delivered by {{orderitem?.orderStatusDetails?.shippedDetails?.courierName}} on {{orderitem?.orderStatusDetails?.deliveryDetails?.deliveredDate}}.</span></p>  
+                                    <p *ngIf="orderItemStatus == 'cancelled'" class="mb-2 pt-2"><mat-icon class="text-danger">verified</mat-icon><span>Product cancelled successfully on {{trackingDetails.cancelFromUser.dateTime ? trackingDetails.cancelFromUser.dateTime : trackingDetails.cancelOrderDetails.cancelationTime}}.</span></p>  
                                     <p *ngIf="orderItemStatus == 'returnRefund'" class="mb-0 pb-3"><mat-icon class="text-success">verified</mat-icon><span>Product return completed and <b>₹{{orderitem?.salesPrice ? orderitem?.salesPrice : orderitem?.mrp}}</b> refunded to your account on {{trackingDetails.returnFromAdmin.dateTime}}.</span></p>  
                                 </div>
                             </div>

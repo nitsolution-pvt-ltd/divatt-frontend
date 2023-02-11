@@ -263,9 +263,16 @@ export class OrderItemDetailsComponent implements OnInit {
     //  Get tracking details end
     openShippingModel(product,content)
     {
+      var productData:any = [] = product.OrderSKUDetails;
+      
+      console.log('product',product);
+      for (let index = 0; index < productData.length; index++) {
+        productData[index].productId == this.parms_product_id;
+        this.selectedProduct = productData[index];
+      }
       this.modalService.open(content, { size: 'md' });
       this.orderId = this.selectedProduct.orderId;
-      this.selectedProduct = product;
+      // this.selectedProduct = product;
       console.log(this.selectedProduct);
       
     }

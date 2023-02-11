@@ -176,7 +176,7 @@ export class HeaderWidgetsComponent implements OnInit {
       this.showScreen = 'forgotpassword';
       // this.loginNav.addNavLogin();
       // this.loginNav.addNavRegister();
-      this.api_url = 'auth/mailForgotPasswordLink'
+      this.api_url = 'auth/mailForgotPasswordLink/User/'
       this.loginNav.addNavforgotpassword();
       this.redirectFromForgotPsw = true;
     }
@@ -386,7 +386,7 @@ onSubmitChangePassword(form:NgForm){
     return;
   }
 
-  this.formSubmitSubscribe = this.http.post(this.api_url, form.value).subscribe(
+  this.formSubmitSubscribe = this.http.post('auth/changePassword', form.value).subscribe(
     (response:any) => {
       if(response.status === 200){
         this.toastrService.success(response.message);
