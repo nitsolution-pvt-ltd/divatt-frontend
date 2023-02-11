@@ -102,6 +102,7 @@ export class HeaderComponent implements OnInit {
       newPass:form.value.newPass,
       oldPass:form.value.oldPass,
       userName:form.value.userName,
+      userType:'Designer'
     }
     this.onSubmitForgetPSWSubcribe =  this.http.post("auth/changePassword",data).subscribe((res:any) =>{
       this.ChangePSWFormLoading = false; 

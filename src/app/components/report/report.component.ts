@@ -248,7 +248,7 @@ constructor(private modalService: NgbModal,private authService:LoginService,priv
   {
     let currentDate = Date.now()
     this.currentDateTime = moment(currentDate).format('YYYY-MM-DD hh:mm:ss');
-    var url = '/account/excelReportDesigner?designerReturn='+this.designerReturn+'&serviceCharge='+this.serviceCharge+'&govtCharge='+this.govtCharge+'&order_status='+this.order_status+'&ReturnStatus='+this.ReturnStatus+'&settlement='+this.settlement+'&year='+this.selectedYear+'&month='+this.selectedMonth;
+    var url = 'account/excelReportDesigner?designerReturn='+this.designerReturn+'&serviceCharge='+this.serviceCharge+'&govtCharge='+this.govtCharge+'&order_status='+this.order_status+'&ReturnStatus='+this.ReturnStatus+'&settlement='+this.settlement+'&year='+this.selectedYear+'&month='+this.selectedMonth;
     // window.open(url, "_blank");
     // console.log("url",url);
     this.genarateExcleFile = this.http.get(url, { responseType: 'blob' }).subscribe(

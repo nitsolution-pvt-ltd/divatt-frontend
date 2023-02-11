@@ -48,6 +48,8 @@ export class OrderItemComponent implements OnInit {
   mindateRange: any;
   paymentData: any;
   returnFromAdmindate: string = '';
+  cancelFromUserTime: string = '';
+  cancelOrderDetailsTime: string = '';
   constructor(private modalService: NgbModal,private authService:LoginService,private activatedRoute: ActivatedRoute,private http:HttpClient,
     private toastrService: ToastrService,private commonUtils: CommonUtils,private router:Router) { }
   
@@ -128,11 +130,22 @@ export class OrderItemComponent implements OnInit {
     
     if(identifier == 'requestCancel')
     {
-      this.cancelmessageTitle = 'Reason of request for cancelation';
-      this.cancelMessages = {
-        message:data?.cancelOrderDetails?.cancelComment,
-        date:moment(data?.cancelOrderDetails?.cancelationTime,'DD/MM/YYYY hh:mm:ss').format('DD MMM YYYY')
-      };
+      if(data?.cancelOrderDetails)
+      {
+        this.cancelmessageTitle = 'Reason of request for rejection';
+        this.cancelMessages = {
+          message:data?.cancelOrderDetails?.cancelComment,
+          date:moment(data?.cancelOrderDetails?.cancelationTime,'DD/MM/YYYY hh:mm:ss').format('DD MMM YYYY')
+        };
+      }else{
+        this.cancelmessageTitle = 'Reason of request for cancelation';
+        this.cancelMessages = {
+          message: data?.cancelFromUser?.comment,
+          reason: data?.cancelFromUser?.reason,
+          date: moment(data?.cancelFromUser?.dateTime,'YYYY/MM/DD hh:mm:ss').format('DD MMM YYYY'),
+        };
+      }
+      
     }else if(identifier == 'requestResult')
     {
       this.cancelmessageTitle = 'Admin reply for cancelation request';
@@ -262,6 +275,13 @@ export class OrderItemComponent implements OnInit {
               // { 
               //   this.orderView.orderStatusDetails.deliveryDetails.deliveredDate = moment(this.orderView?.orderStatusDetails?.deliveryDetails?.deliveredDate , 'DD/MM/YYYY').format('DD/MM/YYYY');
               // }
+              if(this.orderView?.orderStatusDetails?.cancelFromUser)
+              {
+                this.cancelFromUserTime = moment(this.orderView?.orderStatusDetails?.cancelFromUser?.dateTime,'YYYY-MM-DD hh:mm:ss').format('DD MMM YYYY');
+              }else
+              {
+                this.cancelOrderDetailsTime = moment(this.orderView?.orderStatusDetails?.cancelOrderDetails?.cancelationTime,'DD/MM/YYYY hh:mm:ss').format('DD MMM YYYY');
+              }
               this.returnFromAdmindate =  moment(this.orderView?.orderStatusDetails?.returnFromAdmin?.dateTime,'YYYY/MM/DD hh:mm:ss').format('DD MMM YYYY');
               let shippingDate = this.orderItem?.OrderSKUDetails[i]?.shippingDate.split(" ");
               this.shippingDate = shippingDate[0];
@@ -646,7 +666,16 @@ export class OrderItemComponent implements OnInit {
   {
   var  body = {
     comment: form.value.comment,
-    orderStatus: "Request for cancelation"
+    canceledBy:this.get_user_dtls?.authority,
+    orderStatus: "Request for cancelation",
+    updatedBy:{
+      firstName:this.designerData?.designerProfile?.firstName1,
+      lastName1:this.designerData?.designerProfile?.lastName1,
+      email:this.designerData?.designerProfile?.email,
+      mobileNo:this.designerData?.designerProfile?.mobileNo,
+      uId:this.designerData?.designerProfile?.designerId,
+
+    }
   }
     this.statusChangeSubscribe = this.http.post("userOrder/cancelOrder/?orderId="+this.orderId+"&productId="+this.productId,body).subscribe(
       (res:any) => {

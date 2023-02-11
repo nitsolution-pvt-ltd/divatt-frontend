@@ -23,7 +23,7 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmitForgetPSW(form:NgForm)
   {
     this.formloader = true; 
-    this.onSubmitForgetPSWSubcribe =  this.http.get("auth/mailForgotPasswordLink/"+form.value.email).subscribe((res:any) =>{
+    this.onSubmitForgetPSWSubcribe =  this.http.get("auth/mailForgotPasswordLink/Designer/"+form.value.email).subscribe((res:any) =>{
       this.formloader = false; 
       console.log(res.message);
       
