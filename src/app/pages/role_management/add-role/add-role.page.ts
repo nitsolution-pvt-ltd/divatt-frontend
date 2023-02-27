@@ -57,8 +57,8 @@ export class AddRolePage implements OnInit {
     this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
     this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
     
-    console.log('parms_action_name', this.parms_action_name);
-    console.log('parms_action_id', this.parms_action_id);
+    // console.log('parms_action_name', this.parms_action_name);
+    // console.log('parms_action_id', this.parms_action_id);
 
     // get module api
     this.getmoduleList_api = 'admin/modules';
@@ -68,27 +68,27 @@ export class AddRolePage implements OnInit {
 
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res.authority == 'ADMIN'){
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if(data){
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
     
             let pageUrlName = this.router.url.split("/");
-            console.log('pageUrlName', pageUrlName);
+            // console.log('pageUrlName', pageUrlName);
             
             for(let item of data) {
               let moduleUrlName = item.modDetails.url.split("-");
-              console.log('moduleUrlName',moduleUrlName);
+              // console.log('moduleUrlName',moduleUrlName);
               
               if(pageUrlName[1] == moduleUrlName[0]){
                 if(this.parms_action_name == 'add' && item.modPrivs.create == true){
-                   console.log('-----Permission create Granted-----');
+                   // console.log('-----Permission create Granted-----');
                    this.getmoduleList();
                   break;
                 }else if(this.parms_action_name == 'edit' && item.modPrivs.update == true){
-                  console.log('-----Permission update Granted-----');
+                  // console.log('-----Permission update Granted-----');
                   this.editApi = 'admin/role/'+this.parms_action_id;
 
                   // init call
@@ -96,7 +96,7 @@ export class AddRolePage implements OnInit {
                   this.getmoduleList();
                   break;
                 }else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
                 
@@ -117,12 +117,12 @@ export class AddRolePage implements OnInit {
     this.getmodules = this.http.get(this.getmoduleList_api).subscribe(
         (res:any) => {
           this.moduleList = res; 
-          console.log("Get moduleList",this.moduleList);
+          // console.log("Get moduleList",this.moduleList);
           
           this.editLoading = false;
         },
         errRes => {
-           console.log("Get moduleList >", errRes); 
+           // console.log("Get moduleList >", errRes); 
            this.editLoading = false; 
         }
       );
@@ -139,21 +139,21 @@ export class AddRolePage implements OnInit {
       this.editDataSubscribe = this.http.get(this.editApi).subscribe(
         (res:any) => {
           this.editLoading = false;
-          console.log("Edit data  res >", res.return_data);
+          // console.log("Edit data  res >", res.return_data);
           this.model = {
             roleName : res.roleName,
             modules: res.modules
           }; 
-          console.log('modules', this.model.modules);
+          // console.log('modules', this.model.modules);
           
           // this.ngsel(this.model.instId);
           this.model.creatDate = moment(res.lcCreatDate).format('YYYY-MM-DD');
-          console.log('this.model.creatDate', this.model);
+          // console.log('this.model.creatDate', this.model);
           
 
           // edit data
           this.allEditData = res;
-          console.log('this.allEditData', this.allEditData);
+          // console.log('this.allEditData', this.allEditData);
           
         },
         errRes => {
@@ -171,16 +171,16 @@ export class AddRolePage implements OnInit {
   // ======================== form submit start ===================
   formLoading = false;
   onSubmitForm(form:NgForm){
-    console.log("add form submit >", form.value);
+    // console.log("add form submit >", form.value);
     this.formLoading = true;
 
     let formValue = form.value;
     
-    console.log('formValue', formValue);
+    // console.log('formValue', formValue);
 
     let modules=[];
-    console.log('formValue.length', formValue.length);
-    console.log('formValue.modules[index].modName', formValue.modules0modName);
+    // console.log('formValue.length', formValue.length);
+    // console.log('formValue.modules[index].modName', formValue.modules0modName);
     
 
     for (let index = 0; index < formValue.length; index++) {
@@ -196,7 +196,7 @@ export class AddRolePage implements OnInit {
       });
       
     }
-    console.log('modules', modules);
+    // console.log('modules', modules);
 
     let formAllData = {
       "roleName": formValue.roleName,
@@ -204,7 +204,7 @@ export class AddRolePage implements OnInit {
     };
 
 
-    console.log('formAllData',formAllData);
+    // console.log('formAllData',formAllData);
     
 
     if(!form.valid){
@@ -215,7 +215,7 @@ export class AddRolePage implements OnInit {
       this.formSubmitSubscribe = this.http.post(this.editForm_api, formAllData).subscribe(
         (response:any) => {
           this.formLoading = false;
-          console.log("add form response >", response);
+          // console.log("add form response >", response);
   
           if(response.status == 200){
             this.router.navigateByUrl('role-list');
@@ -233,7 +233,7 @@ export class AddRolePage implements OnInit {
       this.formSubmitSubscribe = this.http.post(this.form_api, formAllData).subscribe(
         (response:any) => {
           this.formLoading = false;
-          console.log("add form response >", response);
+          // console.log("add form response >", response);
   
           if(response.status == 200){
             this.router.navigateByUrl('role-list');

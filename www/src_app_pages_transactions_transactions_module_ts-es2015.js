@@ -202,20 +202,20 @@ let TransactionsPage = class TransactionsPage {
         this.checkedList = [];
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrl = this.router.url.split("/");
-                        console.log('pageUrl', pageUrl);
+                        // console.log('pageUrl', pageUrl);
                         for (let item of data) {
                             if (item.modDetails.url == pageUrl[1]) {
                                 if (item.modPrivs.list == true) {
-                                    console.log('-----Permission Granted-----');
+                                    // console.log('-----Permission Granted-----');
                                     this.pagePermission = item;
-                                    console.log('this.pagePermission', this.pagePermission);
+                                    // console.log('this.pagePermission', this.pagePermission);
                                     this.listing_url = 'account/transactions';
                                     this.onRefresh();
                                     // delete api
@@ -223,7 +223,7 @@ let TransactionsPage = class TransactionsPage {
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -238,7 +238,7 @@ let TransactionsPage = class TransactionsPage {
         /*Check permission status end*/
     }
     displayRecordChange(_record) {
-        console.log('_record', _record);
+        // console.log('_record', _record);
         this.displayRecord = _record;
         this.pageNo = 0;
         this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.paymentStatus, this.searchTerm);
@@ -254,7 +254,7 @@ let TransactionsPage = class TransactionsPage {
         let api = _listUrl + '?page=' + _pageNo + '&limit=' + _displayRecord + '&sortName=' + _sortColumnName + '&sort=' + _sortOrderName + '&paymentStatus=' + paymentStatus + '&keyword=' + _searchTerm;
         this.tableListSubscribe = this.http.get(api).subscribe((res) => {
             this.isListLoading = false;
-            console.log('res', res);
+            // console.log('res', res);
             this.tableData = res;
             this.tableListData = res.data;
             //---------  check item show start ----------
@@ -275,16 +275,16 @@ let TransactionsPage = class TransactionsPage {
     // List data end
     // Pagination start
     setPage(page) {
-        console.log('page', page);
-        console.log("page");
+        // console.log('page', page);
+        // console.log("page");
         this.pageNo = page;
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.paymentStatus, this.searchTerm);
     }
     // Pagination end
     // Sorting start
     isSortTableHeader(_tableHeaderData, _headerItem) {
-        console.log('_tableHeaderData', _tableHeaderData);
-        console.log('_headerItem', _headerItem);
+        // console.log('_tableHeaderData', _tableHeaderData);
+        // console.log('_headerItem', _headerItem);
         // all field reset first
         _tableHeaderData.forEach((val) => {
             val.sortingButtonName = '';
@@ -298,14 +298,14 @@ let TransactionsPage = class TransactionsPage {
         }
         this.sortColumnName = _headerItem.column_name;
         this.sortOrderName = _headerItem.sortingButtonName;
-        console.log('this.sortColumnName', this.sortColumnName);
-        console.log('this.sortOrderName', this.sortOrderName);
-        console.log('_tableHeaderData>>', _tableHeaderData);
+        // console.log('this.sortColumnName', this.sortColumnName);
+        // console.log('this.sortOrderName', this.sortOrderName);
+        // console.log('_tableHeaderData>>', _tableHeaderData);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.paymentStatus, this.searchTerm);
     }
     searchList(event) {
         this.searchTerm = event.target.value;
-        console.log('this.searchTerm', this.searchTerm);
+        // console.log('this.searchTerm', this.searchTerm);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.paymentStatus, this.searchTerm);
     }
     // Search end
@@ -322,12 +322,12 @@ let TransactionsPage = class TransactionsPage {
     // Referesh end
     // Delete start
     deleteData(_id) {
-        console.log('id>>', _id);
+        // console.log('id>>', _id);
         let sentValues = { 'id': _id };
         this.deleteLoading = true;
         this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe((res) => {
             this.deleteLoading = false;
-            // console.log("Delete data  res >", res.return_data);
+            // // console.log("Delete data  res >", res.return_data);
             if (res.status == 200) {
                 this.commonUtils.presentToast('success', res.message);
                 this.onRefresh();
@@ -361,13 +361,13 @@ let TransactionsPage = class TransactionsPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            console.log('Confirm Cancel: blah');
+                            // console.log('Confirm Cancel: blah');
                         }
                     }, {
                         text: 'Okay',
                         cssClass: 'popup-ok-btn',
                         handler: () => {
-                            console.log('Confirm Okay');
+                            // console.log('Confirm Okay');
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == 'delete') {
@@ -408,7 +408,7 @@ let TransactionsPage = class TransactionsPage {
     allSelectItem(event) {
         if (event.target.checked) {
             this.itemcheckClick = false;
-            // console.log('check item selkectedddddddddddddd');
+            // // console.log('check item selkectedddddddddddddd');
             for (let i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1 && this.tableListData[i] !== null) {
@@ -418,7 +418,7 @@ let TransactionsPage = class TransactionsPage {
             }
         }
         else if (this.itemcheckClick == false) {
-            // console.log('not check item selectionnnnnnnnnnn')
+            // // console.log('not check item selectionnnnnnnnnnn')
             this.checkedList = [];
             for (let i = 0; i < this.tableListData.length; i++) {
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1) {
@@ -426,8 +426,8 @@ let TransactionsPage = class TransactionsPage {
                 }
             }
         }
-        console.log('checked item all @@ >>', this.checkedList);
-        console.log('tableListData item all @@ >>', this.tableListData);
+        // console.log('checked item all @@ >>', this.checkedList);
+        // console.log('tableListData item all @@ >>', this.tableListData);
     }
     // Select all checkbox end
     // Select single checkbox start
@@ -446,14 +446,14 @@ let TransactionsPage = class TransactionsPage {
         }
         if (this.tableListData.length <= this.checkedList.length) {
             this.allselectModel = true;
-            console.log('length 4');
+            // console.log('length 4');
         }
         else {
-            console.log('length 0');
+            // console.log('length 0');
             this.allselectModel = false;
             this.itemcheckClick = true;
         }
-        console.log('checked item single >>', this.checkedList);
+        // console.log('checked item single >>', this.checkedList);
     }
     onClickDeleteItem(_identifire, _item, _items, _index) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
@@ -467,7 +467,7 @@ let TransactionsPage = class TransactionsPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            // console.log('Confirm Cancel: blah');
+                            // // console.log('Confirm Cancel: blah');
                         }
                     },
                     {
@@ -476,12 +476,12 @@ let TransactionsPage = class TransactionsPage {
                         handler: () => {
                             // ------------ single item delete start ------------
                             if (_identifire == 'single') {
-                                console.log('_item', _item);
+                                // console.log('_item', _item);
                                 let sentValues = { 'id': _item.id };
                                 _item.deleteLodershow = true;
                                 this.deleteDataSubscribe = this.http.put("category/delete", sentValues).subscribe((res) => {
                                     _item.deleteLodershow = false;
-                                    console.log("Edit data  res >", res.return_data);
+                                    // console.log("Edit data  res >", res.return_data);
                                     if (res.status == 200) {
                                         _items.splice(_index, 1);
                                         this.commonUtils.presentToast('success', res.return_message);
@@ -529,8 +529,8 @@ let TransactionsPage = class TransactionsPage {
                                                         // _items.splice(_items.indexOf(_items[i]), 1);
                                                         this.deleteLodershow = false; //loader hide
                                                         this.alldeleteLoaderShow = false;
-                                                        // console.log('delete items >>', _items);
-                                                        // console.log('delete this.checkedList >>', this.checkedList);
+                                                        // // console.log('delete items >>', _items);
+                                                        // // console.log('delete this.checkedList >>', this.checkedList);
                                                         this.allselectModel = false;
                                                     }
                                                 }
@@ -627,7 +627,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<!-- common header show -->\r\n<common-header></common-header>\r\n\r\n<ion-content class=\"transactions-list\">\r\n  <div class=\"page-body\">\r\n    <div class=\"page-wrapper\">\r\n      <div class=\"table-listing\">\r\n        <div class=\"container-fluid\">\r\n          <div class=\"page-header\">\r\n              <div class=\"row\">\r\n                  <div class=\"col-sm-6\">\r\n                      <div class=\"page-header-left\">\r\n                          <h3>transactions\r\n                              <!-- <small>Divatt Admin panel</small> -->\r\n                          </h3>\r\n                      </div>\r\n                  </div>\r\n                  <div class=\"col-sm-6\">\r\n                    <ol class=\"breadcrumb float-right\">\r\n                        <li class=\"breadcrumb-item\"><a [routerLink]=\"'/dashboard'\">\r\n                                <mat-icon>home</mat-icon>\r\n                            </a></li>\r\n                        <li class=\"breadcrumb-item active\">\r\n                          transactions\r\n                        </li>\r\n                    </ol>\r\n                </div>\r\n                  <!-- <div class=\"col-lg-6\">\r\n                      <ol class=\"breadcrumb pull-right\">\r\n                          <li class=\"breadcrumb-item\"><a [routerLink]=\"'/dashboard'\">\r\n                                  <app-feather-icons [icon]=\"'home'\"></app-feather-icons>\r\n                              </a></li>\r\n                          <li class=\"breadcrumb-item\" *ngIf=\"breadcrumbs?.parentBreadcrumb\">\r\n                            Product\r\n                          </li>\r\n                          <li class=\"breadcrumb-item active\" *ngIf=\"breadcrumbs?.childBreadcrumb\">\r\n                              Category\r\n                          </li>\r\n                      </ol>\r\n                  </div> -->\r\n              </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"card card-box card-table\">\r\n          <!-- <div class=\"card-header\">\r\n            <div class=\"card-header-tittle\">\r\n              transactions List\r\n            </div>\r\n          </div> -->\r\n          <div class=\"card-body\">\r\n            <div class=\"table-header\">\r\n              <div class=\"records-wrapper\">\r\n                  <ion-item class=\"record\">\r\n                    <span class=\"text-black mr-1\">Records: </span>\r\n                    <mat-form-field  class=\"m-0\">\r\n                      <mat-select [(ngModel)]=\"displayRecord\" name=\"record\" (selectionChange)=\"displayRecordChange($event.value)\">\r\n                        <mat-option *ngFor=\"let record of displayRecords\" [value]=\"record.displayValue\">\r\n                          <span *ngIf=\"record.displayValue > 0\">{{record.displayValue}}</span>\r\n                          <!-- <span *ngIf=\"record.displayValue == 0\">All</span> -->\r\n                        </mat-option>\r\n                      </mat-select>\r\n                    </mat-form-field>\r\n                  </ion-item>\r\n              </div>\r\n              <div class=\"search-wrapper\">\r\n                <ion-searchbar class=\"p-0\" showCancelButton=\"focus\" debounce=\"500\" placeholder=\"Search data ....\" [(ngModel)]=\"searchTerm\" (ionChange)=\"searchList($event)\"></ion-searchbar>\r\n              </div>\r\n             </div>\r\n            <div class=\"bg-gray-200 toggle-btn2 text-sm text-gray-500 leading-none border-2 border-gray-200 rounded-full d-flex mx-auto mb-2\">\r\n             <button [ngClass]=\"{'active': paymentStatus == 'COMPLETED'}\" (click)=\"changepaymentType('COMPLETED')\" class=\"d-flex align-items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-r-full px-4 py-2\">\r\n                <span>Completed</span>\r\n              </button>\r\n              <button [ngClass]=\"{'active': paymentStatus == 'REFUNDED'}\" (click)=\"changepaymentType('REFUNDED')\" class=\"d-flex align-items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-l-full px-4 py-2 active\">\r\n                Refunded\r\n              </button>\r\n            </div>\r\n            <div class=\"table-responsive\">\r\n                <table class=\"table\">\r\n                    <thead>\r\n                        <tr>\r\n                            <th class=\"ion-text-start\">\r\n                                <div>\r\n                                    #\r\n                                </div>\r\n                            </th>\r\n                            \r\n                            \r\n                            <th *ngFor=\"let th of tableHeaderData\" (click)=\"isSortTableHeader(tableHeaderData, th)\" class=\"ion-text-center\">\r\n                              <div>\r\n                                {{th.display_name}}\r\n                                <mat-icon *ngIf=\"th.sortingButtonName == ''\">import_export</mat-icon>\r\n                                <mat-icon *ngIf=\"th.sortingButtonName == 'ASC'\">expand_less</mat-icon>\r\n                                <mat-icon *ngIf=\"th.sortingButtonName == 'DESC'\">expand_more</mat-icon>\r\n                              </div>\r\n                            </th>\r\n                              <!-- <th class=\"ion-text-center\">\r\n                                  Category Img\r\n                              </th> -->\r\n                              <th class=\"\">\r\n                                <div class=\"\">\r\n                                  Refund Status\r\n                                </div>\r\n                              </th>  \r\n                            <th class=\"\">\r\n                              <div class=\"\">\r\n                                Payment Status\r\n                              </div>\r\n                            </th>\r\n                            <!-- <th class=\"ion-text-center\">\r\n                              <div class=\"ion-justify-content-center\">\r\n                                Actions\r\n                              </div>\r\n                            </th> -->\r\n                        </tr>\r\n                    </thead>\r\n                    <tbody>\r\n                      <tr  [hidden]=\"!isListLoading\" class=\"loading-table-data\">\r\n                        <td colspan=\"100\" class=\"text-center\">\r\n                          Data is loading...\r\n                        </td>\r\n                      </tr>\r\n                      <tr [hidden]=\"isListLoading\" *ngIf=\"tableData?.data.length == 0\" class=\"loading-table-data\">\r\n                        <td colspan=\"100\" class=\"text-center\">\r\n                          No data found\r\n                        </td>\r\n                      </tr>\r\n                      <tr [hidden]=\"isListLoading\" *ngFor=\"let item of tableData?.data; let i = index\">\r\n                        <td>{{i + 1}}</td>\r\n                        <td>\r\n                          {{item?.createdOn}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.orderId}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentDetails?.razorpay_order_id}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentDetails?.razorpay_payment_id}}\r\n                        </td>\r\n                        <td>\r\n                          N/A\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentMode}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentResponse?.amount}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentResponse?.amount_refunded}}\r\n                        </td>\r\n                        <td class=\"text-center\">\r\n                          <span class=\"status\" [ngClass]=\"{ 'warning': item?.paymentResponse?.refund_status == 'COMPLETED' , 'danger': item.paymentResponse?.refund_status == 'Rejected','success': item?.paymentResponse?.refund_status == 'COMPLETED'}\">\r\n                            {{item?.paymentResponse?.refund_status ? item?.paymentResponse?.refund_status :'N/A'}}\r\n                          </span>\r\n                        </td>\r\n                        <td class=\"text-center\">\r\n                          <span class=\"status\" [ngClass]=\"{ 'warning': item?.paymentStatus == 'REFUNDED' , 'danger': item.adminStatus == 'Rejected','success': item?.paymentStatus == 'COMPLETED'}\">\r\n                            {{item?.paymentStatus}}\r\n                          </span>\r\n                        </td>\r\n                        <!-- <td>\r\n                          <div class=\"action ion-text-center\">\r\n                            <ion-button *ngIf=\"pagePermission?.modPrivs?.update == true\" matTooltip=\"Edit\" matTooltipPosition=\"above\" size=\"small\" color=\"secondary\" [routerLink]=\"['/', 'category', 'edit', item.id]\">\r\n                              <mat-icon>edit</mat-icon>\r\n                            </ion-button>\r\n                          </div>\r\n                        </td> -->\r\n                      </tr>\r\n                    </tbody>\r\n                </table>\r\n            </div>\r\n          </div>\r\n          <div class=\"card-footer\">\r\n            <div class=\"action\">\r\n              <ion-button matTooltip=\"Refresh\" matTooltipPosition=\"above\" size=\"small\" color=\"primary\" (click)=\"onRefresh()\">\r\n                <mat-icon>refresh</mat-icon>\r\n              </ion-button>\r\n              <!-- <ion-button *ngIf=\"pagePermission?.modPrivs?.delete == true\" [ngClass]=\"{'disabled':checkedList.length == 0 || alldeleteLoaderShow}\" class=\"w-40\" (click)=\"onClickDeleteItem('multiple', '', tableListData, '')\" matTooltip=\"Recycle Bin\" matTooltipPosition=\"above\" color=\"danger\">\r\n                <mat-icon *ngIf=\"!alldeleteLoaderShow\" >delete_forever</mat-icon>\r\n                <ion-spinner *ngIf=\"alldeleteLoaderShow\" class=\"delete-spinner\" name=\"crescent\"></ion-spinner>\r\n              </ion-button> -->\r\n            </div>\r\n            <div>\r\n                <ul class=\"pagination\">\r\n                    <li (click)=\"setPage(0)\" [ngClass]=\"{disabled:tableData?.currentPage === 0}\" class=\"circle-border\" matTooltip=\"First\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- First -->\r\n                          <ion-icon name=\"play-skip-back\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li (click)=\"setPage(tableData.currentPage - 1)\" [ngClass]=\"{disabled:tableData?.currentPage === 0}\" class=\"circle-border\" matTooltip=\"Previous\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Previous -->\r\n                          <ion-icon name=\"caret-back\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li> <span class=\"ran-separator pull-right margin-top-3\"></span> </li>\r\n                    <li>\r\n                        Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} \r\n                    </li>\r\n                    <li> <span class=\"ran-separator pull-right margin-top-3\"></span> </li>\r\n                    <li (click)=\"setPage(tableData.currentPage + 1)\" [ngClass]=\"{disabled:tableData?.currentPage === tableData?.totalPage}\" class=\"circle-border\" matTooltip=\"Next\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Next -->\r\n                          <ion-icon name=\"caret-forward\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li (click)=\"setPage(tableData.totalPage)\" [ngClass]=\"{disabled:tableData?.currentPage === tableData?.totalPage}\" class=\"circle-border\" matTooltip=\"Last\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Last -->\r\n                          <ion-icon name=\"play-skip-forward\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                </ul>\r\n              </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</ion-content>\r\n\r\n<!-- common footer show -->\r\n<common-footer></common-footer>");
+/* harmony default export */ __webpack_exports__["default"] = ("<!-- common header show -->\r\n<common-header></common-header>\r\n\r\n<ion-content class=\"transactions-list\">\r\n  <div class=\"page-body\">\r\n    <div class=\"page-wrapper\">\r\n      <div class=\"table-listing\">\r\n        <div class=\"container-fluid\">\r\n          <div class=\"page-header\">\r\n              <div class=\"row\">\r\n                  <div class=\"col-sm-6\">\r\n                      <div class=\"page-header-left\">\r\n                          <h3>transactions\r\n                              <!-- <small>Divatt Admin panel</small> -->\r\n                          </h3>\r\n                      </div>\r\n                  </div>\r\n                  <div class=\"col-sm-6\">\r\n                    <ol class=\"breadcrumb float-right\">\r\n                        <li class=\"breadcrumb-item\"><a [routerLink]=\"'/dashboard'\">\r\n                                <mat-icon>home</mat-icon>\r\n                            </a></li>\r\n                        <li class=\"breadcrumb-item active\">\r\n                          transactions\r\n                        </li>\r\n                    </ol>\r\n                </div>\r\n                  <!-- <div class=\"col-lg-6\">\r\n                      <ol class=\"breadcrumb pull-right\">\r\n                          <li class=\"breadcrumb-item\"><a [routerLink]=\"'/dashboard'\">\r\n                                  <app-feather-icons [icon]=\"'home'\"></app-feather-icons>\r\n                              </a></li>\r\n                          <li class=\"breadcrumb-item\" *ngIf=\"breadcrumbs?.parentBreadcrumb\">\r\n                            Product\r\n                          </li>\r\n                          <li class=\"breadcrumb-item active\" *ngIf=\"breadcrumbs?.childBreadcrumb\">\r\n                              Category\r\n                          </li>\r\n                      </ol>\r\n                  </div> -->\r\n              </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"card card-box card-table\">\r\n          <!-- <div class=\"card-header\">\r\n            <div class=\"card-header-tittle\">\r\n              transactions List\r\n            </div>\r\n          </div> -->\r\n          <div class=\"card-body\">\r\n            <div class=\"table-header\">\r\n              <div class=\"records-wrapper\">\r\n                  <ion-item class=\"record\">\r\n                    <span class=\"text-black mr-1\">Records: </span>\r\n                    <mat-form-field  class=\"m-0\">\r\n                      <mat-select [(ngModel)]=\"displayRecord\" name=\"record\" (selectionChange)=\"displayRecordChange($event.value)\">\r\n                        <mat-option *ngFor=\"let record of displayRecords\" [value]=\"record.displayValue\">\r\n                          <span *ngIf=\"record.displayValue > 0\">{{record.displayValue}}</span>\r\n                          <!-- <span *ngIf=\"record.displayValue == 0\">All</span> -->\r\n                        </mat-option>\r\n                      </mat-select>\r\n                    </mat-form-field>\r\n                  </ion-item>\r\n              </div>\r\n              <div class=\"search-wrapper\">\r\n                <ion-searchbar class=\"p-0\" showCancelButton=\"focus\" debounce=\"500\" placeholder=\"Search data ....\" [(ngModel)]=\"searchTerm\" (ionChange)=\"searchList($event)\"></ion-searchbar>\r\n              </div>\r\n             </div>\r\n            <div class=\"bg-gray-200 toggle-btn2 text-sm text-gray-500 leading-none border-2 border-gray-200 rounded-full d-flex mx-auto mb-2\">\r\n             <button [ngClass]=\"{'active': paymentStatus == 'COMPLETED'}\" (click)=\"changepaymentType('COMPLETED')\" class=\"d-flex align-items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-r-full px-4 py-2\">\r\n                <span>Completed</span>\r\n              </button>\r\n              <button [ngClass]=\"{'active': paymentStatus == 'REFUNDED'}\" (click)=\"changepaymentType('REFUNDED')\" class=\"d-flex align-items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-l-full px-4 py-2 active\">\r\n                Refunded\r\n              </button>\r\n            </div>\r\n            <div class=\"table-responsive\">\r\n                <table class=\"table\">\r\n                    <thead>\r\n                        <tr>\r\n                            <th class=\"ion-text-start\">\r\n                                <div>\r\n                                    #\r\n                                </div>\r\n                            </th>\r\n                            \r\n                            \r\n                            <th *ngFor=\"let th of tableHeaderData\" (click)=\"isSortTableHeader(tableHeaderData, th)\" class=\"ion-text-center\">\r\n                              <div>\r\n                                {{th.display_name}}\r\n                                <mat-icon *ngIf=\"th.sortingButtonName == ''\">import_export</mat-icon>\r\n                                <mat-icon *ngIf=\"th.sortingButtonName == 'ASC'\">expand_less</mat-icon>\r\n                                <mat-icon *ngIf=\"th.sortingButtonName == 'DESC'\">expand_more</mat-icon>\r\n                              </div>\r\n                            </th>\r\n                              <!-- <th class=\"ion-text-center\">\r\n                                  Category Img\r\n                              </th> -->\r\n                              <th class=\"\">\r\n                                <div class=\"\">\r\n                                  Refund Status\r\n                                </div>\r\n                              </th>  \r\n                            <th class=\"\">\r\n                              <div class=\"\">\r\n                                Payment Status\r\n                              </div>\r\n                            </th>\r\n                            <!-- <th class=\"ion-text-center\">\r\n                              <div class=\"ion-justify-content-center\">\r\n                                Actions\r\n                              </div>\r\n                            </th> -->\r\n                        </tr>\r\n                    </thead>\r\n                    <tbody>\r\n                      <tr  [hidden]=\"!isListLoading\" class=\"loading-table-data\">\r\n                        <td colspan=\"100\" class=\"text-center\">\r\n                          Data is loading...\r\n                        </td>\r\n                      </tr>\r\n                      <tr [hidden]=\"isListLoading\" *ngIf=\"tableData?.data.length == 0\" class=\"loading-table-data\">\r\n                        <td colspan=\"100\" class=\"text-center\">\r\n                          No data found\r\n                        </td>\r\n                      </tr>\r\n                      <tr [hidden]=\"isListLoading\" *ngFor=\"let item of tableData?.data; let i = index\">\r\n                        <td>{{i + 1}}</td>\r\n                        <td>\r\n                          {{item?.createdOn}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.orderId}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentDetails?.razorpay_order_id}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentDetails?.razorpay_payment_id}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.refund?.id ? item?.refund?.id : 'N/A'}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentMode}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentResponse?.amount}}\r\n                        </td>\r\n                        <td>\r\n                          {{item?.paymentResponse?.amount_refunded}}\r\n                        </td>\r\n                        <td class=\"text-center\">\r\n                          <span class=\"status\" [ngClass]=\"{ 'warning': item?.paymentResponse?.refund_status != 'full' , 'success': item?.paymentResponse?.refund_status == 'full'}\">\r\n                            {{item?.paymentResponse?.refund_status ? item?.paymentResponse?.refund_status :'N/A'}}\r\n                          </span>\r\n                        </td>\r\n                        <td class=\"text-center\">\r\n                          <span class=\"status\" [ngClass]=\"{ 'warning': item?.paymentStatus == 'REFUNDED' , 'danger': item.adminStatus == 'Rejected','success': item?.paymentStatus == 'COMPLETED'}\">\r\n                            {{item?.paymentStatus}}\r\n                          </span>\r\n                        </td>\r\n                        <!-- <td>\r\n                          <div class=\"action ion-text-center\">\r\n                            <ion-button *ngIf=\"pagePermission?.modPrivs?.update == true\" matTooltip=\"Edit\" matTooltipPosition=\"above\" size=\"small\" color=\"secondary\" [routerLink]=\"['/', 'category', 'edit', item.id]\">\r\n                              <mat-icon>edit</mat-icon>\r\n                            </ion-button>\r\n                          </div>\r\n                        </td> -->\r\n                      </tr>\r\n                    </tbody>\r\n                </table>\r\n            </div>\r\n          </div>\r\n          <div class=\"card-footer\">\r\n            <div class=\"action\">\r\n              <ion-button matTooltip=\"Refresh\" matTooltipPosition=\"above\" size=\"small\" color=\"primary\" (click)=\"onRefresh()\">\r\n                <mat-icon>refresh</mat-icon>\r\n              </ion-button>\r\n              <!-- <ion-button *ngIf=\"pagePermission?.modPrivs?.delete == true\" [ngClass]=\"{'disabled':checkedList.length == 0 || alldeleteLoaderShow}\" class=\"w-40\" (click)=\"onClickDeleteItem('multiple', '', tableListData, '')\" matTooltip=\"Recycle Bin\" matTooltipPosition=\"above\" color=\"danger\">\r\n                <mat-icon *ngIf=\"!alldeleteLoaderShow\" >delete_forever</mat-icon>\r\n                <ion-spinner *ngIf=\"alldeleteLoaderShow\" class=\"delete-spinner\" name=\"crescent\"></ion-spinner>\r\n              </ion-button> -->\r\n            </div>\r\n            <div>\r\n                <ul class=\"pagination\">\r\n                    <li (click)=\"setPage(0)\" [ngClass]=\"{disabled:tableData?.currentPage === 0}\" class=\"circle-border\" matTooltip=\"First\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- First -->\r\n                          <ion-icon name=\"play-skip-back\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li (click)=\"setPage(tableData.currentPage - 1)\" [ngClass]=\"{disabled:tableData?.currentPage === 0}\" class=\"circle-border\" matTooltip=\"Previous\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Previous -->\r\n                          <ion-icon name=\"caret-back\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li> <span class=\"ran-separator pull-right margin-top-3\"></span> </li>\r\n                    <li>\r\n                        Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} \r\n                    </li>\r\n                    <li> <span class=\"ran-separator pull-right margin-top-3\"></span> </li>\r\n                    <li (click)=\"setPage(tableData.currentPage + 1)\" [ngClass]=\"{disabled:tableData?.currentPage === tableData?.totalPage}\" class=\"circle-border\" matTooltip=\"Next\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Next -->\r\n                          <ion-icon name=\"caret-forward\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li (click)=\"setPage(tableData.totalPage)\" [ngClass]=\"{disabled:tableData?.currentPage === tableData?.totalPage}\" class=\"circle-border\" matTooltip=\"Last\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Last -->\r\n                          <ion-icon name=\"play-skip-forward\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                </ul>\r\n              </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</ion-content>\r\n\r\n<!-- common footer show -->\r\n<common-footer></common-footer>");
 
 /***/ })
 

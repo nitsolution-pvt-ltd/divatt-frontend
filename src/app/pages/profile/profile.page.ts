@@ -46,7 +46,7 @@ export class ProfilePage implements OnInit {
   }
   commonFunction(){
     this.storage.get('setStroageGlobalParamsData').then((val) => {
-      console.log('User ID', val.uid);
+      // console.log('User ID', val.uid);
       
       if(val.authority == 'DESIGNER')
       {
@@ -66,7 +66,7 @@ export class ProfilePage implements OnInit {
       this.uid = val.uid;
       this.role=val.authority
       this.username =val.username
-      console.log("Role",this.role);
+      // console.log("Role",this.role);
       
     });
   }
@@ -80,8 +80,8 @@ export class ProfilePage implements OnInit {
           this.formBtn = false;
           this.designerprofiledata = res;
           this.designerprofiledata.dob = moment(res.designerProfile.dob).format('YYYY-MM-DD');
-         console.log("this.modalDate",this.designerprofiledata.designerProfile.dob);
-          console.log("profiledata",this.designerprofiledata);
+         // console.log("this.modalDate",this.designerprofiledata.designerProfile.dob);
+          // console.log("profiledata",this.designerprofiledata);
           if(this.designerprofiledata == null)
           {
             // this.show = false;
@@ -93,12 +93,12 @@ export class ProfilePage implements OnInit {
           }
           
           
-            console.log("profiledata",this.designerprofiledata);
-            console.log("this.modalDate");
+            // console.log("profiledata",this.designerprofiledata);
+            // console.log("this.modalDate");
         },
         (error) =>{
           this.formBtn = true;
-          console.log("error",error);
+          // console.log("error",error);
           this.show = false;
             this.edit = false;
         })
@@ -107,7 +107,7 @@ export class ProfilePage implements OnInit {
   // getAdminProfiledata start
     getAdminProfiledata(role,username)
     {
-      console.log("auth/info/");
+      // console.log("auth/info/");
       
       this.getProfileData = this.http.get("auth/info/"+role+"/"+username).subscribe(
         (res:any) => {
@@ -123,12 +123,12 @@ export class ProfilePage implements OnInit {
           }
             this.adminprofiledata = res;
             this.adminDob = res?.dob;
-            console.log("profiledata",this.adminprofiledata);
-            console.log("this.modalDate",this.adminprofiledata.dob);
+            // console.log("profiledata",this.adminprofiledata);
+            // console.log("this.modalDate",this.adminprofiledata.dob);
         },
         (error) =>{
           this.formBtn = true;
-          console.log("error",error);
+          // console.log("error",error);
           this.show = false;
             this.edit = false;
         })
@@ -158,10 +158,10 @@ export class ProfilePage implements OnInit {
                 
               });
               this.storage.get('profileImageData').then((val) => {
-                console.log('User IDprofileImgpath', val);
+                // console.log('User IDprofileImgpath', val);
                 
               });
-              console.log();
+              // console.log();
               if(_identifier == 'DESIGNER')
               {
                 this.designerprofiledata.designerProfile.profilePic = res.path;
@@ -175,13 +175,13 @@ export class ProfilePage implements OnInit {
               this.imageLoader = false;
             },
             (error) =>{
-              console.log("error",error);
+              // console.log("error",error);
               this.commonUtils.presentToast('error', error.error.message);
               this.imageLoader = false;
             })
         }
       // }
-      // console.log('image',image.target.files[0]);
+      // // console.log('image',image.target.files[0]);
       
     }
     // chooseFile
@@ -189,24 +189,24 @@ export class ProfilePage implements OnInit {
     uplodeProfilepicAdmin()
     {
           this.profileupdateSubcribe =  this.http.put('admin/profile/update',this.adminprofiledata).subscribe((res:any) =>{
-           console.log("resres0",res);
+           // console.log("resres0",res);
            
             this.commonUtils.presentToast('success', res.message);
             // var imgpath = 
             this.imageLoader = false;  
           },error =>{
-              // console.log("error",error);
+              // // console.log("error",error);
               this.commonUtils.presentToast('error', error.error.message);
           })
           this.storage.get('setStroageGlobalParamsData').then((val) => {
-            console.log('User ID', val.uid);
+            // console.log('User ID', val.uid);
             
            
               this.getAdminProfiledata(val.authority,val.username)
              
             
           });
-          console.log("this.adminprofiledata.profilepic",this.adminprofiledata.profilepic);
+          // console.log("this.adminprofiledata.profilepic",this.adminprofiledata.profilepic);
           // this.commonUtils.presentToast('success', res.message);
           
     }
@@ -218,16 +218,16 @@ export class ProfilePage implements OnInit {
     {
         this.profileupdateSubcribe =  this.http.put('designer/profile/update',this.designerprofiledata).subscribe((res:any) =>{
         this.imageLoader = false;
-        console.log("XYZ",res); 
+        // console.log("XYZ",res); 
         
           this.commonUtils.presentToast('success', res.message);
           this.profileimgpath = res.designerProfile.profilePic;
           },error =>{
-            // console.log("error",error);
+            // // console.log("error",error);
             this.commonUtils.presentToast('error', error.error.message);
         }) 
         this.storage.get('setStroageGlobalParamsData').then((val) => {
-          console.log('User ID', val.uid);
+          // console.log('User ID', val.uid);
             this.getDesignerProfiledata(val.uid)            
         });
     }
@@ -236,14 +236,14 @@ export class ProfilePage implements OnInit {
     cancleUploading(type,identifier)
     {
       this.formBtn = !this.formBtn;
-      console.log(this.formBtn);
+      // console.log(this.formBtn);
       if(type == 'edit')
       {
 
       }else if(type == 'close')
       {
            this.storage.get('setStroageGlobalParamsData').then((val) => {
-          console.log('User ID', val.uid);
+          // console.log('User ID', val.uid);
           if(identifier == 'ADMIN')
           {
             this.getAdminProfiledata(val.authority,val.username)
@@ -262,7 +262,7 @@ export class ProfilePage implements OnInit {
     // cancleUploading end
     // openAdminProfilemodal start
     async openAdminProfilemodal(_identifier, _item, _items) {
-      console.log('openProfilemodal ...........>>', _identifier);
+      // console.log('openProfilemodal ...........>>', _identifier);
   
       let profile_modal;
       profile_modal = await this.modalController.create({
@@ -280,7 +280,7 @@ export class ProfilePage implements OnInit {
       .then((getdata) => {
         
         this.getAdminProfiledata(this.role,this.username)
-        console.log('getdata >>>>>>>>>>>', getdata);
+        // console.log('getdata >>>>>>>>>>>', getdata);
         if(getdata.data == 'submitClose'){
           
         }
@@ -292,7 +292,7 @@ export class ProfilePage implements OnInit {
     // openAdminProfilemodal end
     // openAdminProfilemodal start
     async openDesignerProfilemodal(_identifier, _item, _items) {
-      console.log('openProfilemodal ...........>>', _identifier);
+      // console.log('openProfilemodal ...........>>', _identifier);
   
       let profile_modal;
       profile_modal = await this.modalController.create({
@@ -310,7 +310,7 @@ export class ProfilePage implements OnInit {
       .then((getdata) => {
         
         this.getDesignerProfiledata(this.uid)
-        console.log('getdata >>>>>>>>>>>', getdata);
+        // console.log('getdata >>>>>>>>>>>', getdata);
         if(getdata.data == 'submitClose'){
           
         }
@@ -322,11 +322,11 @@ export class ProfilePage implements OnInit {
     // openAdminProfilemodal end
     // Delete start
     deleteData(_id){
-    console.log('id>>', _id);
+    // console.log('id>>', _id);
     let sentValues = {'id': _id};
     this.deleteDataSubscribe = this.http.delete("admin/profile/"+this.profileId).subscribe(
       (res:any) => {
-        console.log("Delete", res.return_data);
+        // console.log("Delete", res.return_data);
         if(res.status == 200){
           this.commonUtils.presentToast('success', res.message);
         }else {
@@ -339,10 +339,10 @@ export class ProfilePage implements OnInit {
   }
   // Delete end
   statusChange(_id){
-    console.log('id>>', _id);
+    // console.log('id>>', _id);
     this.deleteDataSubscribe = this.http.put("admin/profile/"+_id,'').subscribe(
       (res:any) => {
-        console.log("Delete", res.return_data);
+        // console.log("Delete", res.return_data);
         if(res.status == 200){
           this.commonUtils.presentToast('success', res.message);
         }else {

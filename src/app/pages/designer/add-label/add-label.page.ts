@@ -50,42 +50,42 @@ export class AddLabelPage implements OnInit {
     this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
     this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
     this.parms_LevelName = this.activatedRoute.snapshot.paramMap.get('name');
-    console.log('parms_action_name', this.parms_action_name);
-    console.log('parms_action_id', this.parms_LevelName);
+    // console.log('parms_action_name', this.parms_action_name);
+    // console.log('parms_action_id', this.parms_LevelName);
    
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res.authority == 'ADMIN'){
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if(data){
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
     
             let pageUrlName = this.router.url.split("/");
-            console.log('pageUrlName', pageUrlName);
+            // console.log('pageUrlName', pageUrlName);
             
             for(let item of data) {
               let moduleUrlName = item.modDetails.url.split("-");
-              console.log('moduleUrlName,pageUrlName[1],moduleUrlName[0]',moduleUrlName,pageUrlName[1],moduleUrlName[0]);
+              // console.log('moduleUrlName,pageUrlName[1],moduleUrlName[0]',moduleUrlName,pageUrlName[1],moduleUrlName[0]);
               
               
               if(pageUrlName[1] == moduleUrlName[0]){
-                console.log('pageUrlName[1]', pageUrlName[1]);
+                // console.log('pageUrlName[1]', pageUrlName[1]);
                 
                 if(this.parms_action_name == 'add' && item.modPrivs.create == true){
-                   console.log('-----Permission create Granted-----');
+                   // console.log('-----Permission create Granted-----');
                   //  this.getcategoryList();
     // this.getproductMeasurement()
                   break;
                 }
                 else 
                 if(this.parms_action_name == 'edit' && item.modPrivs.update == true){
-                  console.log('-----Permission update Granted-----');
+                  // console.log('-----Permission update Granted-----');
                   this.getLevel();
                   break;
                 }else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
                 
@@ -108,17 +108,17 @@ export class AddLabelPage implements OnInit {
     this.getLevelSubscribe = this.http.get("adminMData/getDesignerCategory/"+this.parms_LevelName).subscribe(
       (res:any) => {
         this.loader = false;
-        console.log("getLebelDataSubscribe",res);
+        // console.log("getLebelDataSubscribe",res);
           this.Lebel_id = res.id;
           this.model = {
             Name: res.Name,
         }
-        console.log("Mesorment",this.model);
+        // console.log("Mesorment",this.model);
         
       },
       (error) =>{
         this.loader = false;
-        console.log("error",error.error.message);
+        // console.log("error",error.error.message);
         this.commonUtils.presentToast('error',error.error.message)
       })
   }
@@ -133,7 +133,7 @@ export class AddLabelPage implements OnInit {
   onSubmitLebelForm(form:NgForm)
   {
     this.btnloader = true;
-      console.log("allLebeldata",this.values,form.value);
+      // console.log("allLebeldata",this.values,form.value);
     
     // add api start
     if(this.parms_action_name == 'add')
@@ -144,7 +144,7 @@ export class AddLabelPage implements OnInit {
       {
         allLebel.push(this.values[i].name)
       }
-      console.log("allLebeldata",this.values,form.value,allLebel);
+      // console.log("allLebeldata",this.values,form.value,allLebel);
         this.allLebeldata={
           id:101,
           designerLevels :allLebel,
@@ -154,7 +154,7 @@ export class AddLabelPage implements OnInit {
 
       this.addLebelSubscribe = this.http.put('adminMData/addDesignerCategory',this.allLebeldata).subscribe((res:any) =>{
           // window.location.reload();
-          console.log("allLebeldata",this.allLebeldata,"response",res);
+          // console.log("allLebeldata",this.allLebeldata,"response",res);
           this.router.navigateByUrl('/specifiction-list')
           this.commonUtils.presentToast('success', res.message);
           this.btnloader = false;
@@ -162,7 +162,7 @@ export class AddLabelPage implements OnInit {
           this.router.navigateByUrl('/level-designer');
           this.values = null;
           },error =>{
-            console.log(error);
+            // console.log(error);
             this.btnloader = false;
             this.commonUtils.presentToast('error', error.error.message);
         })
@@ -171,14 +171,14 @@ export class AddLabelPage implements OnInit {
     // edit api start
     else if(this.parms_action_name == 'edit')
     {
-      console.log("else",this.model); 
+      // console.log("else",this.model); 
       let allLebel:any = []
         allLebel.push(form.value.Name)
         var updateLevel={
           designerLevels :allLebel, 
         }
       this.addLebelSubscribe = this.http.put("adminMData/updateDesignerLevels/"+this.parms_LevelName,updateLevel).subscribe((res:any) =>{
-        console.log("updateLevel",res);
+        // console.log("updateLevel",res);
        this.commonUtils.presentToast('success', res.message);
         this.router.navigateByUrl('/level-designer')
         form.reset();

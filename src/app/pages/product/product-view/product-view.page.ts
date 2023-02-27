@@ -46,27 +46,27 @@ export class ProductViewPage implements OnInit {
     $.getScript('assets/js/menu.js');
      /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
-      console.log('res>>', res);
+      // console.log('res>>', res);
       if(res.authority == 'ADMIN'){
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
           if(data){
-            console.log('menu>>', data);
-            console.log('this.router.url>>', this.router.url);
+            // console.log('menu>>', data);
+            // console.log('this.router.url>>', this.router.url);
     
             let pageUrl = this.router.url.split("/");
-            console.log('pageUrl', pageUrl);
+            // console.log('pageUrl', pageUrl);
     
             for(let item of data) {
               if(item.modDetails.url == 'product-list'){
                 if(item.modPrivs.list == true){
-                  console.log('-----Permission Granted-----');
+                  // console.log('-----Permission Granted-----');
                   this.pagePermission = item;
-                  console.log('this.pagePermission', this.pagePermission);
+                  // console.log('this.pagePermission', this.pagePermission);
                   this.api_url = 'user/viewAdmin/'+this.productId;
                   this.getProductdetails();
                   break;
                 }else {
-                  console.log('-------No Permission--------');
+                  // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
                 
@@ -87,18 +87,18 @@ export class ProductViewPage implements OnInit {
   }
   getProductdetails()
   {
-    console.log("response----",this.productDetail);
+    // console.log("response----",this.productDetail);
 
     this.productDataSubscribe = this.http.get(this.api_url).subscribe(
       (response:any) => {
-        console.log("response----",response);
+        // console.log("response----",response);
         
         this.productDetail = response;
         if(response.productId == null)
         {
           this.router.navigateByUrl('/error');
         }
-        console.log("response----",this.productDetail);
+        // console.log("response----",this.productDetail);
 
         
         var discountAmount:any,taxAmount:number,amount:number;
@@ -140,7 +140,7 @@ export class ProductViewPage implements OnInit {
         
       },
       errRes => {
-        console.log("error handeller >>@@",errRes );
+        // console.log("error handeller >>@@",errRes );
         if(errRes.status == 400)
         {
           this.router.navigateByUrl('/error');
@@ -163,7 +163,7 @@ export class ProductViewPage implements OnInit {
             }
             
           }
-          console.log("color list.....",this.productColors);
+          // console.log("color list.....",this.productColors);
 
         },
         (error) =>{
@@ -172,7 +172,7 @@ export class ProductViewPage implements OnInit {
     //getColorList end
         // openRejectemodal start
         async openRejectemodal(_identifier, _item, _items) {
-          console.log('openRejectemodal ...........>>', _identifier,_item);
+          // console.log('openRejectemodal ...........>>', _identifier,_item);
       
           let profile_modal;
           profile_modal = await this.modalController.create({
@@ -189,7 +189,7 @@ export class ProductViewPage implements OnInit {
           profile_modal.onDidDismiss()
           .then((getdata) => {
             
-            console.log('getdata >>>>>>>>>>>', getdata);
+            // console.log('getdata >>>>>>>>>>>', getdata);
             if(getdata.data == 'submitClose'){
               
             }

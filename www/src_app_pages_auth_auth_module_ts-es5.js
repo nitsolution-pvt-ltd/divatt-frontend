@@ -349,8 +349,7 @@
             this.commonFunction();
             this.menuCtrl.enable(false);
             this.formSubmitSubscribe = this.authService.globalparamsData.subscribe(function (res) {
-              console.log('authService', res);
-
+              // console.log('authService',res);
               if (res && res != null && res != undefined && res != '') {
                 if (res.token != undefined) {
                   _this.router.navigateByUrl('/dashboard');
@@ -404,8 +403,7 @@
         }, {
           key: "onSubmitForm",
           value: function onSubmitForm(form) {
-            this.isLoading = true;
-            console.log('form >>', form.value);
+            this.isLoading = true; // console.log('form >>', form.value);
 
             if (!form.valid) {
               return;
@@ -423,7 +421,7 @@
         }, {
           key: "radioChange",
           value: function radioChange(e) {
-            console.log(e.value);
+            // console.log(e.value);
             this.gender = e.value;
           } // register form start
 
@@ -432,8 +430,8 @@
           value: function onSubmitRegForm(form) {
             var _this3 = this;
 
-            this.btnloader2 = true;
-            console.log("REG-->", form.value);
+            this.btnloader2 = true; // console.log("REG-->",form.value);
+
             this.designerProfile = {
               firstName1: form.value.firstName1,
               lastName1: form.value.lastName1,
@@ -459,7 +457,7 @@
               designerProfile: this.designerProfile
             };
             this.http.post("designer/add", this.data).subscribe(function (res) {
-              console.log("res", res);
+              // console.log("res",res);
               _this3.btnloader2 = false;
 
               _this3.commonUtils.presentToast("success", res.message); // setTimeout(() => {
@@ -471,8 +469,8 @@
                 form.reset();
               }, 1500);
             }, function (error) {
-              _this3.btnloader2 = false;
-              console.log("error", error);
+              _this3.btnloader2 = false; // console.log("error",error);
+
               _this3.message2 = error.error.message;
             });
           } // reginter form end
@@ -492,16 +490,15 @@
               var authObs;
 
               if (_this4.isLogin) {
-                authObs = _this4.authService.login('auth/login', form_data, '');
-                console.log('###########>>>', authObs);
-                console.log('######form_data#####>>>', form_data);
+                authObs = _this4.authService.login('auth/login', form_data, ''); // console.log('###########>>>', authObs);
+                // console.log('######form_data#####>>>', form_data);
               } else {// authObs = this.authService.signup(email, password);
-              }
+              } // console.log('authenticate@@', authObs);
+              // console.log('authenticate...........');
 
-              console.log('authenticate@@', authObs);
-              console.log('authenticate...........');
+
               _this4.formSubmitSubscribe = authObs.subscribe(function (resData) {
-                console.log('resData =============))))))))))))))>', resData);
+                // console.log('resData =============))))))))))))))>', resData);
                 _this4.btnloader = false;
 
                 _this4.router.navigateByUrl('/dashboard'); // .then(() => {
@@ -517,12 +514,12 @@
                   loadingEl.dismiss();
                 }, 2000);
                 loadingEl.dismiss(); // this.commonUtils.presentToast('error', resData.message);
-                // console.log("data login after resData ++++++>", resData);
+                // // console.log("data login after resData ++++++>", resData);
 
                 _this4.btnloader = false; // loadingEl.dismiss();
                 // this.router.navigateByUrl('/places/tabs/discover');
               }, function (errRes) {
-                console.log("errRes", errRes);
+                // console.log("errRes",errRes);
                 _this4.btnloader = false;
                 loadingEl.dismiss(); // this.commonUtils.presentToast('error', errRes.error.message);
 
@@ -569,8 +566,7 @@
                       profileDetails_modal = _context.sent;
                       // modal data back to Component
                       profileDetails_modal.onDidDismiss().then(function (getdata) {
-                        console.log('getdata >>>>>>>>>>>', getdata);
-
+                        // console.log('getdata >>>>>>>>>>>', getdata);
                         if (getdata.data == 'submitClose') {}
                       });
                       _context.next = 6;
@@ -590,26 +586,24 @@
 
         }, {
           key: "tabClick",
-          value: function tabClick(tab) {// console.log(tab);
+          value: function tabClick(tab) {// // console.log(tab);
           }
         }, {
           key: "termsConditions",
-          value: function termsConditions(e) {// console.log("Event",e);
+          value: function termsConditions(e) {// // console.log("Event",e);
           } // Date format change start
 
         }, {
           key: "dateFormatChange",
           value: function dateFormatChange(_identifier, event) {
-            console.log('_identifier', _identifier);
-            console.log('_data', event);
-            this.model.dob = moment__WEBPACK_IMPORTED_MODULE_2__(event.value).format('YYYY/MM/DD');
-            console.log('this.model.dob ', this.model.dob);
+            // console.log('_identifier', _identifier);
+            // console.log('_data', event);
+            this.model.dob = moment__WEBPACK_IMPORTED_MODULE_2__(event.value).format('YYYY/MM/DD'); // console.log('this.model.dob ', this.model.dob );
           }
         }, {
           key: "passwordvalid",
           value: function passwordvalid(new_password, conform_password) {
-            console.log(new_password, conform_password);
-
+            // console.log(new_password,conform_password);
             if (conform_password == undefined) {
               this.errormsg = '';
             } else if (new_password != conform_password) {

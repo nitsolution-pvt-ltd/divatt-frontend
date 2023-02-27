@@ -46,6 +46,11 @@
         <div class="note-section">
           <ion-grid>
             <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
+                <h3 class="card-row">Orders</h3>
+              </ion-col>
+            </ion-row>
+            <ion-row>
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
                 <div class="note-item note-item2 note-box-primary card-outer order-cards">
                   <div matRipple class="card card-box" (click)="datatype('New')">
@@ -126,6 +131,14 @@
                   </div>
                 </div>             
               </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
+                <h3 class="card-row">Approvals</h3>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <!-- Return Request -->
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
                 <div class="note-item note-item2 note-box-danger card-outer order-cards">
                   <div matRipple class="card card-box" (click)="datatype('returnRequest')">
@@ -138,23 +151,6 @@
                         <p class="heading">Return Request</p>
                         <p *ngIf="order_countData?.returnRequest"><b>{{order_countData?.returnRequest}}</b> Products</p>
                         <p *ngIf="!order_countData?.returnRequest"><b>0</b> Products</p>
-                      </div>
-                  </div>
-                </div>             
-              </ion-col>
-              
-              <!-- Return Rejected -->
-              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
-                <div class="note-item note-item2 note-box-danger card-outer order-cards">
-                  <div matRipple class="card card-box" (click)="datatype('Return rejected by admin')">
-                      <div class="top">
-                          <div class="icon">
-                            <mat-icon>sync_disabled</mat-icon>
-                          </div>
-                      </div>
-                      <div class="bottom">
-                        <p class="heading">Return Request Rejected</p>
-                        <p ><b>{{order_countData?.Rejected ? order_countData?.Rejected :'0'}}</b> Products</p>
                       </div>
                   </div>
                 </div>             
@@ -176,19 +172,18 @@
                   </div>
                 </div>             
               </ion-col>
-              <!-- Canceled -->
+              <!-- Return Rejected -->
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
                 <div class="note-item note-item2 note-box-danger card-outer order-cards">
-                  <div matRipple class="card card-box" (click)="datatype('cancelled')">
+                  <div matRipple class="card card-box" (click)="datatype('Return rejected by admin')">
                       <div class="top">
                           <div class="icon">
-                            <mat-icon>clear</mat-icon>
+                            <mat-icon>sync_disabled</mat-icon>
                           </div>
                       </div>
                       <div class="bottom">
-                        <p class="heading">Canceled</p>
-                        <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
-                        <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
+                        <p class="heading">Return Request Rejected</p>
+                        <p ><b>{{tabeData?.returnRejectedByAdmin ? tabeData?.returnRejectedByAdmin :'0'}}</b> Products</p>
                       </div>
                   </div>
                 </div>             
@@ -204,12 +199,36 @@
                       </div>
                       <div class="bottom">
                         <p class="heading">Return request approved</p>
+                        <p *ngIf="tableData?.returnRequestApproved"><b>{{tableData?.returnRequestApproved}}</b> Products</p>
+                        <p *ngIf="!tableData?.returnRequestApproved"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+               <!-- Canceled -->
+               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('cancelled')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>clear</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Canceled</p>
                         <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
                         <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
                       </div>
                   </div>
                 </div>             
               </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
+                <h3 class="card-row">Return Process</h3>
+              </ion-col>
+            </ion-row>
+            <ion-row>              
               <!-- Product Shipped by user -->
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
                 <div class="note-item note-item2 note-box-danger card-outer order-cards">
@@ -221,8 +240,8 @@
                       </div>
                       <div class="bottom">
                         <p class="heading">Product Shipped by user</p>
-                        <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
-                        <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
+                        <p *ngIf="tableData?.productShippedByUser"><b>{{tableData?.productShippedByUser}}</b> Products</p>
+                        <p *ngIf="!tableData?.productShippedByUser"><b>0</b> Products</p>
                       </div>
                   </div>
                 </div>             
@@ -237,9 +256,9 @@
                           </div>
                       </div>
                       <div class="bottom">
-                        <p class="heading">Product received</p>
-                        <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
-                        <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
+                        <p class="heading">Product received from user</p>
+                        <p *ngIf="tableData?.productReceivedFromUser"><b>{{tableData?.productReceivedFromUser}}</b> Products</p>
+                        <p *ngIf="!tableData?.productReceivedFromUser"><b>0</b> Products</p>
                       </div>
                   </div>
                 </div>             
@@ -260,9 +279,10 @@
                   </div>
                 </div>             
               </ion-col>
+              <!-- Return/Refund Rejected -->
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
                 <div class="note-item note-item2 note-box-danger card-outer order-cards">
-                  <div matRipple class="card card-box" (click)="datatype('returnRefund')">
+                  <div matRipple class="card card-box" (click)="datatype('Rejected')">
                       <div class="top">
                           <div class="icon">
                             <mat-icon>assignment_return</mat-icon>
@@ -270,7 +290,7 @@
                       </div>
                       <div class="bottom">
                         <p class="heading">Return/Refund Rejected</p>
-                        <p ><b>{{order_countData?.returnRefund ? order_countData?.returnRefund :'0'}}</b> Products</p>
+                        <p ><b>{{order_countData?.Rejected ? order_countData?.Rejected :'0'}}</b> Products</p>
                       </div>
                   </div>
                 </div>             

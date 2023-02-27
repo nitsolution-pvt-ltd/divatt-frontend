@@ -46,7 +46,7 @@ export class ForgotPasswordPage implements OnInit {
   {
     this.btnloader = true;
     var mail = form.value.username;
-    this.http.get("auth/mailForgotPasswordLink/"+mail).subscribe(
+    this.http.get("auth/mailForgotPasswordLink/Admin/"+mail).subscribe(
       (res:any) => {
         this.btnloader = false;
         // this.commonUtils.presentToast('success', res.message);

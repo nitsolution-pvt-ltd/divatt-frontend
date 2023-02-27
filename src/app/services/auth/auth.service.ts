@@ -47,11 +47,11 @@ export class AuthService {
   //================== auto login start ===================
     autoLogin(){
       // stroage data get
-      console.log('autoLogin>>', this.storage);
+      // console.log('autoLogin>>', this.storage);
       
       return from(this.storage.get('setStroageGlobalParamsData')).pipe(
         map(storData => {
-          console.log('storData @@@@@@@>>>>>', storData);
+          // console.log('storData @@@@@@@>>>>>', storData);
           if(!storData || !storData.token){
             return null;
           }
@@ -69,7 +69,7 @@ export class AuthService {
           }
         }),
         map(userLog => {
-          // console.log("auto login map userLog >>>", userLog);
+          // // console.log("auto login map userLog >>>", userLog);
           return !!userLog;  //return true/false(boolen value)
         })
       );
@@ -84,9 +84,9 @@ export class AuthService {
     }
     // ---setGlobalParams function defination----
     private setGlobalParams(resData){
-      console.log('..................set 11 >', resData);
+      // console.log('..................set 11 >', resData);
       localStorage.setItem('userdata', resData.authority);
-      console.log(localStorage.getItem('userdata'));
+      // console.log(localStorage.getItem('userdata'));
       if(resData.status > 200){
         this.commonUtils.presentToast('success', resData.message);
         // window.location.reload();
@@ -105,7 +105,7 @@ export class AuthService {
     }
     //--- storeAuthData function defination---
     private storeAuthData(_data) {
-      console.log('data>>>>>>>>>>>>>>>>>>>>>>>>', _data);
+      // console.log('data>>>>>>>>>>>>>>>>>>>>>>>>', _data);
       // set stroage data
       this.storage.set('setStroageGlobalParamsData',  {
         'token': _data.token,
@@ -121,7 +121,7 @@ export class AuthService {
   //======================= logout functionlity start ==============
     logout() {
       this.storage.clear().then(() => {
-        console.log('all stroage data cleared');
+        // console.log('all stroage data cleared');
         
         // this.router.navigateByUrl('/auth');
         

@@ -119,29 +119,29 @@ export class OrderListPage implements OnInit {
     
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe((res) => {
-      console.log("res>>", res);
+      // console.log("res>>", res);
       if (res.authority == "ADMIN") {
         this.permissionDataSubscribe =
           this.commonUtils.menuPermissionObservable.subscribe((data) => {
             if (data) {
-              console.log("menu>>", data);
-              console.log("this.router.url>>", this.router.url);
+              // console.log("menu>>", data);
+              // console.log("this.router.url>>", this.router.url);
 
               let pageUrl = this.router.url.split("/");
-              console.log("pageUrl", pageUrl);
+              // console.log("pageUrl", pageUrl);
 
               for (let item of data) {
                 if (item.modDetails.url == pageUrl[1]) {
                   if (item.modPrivs.list == true) {
-                    console.log("-----Permission Granted-----");
+                    // console.log("-----Permission Granted-----");
                     this.pagePermission = item;
-                    console.log("this.pagePermission", this.pagePermission);
+                    // console.log("this.pagePermission", this.pagePermission);
                     this.listing_url = "userOrder/skuList";
                     this.onRefresh();
                     // delete api
                     break;
                   } else {
-                    console.log("-------No Permission--------");
+                    // console.log("-------No Permission--------");
                     this.router.navigateByUrl("/error");
                   }
                 }
@@ -158,7 +158,7 @@ export class OrderListPage implements OnInit {
    // datatype start
    datatype(identifier)
    {
-       console.log(identifier);
+       // console.log(identifier);
        this.statustype = identifier;
        this.tableTitle =identifier;
      this.onRefresh()
@@ -178,7 +178,7 @@ export class OrderListPage implements OnInit {
     // { id : '5', displayValue: '0'}
   ];
   displayRecordChange(_record) {
-    console.log("_record", _record);
+    // console.log("_record", _record);
     
     this.displayRecord = _record;
     this.pageNo = 0;
@@ -193,7 +193,7 @@ export class OrderListPage implements OnInit {
     this.tableListSubscribe = this.http.get(api).subscribe(
       (res: any) => {
         this.isListLoading = false;
-        console.log("res data......", res);
+        // console.log("res data......", res);
         this.tableData = res;
         var count = [];
         count = res?.data;
@@ -217,7 +217,7 @@ export class OrderListPage implements OnInit {
           Rejected:res.rejected,
           requestForCancelation:res.requestForCancelation
         };
-        console.log("Order Count Data....",this.order_countData);
+        // console.log("Order Count Data....",this.order_countData);
          
 
         //---------  check item show start ----------
@@ -241,8 +241,8 @@ export class OrderListPage implements OnInit {
 
   // Pagination start
   setPage(page: number) {
-    console.log("page", page);
-    console.log("page");
+    // console.log("page", page);
+    // console.log("page");
 
     this.pageNo = page;
     this.onListDate(this.statustype,this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
@@ -251,8 +251,8 @@ export class OrderListPage implements OnInit {
 
   // Sorting start
   isSortTableHeader(_tableHeaderData, _headerItem) {
-    console.log("_tableHeaderData", _tableHeaderData);
-    console.log("_headerItem", _headerItem);
+    // console.log("_tableHeaderData", _tableHeaderData);
+    // console.log("_headerItem", _headerItem);
 
     // all field reset first
     _tableHeaderData.forEach((val) => {
@@ -269,9 +269,9 @@ export class OrderListPage implements OnInit {
     this.sortColumnName = _headerItem.column_name;
     this.sortOrderName = _headerItem.sortingButtonName;
 
-    console.log("this.sortColumnName", this.sortColumnName);
-    console.log("this.sortOrderName", this.sortOrderName);
-    console.log("_tableHeaderData>>", _tableHeaderData);
+    // console.log("this.sortColumnName", this.sortColumnName);
+    // console.log("this.sortOrderName", this.sortOrderName);
+    // console.log("_tableHeaderData>>", _tableHeaderData);
     this.onListDate(this.statustype,this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
     
   }
@@ -282,7 +282,7 @@ export class OrderListPage implements OnInit {
   searchList(event) {
     this.searchTerm = event.target.value;
 
-    console.log("this.searchTerm", this.searchTerm);
+    // console.log("this.searchTerm", this.searchTerm);
 
     this.onListDate(this.statustype,this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.sortOrderName,this.searchTerm);
 
@@ -305,7 +305,7 @@ export class OrderListPage implements OnInit {
   /*----------------Table list data end----------------*/
   // exportDoc start
   async openorderExportModal(_identifier, _item, _items) {
-    console.log('openProfilemodal ...........>>', _identifier);
+    // console.log('openProfilemodal ...........>>', _identifier);
 
     let orderCommentmodal;
     orderCommentmodal = await this.modalController.create({
@@ -321,7 +321,7 @@ export class OrderListPage implements OnInit {
     // modal data back to Component
     orderCommentmodal.onDidDismiss()
     .then((getdata) => {
-      console.log("getdata",getdata);
+      // console.log("getdata",getdata);
       this.onRefresh();
       
     });

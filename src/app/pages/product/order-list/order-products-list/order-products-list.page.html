@@ -148,6 +148,7 @@
                           <p *ngIf="tableData?.orderItemStatus == 'Shipped'" class="mb-0"><mat-icon class="text-success">info</mat-icon><span>Product AWB number : {{tableData?.orderStatusDetails?.shippedDetails?.awbNumber}}</span></p>
                           <p *ngIf="tableData?.orderItemStatus == 'Delivered'" class="mb-0 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product delivered by {{tableData?.orderStatusDetails?.shippedDetails?.courierName}} on {{tableData?.orderStatusDetails?.deliveryDetails?.deliveredDate}}.</span></p>
                           <p *ngIf="tableData?.orderItemStatus == 'returnRefund'" class="mb-2 pt-2"><mat-icon class="text-success">verified</mat-icon><span>Product return completed and <b>₹{{tableData?.salesPrice ? tableData?.salesPrice : tableData?.mrp}}</b>  refunded to buyer account on {{returnFromAdminTime}}.</span></p>  
+                          <p *ngIf="tableData?.orderItemStatus == 'cancelled'" class="mb-2 pt-2"><mat-icon class="text-danger">verified</mat-icon><span>Product cancelled successfully on {{cancelFromUserTime ? cancelFromUserTime : cancelOrderDetailsTime}}.</span></p>  
                           <p *ngIf="tableData?.orderItemStatus == 'Delivered' && tableData?.orderStatusDetails?.forceReturnOnDTO" class="mb-2 pt-2"><mat-icon class="text-warning">info</mat-icon><span>You have  turn on forcefully return for this order because {{tableData?.orderStatusDetails?.forceReturnOnDTO?.comments}} on {{forceReturnOnDTOTime}}.</span></p>  
                           
                         </div>
@@ -198,12 +199,13 @@
                           </div>
                         </div>
                         <!-- Request for cancelation message(cancelOrderDetails) -->
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderStatusDetails?.cancelOrderDetails">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.orderItemStatus == 'Request for cancelation'">
                           <div class="product-qty customizationDescption">
-                            <span class="id-header d-flex align-items-center cursor-pointer w-fit text-dark font-weight-bold" (click)="showCancelRequestmsg=!showCancelRequestmsg">Reason of request for cancelation <mat-icon >{{showCancelRequestmsg ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                            <span class="id-header d-flex align-items-center cursor-pointer w-fit text-dark font-weight-bold" (click)="showCancelRequestmsg=!showCancelRequestmsg">Reason of request for {{tableData?.orderStatusDetails?.cancelFromUser ? 'cancelation from user' : 'rejection from designer'}} <mat-icon >{{showCancelRequestmsg ? 'expand_less' : 'expand_more'}}</mat-icon></span>
                             <span [ngClass]="{'showCustomization':showCancelRequestmsg}" class="customizationMessage">
-                              {{tableData?.orderStatusDetails?.cancelOrderDetails?.cancelComment}}
-                              <br><span  class="font-xs d-inline-block float-right">{{cancelOrderDetailsTime}}</span>
+                              <span *ngIf="tableData?.orderStatusDetails?.cancelFromUser">Reason:{{tableData?.orderStatusDetails?.cancelFromUser?.reason}}</span> 
+                              {{tableData?.orderStatusDetails?.cancelOrderDetails ? tableData?.orderStatusDetails?.cancelOrderDetails?.cancelComment : tableData?.orderStatusDetails?.cancelFromUser?.comment}}
+                              <br><span  class="font-xs d-inline-block float-right">{{cancelOrderDetailsTime ? cancelOrderDetailsTime : cancelFromUserTime}}</span>
                             </span>
                             
                           </div>

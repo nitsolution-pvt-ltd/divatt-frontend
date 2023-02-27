@@ -194,7 +194,7 @@
                         <div class="form-group">
                           <mat-form-field appearance="outline">
                             <mat-label>PAN</mat-label>
-                            <input matInput type="number"
+                            <input matInput 
                             [(ngModel)]="adminprofiledata.pan"
                             name="pan"
                             required
@@ -537,7 +537,7 @@
                   <div class="form-group">
                     <mat-radio-group name="orderStatus" [(ngModel)]="model.orderStatus">
                       <mat-radio-button value="cancelled">Approve</mat-radio-button>&nbsp;&nbsp;&nbsp;
-                      <mat-radio-button value="Reject">Reject</mat-radio-button>
+                      <mat-radio-button value="Rejected">Reject</mat-radio-button>
                     </mat-radio-group>
                   </div>
                 </ion-col>

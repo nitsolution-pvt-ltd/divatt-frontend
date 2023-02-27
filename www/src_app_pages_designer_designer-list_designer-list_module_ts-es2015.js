@@ -208,20 +208,20 @@ let DesignerListPage = class DesignerListPage {
     commonFunction() {
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrl = this.router.url.split("/");
-                        console.log('pageUrl', pageUrl);
+                        // console.log('pageUrl', pageUrl);
                         for (let item of data) {
                             if (item.modDetails.url == pageUrl[1]) {
                                 if (item.modPrivs.list == true) {
-                                    console.log('-----Permission Granted-----');
+                                    // console.log('-----Permission Granted-----');
                                     this.pagePermission = item;
-                                    console.log('this.pagePermission', this.pagePermission);
+                                    // console.log('this.pagePermission', this.pagePermission);
                                     this.listing_url = "designer/list";
                                     this.onRefresh();
                                     // delete api
@@ -229,7 +229,7 @@ let DesignerListPage = class DesignerListPage {
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -305,7 +305,7 @@ let DesignerListPage = class DesignerListPage {
         }
     }
     displayRecordChange(_record) {
-        console.log("_record", _record);
+        // console.log("_record", _record);
         this.displayRecord = _record;
         this.pageNo = 0;
         this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
@@ -324,7 +324,7 @@ let DesignerListPage = class DesignerListPage {
         }
         this.tableListSubscribe = this.http.get(api).subscribe((res) => {
             this.isListLoading = false;
-            console.log("res", res);
+            // console.log("res", res);
             this.tableData = res;
             this.tableListData = res.data;
             //---------  check item show start ----------
@@ -345,16 +345,16 @@ let DesignerListPage = class DesignerListPage {
     // List data end
     // Pagination start
     setPage(page) {
-        console.log("page", page);
-        console.log("page");
+        // console.log("page", page);
+        // console.log("page");
         this.pageNo = page;
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
     }
     // Pagination end
     // Sorting start
     isSortTableHeader(_tableHeaderData, _headerItem) {
-        console.log("_tableHeaderData", _tableHeaderData);
-        console.log("_headerItem", _headerItem);
+        // console.log("_tableHeaderData", _tableHeaderData);
+        // console.log("_headerItem", _headerItem);
         // all field reset first
         _tableHeaderData.forEach((val) => {
             val.sortingButtonName = "";
@@ -368,9 +368,9 @@ let DesignerListPage = class DesignerListPage {
         }
         this.sortColumnName = _headerItem.column_name;
         this.sortOrderName = _headerItem.sortingButtonName;
-        console.log("this.sortColumnName", this.sortColumnName);
-        console.log("this.sortOrderName", this.sortOrderName);
-        console.log("_tableHeaderData>>", _tableHeaderData);
+        // console.log("this.sortColumnName", this.sortColumnName);
+        // console.log("this.sortOrderName", this.sortOrderName);
+        // console.log("_tableHeaderData>>", _tableHeaderData);
         this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
     }
     searchList(event) {
@@ -392,12 +392,12 @@ let DesignerListPage = class DesignerListPage {
     // Referesh end
     // Delete start
     deleteData(_id) {
-        console.log("id>>", _id);
+        // console.log("id>>", _id);
         let sentValues = { id: _id };
         this.deleteLoading = true;
         this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe((res) => {
             this.deleteLoading = false;
-            // console.log("Delete data  res >", res.return_data);
+            // // console.log("Delete data  res >", res.return_data);
             if (res.status == 200) {
                 this.commonUtils.presentToast("success", res.message);
                 this.onRefresh();
@@ -431,14 +431,14 @@ let DesignerListPage = class DesignerListPage {
                         role: "cancel",
                         cssClass: "popup-cancel-btn",
                         handler: (blah) => {
-                            console.log("Confirm Cancel: blah");
+                            // console.log("Confirm Cancel: blah");
                         },
                     },
                     {
                         text: "Okay",
                         cssClass: "popup-ok-btn",
                         handler: () => {
-                            console.log("Confirm Okay");
+                            // console.log("Confirm Okay");
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == "delete") {
@@ -464,12 +464,12 @@ let DesignerListPage = class DesignerListPage {
     }
     selectLabel(value) {
         this.labelValue = value.Name;
-        console.log("this.Lebellist", value, this.labelValue);
+        // console.log("this.Lebellist",value,this.labelValue);
     }
     // selectLabel end
     changeStatus(type, actiontype, _item) {
+        // console.log("_item",_item);
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
-        console.log("_item", _item);
         if (actiontype == 'waitForApprove') {
             var _items;
             var formData;
@@ -574,12 +574,12 @@ let DesignerListPage = class DesignerListPage {
                 });
             }
         }
-        console.log('_item', _item);
+        // console.log('_item', _item);
     }
     // select all check box start
     openProductCommentmodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openProductCommentmodal ...........>>', _identifier);
+            // console.log('openProductCommentmodal ...........>>', _identifier);
             let profile_modal;
             profile_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_4__.ModalPage,
@@ -593,7 +593,7 @@ let DesignerListPage = class DesignerListPage {
             // modal data back to Component
             profile_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
                 if (getdata.data == 'submitClose') {
                 }
@@ -605,7 +605,7 @@ let DesignerListPage = class DesignerListPage {
     allSelectItem(event) {
         if (event.target.checked) {
             this.itemcheckClick = false;
-            // console.log('check item selkectedddddddddddddd');
+            // // console.log('check item selkectedddddddddddddd');
             for (let i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1 &&
@@ -616,7 +616,7 @@ let DesignerListPage = class DesignerListPage {
             }
         }
         else if (this.itemcheckClick == false) {
-            // console.log('not check item selectionnnnnnnnnnn')
+            // // console.log('not check item selectionnnnnnnnnnn')
             this.checkedList = [];
             for (let i = 0; i < this.tableListData.length; i++) {
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1) {
@@ -624,8 +624,8 @@ let DesignerListPage = class DesignerListPage {
                 }
             }
         }
-        console.log("checked item all @@ >>", this.checkedList);
-        console.log("tableListData item all @@ >>", this.tableListData);
+        // console.log("checked item all @@ >>", this.checkedList);
+        // console.log("tableListData item all @@ >>", this.tableListData);
     }
     // Select all checkbox end
     // Select single checkbox start
@@ -644,14 +644,14 @@ let DesignerListPage = class DesignerListPage {
         }
         if (this.tableListData.length <= this.checkedList.length) {
             this.allselectModel = true;
-            console.log("length 4");
+            // console.log("length 4");
         }
         else {
-            console.log("length 0");
+            // console.log("length 0");
             this.allselectModel = false;
             this.itemcheckClick = true;
         }
-        console.log("checked item single >>", this.checkedList);
+        // console.log("checked item single >>", this.checkedList);
     }
     onClickDeleteItem(_identifire, _item, _items, _index) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
@@ -665,7 +665,7 @@ let DesignerListPage = class DesignerListPage {
                         role: "cancel",
                         cssClass: "popup-cancel-btn",
                         handler: (blah) => {
-                            // console.log('Confirm Cancel: blah');
+                            // // console.log('Confirm Cancel: blah');
                         },
                     },
                     {
@@ -675,7 +675,7 @@ let DesignerListPage = class DesignerListPage {
                             var _a, _b, _c, _d;
                             // ------------ single item delete start ------------
                             if (_identifire == "single") {
-                                console.log("_item", _item);
+                                // console.log("_item", _item);
                                 let formData;
                                 formData = {
                                     dId: _item.dId,
@@ -729,8 +729,8 @@ let DesignerListPage = class DesignerListPage {
                                                         // _items.splice(_items.indexOf(_items[i]), 1);
                                                         this.deleteLodershow = false; //loader hide
                                                         this.alldeleteLoaderShow = false;
-                                                        // console.log('delete items >>', _items);
-                                                        // console.log('delete this.checkedList >>', this.checkedList);
+                                                        // // console.log('delete items >>', _items);
+                                                        // // console.log('delete this.checkedList >>', this.checkedList);
                                                         this.allselectModel = false;
                                                     }
                                                 }
@@ -771,7 +771,7 @@ let DesignerListPage = class DesignerListPage {
     // Click Delete Item end
     openDesignerCommentmodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openDesignerCommentmodal ...........>>', _identifier);
+            // console.log('openDesignerCommentmodal ...........>>', _identifier);
             let profile_modal;
             profile_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_4__.ModalPage,
@@ -785,7 +785,7 @@ let DesignerListPage = class DesignerListPage {
             // modal data back to Component
             profile_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
                 if (getdata.data == 'submitClose') {
                 }
@@ -797,7 +797,7 @@ let DesignerListPage = class DesignerListPage {
     // openRejectemodal start
     openRejectemodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openRejectemodal ...........>>', _identifier, _item);
+            // console.log('openRejectemodal ...........>>', _identifier,_item);
             let profile_modal;
             profile_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_4__.ModalPage,
@@ -811,7 +811,7 @@ let DesignerListPage = class DesignerListPage {
             // modal data back to Component
             profile_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 if (getdata.data == 'submitClose') {
                 }
             });
@@ -824,7 +824,7 @@ let DesignerListPage = class DesignerListPage {
         this.LebellistDataSubcribe = this.http.get("adminMData/getDesignerCategory").subscribe((res) => {
             this.Lebellist = res.data;
         }, error => {
-            console.log(error);
+            // console.log(error);
             this.commonUtils.presentToast('error', error.error.message);
         });
     }

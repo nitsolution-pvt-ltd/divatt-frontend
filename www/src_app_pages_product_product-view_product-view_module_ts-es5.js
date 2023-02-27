@@ -294,17 +294,14 @@
             /*Check permission status start*/
 
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrl = _this.router.url.split("/"); // console.log('pageUrl', pageUrl);
 
-                    var pageUrl = _this.router.url.split("/");
-
-                    console.log('pageUrl', pageUrl);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -315,17 +312,16 @@
 
                         if (item.modDetails.url == 'product-list') {
                           if (item.modPrivs.list == true) {
-                            console.log('-----Permission Granted-----');
-                            _this.pagePermission = item;
-                            console.log('this.pagePermission', _this.pagePermission);
+                            // console.log('-----Permission Granted-----');
+                            _this.pagePermission = item; // console.log('this.pagePermission', this.pagePermission);
+
                             _this.api_url = 'user/viewAdmin/' + _this.productId;
 
                             _this.getProductdetails();
 
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -353,18 +349,18 @@
           value: function getProductdetails() {
             var _this2 = this;
 
-            console.log("response----", this.productDetail);
+            // console.log("response----",this.productDetail);
             this.productDataSubscribe = this.http.get(this.api_url).subscribe(function (response) {
+              // console.log("response----",response);
               var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
 
-              console.log("response----", response);
               _this2.productDetail = response;
 
               if (response.productId == null) {
                 _this2.router.navigateByUrl('/error');
-              }
+              } // console.log("response----",this.productDetail);
 
-              console.log("response----", _this2.productDetail);
+
               var discountAmount, taxAmount, amount;
               amount = parseInt((100 * (response === null || response === void 0 ? void 0 : response.mrp) / (100 + ((_b = (_a = response === null || response === void 0 ? void 0 : response.deal) === null || _a === void 0 ? void 0 : _a.taxAmount) === null || _b === void 0 ? void 0 : _b.taxValue))).toFixed(0));
               _this2.basicAmount = parseInt((100 * (response === null || response === void 0 ? void 0 : response.mrp) / (100 + ((_d = (_c = response === null || response === void 0 ? void 0 : response.deal) === null || _c === void 0 ? void 0 : _c.taxAmount) === null || _d === void 0 ? void 0 : _d.taxValue))).toFixed(0));
@@ -396,8 +392,7 @@
 
               _this2.getColorList();
             }, function (errRes) {
-              console.log("error handeller >>@@", errRes);
-
+              // console.log("error handeller >>@@",errRes );
               if (errRes.status == 400) {
                 _this2.router.navigateByUrl('/error');
               }
@@ -416,9 +411,8 @@
                 if (_this3.productDetail.colour == _this3.colourlist[index].colorName) {
                   _this3.productColors.push(_this3.colourlist[index].colorValue);
                 }
-              }
+              } // console.log("color list.....",this.productColors);
 
-              console.log("color list.....", _this3.productColors);
             }, function (error) {});
           } //getColorList end
           // openRejectemodal start
@@ -432,8 +426,7 @@
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      console.log('openRejectemodal ...........>>', _identifier, _item);
-                      _context.next = 3;
+                      _context.next = 2;
                       return this.modalController.create({
                         component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_4__.ModalPage,
                         cssClass: 'mymodalClass small rejectemodal',
@@ -444,21 +437,20 @@
                         }
                       });
 
-                    case 3:
+                    case 2:
                       profile_modal = _context.sent;
                       // modal data back to Component
                       profile_modal.onDidDismiss().then(function (getdata) {
-                        console.log('getdata >>>>>>>>>>>', getdata);
-
+                        // console.log('getdata >>>>>>>>>>>', getdata);
                         if (getdata.data == 'submitClose') {}
                       });
-                      _context.next = 7;
+                      _context.next = 6;
                       return profile_modal.present();
 
-                    case 7:
+                    case 6:
                       return _context.abrupt("return", _context.sent);
 
-                    case 8:
+                    case 7:
                     case "end":
                       return _context.stop();
                   }

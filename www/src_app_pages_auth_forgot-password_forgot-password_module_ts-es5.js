@@ -267,7 +267,7 @@
 
             this.btnloader = true;
             var mail = form.value.username;
-            this.http.get("auth/mailForgotPasswordLink/" + mail).subscribe(function (res) {
+            this.http.get("auth/mailForgotPasswordLink/Admin/" + mail).subscribe(function (res) {
               _this.btnloader = false; // this.commonUtils.presentToast('success', res.message);
 
               _this.message2 = res.message;

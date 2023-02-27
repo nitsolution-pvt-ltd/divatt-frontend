@@ -318,17 +318,14 @@
 
             /*Check permission status start*/
             this.authService.globalparamsData.subscribe(function (res) {
-              console.log('res>>', res);
-
+              // console.log('res>>', res);
               if (res.authority == 'ADMIN') {
                 _this.permissionDataSubscribe = _this.commonUtils.menuPermissionObservable.subscribe(function (data) {
                   if (data) {
-                    console.log('menu>>', data);
-                    console.log('this.router.url>>', _this.router.url);
+                    // console.log('menu>>', data);
+                    // console.log('this.router.url>>', this.router.url);
+                    var pageUrl = _this.router.url.split("/"); // console.log('pageUrl', pageUrl);
 
-                    var pageUrl = _this.router.url.split("/");
-
-                    console.log('pageUrl', pageUrl);
 
                     var _iterator = _createForOfIteratorHelper(data),
                         _step;
@@ -339,9 +336,9 @@
 
                         if (item.modDetails.url == pageUrl[1]) {
                           if (item.modPrivs.list == true) {
-                            console.log('-----Permission Granted-----');
-                            _this.pagePermission = item;
-                            console.log('this.pagePermission', _this.pagePermission);
+                            // console.log('-----Permission Granted-----');
+                            _this.pagePermission = item; // console.log('this.pagePermission', this.pagePermission);
+
                             _this.listing_url = 'subcategory/list';
 
                             _this.onRefresh(); // delete api
@@ -350,8 +347,7 @@
                             _this.deleteApi = 'subcategory/delete';
                             break;
                           } else {
-                            console.log('-------No Permission--------');
-
+                            // console.log('-------No Permission--------');
                             _this.router.navigateByUrl('/error');
                           }
                         }
@@ -372,7 +368,7 @@
         }, {
           key: "displayRecordChange",
           value: function displayRecordChange(_record) {
-            console.log('_record', _record);
+            // console.log('_record', _record);
             this.displayRecord = _record;
             this.pageNo = 0;
             this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -387,8 +383,8 @@
             this.isListLoading = true;
             var api = _listUrl + '?page=' + _pageNo + '&limit=' + _displayRecord + '&sortName=' + _sortColumnName + '&sort=' + _sortOrderName + '&keyword=' + _searchTerm;
             this.tableListSubscribe = this.http.get(api).subscribe(function (res) {
-              _this2.isListLoading = false;
-              console.log('res', res);
+              _this2.isListLoading = false; // console.log('res', res);
+
               _this2.tableData = res;
               _this2.tableListData = res.data; //---------  check item show start ----------
 
@@ -411,8 +407,8 @@
         }, {
           key: "setPage",
           value: function setPage(page) {
-            console.log('page', page);
-            console.log("page");
+            // console.log('page', page);
+            // console.log("page");
             this.pageNo = page;
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Pagination end
@@ -421,9 +417,9 @@
         }, {
           key: "isSortTableHeader",
           value: function isSortTableHeader(_tableHeaderData, _headerItem) {
-            console.log('_tableHeaderData', _tableHeaderData);
-            console.log('_headerItem', _headerItem); // all field reset first
-
+            // console.log('_tableHeaderData', _tableHeaderData);
+            // console.log('_headerItem', _headerItem);
+            // all field reset first
             _tableHeaderData.forEach(function (val) {
               val.sortingButtonName = '';
             });
@@ -437,17 +433,17 @@
             }
 
             this.sortColumnName = _headerItem.column_name;
-            this.sortOrderName = _headerItem.sortingButtonName;
-            console.log('this.sortColumnName', this.sortColumnName);
-            console.log('this.sortOrderName', this.sortOrderName);
-            console.log('_tableHeaderData>>', _tableHeaderData);
+            this.sortOrderName = _headerItem.sortingButtonName; // console.log('this.sortColumnName', this.sortColumnName);
+            // console.log('this.sortOrderName', this.sortOrderName);
+            // console.log('_tableHeaderData>>', _tableHeaderData);
+
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           }
         }, {
           key: "searchList",
           value: function searchList(event) {
-            this.searchTerm = event.target.value;
-            console.log('this.searchTerm', this.searchTerm);
+            this.searchTerm = event.target.value; // console.log('this.searchTerm', this.searchTerm);
+
             this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
           } // Search end
           // Referesh start
@@ -470,14 +466,13 @@
           value: function deleteData(_id) {
             var _this3 = this;
 
-            console.log('id>>', _id);
+            // console.log('id>>', _id);
             var sentValues = {
               'id': _id
             };
             this.deleteLoading = true;
             this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe(function (res) {
-              _this3.deleteLoading = false;
-              console.log("Edit data  res >", res.return_data);
+              _this3.deleteLoading = false; // console.log("Edit data  res >", res.return_data);
 
               if (res.status == 200) {
                 _this3.commonUtils.presentToast('success', res.message);
@@ -522,16 +517,13 @@
                           text: 'Cancel',
                           role: 'cancel',
                           cssClass: 'popup-cancel-btn',
-                          handler: function handler(blah) {
-                            console.log('Confirm Cancel: blah');
+                          handler: function handler(blah) {// console.log('Confirm Cancel: blah');
                           }
                         }, {
                           text: 'Okay',
                           cssClass: 'popup-ok-btn',
                           handler: function handler() {
-                            console.log('Confirm Okay'); // this.clickActionBtn('', 'delete');
-                            // this.deleteData(_id);
-
+                            // console.log('Confirm Okay');
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == 'delete') {
@@ -592,15 +584,13 @@
               id: subcatid
             };
             this.changeStatusSubscribe = this.http.put('subcategory/status', id).subscribe(function (res) {
-              console.log("res", res);
-
+              // console.log("res",res);
               _this5.commonUtils.presentToast('success', res.message); // this.getSubcategoryList();
 
 
               _this5.onListDate(_this5.listing_url, _this5.pageNo, _this5.displayRecord, _this5.sortColumnName, _this5.sortOrderName, _this5.searchTerm);
             }, function (error) {
-              console.log("error", error);
-
+              // console.log("error",error);
               _this5.commonUtils.presentToast('error', error.messagee);
             });
           } // select all check box start
@@ -608,22 +598,20 @@
         }, {
           key: "allSelectItem",
           value: function allSelectItem(event) {
-            console.log(event);
-
+            // console.log(event);
             if (event.target.checked) {
-              this.itemcheckClick = false; // console.log('check item selkectedddddddddddddd');
+              this.itemcheckClick = false; // // console.log('check item selkectedddddddddddddd');
 
               for (var i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
                 if (this.checkedList.indexOf(this.tableListData[i].subCategory) === -1 && this.tableListData[i].subCategory !== null) {
                   this.checkedList.push(this.tableListData[i].subCategory);
                   this.tableListData[i].isSelected = true;
-                }
+                } // console.log("this.checkedList",this.checkedList);
 
-                console.log("this.checkedList", this.checkedList);
               }
             } else if (this.itemcheckClick == false) {
-              // console.log('not check item selectionnnnnnnnnnn')
+              // // console.log('not check item selectionnnnnnnnnnn')
               this.checkedList = [];
 
               for (var _i = 0; _i < this.tableListData.length; _i++) {
@@ -631,10 +619,9 @@
                   this.tableListData[_i].isSelected = false;
                 }
               }
-            }
+            } // console.log('checked item all @@ >>', this.checkedList);
+            // console.log('tableListData item all @@ >>', this.tableListData);
 
-            console.log('checked item all @@ >>', this.checkedList);
-            console.log('tableListData item all @@ >>', this.tableListData);
           } // Select all checkbox end
           // Select single checkbox start
 
@@ -654,15 +641,13 @@
             }
 
             if (this.tableListData.length <= this.checkedList.length) {
-              this.allselectModel = true;
-              console.log('length 4');
+              this.allselectModel = true; // console.log('length 4');
             } else {
-              console.log('length 0');
+              // console.log('length 0');
               this.allselectModel = false;
               this.itemcheckClick = true;
-            }
+            } // console.log('checked item single >>', this.checkedList);
 
-            console.log('checked item single >>', this.checkedList);
           }
         }, {
           key: "onClickDeleteItem",
@@ -684,7 +669,7 @@
                           text: 'Cancel',
                           role: 'cancel',
                           cssClass: 'popup-cancel-btn',
-                          handler: function handler(blah) {// console.log('Confirm Cancel: blah');
+                          handler: function handler(blah) {// // console.log('Confirm Cancel: blah');
                           }
                         }, {
                           text: 'Ok',
@@ -692,15 +677,15 @@
                           handler: function handler() {
                             // ------------ single item delete start ------------
                             if (_identifire == 'single') {
-                              console.log('_item', _item);
+                              // console.log('_item', _item);
                               var sentValues = {
                                 'id': _item.subCategory.id
                               };
                               _item.deleteLodershow = true;
                               _this6.deleteDataSubscribe = _this6.http.put("subcategory/delete", sentValues).subscribe(function (res) {
-                                _item.deleteLodershow = false;
-                                console.log("Edit data  res >", res.return_data);
+                                _item.deleteLodershow = false; // console.log("Edit data  res >", res.return_data);
 
+                                // console.log("Edit data  res >", res.return_data);
                                 if (res.status == 200) {
                                   _items.splice(_index, 1);
 
@@ -755,11 +740,11 @@
                                           _this6.deleteLodershow = false; //loader hide
 
                                           //loader hide
-                                          _this6.alldeleteLoaderShow = false; // console.log('delete items >>', _items);
-                                          // console.log('delete this.checkedList >>', this.checkedList);
+                                          _this6.alldeleteLoaderShow = false; // // console.log('delete items >>', _items);
+                                          // // console.log('delete this.checkedList >>', this.checkedList);
 
-                                          // console.log('delete items >>', _items);
-                                          // console.log('delete this.checkedList >>', this.checkedList);
+                                          // // console.log('delete items >>', _items);
+                                          // // console.log('delete this.checkedList >>', this.checkedList);
                                           _this6.allselectModel = false;
                                         }
                                       }

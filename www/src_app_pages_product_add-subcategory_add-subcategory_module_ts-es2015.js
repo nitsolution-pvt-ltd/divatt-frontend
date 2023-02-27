@@ -135,34 +135,34 @@ let AddSubcategoryPage = class AddSubcategoryPage {
         this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
         this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
         this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
-        console.log('parms_action_name', this.parms_action_name);
-        console.log('parms_action_id', this.parms_action_id);
+        // console.log('parms_action_name', this.parms_action_name);
+        // console.log('parms_action_id', this.parms_action_id);
         this.getcategoryList();
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrlName = this.router.url.split("/");
-                        console.log('pageUrlName', pageUrlName);
+                        // console.log('pageUrlName', pageUrlName);
                         for (let item of data) {
                             let moduleUrlName = item.modDetails.url.split("-");
-                            console.log('moduleUrlName', moduleUrlName);
+                            // console.log('moduleUrlName',moduleUrlName);
                             if (pageUrlName[1] == moduleUrlName[0]) {
                                 if (this.parms_action_name == 'add' && item.modPrivs.create == true) {
-                                    console.log('-----Permission create Granted-----');
+                                    // console.log('-----Permission create Granted-----');
                                     break;
                                 }
                                 else if (this.parms_action_name == 'edit' && item.modPrivs.update == true) {
-                                    console.log('-----Permission update Granted-----');
+                                    // console.log('-----Permission update Granted-----');
                                     this.getcatById();
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -192,10 +192,10 @@ let AddSubcategoryPage = class AddSubcategoryPage {
             };
             this.imageSrc = res.categoryImage;
             this.previewimageSrc = res.categoryImage;
-            console.log("this.model", this.model);
+            // console.log("this.model",this.model);
         }, (error) => {
             this.loader = false;
-            console.log("error", error);
+            // console.log("error",error);
         });
     }
     handleInputChange(e) {
@@ -213,10 +213,10 @@ let AddSubcategoryPage = class AddSubcategoryPage {
             this.imageSrc = res.path;
             this.previewimageSrc = res.path;
             this.model.categoryImage = res.path;
-            console.log("profileimgpath", this.imageSrc);
+            // console.log("profileimgpath",this.imageSrc);
             // this.commonUtils.presentToast('success', res.message);
         }, (error) => {
-            console.log("error", error);
+            // console.log("error",error);
             this.commonUtils.presentToast('error', error.error.message);
         });
         reader.onload = this._handleReaderLoaded.bind(this);
@@ -225,7 +225,7 @@ let AddSubcategoryPage = class AddSubcategoryPage {
     _handleReaderLoaded(e) {
         let reader = e.target;
         this.previewimageSrc = reader.result;
-        console.log("imageSrc1", this.imageSrc);
+        // console.log("imageSrc1",this.imageSrc);
     }
     /* Image uploading end */
     // form submit start
@@ -248,21 +248,21 @@ let AddSubcategoryPage = class AddSubcategoryPage {
             fd.append("categoryImage", this.imageSrc);
             this.addsubCategorySubscribe = this.http.post('subcategory/add', this.allcategorydata).subscribe((res) => {
                 // window.location.reload();
-                console.log("allcategorydata", this.allcategorydata, "response", res);
+                // console.log("allcategorydata",this.allcategorydata,"response",res);
                 this.router.navigateByUrl('/subcategory-list');
                 this.btnloader = false;
                 this.commonUtils.presentToast('success', res.message);
                 form.reset();
             }, error => {
                 this.btnloader = false;
-                console.log(error);
+                // console.log(error);
                 this.commonUtils.presentToast('error', error.error.message);
             });
         }
         // add api end
         // edit api start
         else if (this.parms_action_name == 'edit') {
-            console.log("else", this.imageSrc, this.model.categoryImage);
+            // console.log("else",this.imageSrc,this.model.categoryImage);      
             this.allcategorydata = {
                 categoryDescription: form.value.categoryDescription,
                 categoryName: form.value.categoryName,
@@ -272,16 +272,16 @@ let AddSubcategoryPage = class AddSubcategoryPage {
                 parentId: form.value.parentId,
                 createdBy: this.model.createdBy,
             };
-            console.log("this.allcategorydata", this.allcategorydata);
+            // console.log("this.allcategorydata",this.allcategorydata);
             this.addsubCategorySubscribe = this.http.put("subcategory/update/" + this.parms_action_id, this.allcategorydata).subscribe((res) => {
-                console.log("allcategorydatay", this.allcategorydata, "response", res);
+                // console.log("allcategorydatay",this.allcategorydata,"response",res);
                 this.btnloader = false;
                 this.commonUtils.presentToast('success', res.message);
                 this.router.navigateByUrl('/subcategory-list');
                 form.reset();
             }, error => {
                 this.btnloader = false;
-                // console.log("error",error);
+                // // console.log("error",error);
                 this.commonUtils.presentToast('error', error.error.message);
                 // recall category list
             });
@@ -292,10 +292,10 @@ let AddSubcategoryPage = class AddSubcategoryPage {
     // getcategoryList start
     getcategoryList() {
         this.getCategoryListSubscribe = this.http.get("category/list?limit=0").subscribe((res) => {
-            console.log("res", res);
+            // console.log("res",res);
             this.categoryslist = res.data;
         }, (error) => {
-            console.log("error", error);
+            // console.log("error",error);
         });
     }
     // getcategoryList end

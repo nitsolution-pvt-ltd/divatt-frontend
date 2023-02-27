@@ -58,28 +58,28 @@ this.commonFunction();
 commonFunction(){
 /*Check permission status start*/
 this.authService.globalparamsData.subscribe(res => {
-console.log('res>>', res);
+// console.log('res>>', res);
 if(res.authority == 'ADMIN'){
 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
 if(data){
-  console.log('menu>>', data);
-  console.log('this.router.url>>', this.router.url);
+  // console.log('menu>>', data);
+  // console.log('this.router.url>>', this.router.url);
 
   let pageUrl = this.router.url.split("/");
-  console.log('pageUrl', pageUrl);
+  // console.log('pageUrl', pageUrl);
 
   for(let item of data) {
     if(item.modDetails.url == pageUrl[1]){
       if(item.modPrivs.list == true){
-        console.log('-----Permission Granted-----');
+        // console.log('-----Permission Granted-----');
         this.pagePermission = item;
-        console.log('this.pagePermission', this.pagePermission);
+        // console.log('this.pagePermission', this.pagePermission);
         this.listing_url = 'adminMData/getDesignerCategory';
         // this.onRefresh();
         this.getLevelList();
         break;
       }else {
-        console.log('-------No Permission--------');
+        // console.log('-------No Permission--------');
         this.router.navigateByUrl('/error');
       }
       
@@ -100,7 +100,7 @@ getLevelList()
   this.tableListSubscribe = this.http.get("adminMData/getDesignerCategory").subscribe(
     (res:any) => {
     this.isListLoading = false;
-    console.log('res', res);
+    // console.log('res', res);
     this.tableData = res;
     this.tableListData = res;
     
@@ -133,7 +133,7 @@ displayRecords = [
 { id : '4', displayValue: 100},
 ];
 displayRecordChange(_record) {
-console.log('_record', _record);
+// console.log('_record', _record);
 
 this.displayRecord = _record;
 this.pageNo = 0;
@@ -147,7 +147,7 @@ let api = _listUrl+'?page='+_pageNo+'&limit='+_displayRecord+'&sortName='+_sortC
 this.tableListSubscribe = this.http.get("adminMData/getDesignerCategory").subscribe(
 (res:any) => {
 this.isListLoading = false;
-console.log('res', res);
+// console.log('res', res);
 this.tableData = res;
 this.tableListData = res.data;
 
@@ -171,8 +171,8 @@ this.isListLoading = false;
 // List data end
 // Pagination start
 setPage(page: number) {
-console.log('page', page);
-console.log("page");
+// console.log('page', page);
+// console.log("page");
 
 this.pageNo = page;
 this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -182,8 +182,8 @@ this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColu
 
 // Sorting start
 isSortTableHeader(_tableHeaderData,  _headerItem ){
-console.log('_tableHeaderData', _tableHeaderData);
-console.log('_headerItem', _headerItem);
+// console.log('_tableHeaderData', _tableHeaderData);
+// console.log('_headerItem', _headerItem);
 
 // all field reset first
 _tableHeaderData.forEach((val) => {
@@ -201,9 +201,9 @@ _headerItem.sortingButtonName = "DESC";
 this.sortColumnName = _headerItem.column_name;
 this.sortOrderName = _headerItem.sortingButtonName;
 
-console.log('this.sortColumnName', this.sortColumnName);
-console.log('this.sortOrderName', this.sortOrderName);
-console.log('_tableHeaderData>>', _tableHeaderData);
+// console.log('this.sortColumnName', this.sortColumnName);
+// console.log('this.sortOrderName', this.sortOrderName);
+// console.log('_tableHeaderData>>', _tableHeaderData);
 
 this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName,this.searchTerm);
 }
@@ -214,7 +214,7 @@ searchTerm:string = '';
 searchList(event){
 this.searchTerm = event.target.value;
 
-console.log('this.searchTerm', this.searchTerm);
+// console.log('this.searchTerm', this.searchTerm);
 
 this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
 }
@@ -244,7 +244,7 @@ toast.present();
 }
 statusChange(_id, _status)
 {
-console.log('_status', _status);
+// console.log('_status', _status);
 
 // let comingStatus; 
 // if(_status == true) {
@@ -268,7 +268,7 @@ this.commonUtils.presentToast('error', error.messagee);
 allSelectItem(event) {
 if (event.target.checked) {
 this.itemcheckClick = false;
-// console.log('check item selkectedddddddddddddd');
+// // console.log('check item selkectedddddddddddddd');
 for (let i = 0 ; i < this.tableListData.length; i++) {
 // if(this.checkedList.includes(this.items[i].id) === false)
 if (this.checkedList.indexOf(this.tableListData[i]) === -1 && this.tableListData[i] !== null) {
@@ -278,7 +278,7 @@ this.tableListData[i].isSelected = true;
 }
 }
 } else if (this.itemcheckClick == false) {
-// console.log('not check item selectionnnnnnnnnnn')
+// // console.log('not check item selectionnnnnnnnnnn')
 this.checkedList = [];
 for (let i = 0 ; i < this.tableListData.length; i++) {
 if (this.checkedList.indexOf(this.tableListData[i]) === -1)
@@ -289,8 +289,8 @@ this.tableListData[i].isSelected = false;
 }
 }
 
-console.log('checked item all @@ >>', this.checkedList);
-console.log('tableListData item all @@ >>', this.tableListData);
+// console.log('checked item all @@ >>', this.checkedList);
+// console.log('tableListData item all @@ >>', this.tableListData);
 }
 // Select all checkbox end
 // Select single checkbox start
@@ -309,15 +309,15 @@ onCheckboxSelect(option, event) {
 
     if (this.tableListData.length <= this.checkedList.length) {
       this.allselectModel = true;
-      console.log('length 4');
+      // console.log('length 4');
     } else {
-      console.log('length 0');
+      // console.log('length 0');
       this.allselectModel = false;
       this.itemcheckClick = true;
 
     }
 
-  console.log('checked item single >>', this.checkedList);
+  // console.log('checked item single >>', this.checkedList);
 }
 // Select single checkbox end
 // ---------------- Click Delete Item start ---------------------
@@ -334,7 +334,7 @@ async onClickDeleteItem(_identifire, _item, _items, _index){
   role: 'cancel',
   cssClass: 'popup-cancel-btn',
   handler: (blah) => {
-    // console.log('Confirm Cancel: blah');
+    // // console.log('Confirm Cancel: blah');
   }
   }, {
   text: 'Ok',
@@ -343,14 +343,14 @@ async onClickDeleteItem(_identifire, _item, _items, _index){
 
     // ------------ single item delete start ------------
     if(_identifire == 'single'){
-      console.log('_item', _item);
+      // console.log('_item', _item);
       
       let sentValues = {'Name': _item.Name};
       _item.deleteLodershow = true;
       this.deleteDataSubscribe = this.http.delete("adminMData/deleteDesignerLevels/"+ _item.Name).subscribe(
         (res:any) => {
           _item.deleteLodershow = false;
-          console.log("Edit data  res >", res.return_data);
+          // console.log("Edit data  res >", res.return_data);
           if(res.status == 200){
             // _items.splice( _index, 1 );
             this.commonUtils.presentToast('success', res.message);
@@ -401,8 +401,8 @@ async onClickDeleteItem(_identifire, _item, _items, _index){
                   // _items.splice(_items.indexOf(_items[i]), 1);
                   this.deleteLodershow = false; //loader hide
                   this.alldeleteLoaderShow = false;
-                  // console.log('delete items >>', _items);
-                  // console.log('delete this.checkedList >>', this.checkedList);
+                  // // console.log('delete items >>', _items);
+                  // // console.log('delete this.checkedList >>', this.checkedList);
                   
                   this.allselectModel = false; 
                 }

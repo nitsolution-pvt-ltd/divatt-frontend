@@ -60,7 +60,7 @@ export class AccountsViewPage implements OnInit {
   }
   genaratePDF(order,identifier)
   {
-    console.log('Data',order,identifier);
+    // console.log('Data',order,identifier);
     
     if(identifier == 'orderinvoice')
     {

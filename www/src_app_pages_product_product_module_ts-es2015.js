@@ -322,24 +322,24 @@ let ProductPage = class ProductPage {
         this.currentDate = moment__WEBPACK_IMPORTED_MODULE_5__(currentDate).format('YYYY/MM/DD');
         /*Check permission status start*/
         this.authService.globalparamsData.subscribe(res => {
-            console.log('res>>', res);
+            // console.log('res>>', res);
             if (res.authority == 'ADMIN') {
                 this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
                     if (data) {
-                        console.log('menu>>', data);
-                        console.log('this.router.url>>', this.router.url);
+                        // console.log('menu>>', data);
+                        // console.log('this.router.url>>', this.router.url);
                         let pageUrl = this.router.url.split("/");
-                        console.log('pageUrl', pageUrl);
+                        // console.log('pageUrl', pageUrl);
                         for (let item of data) {
                             if (item.modDetails.url == pageUrl[1]) {
                                 if (item.modPrivs.list == true) {
-                                    console.log('-----Permission Granted-----');
+                                    // console.log('-----Permission Granted-----');
                                     this.pagePermission = item;
-                                    console.log('this.pagePermission', this.pagePermission);
+                                    // console.log('this.pagePermission', this.pagePermission);
                                     break;
                                 }
                                 else {
-                                    console.log('-------No Permission--------');
+                                    // console.log('-------No Permission--------');
                                     this.router.navigateByUrl('/error');
                                 }
                             }
@@ -348,7 +348,7 @@ let ProductPage = class ProductPage {
                 });
             }
             else if (res.authority == 'DESIGNER') {
-                console.log("res.authority", res.authority);
+                // console.log("res.authority",res.authority);
                 this.getDesignerProfiledata(res.uid);
             }
         });
@@ -356,13 +356,13 @@ let ProductPage = class ProductPage {
         // delete api
         this.deleteApi = 'category/delete';
         this.storage.get('setStroageGlobalParamsData').then((val) => {
-            console.log('User ID', val.uid);
+            // console.log('User ID', val.uid);
             this.role = val.authority;
             this.designerId = val.uid;
-            console.log("Role", this.role);
+            // console.log("Role",this.role);
             this.setApis(this.role, this.designerId);
         });
-        console.log("this.listing_url", this.listing_url);
+        // console.log("this.listing_url",this.listing_url);
     }
     // getDesignerProfiledata for check perpession start
     getDesignerProfiledata(uid) {
@@ -372,14 +372,14 @@ let ProductPage = class ProductPage {
             }
             else {
                 let pageUrl = this.router.url.split("/");
-                console.log('pageUrl', pageUrl[1]);
+                // console.log('pageUrl', pageUrl[1]);
                 if (pageUrl[1] == 'product-list') {
                     this.commonUtils.presentToast('error', "Sorry ! You don't have any permission on product.");
                     this.router.navigateByUrl('/error');
                 }
             }
         }, (error) => {
-            console.log("error", error);
+            // console.log("error",error);
         });
     }
     // getDesignerProfiledata for check perpession  end
@@ -396,7 +396,7 @@ let ProductPage = class ProductPage {
     }
     // datatype start
     datatype(identifier) {
-        console.log(identifier);
+        // console.log(identifier);
         this.statustype = identifier;
         this.tableTitle = identifier;
         // if(identifier == 0)
@@ -423,7 +423,7 @@ let ProductPage = class ProductPage {
     // changeStatus start
     changeStatus(identifier, item) {
         this.approvalApi = 'product/changeProductApprovalStatus';
-        console.log("identifier,id", identifier, item);
+        // console.log("identifier,id",identifier,item);
         if (identifier == 'reject') {
             var _items;
             var data = {
@@ -440,11 +440,11 @@ let ProductPage = class ProductPage {
             data = item.productStageDetails.comment;
             var body = [];
             body = item.productStageDetails.comment;
-            // console.log(this.get_item,this.get_item.item.comments.length);
+            // // console.log(this.get_item,this.get_item.item.comments.length);
             // if no comment
             if (item.productStageDetails.comment == null) {
                 this.storage.get('setStroageGlobalParamsData').then((val) => {
-                    console.log('All User Data', val.uid);
+                    // console.log('All User Data', val.uid);
                     this.role = val.authority;
                     body = [
                         {
@@ -459,14 +459,14 @@ let ProductPage = class ProductPage {
             // // if comment have
             else {
                 this.storage.get('setStroageGlobalParamsData').then((val) => {
-                    console.log('All User Data', val.uid);
+                    // console.log('All User Data', val.uid);
                     this.role = val.authority;
                     body.push({ Reason: 'Approved', comments: '', adminId: val.uid, dateTime: this.currentDate,
                     });
                 });
             }
             this.storage.get('setStroageGlobalParamsData').then((val) => {
-                console.log('All User Data', val.uid);
+                // console.log('All User Data', val.uid);
                 this.role = val.authority;
                 let comment = {
                     adminStatus: "Approved",
@@ -475,12 +475,12 @@ let ProductPage = class ProductPage {
                     productId: item.productId,
                     designerId: item.designerId,
                 };
-                console.log("comment", comment);
+                // console.log("comment",comment);
                 this.approveProductSubscribe = this.http.put('product/changeProductApprovalStatus', comment).subscribe((res) => {
                     this.onRefresh();
                     this.commonUtils.presentToast('success', res.message);
                 }, (error) => {
-                    console.log("errorerror", error);
+                    // console.log("errorerror",error);
                     this.commonUtils.presentToast('error', error.error.message);
                 });
             });
@@ -491,9 +491,9 @@ let ProductPage = class ProductPage {
     // changeStatus end
     // approveProduct start
     onapproveProduct(data) {
-        console.log(data);
+        // console.log(data);
         this.storage.get('setStroageGlobalParamsData').then((val) => {
-            console.log('All User Data', val.uid);
+            // console.log('All User Data', val.uid);
             this.role = val.authority;
             var alldata = [
                 {
@@ -515,14 +515,14 @@ let ProductPage = class ProductPage {
                 // this.btnloader = false;
                 this.onRefresh();
             }, (error) => {
-                console.log("errorerror", error);
+                // console.log("errorerror",error);
                 //  this.btnloader = false;
                 this.commonUtils.presentToast('error', error.error.message);
             });
         });
     }
     displayRecordChange(_record) {
-        console.log('_record Apurba....', _record);
+        // console.log('_record Apurba....', _record);
         this.displayRecord = _record;
         this.pageNo = 0;
         this.onListDate(this.statustype, this.listing_url, this.pageNo, _record, this.sortColumnName, this.sortOrderName, this.searchTerm);
@@ -540,7 +540,7 @@ let ProductPage = class ProductPage {
         }
         this.tableListSubscribe = this.http.get(api).subscribe((res) => {
             this.isListLoading = false;
-            console.log('res', res);
+            // console.log('res', res);
             this.tableData = res;
             this.tableListData = res.data;
             if (this.tableListData.length != 0) {
@@ -567,16 +567,16 @@ let ProductPage = class ProductPage {
     // List data end
     // Pagination start
     setPage(page) {
-        console.log('page', page);
-        console.log("page");
+        // console.log('page', page);
+        // console.log("page");
         this.pageNo = page;
         this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Pagination end
     // Sorting start
     isSortTableHeader(_tableHeaderData, _headerItem) {
-        console.log('_tableHeaderData', _tableHeaderData);
-        console.log('_headerItem', _headerItem);
+        // console.log('_tableHeaderData', _tableHeaderData);
+        // console.log('_headerItem', _headerItem);
         // all field reset first
         _tableHeaderData.forEach((val) => {
             val.sortingButtonName = '';
@@ -590,14 +590,14 @@ let ProductPage = class ProductPage {
         }
         this.sortColumnName = _headerItem.column_name;
         this.sortOrderName = _headerItem.sortingButtonName;
-        console.log('this.sortColumnName', this.sortColumnName);
-        console.log('this.sortOrderName', this.sortOrderName);
-        console.log('_tableHeaderData>>', _tableHeaderData);
+        // console.log('this.sortColumnName', this.sortColumnName);
+        // console.log('this.sortOrderName', this.sortOrderName);
+        // console.log('_tableHeaderData>>', _tableHeaderData);
         this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     searchList(event) {
         this.searchTerm = event.target.value;
-        console.log('this.searchTerm', this.searchTerm);
+        // console.log('this.searchTerm', this.searchTerm);
         this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
     }
     // Search end
@@ -614,12 +614,12 @@ let ProductPage = class ProductPage {
     // Referesh end
     // Delete start
     deleteData(_id) {
-        console.log('id>>', _id);
+        // console.log('id>>', _id);
         let sentValues = { 'id': _id };
         this.deleteLoading = true;
         this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe((res) => {
             this.deleteLoading = false;
-            console.log("Edit data  res >", res.return_data);
+            // console.log("Edit data  res >", res.return_data);
             if (res.status == 200) {
                 this.commonUtils.presentToast('success', res.message);
                 this.onRefresh();
@@ -652,13 +652,13 @@ let ProductPage = class ProductPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            console.log('Confirm Cancel: blah');
+                            // console.log('Confirm Cancel: blah');
                         }
                     }, {
                         text: 'Okay',
                         cssClass: 'popup-ok-btn',
                         handler: () => {
-                            console.log('Confirm Okay');
+                            // console.log('Confirm Okay');
                             // this.clickActionBtn('', 'delete');
                             // this.deleteData(_id);
                             if (_identifier == 'delete') {
@@ -704,7 +704,7 @@ let ProductPage = class ProductPage {
     allSelectItem(event) {
         if (event.target.checked) {
             this.itemcheckClick = false;
-            // console.log('check item selkectedddddddddddddd');
+            // // console.log('check item selkectedddddddddddddd');
             for (let i = 0; i < this.tableListData.length; i++) {
                 // if(this.checkedList.includes(this.items[i].id) === false)
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1 && this.tableListData[i] !== null) {
@@ -714,7 +714,7 @@ let ProductPage = class ProductPage {
             }
         }
         else if (this.itemcheckClick == false) {
-            // console.log('not check item selectionnnnnnnnnnn')
+            // // console.log('not check item selectionnnnnnnnnnn')
             this.checkedList = [];
             for (let i = 0; i < this.tableListData.length; i++) {
                 if (this.checkedList.indexOf(this.tableListData[i]) === -1) {
@@ -722,8 +722,8 @@ let ProductPage = class ProductPage {
                 }
             }
         }
-        console.log('checked item all @@ >>', this.checkedList);
-        console.log('tableListData item all @@ >>', this.tableListData);
+        // console.log('checked item all @@ >>', this.checkedList);
+        // console.log('tableListData item all @@ >>', this.tableListData);
     }
     // Select all checkbox end
     // Select single checkbox start
@@ -742,18 +742,18 @@ let ProductPage = class ProductPage {
         }
         if (this.tableListData.length <= this.checkedList.length) {
             this.allselectModel = true;
-            console.log('length 4');
+            // console.log('length 4');
         }
         else {
-            console.log('length 0');
+            // console.log('length 0');
             this.allselectModel = false;
             this.itemcheckClick = true;
         }
-        console.log('checked item single >>', this.checkedList);
+        // console.log('checked item single >>', this.checkedList);
     }
     onClickDeleteItem(_identifire, _item, _items, _index) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            console.log("_item", _item);
+            // console.log("_item",_item);
             const alert = yield this.alertController.create({
                 cssClass: 'aleart-popupBox',
                 header: 'Delete',
@@ -764,7 +764,7 @@ let ProductPage = class ProductPage {
                         role: 'cancel',
                         cssClass: 'popup-cancel-btn',
                         handler: (blah) => {
-                            // console.log('Confirm Cancel: blah');
+                            // // console.log('Confirm Cancel: blah');
                         }
                     },
                     {
@@ -773,12 +773,12 @@ let ProductPage = class ProductPage {
                         handler: () => {
                             // ------------ single item delete start ------------
                             if (_identifire == 'single') {
-                                console.log('_item', _item);
+                                // console.log('_item', _item);
                                 let sentValues = { 'id': _item };
                                 // _item.deleteLodershow = true;
                                 this.deleteDataSubscribe = this.http.put("designerProduct/delete/" + _item, '').subscribe((res) => {
                                     // _item.deleteLodershow = false;
-                                    console.log("Edit data  res >", res.return_data);
+                                    // console.log("Edit data  res >", res.return_data);
                                     if (res.status == 200) {
                                         // _items.splice( _index, 1 );
                                         // this.commonUtils.presentToast('success', res.return_message);
@@ -826,8 +826,8 @@ let ProductPage = class ProductPage {
                                                         // _items.splice(_items.indexOf(_items[i]), 1);
                                                         // this.deleteLodershow = false; //loader hide
                                                         this.alldeleteLoaderShow = false;
-                                                        // console.log('delete items >>', _items);
-                                                        // console.log('delete this.checkedList >>', this.checkedList);
+                                                        // // console.log('delete items >>', _items);
+                                                        // // console.log('delete this.checkedList >>', this.checkedList);
                                                         this.allselectModel = false;
                                                     }
                                                 }
@@ -868,7 +868,7 @@ let ProductPage = class ProductPage {
     // Click Delete Item end
     openProductCommentmodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openProductCommentmodal ...........>>', _identifier);
+            // console.log('openProductCommentmodal ...........>>', _identifier);
             let profile_modal;
             profile_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
@@ -882,7 +882,7 @@ let ProductPage = class ProductPage {
             // modal data back to Component
             profile_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 this.onListDate(this.statustype, this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.sortOrderName, this.searchTerm);
                 if (getdata.data == 'submitClose') {
                 }
@@ -893,7 +893,7 @@ let ProductPage = class ProductPage {
     // openRejectemodal start
     openRejectemodal(_identifier, _item, _items) {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
-            console.log('openRejectemodal ...........>>', _identifier, _item);
+            // console.log('openRejectemodal ...........>>', _identifier,_item);
             let profile_modal;
             profile_modal = yield this.modalController.create({
                 component: _modal_modal_page__WEBPACK_IMPORTED_MODULE_3__.ModalPage,
@@ -907,7 +907,7 @@ let ProductPage = class ProductPage {
             // modal data back to Component
             profile_modal.onDidDismiss()
                 .then((getdata) => {
-                console.log('getdata >>>>>>>>>>>', getdata);
+                // console.log('getdata >>>>>>>>>>>', getdata);
                 if (getdata.data == 'submitClose') {
                 }
             });
@@ -973,7 +973,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<!-- common header show -->\r\n<common-header></common-header>\r\n\r\n<ion-content class=\"product-list\">\r\n  <div class=\"page-body\">\r\n    <div class=\"page-wrapper\">\r\n      <div class=\"table-listing\">\r\n        <div class=\"container-fluid\">\r\n          <div class=\"page-header\">\r\n              <div class=\"row\">\r\n                  <div class=\"col-sm-6\">\r\n                      <div class=\"page-header-left\">\r\n                          <h3>{{tableTitle}} Product List\r\n                              <!-- <small>Divatt Admin panel</small> -->\r\n                          </h3>\r\n                      </div>\r\n                  </div>\r\n                  <div class=\"col-sm-6\">\r\n                    <ol class=\"breadcrumb float-right\">\r\n                        <li class=\"breadcrumb-item\">\r\n                          <a [routerLink]=\"'/dashboard'\">\r\n                                <mat-icon>home</mat-icon>\r\n                          </a>\r\n                        </li>\r\n                        <li class=\"breadcrumb-item\">\r\n                          Product Management\r\n                        </li>\r\n                        <li class=\"breadcrumb-item active\">\r\n                          Product List\r\n                        </li>\r\n                    </ol>\r\n                </div>\r\n                  <!-- <div class=\"col-lg-6\">\r\n                      <ol class=\"breadcrumb pull-right\">\r\n                          <li class=\"breadcrumb-item\"><a [routerLink]=\"'/dashboard'\">\r\n                                  <app-feather-icons [icon]=\"'home'\"></app-feather-icons>\r\n                              </a></li>\r\n                          <li class=\"breadcrumb-item\" *ngIf=\"breadcrumbs?.parentBreadcrumb\">\r\n                            Product\r\n                          </li>\r\n                          <li class=\"breadcrumb-item active\" *ngIf=\"breadcrumbs?.childBreadcrumb\">\r\n                              Sub category\r\n                          </li>\r\n                      </ol>\r\n                  </div> -->\r\n              </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"note-section\" *ngIf=\"role =='ADMIN'\">\r\n          <ion-grid>\r\n            <ion-row>\r\n              <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"6\" size-lg=\"3\">\r\n                <div class=\"note-item note-item2 note-box-primary card-outer\">\r\n                  <div matRipple class=\"card card-box\" (click)=\"datatype('all')\">\r\n                      <div class=\"top\">\r\n                          <div class=\"icon\">\r\n                              <mat-icon>view_list</mat-icon>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\"bottom\">\r\n                        <p class=\"heading\">All </p>\r\n                        <p><b>{{tableData?.all}}</b> Products</p>\r\n                      </div>\r\n                  </div>\r\n                </div>             \r\n              </ion-col>\r\n              <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"6\" size-lg=\"3\">\r\n                <div class=\"note-item note-item2 note-box-warning card-outer\">\r\n                  <div matRipple class=\"card card-box\" (click)=\"datatype('pending')\">\r\n                      <div class=\"top\">\r\n                          <div class=\"icon\">\r\n                              <mat-icon>schedule</mat-icon>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\"bottom\">\r\n                        <p class=\"heading\">Pending</p>\r\n                        <p><b>{{tableData?.pending}}</b> Products</p>\r\n                      </div>\r\n                  </div>\r\n                </div>             \r\n              </ion-col>\r\n              <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"6\" size-lg=\"3\">\r\n                <div class=\"note-item note-item2 note-box-success card-outer\">\r\n                  <div matRipple class=\"card card-box\" (click)=\"datatype('approved')\">\r\n                      <div class=\"top\">\r\n                          <div class=\"icon\">\r\n                              <mat-icon>check</mat-icon>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\"bottom\">\r\n                        <p class=\"heading\">Approved</p>\r\n                        <p><b>{{tableData?.approved}}</b> Products</p>\r\n                      </div>\r\n                  </div>\r\n                </div>             \r\n              </ion-col>\r\n              <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"6\" size-lg=\"3\">\r\n                <div class=\"note-item note-item2 note-box-danger card-outer\">\r\n                  <div matRipple class=\"card card-box\" (click)=\"datatype('rejected')\">\r\n                      <div class=\"top\">\r\n                          <div class=\"icon\">\r\n                              <mat-icon>close</mat-icon>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\"bottom\">\r\n                        <p class=\"heading\">Rejected</p>\r\n                        <p><b>{{tableData?.rejected}}</b> Products</p>\r\n                      </div>\r\n                  </div>\r\n                </div>             \r\n              </ion-col>\r\n            </ion-row>\r\n          </ion-grid>\r\n        </div>\r\n        <div class=\"card card-box card-table\">\r\n          <!-- <div class=\"card-header\">\r\n            <div class=\"card-header-tittle\">\r\n             {{tableTitle}} Product List\r\n            </div>\r\n            <div class=\"card-header-action\">\r\n              <ion-button class=\"custom-btn\" [routerLink]=\"['/', 'add-designer-product', 'add', 'id']\" *ngIf=\"role =='DESIGNER'\">\r\n                Add Product\r\n              </ion-button>\r\n            </div>\r\n          </div> -->\r\n          <div class=\"card-body\">\r\n            <div class=\"add-content-button text-right\">\r\n            </div>\r\n            <div class=\"table-header\">\r\n              <div class=\"records-wrapper\">\r\n                <ion-item class=\"record\">\r\n                  <span class=\"text-black mr-1\">Records: </span>\r\n                  <mat-form-field  class=\"m-0\">\r\n                    <mat-select [(ngModel)]=\"displayRecord\" name=\"record\" (selectionChange)=\"displayRecordChange($event.value)\">\r\n                      <mat-option *ngFor=\"let record of displayRecords\" [value]=\"record.displayValue\">\r\n                        <span *ngIf=\"record.displayValue > 0\">{{record.displayValue}}</span>\r\n                        <!-- <span *ngIf=\"record.displayValue == 0\">All</span> -->\r\n                      </mat-option>\r\n                    </mat-select>\r\n                  </mat-form-field>\r\n                </ion-item>\r\n              </div>\r\n              <div class=\"search-wrapper\">\r\n                <ion-searchbar class=\"p-0\" showCancelButton=\"focus\" debounce=\"500\" placeholder=\"Search  product name ....\" [(ngModel)]=\"searchTerm\" (ionChange)=\"searchList($event)\"></ion-searchbar>\r\n              </div>\r\n            </div>\r\n            <div class=\"table-responsive\" *ngIf=\"role == 'ADMIN'\">\r\n              <table class=\"table\">\r\n                  <thead>\r\n                      <tr>\r\n                          <th class=\"ion-text-start\">\r\n                              <div>\r\n                                  #\r\n                              </div>\r\n                          </th> \r\n                          <th *ngFor=\"let th of tableHeaderData1\" (click)=\"isSortTableHeader(tableHeaderData1, th)\" class=\"ion-text-center\">\r\n                            <div>\r\n                              {{th.display_name}}\r\n                              <mat-icon *ngIf=\"th.sortingButtonName == ''\">import_export</mat-icon>\r\n                              <mat-icon *ngIf=\"th.sortingButtonName == 'ASC'\">expand_less</mat-icon>\r\n                              <mat-icon *ngIf=\"th.sortingButtonName == 'DESC'\">expand_more</mat-icon>\r\n                            </div>\r\n                          </th>\r\n                          <th class=\"ion-text-center\">\r\n                            <div class=\"ion-justify-content-center\">\r\n                              Product Img\r\n                            </div>\r\n                          </th>\r\n                          <th class=\"ion-text-center\">\r\n                            <div class=\"ion-justify-content-center\">\r\n                              Verifiction\r\n                            </div>\r\n                          </th>\r\n                          <th class=\"ion-text-center\" >\r\n                            <div class=\"ion-justify-content-center\">\r\n                              Actions\r\n                            </div>\r\n                          </th>\r\n                      </tr>\r\n                  </thead>\r\n                  <tbody>\r\n                    <tr  [hidden]=\"!isListLoading\" class=\"loading-table-data\">\r\n                      <td colspan=\"100\" class=\"text-center\">\r\n                        Data is loading...\r\n                      </td>\r\n                    </tr>\r\n                    <tr [hidden]=\"isListLoading\" *ngIf=\"tableData?.data.length == 0\" class=\"loading-table-data\">\r\n                      <td colspan=\"100\" class=\"text-center\">\r\n                        No data found\r\n                      </td>\r\n                    </tr>\r\n                    <tr [hidden]=\"isListLoading\" *ngFor=\"let item of tableData?.data; let i = index\">\r\n                      <td>{{i + 1}}</td>\r\n                      <td>\r\n                        <a [routerLink]=\"['/', 'product-view',  item.productId]\" class=\"text-decoration-none\">\r\n                          <div class=\"longtext\" [matTooltip]=\"item?.productName\" matTooltipPosition=\"right\">\r\n                            {{item?.productDetails?.productName}}\r\n                          </div>\r\n                        </a>\r\n                      </td>\r\n                      <!-- <td>\r\n                        <div class=\"longtext\" [matTooltip]=\"item?.productDescription\"\r\n                        matTooltipPosition=\"right\">\r\n                          {{item?.productDetails?.productDescription}}\r\n                        </div>\r\n                        \r\n                      </td> -->\r\n                      <td>{{item?.categoryName}}</td>\r\n                      <td>{{item?.subCategoryName}}</td>\r\n                      <td>\r\n                        {{item?.designerProfile?.displayName}}\r\n                      </td>\r\n                      <td>\r\n                        {{item?.designerProfile?.designerCategory}}\r\n                      </td>\r\n                      <!-- <td>\r\n                        {{item?.gender}}\r\n                      </td> -->\r\n                      <!-- <td>\r\n                        {{item?.age?.min}}--{{item?.age?.max}}\r\n                      </td> -->\r\n                      <!-- <td>\r\n                        {{item?.priceType}}\r\n                      </td>\r\n                      <td>\r\n                        {{item?.taxPercentage}}\r\n                      </td>  -->\r\n                      <td>\r\n                        \r\n                        {{item?.mrp}}\r\n                      </td>                        \r\n                      <td>\r\n                        {{item?.deal?.salePrice ? item?.deal?.salePrice : '0'}}\r\n                      </td>\r\n                      <td>\r\n                        <span>\r\n                          {{item?.purchaseMaxQuantity}}\r\n                        </span>\r\n                      </td>\r\n                      <td>\r\n                        <!-- <a href=\"{{item?.images[0].name}}\" data-fancybox data-caption=\"My caption\">\r\n                          <img [src]=\"item?.images[0].name\" class=\"w-50 img-fluid rounded\">\r\n                        </a> -->\r\n                        <div class=\"symbol-group symbol-hover\">\r\n                         <a [href]=\"item?.images[0]?.large\" target=\"_blank\" *ngIf=\"item?.images[0]?.large\">\r\n                            <img [src]=\"item?.images[0]?.large\" class=\"img-fluid rounded tableimg\">\r\n                            <!-- <fancybox box-for=\"item.productId\"> -->\r\n                          </a>\r\n                          <a [href]=\"item?.images[1]?.large\" target=\"_blank\"  *ngIf=\"item?.images[1]?.large\">\r\n                            <img [src]=\"item?.images[1]?.large\" class=\"img-fluid rounded tableimg\">\r\n                          </a>\r\n                          <a [href]=\"item?.images[2]?.large\" target=\"_blank\"  *ngIf=\"item?.images[2]?.large\">\r\n                            <img [src]=\"item?.images[2]?.large\" class=\"img-fluid rounded tableimg\">\r\n                          </a>\r\n                          <a [href]=\"item?.images[3]?.large\" target=\"_blank\"  *ngIf=\"item?.images[3]?.large\">\r\n                            <img [src]=\"item?.images[3]?.large\" class=\"img-fluid rounded tableimg\">\r\n                          </a>\r\n                        </div>\r\n                      </td>\r\n                      <td>\r\n                        <span class=\"status\" [ngClass]=\"{ 'warning': item.adminStatus == 'Pending' , 'danger': item.adminStatus == 'Rejected','success': item.adminStatus == 'Approved'}\">\r\n                          {{item?.adminStatus}}\r\n                        </span>\r\n                        \r\n                      </td>\r\n                      <td class=\"action pt-0 text-center\">\r\n                        <ion-fab *ngIf=\"pagePermission?.modPrivs?.update == true\" horizontal=\"end\" vertical=\"bottom\" slot=\"\">\r\n                          <ion-fab-button color=\"dark\">\r\n                            <ion-icon color=\"warning\"  matTooltip=\"Pending\" matTooltipClass=\"bg-warning\" flow=\"up\" delay=\"500\" name=\"time-outline\" *ngIf=\"item.adminStatus== 'Pending'\"></ion-icon>\r\n                            <ion-icon color=\"danger\"  matTooltip=\"Rejected\" matTooltipClass=\"bg-danger\" flow=\"up\" delay=\"500\" name=\"close-circle-outline\" *ngIf=\"item.adminStatus== 'Rejected'\"></ion-icon>\r\n                            <ion-icon  color=\"success\" matTooltip=\"Approved\" matTooltipClass=\"bg-success\" flow=\"up\" delay=\"500\" name=\"checkmark-circle-outline\" *ngIf=\"item.adminStatus== 'Approved'\"></ion-icon>\r\n                          </ion-fab-button>\r\n                          <ion-fab-list side=\"start\">\r\n                            <ion-fab-button color=\"danger\" matTooltip=\"Reject Product\" matTooltipClass=\"bg-danger\" flow=\"up\" delay=\"500\" *ngIf=\"item.adminStatus != 'Rejected'\" (click)=\"changeStatus('reject',item)\">\r\n                              <ion-icon name=\"close-circle-outline\" color=\"dark\"></ion-icon>\r\n                            </ion-fab-button>\r\n                            <ion-fab-button color=\"success\"  matTooltip=\"Approve Product\" matTooltipClass=\"bg-success\" flow=\"up\" delay=\"500\" *ngIf=\"item.adminStatus != 'Approved'\" (click)=\"changeStatus('approve',item)\">\r\n                              <ion-icon name=\"checkmark-circle-outline\" color=\"dark\"></ion-icon>\r\n                            </ion-fab-button>\r\n                          </ion-fab-list>\r\n                        </ion-fab>\r\n                        <ion-button *ngIf=\"tableTitle == 'rejected'\" matTooltip=\"View message\" matTooltipPosition=\"above\" size=\"small\" color=\"secondary\" (click)=\"openRejectemodal('message_modal', item?.productStageDetails?.comment, '');\">\r\n                          <mat-icon>chat</mat-icon>\r\n                        </ion-button>\r\n                      </td>\r\n                    </tr>\r\n                  </tbody>\r\n              </table>\r\n          </div>\r\n          </div>\r\n          <div class=\"card-footer\">\r\n            <div class=\"action\">\r\n              <ion-button matTooltip=\"Refresh\" matTooltipPosition=\"above\" size=\"small\" color=\"primary\" (click)=\"onRefresh()\">\r\n                <mat-icon>refresh</mat-icon>\r\n              </ion-button>\r\n              <div *ngIf=\"tableData?.data.length == 0\">\r\n                <ion-button [ngClass]=\"{'disabled':checkedList.length == 0 || alldeleteLoaderShow}\" class=\"w-40\" (click)=\"onClickDeleteItem('multiple', '', tableListData, '')\" matTooltip=\"Recycle Bin\" matTooltipPosition=\"above\" color=\"danger\" *ngIf=\"alldelbtn\">\r\n                  <mat-icon *ngIf=\"!alldeleteLoaderShow\" >delete_forever</mat-icon>\r\n                  <ion-spinner *ngIf=\"alldeleteLoaderShow\" class=\"delete-spinner\" name=\"crescent\"></ion-spinner>\r\n                </ion-button>\r\n              </div>\r\n            </div>\r\n            <div>\r\n                <ul class=\"pagination\">\r\n                    <li (click)=\"setPage(0)\" [ngClass]=\"{disabled:tableData?.currentPage === 0}\" class=\"circle-border\" matTooltip=\"First\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- First -->\r\n                          <ion-icon name=\"play-skip-back\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li (click)=\"setPage(tableData.currentPage - 1)\" [ngClass]=\"{disabled:tableData?.currentPage === 0}\" class=\"circle-border\" matTooltip=\"Previous\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Previous -->\r\n                          <ion-icon name=\"caret-back\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li> <span class=\"ran-separator pull-right margin-top-3\"></span> </li>\r\n                    <li>\r\n                        Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} \r\n                    </li>\r\n                    <li> <span class=\"ran-separator pull-right margin-top-3\"></span> </li>\r\n                    <li (click)=\"setPage(tableData.currentPage + 1)\" [ngClass]=\"{disabled:tableData?.currentPage === tableData?.totalPage}\" class=\"circle-border\" matTooltip=\"Next\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Next -->\r\n                          <ion-icon name=\"caret-forward\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li (click)=\"setPage(tableData.totalPage)\" [ngClass]=\"{disabled:tableData?.currentPage === tableData?.totalPage}\" class=\"circle-border\" matTooltip=\"Last\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Last -->\r\n                          <ion-icon name=\"play-skip-forward\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                </ul>\r\n              </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</ion-content>\r\n\r\n<!-- common footer show -->\r\n<common-footer></common-footer>");
+/* harmony default export */ __webpack_exports__["default"] = ("<!-- common header show -->\r\n<common-header></common-header>\r\n\r\n<ion-content class=\"product-list\">\r\n  <div class=\"page-body\">\r\n    <div class=\"page-wrapper\">\r\n      <div class=\"table-listing\">\r\n        <div class=\"container-fluid\">\r\n          <div class=\"page-header\">\r\n              <div class=\"row\">\r\n                  <div class=\"col-sm-6\">\r\n                      <div class=\"page-header-left\">\r\n                          <h3>{{tableTitle}} Product List\r\n                              <!-- <small>Divatt Admin panel</small> -->\r\n                          </h3>\r\n                      </div>\r\n                  </div>\r\n                  <div class=\"col-sm-6\">\r\n                    <ol class=\"breadcrumb float-right\">\r\n                        <li class=\"breadcrumb-item\">\r\n                          <a [routerLink]=\"'/dashboard'\">\r\n                                <mat-icon>home</mat-icon>\r\n                          </a>\r\n                        </li>\r\n                        <li class=\"breadcrumb-item\">\r\n                          Product Management\r\n                        </li>\r\n                        <li class=\"breadcrumb-item active\">\r\n                          Product List\r\n                        </li>\r\n                    </ol>\r\n                </div>\r\n                  <!-- <div class=\"col-lg-6\">\r\n                      <ol class=\"breadcrumb pull-right\">\r\n                          <li class=\"breadcrumb-item\"><a [routerLink]=\"'/dashboard'\">\r\n                                  <app-feather-icons [icon]=\"'home'\"></app-feather-icons>\r\n                              </a></li>\r\n                          <li class=\"breadcrumb-item\" *ngIf=\"breadcrumbs?.parentBreadcrumb\">\r\n                            Product\r\n                          </li>\r\n                          <li class=\"breadcrumb-item active\" *ngIf=\"breadcrumbs?.childBreadcrumb\">\r\n                              Sub category\r\n                          </li>\r\n                      </ol>\r\n                  </div> -->\r\n              </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"note-section\" *ngIf=\"role =='ADMIN'\">\r\n          <ion-grid>\r\n            <ion-row>\r\n              <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"6\" size-lg=\"3\">\r\n                <div class=\"note-item note-item2 note-box-primary card-outer\">\r\n                  <div matRipple class=\"card card-box\" (click)=\"datatype('all')\">\r\n                      <div class=\"top\">\r\n                          <div class=\"icon\">\r\n                              <mat-icon>view_list</mat-icon>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\"bottom\">\r\n                        <p class=\"heading\">All </p>\r\n                        <p><b>{{tableData?.all}}</b> Products</p>\r\n                      </div>\r\n                  </div>\r\n                </div>             \r\n              </ion-col>\r\n              <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"6\" size-lg=\"3\">\r\n                <div class=\"note-item note-item2 note-box-warning card-outer\">\r\n                  <div matRipple class=\"card card-box\" (click)=\"datatype('pending')\">\r\n                      <div class=\"top\">\r\n                          <div class=\"icon\">\r\n                              <mat-icon>schedule</mat-icon>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\"bottom\">\r\n                        <p class=\"heading\">Pending</p>\r\n                        <p><b>{{tableData?.pending}}</b> Products</p>\r\n                      </div>\r\n                  </div>\r\n                </div>             \r\n              </ion-col>\r\n              <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"6\" size-lg=\"3\">\r\n                <div class=\"note-item note-item2 note-box-success card-outer\">\r\n                  <div matRipple class=\"card card-box\" (click)=\"datatype('approved')\">\r\n                      <div class=\"top\">\r\n                          <div class=\"icon\">\r\n                              <mat-icon>check</mat-icon>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\"bottom\">\r\n                        <p class=\"heading\">Approved</p>\r\n                        <p><b>{{tableData?.approved}}</b> Products</p>\r\n                      </div>\r\n                  </div>\r\n                </div>             \r\n              </ion-col>\r\n              <ion-col size-xs=\"12\" size-sm=\"6\" size-md=\"6\" size-lg=\"3\">\r\n                <div class=\"note-item note-item2 note-box-danger card-outer\">\r\n                  <div matRipple class=\"card card-box\" (click)=\"datatype('rejected')\">\r\n                      <div class=\"top\">\r\n                          <div class=\"icon\">\r\n                              <mat-icon>close</mat-icon>\r\n                          </div>\r\n                      </div>\r\n                      <div class=\"bottom\">\r\n                        <p class=\"heading\">Rejected</p>\r\n                        <p><b>{{tableData?.rejected}}</b> Products</p>\r\n                      </div>\r\n                  </div>\r\n                </div>             \r\n              </ion-col>\r\n            </ion-row>\r\n          </ion-grid>\r\n        </div>\r\n        <div class=\"card card-box card-table\">\r\n          <!-- <div class=\"card-header\">\r\n            <div class=\"card-header-tittle\">\r\n             {{tableTitle}} Product List\r\n            </div>\r\n            <div class=\"card-header-action\">\r\n              <ion-button class=\"custom-btn\" [routerLink]=\"['/', 'add-designer-product', 'add', 'id']\" *ngIf=\"role =='DESIGNER'\">\r\n                Add Product\r\n              </ion-button>\r\n            </div>\r\n          </div> -->\r\n          <div class=\"card-body\">\r\n            <div class=\"add-content-button text-right\">\r\n            </div>\r\n            <div class=\"table-header\">\r\n              <div class=\"records-wrapper\">\r\n                <ion-item class=\"record\">\r\n                  <span class=\"text-black mr-1\">Records: </span>\r\n                  <mat-form-field  class=\"m-0\">\r\n                    <mat-select [(ngModel)]=\"displayRecord\" name=\"record\" (selectionChange)=\"displayRecordChange($event.value)\">\r\n                      <mat-option *ngFor=\"let record of displayRecords\" [value]=\"record.displayValue\">\r\n                        <span *ngIf=\"record.displayValue > 0\">{{record.displayValue}}</span>\r\n                        <!-- <span *ngIf=\"record.displayValue == 0\">All</span> -->\r\n                      </mat-option>\r\n                    </mat-select>\r\n                  </mat-form-field>\r\n                </ion-item>\r\n              </div>\r\n              <div class=\"search-wrapper\">\r\n                <ion-searchbar class=\"p-0\" showCancelButton=\"focus\" debounce=\"500\" placeholder=\"Search  product name ....\" [(ngModel)]=\"searchTerm\" (ionChange)=\"searchList($event)\"></ion-searchbar>\r\n              </div>\r\n            </div>\r\n            <div class=\"table-responsive\" *ngIf=\"role == 'ADMIN'\">\r\n              <table class=\"table\">\r\n                  <thead>\r\n                      <tr>\r\n                          <th class=\"ion-text-start\">\r\n                              <div>\r\n                                  #\r\n                              </div>\r\n                          </th> \r\n                          <th *ngFor=\"let th of tableHeaderData1\" (click)=\"isSortTableHeader(tableHeaderData1, th)\" class=\"ion-text-center\">\r\n                            <div>\r\n                              {{th.display_name}}\r\n                              <mat-icon *ngIf=\"th.sortingButtonName == ''\">import_export</mat-icon>\r\n                              <mat-icon *ngIf=\"th.sortingButtonName == 'ASC'\">expand_less</mat-icon>\r\n                              <mat-icon *ngIf=\"th.sortingButtonName == 'DESC'\">expand_more</mat-icon>\r\n                            </div>\r\n                          </th>\r\n                          <th class=\"ion-text-center\">\r\n                            <div class=\"ion-justify-content-center\">\r\n                              Product Img\r\n                            </div>\r\n                          </th>\r\n                          <th class=\"ion-text-center\">\r\n                            <div class=\"ion-justify-content-center\">\r\n                              Verifiction\r\n                            </div>\r\n                          </th>\r\n                          <th class=\"ion-text-center\" >\r\n                            <div class=\"ion-justify-content-center\">\r\n                              Actions\r\n                            </div>\r\n                          </th>\r\n                      </tr>\r\n                  </thead>\r\n                  <tbody>\r\n                    <tr  [hidden]=\"!isListLoading\" class=\"loading-table-data\">\r\n                      <td colspan=\"100\" class=\"text-center\">\r\n                        Data is loading...\r\n                      </td>\r\n                    </tr>\r\n                    <tr [hidden]=\"isListLoading\" *ngIf=\"tableData?.data.length == 0\" class=\"loading-table-data\">\r\n                      <td colspan=\"100\" class=\"text-center\">\r\n                        No data found\r\n                      </td>\r\n                    </tr>\r\n                    <tr [hidden]=\"isListLoading\" *ngFor=\"let item of tableData?.data; let i = index\">\r\n                      <td>{{i + 1}}</td>\r\n                      <td>\r\n                        <a [routerLink]=\"['/', 'product-view',  item.productId]\" class=\"text-decoration-none\">\r\n                          <div class=\"longtext\" [matTooltip]=\"item?.productName\" matTooltipPosition=\"right\">\r\n                            {{item?.productDetails?.productName}}\r\n                          </div>\r\n                        </a>\r\n                      </td>\r\n                      <!-- <td>\r\n                        <div class=\"longtext\" [matTooltip]=\"item?.productDescription\"\r\n                        matTooltipPosition=\"right\">\r\n                          {{item?.productDetails?.productDescription}}\r\n                        </div>\r\n                        \r\n                      </td> -->\r\n                      <td>{{item?.categoryName}}</td>\r\n                      <td>{{item?.subCategoryName}}</td>\r\n                      <td>\r\n                        {{item?.designerProfile?.displayName}}\r\n                      </td>\r\n                      <td>\r\n                        {{item?.designerProfile?.designerCategory}}\r\n                      </td>\r\n                      <!-- <td>\r\n                        {{item?.gender}}\r\n                      </td> -->\r\n                      <!-- <td>\r\n                        {{item?.age?.min}}--{{item?.age?.max}}\r\n                      </td> -->\r\n                      <!-- <td>\r\n                        {{item?.priceType}}\r\n                      </td>\r\n                      <td>\r\n                        {{item?.taxPercentage}}\r\n                      </td>  -->\r\n                      <td>\r\n                        \r\n                        {{item?.mrp}}\r\n                      </td>                        \r\n                      <td>\r\n                        {{item?.deal?.salePrice ? item?.deal?.salePrice : '0'}}\r\n                      </td>\r\n                      <td>\r\n                          {{item?.soh}}\r\n                      </td>\r\n                      <td>\r\n                        <!-- <a href=\"{{item?.images[0].name}}\" data-fancybox data-caption=\"My caption\">\r\n                          <img [src]=\"item?.images[0].name\" class=\"w-50 img-fluid rounded\">\r\n                        </a> -->\r\n                        <div class=\"symbol-group symbol-hover\">\r\n                         <a [href]=\"item?.images[0]?.large\" target=\"_blank\" *ngIf=\"item?.images[0]?.large\">\r\n                            <img [src]=\"item?.images[0]?.large\" class=\"img-fluid rounded tableimg\">\r\n                            <!-- <fancybox box-for=\"item.productId\"> -->\r\n                          </a>\r\n                          <a [href]=\"item?.images[1]?.large\" target=\"_blank\"  *ngIf=\"item?.images[1]?.large\">\r\n                            <img [src]=\"item?.images[1]?.large\" class=\"img-fluid rounded tableimg\">\r\n                          </a>\r\n                          <a [href]=\"item?.images[2]?.large\" target=\"_blank\"  *ngIf=\"item?.images[2]?.large\">\r\n                            <img [src]=\"item?.images[2]?.large\" class=\"img-fluid rounded tableimg\">\r\n                          </a>\r\n                          <a [href]=\"item?.images[3]?.large\" target=\"_blank\"  *ngIf=\"item?.images[3]?.large\">\r\n                            <img [src]=\"item?.images[3]?.large\" class=\"img-fluid rounded tableimg\">\r\n                          </a>\r\n                        </div>\r\n                      </td>\r\n                      <td>\r\n                        <span class=\"status\" [ngClass]=\"{ 'warning': item.adminStatus == 'Pending' , 'danger': item.adminStatus == 'Rejected','success': item.adminStatus == 'Approved'}\">\r\n                          {{item?.adminStatus}}\r\n                        </span>\r\n                        \r\n                      </td>\r\n                      <td class=\"action pt-0 text-center\">\r\n                        <ion-fab *ngIf=\"pagePermission?.modPrivs?.update == true\" horizontal=\"end\" vertical=\"bottom\" slot=\"\">\r\n                          <ion-fab-button color=\"dark\">\r\n                            <ion-icon color=\"warning\"  matTooltip=\"Pending\" matTooltipClass=\"bg-warning\" flow=\"up\" delay=\"500\" name=\"time-outline\" *ngIf=\"item.adminStatus== 'Pending'\"></ion-icon>\r\n                            <ion-icon color=\"danger\"  matTooltip=\"Rejected\" matTooltipClass=\"bg-danger\" flow=\"up\" delay=\"500\" name=\"close-circle-outline\" *ngIf=\"item.adminStatus== 'Rejected'\"></ion-icon>\r\n                            <ion-icon  color=\"success\" matTooltip=\"Approved\" matTooltipClass=\"bg-success\" flow=\"up\" delay=\"500\" name=\"checkmark-circle-outline\" *ngIf=\"item.adminStatus== 'Approved'\"></ion-icon>\r\n                          </ion-fab-button>\r\n                          <ion-fab-list side=\"start\">\r\n                            <ion-fab-button color=\"danger\" matTooltip=\"Reject Product\" matTooltipClass=\"bg-danger\" flow=\"up\" delay=\"500\" *ngIf=\"item.adminStatus != 'Rejected'\" (click)=\"changeStatus('reject',item)\">\r\n                              <ion-icon name=\"close-circle-outline\" color=\"dark\"></ion-icon>\r\n                            </ion-fab-button>\r\n                            <ion-fab-button color=\"success\"  matTooltip=\"Approve Product\" matTooltipClass=\"bg-success\" flow=\"up\" delay=\"500\" *ngIf=\"item.adminStatus != 'Approved'\" (click)=\"changeStatus('approve',item)\">\r\n                              <ion-icon name=\"checkmark-circle-outline\" color=\"dark\"></ion-icon>\r\n                            </ion-fab-button>\r\n                          </ion-fab-list>\r\n                        </ion-fab>\r\n                        <ion-button *ngIf=\"tableTitle == 'rejected'\" matTooltip=\"View message\" matTooltipPosition=\"above\" size=\"small\" color=\"secondary\" (click)=\"openRejectemodal('message_modal', item?.productStageDetails?.comment, '');\">\r\n                          <mat-icon>chat</mat-icon>\r\n                        </ion-button>\r\n                      </td>\r\n                    </tr>\r\n                  </tbody>\r\n              </table>\r\n          </div>\r\n          </div>\r\n          <div class=\"card-footer\">\r\n            <div class=\"action\">\r\n              <ion-button matTooltip=\"Refresh\" matTooltipPosition=\"above\" size=\"small\" color=\"primary\" (click)=\"onRefresh()\">\r\n                <mat-icon>refresh</mat-icon>\r\n              </ion-button>\r\n              <div *ngIf=\"tableData?.data.length == 0\">\r\n                <ion-button [ngClass]=\"{'disabled':checkedList.length == 0 || alldeleteLoaderShow}\" class=\"w-40\" (click)=\"onClickDeleteItem('multiple', '', tableListData, '')\" matTooltip=\"Recycle Bin\" matTooltipPosition=\"above\" color=\"danger\" *ngIf=\"alldelbtn\">\r\n                  <mat-icon *ngIf=\"!alldeleteLoaderShow\" >delete_forever</mat-icon>\r\n                  <ion-spinner *ngIf=\"alldeleteLoaderShow\" class=\"delete-spinner\" name=\"crescent\"></ion-spinner>\r\n                </ion-button>\r\n              </div>\r\n            </div>\r\n            <div>\r\n                <ul class=\"pagination\">\r\n                    <li (click)=\"setPage(0)\" [ngClass]=\"{disabled:tableData?.currentPage === 0}\" class=\"circle-border\" matTooltip=\"First\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- First -->\r\n                          <ion-icon name=\"play-skip-back\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li (click)=\"setPage(tableData.currentPage - 1)\" [ngClass]=\"{disabled:tableData?.currentPage === 0}\" class=\"circle-border\" matTooltip=\"Previous\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Previous -->\r\n                          <ion-icon name=\"caret-back\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li> <span class=\"ran-separator pull-right margin-top-3\"></span> </li>\r\n                    <li>\r\n                        Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} \r\n                    </li>\r\n                    <li> <span class=\"ran-separator pull-right margin-top-3\"></span> </li>\r\n                    <li (click)=\"setPage(tableData.currentPage + 1)\" [ngClass]=\"{disabled:tableData?.currentPage === tableData?.totalPage}\" class=\"circle-border\" matTooltip=\"Next\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Next -->\r\n                          <ion-icon name=\"caret-forward\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                    <li (click)=\"setPage(tableData.totalPage)\" [ngClass]=\"{disabled:tableData?.currentPage === tableData?.totalPage}\" class=\"circle-border\" matTooltip=\"Last\" matTooltipPosition=\"above\">\r\n                        <a>\r\n                          <!-- Last -->\r\n                          <ion-icon name=\"play-skip-forward\"></ion-icon>\r\n                        </a>\r\n                    </li>\r\n                </ul>\r\n              </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</ion-content>\r\n\r\n<!-- common footer show -->\r\n<common-footer></common-footer>");
 
 /***/ })
 

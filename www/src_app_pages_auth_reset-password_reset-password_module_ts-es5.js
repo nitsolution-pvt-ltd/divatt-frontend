@@ -270,14 +270,13 @@
           value: function onsubmitResetform(form) {
             var _this = this;
 
-            console.log(form.value.newPass);
+            // console.log(form.value.newPass);
             this.data = {
               newPass: form.value.newPass
             };
             this.btnloader = true;
             this.http.post("auth/resetPassword/" + this.link + "/" + this.time, this.data).subscribe(function (res) {
-              console.log("p", res);
-
+              // console.log("p",res);
               if (res.status == 200) {
                 _this.commonUtils.presentToast('success', res.message);
 
@@ -288,7 +287,7 @@
 
               _this.btnloader = false;
             }, function (error) {
-              console.log(error);
+              // console.log(error);
               _this.btnloader = false;
 
               _this.commonUtils.presentToast('error', error.error.message);
@@ -297,8 +296,7 @@
         }, {
           key: "passwordvalid",
           value: function passwordvalid(new_password, conform_password) {
-            console.log(new_password, conform_password);
-
+            // console.log(new_password,conform_password);
             if (conform_password == undefined) {
               this.errormsg = '';
             } else if (new_password != conform_password) {

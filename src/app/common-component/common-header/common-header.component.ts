@@ -34,8 +34,13 @@ export class CommonHeaderComponent implements OnInit {
     private authService:AuthService,
     private http:HttpClient,
     private commonUtils: CommonUtils, // common functionlity come here
-
-  ) { }
+    
+  ) { 
+    router.events.subscribe((val) =>{
+      // // console.log('Route Change',val);
+      this.openleftnav = false;
+    })
+  }
 
   ngOnInit() 
   {
@@ -43,12 +48,12 @@ export class CommonHeaderComponent implements OnInit {
 
     // Or to get a key/value pair
     this.storage.get('setStroageGlobalParamsData').then((val) => {
-      console.log('All User Data', val);
-      // console.log("this.href",val.username.split('@')[0]);
+      // console.log('All User Data', val);
+      // // console.log("this.href",val.username.split('@')[0]);
       this.role = val.authority;
       this.getuserInfo(val.authority,val.username)
       this.storage.get('profileImageData').then((val) => {
-        console.log('profileImageData', val);
+        // console.log('profileImageData', val);
       });
     });
     
@@ -60,7 +65,7 @@ export class CommonHeaderComponent implements OnInit {
     commonfunction()
     {
       this.storage.get('setStroageGlobalParamsData').then((val) => {
-        console.log('User ID', val);
+        // console.log('User ID', val);
         
         if(val.authority == 'DESIGNER')
         {
@@ -78,10 +83,10 @@ export class CommonHeaderComponent implements OnInit {
         this.http.get("designer/"+uid).subscribe(
           (res:any) => {
             this.designerprofiledata = res;
-            console.log("res",res);
+            // console.log("res",res);
             
             this.profileImage = res.designerProfile.profilePic;
-            console.log("this.profileImage",this.profileImage);
+            // console.log("this.profileImage",this.profileImage);
             
             if(res.profileStatus == 'COMPLETED')
             {
@@ -94,14 +99,14 @@ export class CommonHeaderComponent implements OnInit {
             
           },
           (error) =>{
-            console.log("error",error);
+            // console.log("error",error);
           })
       }
       // getDesignerProfiledata end
     // getuserInfo start
     getuserInfo(role,username)
     {
-      console.log("username",this.username);
+      // console.log("username",this.username);
       
 
           this.storage.get('setStroageGlobalParamsData').then((val) => {
@@ -136,7 +141,7 @@ export class CommonHeaderComponent implements OnInit {
     }
     // getuserInfo end
   async openChangePasswordmodal(_identifier, _item, _items) {
-    console.log('openChangePasswordmodal_identifier ...........>>', _identifier);
+    // console.log('openChangePasswordmodal_identifier ...........>>', _identifier);
 
     let changePassword_modal;
     changePassword_modal = await this.modalController.create({
@@ -152,7 +157,7 @@ export class CommonHeaderComponent implements OnInit {
     // modal data back to Component
     changePassword_modal.onDidDismiss()
     .then((getdata) => {
-      console.log('getdata >>>>>>>>>>>', getdata);
+      // console.log('getdata >>>>>>>>>>>', getdata);
       if(getdata.data == 'submitClose'){
         
       }
@@ -163,7 +168,7 @@ export class CommonHeaderComponent implements OnInit {
   }
   // Login modal end 
   showSearchBox(_item) {
-    console.log('showSearch>>', this.showSearch);
+    // console.log('showSearch>>', this.showSearch);
     if(this.showSearch == false) {
       this.showSearch = true;
     }else{
@@ -185,9 +190,9 @@ export class CommonHeaderComponent implements OnInit {
     this.userPermissionDataSubscribe = this.http.get('admin/role/'+_role).subscribe(
       (response: any) => {
         this.permissionMenuLoading = false;
-        console.log('this.get_user_permission',response);
+        // console.log('this.get_user_permission',response);
         this.get_user_permission = response;
-        console.log("designermodules",this.designermodules);
+        // console.log("designermodules",this.designermodules);
         this.commonUtils.menuPermissionService(response.modules);
       },
       errRes => {
@@ -202,12 +207,9 @@ export class CommonHeaderComponent implements OnInit {
   // go to login page start
   logout()
   {
-    
-    console.log(localStorage.getItem('token'));
     this.authService.logout();
     // this.router.navigateByUrl('/welcome');
     localStorage.removeItem('token');
-    console.log(localStorage.getItem('token'));
   }
   // go to login page end
 }

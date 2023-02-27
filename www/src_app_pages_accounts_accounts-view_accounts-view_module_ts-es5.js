@@ -305,9 +305,8 @@
         }, {
           key: "genaratePDF",
           value: function genaratePDF(order, identifier) {
+            // console.log('Data',order,identifier);
             var _a, _b;
-
-            console.log('Data', order, identifier);
 
             if (identifier == 'orderinvoice') {
               var url = src_environments_environment__WEBPACK_IMPORTED_MODULE_5__.environment.apiUrl + "/userOrder/getOrderSummary/" + order;

@@ -300,7 +300,7 @@ export class CommonUtils {
                 map((resData:any) => {
 
                     this.items_data = [];
-                    console.log('listing link call .................resData =>', resData);
+                    // console.log('listing link call .................resData =>', resData);
 
                     if(resData.return_status > 0 && resData.return_data.data.length > 0){
                         for (const key in resData.return_data.data) {
@@ -310,11 +310,11 @@ export class CommonUtils {
                         }
 
                         this.listAllResData = resData.return_data;
-                        console.log('listing common serveice aaaaaaaaaaaaaa >>>>>', resData.return_data);
+                        // console.log('listing common serveice aaaaaaaaaaaaaa >>>>>', resData.return_data);
                         
                     }
                     
-                    // console.log('listing common serveice 111 >>>>>', resData.return_data);
+                    // // // console.log('listing common serveice 111 >>>>>', resData.return_data);
 
                     if(resData.return_status > 0 && resData.return_data.total == '0'){
                         // console.log('listing common serveice bbbbbbbbbbbbb >>>>>', resData.return_data);
@@ -342,7 +342,7 @@ export class CommonUtils {
     clickEditData;
     clickEditDataFun(_data:any){
         this.clickEditData = _data;
-        console.log("_data.principle >", _data.principle);
+        // console.log("_data.principle >", _data.principle);
     }
     // click edit item update end
     
@@ -386,9 +386,9 @@ export class CommonUtils {
         
             if (_getItemsArry.length <= _checkedList.length) {
                 _allselectModel = true;
-            console.log('length 4');
+            // console.log('length 4');
             } else {
-                console.log('length 0');
+                // console.log('length 0');
                 _allselectModel = false;
                 _itemcheckClick = true;
         

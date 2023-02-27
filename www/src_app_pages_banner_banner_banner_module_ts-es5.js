@@ -277,32 +277,32 @@
 
             this.commonUtils.getPathNameFun(this.router.url.split('/')[1]);
             this.parms_action_name = this.activatedRoute.snapshot.paramMap.get('action');
-            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
-            console.log('parms_action_name', this.parms_action_name);
-            console.log('parms_action_id', this.parms_action_id);
+            this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id'); // console.log('parms_action_name', this.parms_action_name);
+            // console.log('parms_action_id', this.parms_action_id);
+
             /*Check permission status start*/
             // this.authService.globalparamsData.subscribe(res => {
-            //   console.log('res>>', res);
+            //   // console.log('res>>', res);
             //   if(res.authority == 'ADMIN'){
             //     this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
             //       if(data){
-            //         console.log('menu>>', data);
-            //         console.log('this.router.url>>', this.router.url);
+            //         // console.log('menu>>', data);
+            //         // console.log('this.router.url>>', this.router.url);
             //         let pageUrlName = this.router.url.split("/");
-            //         console.log('pageUrlName', pageUrlName);
+            //         // console.log('pageUrlName', pageUrlName);
             //         for(let item of data) {
             //           let moduleUrlName = item.modDetails.url.split("-");
-            //           console.log('moduleUrlName',moduleUrlName);
+            //           // console.log('moduleUrlName',moduleUrlName);
             //           if(pageUrlName[1] == moduleUrlName[0]){
             //             if(this.parms_action_name == 'add' && item.modPrivs.create == true){
-            //                console.log('-----Permission create Granted-----');
+            //                // console.log('-----Permission create Granted-----');
             //               break;
             //             }else if(this.parms_action_name == 'edit' && item.modPrivs.update == true){
-            //               console.log('-----Permission update Granted-----');
+            //               // console.log('-----Permission update Granted-----');
             //               this.getBannerById();
             //               break;
             //             }else {
-            //               console.log('-------No Permission--------');
+            //               // console.log('-------No Permission--------');
             //               this.router.navigateByUrl('/error');
             //             }
             //           }
@@ -329,7 +329,7 @@
             this.model.endDate = null;
             this.loader = true;
             this.getBannerbyIdSubscribe = this.http.get("adminMData/getBanner/" + this.parms_action_id).subscribe(function (res) {
-              console.log("res", res);
+              // console.log("res",res);
               _this.loader = false;
               _this.model = {
                 title: res.title,
@@ -344,8 +344,7 @@
               _this.imageSrc = res.image;
               _this.previewimageSrc = res.image;
             }, function (error) {
-              _this.loader = false;
-              console.log("error", error);
+              _this.loader = false; // console.log("error",error);
             });
           }
         }, {
@@ -361,9 +360,9 @@
             if (!file.type.match(pattern)) {
               alert('invalid format');
               return;
-            }
+            } // console.log(this.imageSrc);
 
-            console.log(this.imageSrc);
+
             this.imageSrc = null; // this.file = null;
             // this.imageSrc= e.target.files[0];
 
@@ -371,11 +370,11 @@
             fd.append("file", e.target.files[0]);
             this.http.post("admin/profile/s3/upload", fd).subscribe(function (res) {
               _this2.imageSrc = res.path;
-              _this2.model.image = res.path;
-              console.log("profileimgpath", _this2.imageSrc);
+              _this2.model.image = res.path; // console.log("profileimgpath",this.imageSrc);
+
               _this2.uploader = false; // this.commonUtils.presentToast('success', res.message);
             }, function (error) {
-              console.log("error", error);
+              // console.log("error",error);
               _this2.uploader = false;
 
               _this2.commonUtils.presentToast('error', error.error.message);
@@ -401,7 +400,7 @@
 
             if (this.parms_action_name == 'add') {
               this.addBannerSubscribe = this.http.post('adminMData/addBanner', form.value).subscribe(function (res) {
-                console.log("allcategorydata", _this3.allcategorydata, "response", res);
+                // console.log("allcategorydata",this.allcategorydata,"response",res);
                 _this3.btnloader = false;
 
                 _this3.commonUtils.presentToast('success', res.message);
@@ -411,7 +410,7 @@
                 form.reset();
                 _this3.imageSrc = '';
               }, function (error) {
-                console.log(error);
+                // console.log(error);
                 _this3.btnloader = false;
 
                 _this3.commonUtils.presentToast('error', error.error.message);
@@ -420,7 +419,7 @@
             // edit api start
             else if (this.parms_action_name == 'edit') {
               this.addBannerSubscribe = this.http.put("adminMData/updateBanner/" + this.parms_action_id, form.value).subscribe(function (res) {
-                console.log("allcategorydatay", _this3.allcategorydata, "response", res);
+                // console.log("allcategorydatay",this.allcategorydata,"response",res);
                 _this3.btnloader = false; // window.location.reload();
 
                 _this3.commonUtils.presentToast('success', res.message);
@@ -441,8 +440,7 @@
         }, {
           key: "changeDateFormat",
           value: function changeDateFormat(date, identifire, event) {
-            console.log('event', event.target.value);
-
+            // console.log('event',event.target.value);
             if (event.target.value) {
               if (identifire == 'start') {
                 this.model.startDate = moment__WEBPACK_IMPORTED_MODULE_2__(date).format('YYYY/MM/DD');
