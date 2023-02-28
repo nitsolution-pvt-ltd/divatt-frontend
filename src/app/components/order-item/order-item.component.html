@@ -1,0 +1,943 @@
+<div class="page-wrraper">
+    <!-- page navigation start -->
+    <div class="page-navigation">
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div class="page-name">ORDER ITEM LIST</div>
+                <div class="page-links">
+                    <span>Home</span>&nbsp;<span>/</span>&nbsp;<span>ORDER LIST</span>&nbsp;<span>/</span>&nbsp;<span>Order Item List</span> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- page navigation end -->
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                <div class="img-section">
+                    <!-- <span>+4</span> -->
+                    <img *ngIf="orderView?.images" [src]="orderView?.images ? orderView?.images : 'assets/images/product/noproduct.jpg'" />
+                    <!-- <img *ngIf="!orderView?.images" src="assets/images/product/noproduct.jpg" /> -->
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                <div class="order-item-card">
+                    <div class="p-30 b-b-2">
+                        <div class="d-flex">
+                            <div class="order-id">
+                                <h1>Order ID</h1>
+                                <p>{{orderItem?.orderId}}</p>
+                            </div>
+                            <div class="order-date">
+                                <h1>Order Date</h1>
+                                <p>{{orderItem?.orderDate}}</p>
+                            </div>
+                            <div class="delivery-date">
+                                <h1>Delivery Date</h1>
+                                <p *ngIf="orderView?.orderStatusDetails?.deliveryDetails?.deliveredDate">{{orderView?.orderStatusDetails?.deliveryDetails?.deliveredDate}}</p>
+                                <p *ngIf="!orderView?.orderStatusDetails?.deliveryDetails?.deliveredDate">{{shippingDate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ptl-15 b-b-2">
+                        <div class="order-status">
+                            <h1>Order Status</h1>
+                            <div class="order-steper">
+                                <!-- progress bar all step -->
+                                <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="paymentData && orderView?.orderItemStatus != 'New' && orderView?.orderItemStatus != 'Request for cancelation' &&  orderView?.orderItemStatus != 'cancelled' && orderView?.orderItemStatus != 'returnRequest' && orderView?.orderItemStatus != 'returnRefund' && orderView?.orderItemStatus != 'Rejected' && orderView?.orderItemStatus != 'Return request approved' && orderView?.orderItemStatus != 'Product shipped by user' && orderView?.orderItemStatus != 'Product received from user' && orderView?.orderItemStatus != 'Return rejected by admin'">
+                                    <li class="step0 active" id="step1"><span><img src="assets/images/orders.png" />Order Verified</span></li>
+                                    <li class="step0 text-center cursor-pointer" [ngClass]="{'disabledclick active': orderView?.orderItemStatus == 'Packed' || orderView?.orderItemStatus == 'Delivered' || orderView?.orderItemStatus == 'Shipped'}" (click)="orders_modal(orderpack)" id="step2"><span><img src="assets/images/packing.png" />Packed</span></li>
+                                    <li class="step0 text-center cursor-pointer" id="step3" [ngClass]="{'active':  orderView?.orderItemStatus == 'Delivered' || orderView?.orderItemStatus == 'Shipped', 'disabledclick':  orderView?.orderItemStatus == 'Delivered' || orderView?.orderItemStatus == 'Shipped' || orderView?.orderStatusDetails?.packedDetails == null}" (click)="orders_modal(ordershipped)"><span><img src="assets/images/shipment.png" />Ship</span></li>
+                                    <li class="step0  text-muted text-end cursor-pointer" [ngClass]="{'active': orderView?.orderItemStatus == 'Delivered' ,'disabledclick': orderView?.orderItemStatus == 'Delivered' || orderView?.orderStatusDetails?.shippedDetails == null }"  id="step4" (click)="orders_modal(orderdelivered)"><span
+                                        style="margin-right: 22px;"><img src="assets/images/deliverd.png" />Deliverd</span></li>
+                                </ul>
+
+                                <!-- progress bar two step -->
+                                <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="paymentData && orderView?.orderItemStatus == 'New' || paymentData && orderView?.orderItemStatus == 'cancelled' || paymentData && orderView?.orderItemStatus == 'Request for cancelation'"  [ngClass]="{'cancellation': orderView?.orderItemStatus == 'Request for cancelation' || orderView?.orderItemStatus == 'cancelled'}">
+                                    <li class="step0 active " id="step1"><span
+                                        ><img src="assets/images/orders.png" />{{orderView?.orderItemStatus == 'Request for cancelation' ? 'Request for cancelation' : 'Verify Orders'}}</span></li>
+                                    <li *ngIf="orderView?.orderItemStatus == 'Request for cancelation' || orderView?.orderItemStatus == 'cancelled'" class="step0 text-muted text-end cursor-pointer text-capitalize cursor-default"  id="step4" [ngClass]="{'disabledclick active': orderView?.orderItemStatus ==  'cancelled'}"><span
+                                        style="margin-right: 22px;"><img src="assets/images/orders.png" />Cancelled</span>
+                                    </li>
+                                    <li *ngIf="orderView?.orderItemStatus == 'New'" class="step0 text-muted text-end cursor-pointer text-capitalize" (click)="orders_modal(orders)" id="step4" [ngClass]="{'disabledclick active': orderView?.orderItemStatus ==  'Orders'}"><span
+                                        style="margin-right: 22px;"><img src="assets/images/orders.png" />Orders</span>
+                                    </li>
+                                </ul>
+                                <!-- returnRefund -->
+                                <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4" *ngIf="paymentData && orderView?.orderItemStatus == 'returnRequest' || paymentData && orderView?.orderItemStatus == 'Return rejected by admin' && !orderView?.orderStatusDetails?.returnFromAdmin"  [ngClass]="{'return': orderView?.orderItemStatus == 'returnRequest' || orderView?.orderItemStatus == 'returnRefund'}">
+                                    <li class="step0 active " id="step1">
+                                        <span><img src="assets/images/orders.png" />Return Request</span>
+                                    </li>
+                                    <li class="step0 text-muted text-end  text-capitalize disabledclick cursor-default"  id="step4" [ngClass]="{'active': orderView?.orderItemStatus == 'Return rejected by admin'}">
+                                        <span style="margin-right: 22px;" *ngIf="orderView?.orderItemStatus == 'Return rejected by admin'">
+                                            <img src="assets/images/orders.png" />Return Request Rejected
+                                        </span>
+                                        <span style="margin-right: 22px;" *ngIf="orderView?.orderItemStatus == 'returnRequest'">
+                                            <img src="assets/images/orders.png" />Return approve
+                                        </span>
+                                    </li>
+                                </ul>
+                                <!-- Order Not Confirmed -->
+                                <ul id="progressbar-2" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4 return" *ngIf="!paymentData">
+                                    <li class="step0 active " id="step1">
+                                        <span><img src="assets/images/orders.png" />Order</span>
+                                    </li>
+                                    <li class="step0 text-muted text-end  text-capitalize disabledclick cursor-default active"  id="step4">
+                                        <span style="margin-right: 22px;" >
+                                            <img src="assets/images/orders.png" />Order Not Confirmed
+                                        </span>
+                                    </li>
+                                </ul>
+                                <!-- Return approve -->
+                                <ul id="progressbar-1" class="mx-0 mt-0 mb-5 px-0 pt-0 pb-4 refundRequest hiddentext" *ngIf="orderView?.orderItemStatus == 'Return request approved' || orderView?.orderItemStatus == 'Product shipped by user' || orderView?.orderItemStatus == 'Product received from user' || orderView?.orderItemStatus == 'returnRefund' || orderView?.orderItemStatus == 'Rejected' || orderView?.orderItemStatus == 'Rejected' && orderView?.orderStatusDetails?.returnFromAdmin?.isReturn">
+                                    <li class="step0 active" id="step1"><span  class="showtext"
+                                        ><img src="assets/images/orders.png" />Return approve</span></li>
+                                    <li class="step0 text-center cursor-default" [ngClass]="{'active': orderView?.orderStatusDetails?.userShippedProduct}"  id="step2"><span [ngClass]="{'showtext' : viewText == 'Product shipped'}" (click)="viewText = 'Product shipped'"><img src="assets/images/packing.png" />Shipped</span></li>
+                                    <li class="step0 text-center" id="step3" [ngClass]="{'active':  orderView?.orderStatusDetails?.designerReceivedProduct, 'disabledclick':  orderView?.orderStatusDetails?.designerReceivedProduct || orderView?.orderStatusDetails?.returnFromAdmin}" (click)="orders_modal(designerReceived)"><span [ngClass]="{'showtext' : viewText == 'Product received'}" (click)="viewText = 'Product received'" ><img src="assets/images/shipment.png" />Received</span></li>
+                                    <li class="step0 text-center text-muted cursor-default" [ngClass]="{'active': orderView?.orderItemStatus == 'returnRefund' || orderView?.orderItemStatus == 'Rejected'}" id="step4" ><span [ngClass]="{'showtext' : viewText == 'Return/Refund'}"  (click)="viewText = 'Return/Refund'" ><img [src]="orderView?.orderItemStatus == 'Rejected' ? 'assets/images/cancel-button.png' : 'assets/images/deliverd.png'" />{{orderView?.orderItemStatus == 'Rejected' ? 'Refund rejected' : 'Return/Refund'}}</span></li>
+                                </ul>
+                                <!-- Return approve end -->
+                                <p class="text-right" *ngIf="orderView?.orderItemStatus == 'New'"><a (click)="orders_modal(cancel)" class="text-danger text-decoration-none  font-weight-bold cursor-pointer">Reject Order</a></p>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12  shortNotes">
+                                <p *ngIf="orderView?.orderItemStatus == 'Orders'" class="mb-0 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Order verified by {{orderView?.displayName}}.</span></p>
+                                <p *ngIf="orderView?.orderItemStatus == 'Packed'" class="mb-0 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Product packed in divatt cover & Recorded the packing video.</span></p>
+                                <p *ngIf="orderView?.orderItemStatus == 'Shipped'" class="mb-0 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Product courier by {{orderView?.orderStatusDetails?.shippedDetails?.courierName}} on {{orderView?.orderStatusDetails?.shippedDetails?.orderShippedTime}}</span></p>
+                                <p *ngIf="orderView?.orderItemStatus == 'Shipped'" class="mb-0  w-100"><mat-icon class="text-success">info</mat-icon><span>Product AWB number : {{orderView?.orderStatusDetails?.shippedDetails?.awbNumber}}</span></p>
+                                <p *ngIf="orderView?.orderItemStatus == 'Delivered'" class="mb-0 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Product delivered by {{orderView?.orderStatusDetails?.shippedDetails?.courierName}} on {{orderView?.orderStatusDetails?.deliveryDetails?.deliveredDate}}.</span></p>  
+                                <p *ngIf="orderView?.orderItemStatus == 'cancelled'" class="mb-2 pt-2"><mat-icon class="text-danger">verified</mat-icon><span>Product cancelled successfully on {{cancelOrderDetailsTime != '' ? cancelOrderDetailsTime : cancelFromUserTime}}.</span></p>  
+                                <p *ngIf="orderView?.orderItemStatus == 'returnRefund'" class="mb-2 pt-2  w-100"><mat-icon class="text-success">verified</mat-icon><span>Product return completed and <b>₹{{orderView?.salesPrice ? orderView?.salesPrice : orderView?.mrp}}</b> refunded to buyer account on {{returnFromAdmindate}}.</span></p>  
+                            </div>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold  w-100" *ngIf="orderView?.orderStatusDetails?.cancelOrderDetails">Order {{orderView?.orderStatusDetails?.cancelOrderDetails ? 'reject' : 'cancelation'}} request by {{orderView?.orderStatusDetails?.cancelOrderDetails?.canceledBy =='DESIGNER' ? 'you' : 'user'}}  &nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'requestCancel')">chat</mat-icon>
+                            </p>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.cancelRequestDetails">Reason Of cancel request {{orderView?.orderStatusDetails?.cancelRequestDetails.adminRejectionComment ? 'rejected':'accepted'}}&nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'requestResult')">chat</mat-icon>
+                            </p>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.cancelFromUser">Reason for cancelation by user&nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'cancelFromUser')">chat</mat-icon>
+                            </p>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.returnFromUser">Reason of request For Return&nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'returnFromUser')">chat</mat-icon>
+                            </p>
+                            <p *ngIf="orderView?.orderStatusDetails?.userShippedProduct">
+                                User shipped the return product by below shipment details: <br>
+                                Courier Name: {{orderView?.orderStatusDetails?.userShippedProduct?.courierName}} <br>
+                                Tracking Number: {{orderView?.orderStatusDetails?.userShippedProduct?.trakingNumber}} <br>
+                                Date: {{orderView?.orderStatusDetails?.userShippedProduct?.dateTime}} <br>
+                                Comments: {{orderView?.orderStatusDetails?.userShippedProduct?.comments}}
+                            </p>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.returnFromAdmin">Reason of Return/Refund {{orderView?.orderStatusDetails?.returnFromAdmin?.isReturn ? 'accepted' : 'rejected'}} &nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'returnFromAdmin')">chat</mat-icon>
+                            </p>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold w-100" *ngIf="orderView?.orderStatusDetails?.returnRejectedByAdmin && orderView?.orderItemStatus == 'Return rejected by admin'">Reason of Return request {{orderView?.orderStatusDetails?.returnFromAdmin?.isReturn ? 'accepted' : 'rejected'}} &nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'returnRejectedByAdmin')">chat</mat-icon>
+                            </p>
+                            <p class="text-dark text-capitalize d-flex align-items-center  font-weight-bold  w-100" *ngIf="orderView?.orderStatusDetails?.forceReturnOnDTO && orderView?.orderItemStatus == 'Delivered'">Reason of force return&nbsp;:&nbsp;
+                                <mat-icon class="cursor-pointer" (click)="orders_Cancel(cancelmessage,orderView?.orderStatusDetails,'ForceReturnOnDTO')">chat</mat-icon>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="ptl-15 b-b-2">
+                        <div class="product-details">
+                            <h1>Order Details</h1>
+                            <p>{{orderView?.productName}}</p>
+                            <div class="row">
+                                <div class="col-4 col-sm-6 col-md-3 col-lg-3">
+                                    <p>Color</p>
+                                    <div class="Color" [style.background]='colour'></div>
+                                </div>
+                                <div class="col-4 col-sm-6 col-md-3 col-lg-3">
+                                    <p>Size</p>
+                                    <span class="d-flex align-items-center">{{orderView?.size}}&nbsp;<mat-icon *ngIf="orderView?.size == 'Custom'" (click)="custom_modal(customchart,orderView)">info</mat-icon></span>
+                                </div>
+                                <div class="col-4 col-sm-6 col-md-2 col-lg-2">
+                                    <p>QTY</p>
+                                    <span>{{orderView?.units}}</span>
+                                </div>
+                                <div class="col-4 col-sm-6 col-md-4 col-lg-4">
+                                    <p>Design Customization</p>
+                                    <span>{{orderView?.customizationStatus ? 'Yes' : 'No'}}</span>
+                                </div>
+                                <div class="col-4 col-sm-6 col-md-3 col-lg-3">
+                                    <p>Payment</p>
+                                    <span>{{orderItem?.paymentData?.paymentMode}}</span>
+                                </div>
+                                <div class="col-4 col-sm-6 col-md-3 col-lg-3">
+                                    <p>Gift Wrap</p>
+                                    <span> {{orderView?.giftwrapStatus ? 'Yes' : 'No'}} <span *ngIf="orderView?.giftwrapStatus">(₹{{orderView?.giftWrapAmount}})</span> </span>
+                                </div>
+                                <div class="col-4 col-sm-6 col-md-3 col-lg-3" *ngIf="orderView?.giftwrapStatus">
+                                    <p>GiftWrap Details</p>
+                                    <span><mat-icon (click)="message_modal(giftWrap,orderView.giftWrapObject)">info</mat-icon></span>
+                                </div>
+                                <div class="col-4 col-sm-6 col-md-3 col-lg-3" *ngIf="orderView?.customizationStatus">
+                                    <p>Message</p>
+                                    <span><mat-icon (click)="message_modal(message,orderView.customObject)">sms</mat-icon></span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="ptl-15 b-b-2">
+                        <div class="contact_invoice">
+                            <h1>{{orderView?.invoiceId ? 'Contact And Invoice' : 'Contact'}}</h1>
+                            <div class="row">
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                    <p>Customer Name</p>
+                                    <span>{{orderItem?.shippingAddress?.fullName}}</span>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-3 col-lg-3">
+                                    <p>Phone Number</p>
+                                    <span>{{orderItem?.shippingAddress?.mobile}}</span>
+                                </div>
+                                <div class="col-6 col-sm-6 col-md-5 col-lg-5" *ngIf="orderView?.invoiceId">
+                                    <p>Invoice</p>
+                                    <a class="invoice-button text-decoration-none" [href]="invoiceurl+orderId"  download mat-raised-button target="_blank"><span class="material-icons"> sim_card_download </span>Download Invoice</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- packed order -->
+<ng-template #orderpack let-modal>
+    <div class="packed_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Order Packed Form</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form #packedForm="ngForm" (ngSubmit)="ordersSubmit(packedForm, 'Packed')">
+            <div class="modal-body">
+                <mat-checkbox class="example-margin mat-check mr-b-15" name="packedCovered" [(ngModel)]="model.packedCovered" required><p>Packed in Divatt Cover</p></mat-checkbox>
+                <mat-checkbox class="example-margin mat-check mr-b-15" name="packingVideo" [(ngModel)]="model.packingVideo" required><p>Recorded the packing video</p></mat-checkbox>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!packedForm.valid">Submit</button>
+            </div>
+          </form>
+    </div>
+</ng-template>
+
+<!-- shipped order -->
+<ng-template #ordershipped let-modal>
+    <div class="shipped_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Order Shipped Form</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+          <form #shippedForm="ngForm" (ngSubmit)="ordersSubmit(shippedForm, 'Shipped')">
+            <div class="modal-body">
+                <mat-form-field appearance="outline">
+                    <mat-label>Courier Name</mat-label>
+                    <input matInput type="text" name="courierName" [(ngModel)]="model.courierName" pattern="^[a-zA-Z \-\']+" clearInput required >
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>AWB Number</mat-label>
+                    <input matInput type="number" min="0" name="awbNumber" [(ngModel)]="model.awbNumber" clearInput required >
+                </mat-form-field>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!shippedForm.valid">Submit</button>
+            </div>
+          </form>
+    </div>
+</ng-template>
+
+<!-- delivered order -->
+<ng-template #orderdelivered let-modal>
+    <div class="deliver_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Order Deliverd Form</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+          <form #deliveredForm="ngForm" (ngSubmit)="ordersSubmit(deliveredForm, 'Delivered')">
+            <div class="modal-body">
+                <mat-form-field appearance="outline">
+                    <mat-label>Deliverd date</mat-label>
+                    <input matInput type="date"  [min]="mindateRange" [max]="dateRange" autocomplete="off"   [(ngModel)]="model.date"   name="date"
+                      (change)="changeDateFormat(model.date)" required>
+                  </mat-form-field>
+                <input type="hidden" name="deliveredDate" [(ngModel)]="model.deliveredDate">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!deliveredForm.valid">Submit</button>
+            </div>
+          </form>
+    </div>
+</ng-template>
+
+<!-- Verify orders -->
+<ng-template #orders let-modal>
+    <div class="orders_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{!orderView?.customizationStatus && orderView?.size != 'Custom' ? 'Verify Order' : 'Customization'}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form #ordersForm="ngForm" (ngSubmit)="ordersSubmit(ordersForm, 'Orders')">
+            <div class="modal-body">
+                <mat-checkbox class="example-margin mat-check mr-b-15" *ngIf="!orderView?.customizationStatus && orderView?.size != 'Custom'" name="Verified" [(ngModel)]="model.Verified" required><p>I Verified this Order.</p></mat-checkbox>
+                <!-- orderView?.customizationStatus -->
+                <mat-checkbox class="example-margin mat-check mr-b-15" *ngIf="orderView?.customizationStatus" name="withDesignCustomization" [(ngModel)]="model.withDesignCustomization" required><p>Verified design customization requirements</p></mat-checkbox>
+                <mat-checkbox class="example-margin mat-check mr-b-15" *ngIf="orderView?.size == 'Custom'" name="withCustomization" [(ngModel)]="model.withCustomization" required><p>Verified customization sizes</p></mat-checkbox>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!ordersForm.valid">Submit</button>
+            </div>
+          </form>
+    </div>
+</ng-template>
+
+<!-- orderscancelForm orders -->
+<ng-template #cancel let-modal>
+    <div class="orders_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Reason Of Rejection</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form #orderscancelForm="ngForm" (ngSubmit)="cancelOrder(orderscancelForm)">
+            <div class="modal-body">
+                <mat-form-field appearance="outline" class="example-form-field">
+                    <mat-label>Rescission of Rejection</mat-label>
+                    <textarea matInput name="comment" [(ngModel)]="model.comment" required></textarea>
+                </mat-form-field>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!orderscancelForm.valid">Submit</button>
+            </div>
+          </form>
+    </div>
+</ng-template>
+<!-- designerReceived order -->
+<ng-template #designerReceived let-modal>
+    <div class="packed_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Product received form</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form #designerReceivedForm="ngForm" (ngSubmit)="ordersSubmit(designerReceivedForm, 'designerReceived')">
+            <div class="modal-body">
+                <mat-checkbox class="example-margin mat-check mr-b-15" name="correctProduct" [(ngModel)]="model.correctProduct" required><p>Received currect product</p></mat-checkbox>
+                <mat-form-field appearance="outline" class="example-form-field">
+                    <mat-label>Comments</mat-label>
+                    <textarea matInput name="comments" [(ngModel)]="model.comments" required></textarea>
+                </mat-form-field>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!designerReceivedForm.valid">Submit</button>
+            </div>
+          </form>
+    </div>
+</ng-template>
+<!-- Message -->
+<ng-template #message let-modal>
+    <div class="message_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Customization</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form>
+            <div class="modal-body">
+                <div class="chat-messages">
+                    <!-- <div class="message-box-holder">
+                     <div class="message-box">
+                       Hello
+                     </div>
+                   </div> <div class="message-box-holder">
+                     <div class="message-box message-partner">
+                       Hi.
+                     </div>
+                   </div>
+                   
+                   <div class="message-box-holder">
+                     <div class="message-box">
+                       How are you doing?
+                     </div>
+                   </div>
+                   
+                   <div class="message-box-holder">
+                      
+                     <div class="message-box message-partner">
+                       I'm doing fine. How about you?
+                     </div>
+                   </div>
+                   
+                   <div class="message-box-holder">
+                     <div class="message-box">
+                       I am fine.
+                     </div>
+                   </div>
+                   
+                   <div class="message-box-holder">
+                     <div class="message-box">
+                       Do you know why I knocked you today?
+                     </div>
+                   </div>
+                   
+                   <div class="message-box-holder">
+                     <div class="message-box">
+                       There's something important I would like to share with you. Do you have some time?
+                     </div>
+                   </div>
+                   
+                   <div class="message-box-holder">
+                     <div class="message-box message-partner">
+                       Yeah sure. Let's meet in the Einstein cafe this evening and discuss the matter.
+                     </div>
+                   </div>
+                    -->
+                   <div class="message-box-holder">
+                     <div class="message-box message-partner w-100">
+                        {{extraSpeacfetion?.customizationDetails}}
+                       <!-- I thought of coming to your place and discuss about it but I had to finish my projects and I didn't have enough time to go out of the house. -->
+                     </div>
+                   </div>      
+                 </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <div class="attachment-panel">
+                    <mat-icon> photo_camera </mat-icon>
+                    <mat-icon> attach_file </mat-icon>
+                </div>
+                <div class="chat-input-holder">
+                    <textarea class="chat-input"></textarea>
+                    <button type="button" class="btn btn-outline-dark sent-btn">
+                        <mat-icon> mic </mat-icon>
+                        <mat-icon> send </mat-icon>
+                    </button>
+                </div>
+            </div> -->
+          </form>
+    </div>
+</ng-template>
+
+<!-- giftWrap -->
+<ng-template #giftWrap let-modal>
+    <div class="message_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">GiftWrap Details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="chat-messages">
+                <div class="message-box-holder">
+                    <div class="message-box message-partner">
+                        <p class="from_text">To</p>
+                        {{extraSpeacfetion?.to}}
+                    </div>
+                </div>   
+                <div class="message-box-holder giftWrap">
+                    <div class="message-box message-partner w-100">
+                        {{extraSpeacfetion?.message}}
+                    </div>
+                </div>   
+                <div class="message-box-holder">
+                    <div class="message-box">
+                        <p class="from_text">From</p>
+                        {{extraSpeacfetion?.from}}
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #cancelmessage let-modal>
+    <div class="message_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{cancelmessageTitle}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form>
+            <div class="modal-body">
+                <div class="chat-messages">
+                   <div class="message-box-holder">
+                     <div class="message-box message-partner w-100">
+                        <p *ngIf="cancelMessages?.reason"><b>Reason: </b>{{cancelMessages?.reason}} <br></p>
+                      <span *ngIf="cancelMessages?.reason"><b>Comment :</b> </span>  {{cancelMessages?.message}}
+                    </div>
+                    <p class="dateTime">{{cancelMessages?.date}}</p>
+
+                   </div> 
+                       
+                 </div>
+                 <!-- <div class="massage_container">
+                    <div>
+                        <div class="massage_item">
+                            {{cancelMessages?.message}}
+                        </div>
+                      <p class="dateTime">{{cancelMessages?.date}}</p>
+                    </div>    
+                </div>  -->
+            </div>
+          </form>
+    </div>
+</ng-template>
+<ng-template #returnRequest let-modal>
+    <div class="message_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{cancelmessageTitle}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form>
+            <div class="modal-body">
+                <div class="chat-messages">
+                   <div class="message-box-holder">
+                     <div class="message-box message-partner w-100">
+                        {{cancelMessages?.message}}
+                    </div>
+                    <p class="dateTime">{{cancelMessages?.date}}</p>
+
+                   </div> 
+                       
+                 </div>
+            </div>
+          </form>
+    </div>
+</ng-template>
+<ng-template #returnRequest let-modal>
+    <div class="message_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{cancelmessageTitle}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form>
+            <div class="modal-body">
+                <div class="chat-messages">
+                   <div class="message-box-holder">
+                     <div class="message-box message-partner w-100">
+                        {{cancelMessages?.message}}
+                    </div>
+                    <p class="dateTime">{{cancelMessages?.date}}</p>
+
+                   </div> 
+                       
+                 </div>
+            </div>
+          </form>
+    </div>
+</ng-template>
+<ng-template #returnRefund let-modal>
+    <div class="message_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">{{cancelmessageTitle}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+          <form>
+            <div class="modal-body">
+                <div class="chat-messages">
+                   <div class="message-box-holder">
+                     <div class="message-box message-partner w-100">
+                        {{cancelMessages?.message}}
+                    </div>
+                    <p class="dateTime">{{cancelMessages?.date}}</p>
+
+                   </div> 
+                       
+                 </div>
+            </div>
+          </form>
+    </div>
+</ng-template>
+<ng-template #customchart let-modal>
+    <div class="customchart_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Standard Measurement Charts in ({{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}})</h4>
+            <h3 class="text-uppercase">{{mesorementData?.gender}}</h3>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+        <div class="modal-body">
+            <div class="row" *ngIf="mesorementData?.gender == 'men'">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Neck</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.neck}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Shoulder </span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.shoulder}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Chest</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.chest}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Crotch Length</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.crotchLength}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Side neck point to waist</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.sideNeck}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Nape to waist</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.napeNaist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Back width</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.backWidth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Armscye depth</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.armscyeDepth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Armhole</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.armhole}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Top arm(bicep)</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.topArm}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Elbow</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.elbow}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Wrist</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.wrist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Sleeve length</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.sleeveLength}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <span class="name">Crotch depth</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.crotchDepth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <span class="name">Waist</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Hip</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.hip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Top hip</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.topHip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Waist to hip</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waistToHip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Waist to knee</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waistToknee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Waist to ankle</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waistToAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                           <div class="name">Knee to ankle</div> 
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.kneeToAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Thigh</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.thigh}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Knee</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.knee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Calf circumference</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.calfCircumference}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">High ankle</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.highAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Ankle</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.ankle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Waist to floor</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waistToFloor}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="mesorementData?.gender == 'women'">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Neck</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.neck}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Shoulder </span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.shoulder}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Bust</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.bust}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Crotch Length</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.crotchLength}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Waist</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Hip</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.hip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Rib cage (under bust)</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.ribCage}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Top hip (low waist)</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.topHip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Side neck point to waist apex (front neck depth)</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.sideNeck}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Waist to hip</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waistToHip}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Back side neck point to waist (back neck depth)</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.backSide}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Front side neck point to waist (kurta length along with waist to knee)</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.frontSide}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="col-md-9 pb-13">
+                            <span class="name">Back width</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.backWidth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <span class="name">Waist to knee</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waistToKnee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <span class="name">Armscye depth</span>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.armscyeDepth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Knee to ankle(may be required for ankle length)</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.kneeToAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Armhole</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.armhole}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Thigh</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.thigh}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Top arm(bicep)</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.topArm}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Knee</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.knee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                           <div class="name">Knee to ankle</div> 
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.kneeToAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Thigh</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.thigh}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Knee</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.knee}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Elbow</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.elbow}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Calf circumference</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.calfCircumference}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">High ankle</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.highAnkle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Wrist</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.wrist}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Ankle</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.ankle}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Crotch depth</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.crotchDepth}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                        <div class="offset-md-1 col-md-9 pb-13">
+                            <div class="name">Waist to floor(bottom length)</div>
+                        </div>
+                        <div class="col-md-2 pb-13">
+                            <span class="size">{{mesorementData?.measurementObject?.waistToFloor}} {{mesorementData?.sizeType == 'inch' ? 'inches' : 'CMS'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

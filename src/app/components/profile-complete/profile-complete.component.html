@@ -1,0 +1,25 @@
+<div class="page-wrraper">
+    <div class="profile-complete">
+        <div class="profile-complete-card">
+            <div class="profile-card-img">
+                <img src="assets/images/logo.png">
+            </div>
+            <div class="profile-card-content">
+                <h1 *ngIf="profileStatus == 'COMPLETED'">Complete profile details for further proceeding.</h1>
+                <h1 *ngIf="profileStatus == 'APPROVE'">Please submit your profile for further proceeding</h1>
+                <h1 *ngIf="profileStatus == 'REJECTED'">Your profile is rejected please check your mail and update your profile.</h1>
+                <h1 *ngIf="profileStatus == 'SUBMITTED'">You have  submited your profile, Wating for Admin's approval.</h1>
+                <h1 *ngIf="profileStatus == 'SAVED' && isProfileCompleted == false">Please complete all the fields and submit your profile to continue.</h1>
+                <!-- <h1>Complete profile details for further proceeding.</h1>
+                <h1>Please submit your profile for further proceeding.</h1>
+                <h1>Your profile is rejected please check your mail and update your profile.</h1>
+                <h1>You have  submited your profile, Wating for Admin's approval.</h1>
+                <h1>Please update your complete profile to continue.</h1> -->
+            </div>
+            <div class="profile-card-button d-flex align-items-center">
+                <button class="profile-edit-button" [routerLink]="['/', 'profile']" mat-raised-button>Profile Edit</button>
+                <!-- &nbsp;&nbsp;&nbsp;<mat-icon class="cursor-pointer" matTooltip="Logout" (click)="logOutUser()">power_settings_new</mat-icon> -->
+            </div>
+        </div>
+    </div>
+</div>

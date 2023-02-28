@@ -1,0 +1,28 @@
+.customizationMessage
+{
+    opacity: 0;
+    height: 0;
+    padding: 10px;
+    transition: 0.1s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 24rem;
+    margin-top: 10px;
+}
+.customizationMessage.showCustomization
+{
+    opacity: 1;
+    
+    height: auto;
+   
+}
+.customizationDescption
+{
+    display: grid;
+}
+.position-sticky
+{
+    top: 10px;
+    position: sticky;
+    margin-bottom: 10px;
+}

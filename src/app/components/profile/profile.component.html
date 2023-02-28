@@ -1,0 +1,1366 @@
+<div class="page-wrraper">
+    <div class="profile-edit-page">
+        <!-- profile card start -->
+        <section class="profile-card mt-4">
+            <div class="container-fluid">
+                <div class="profile-card-inner moblie-profile">
+                    <div class="row">
+                        <div class="col-lg-3 col-4">
+                            <div class="profile-img-box profie-box">
+                                <div class="profile-img">
+                                    <img [src]="profilePic!= null ? profilePic : 'assets/images/noimage.jpg'">
+                                    <mat-icon class="cam-icon" *ngIf="!imageLoader" >photo_camera</mat-icon>
+                                    <mat-spinner  class="ml-0 small_loader mt-3  profilePicLoader" *ngIf="imageLoader"></mat-spinner>
+                                    <input type="file" name="chooseFilepath" [(ngModel)]="chooseFilepath" id="profilepic" accept="image/png, image/jpg, image/jfif, image/wepb, image/jpeg"  class="opacity-0 h-0 p-0 profile-img-create" [ngClass]="{ 'disabled': imageLoader}"  (change)="chooseFile($event)">
+                                </div>
+                                
+                            </div>
+                            <div class="profile-btn mobile-only">
+                                <button class="button1" mat-raised-button (click)="activeDesigner('Online')" *ngIf="designerCurrentStatus == 'Offline' || designerCurrentStatus == null" [disabled]="profilestatusLoader">ACTIVE</button>
+                                <button class="button1" mat-raised-button (click)="activeDesigner('Offline')" *ngIf="designerCurrentStatus == 'Online'" [disabled]="profilestatusLoader">INACTIVE</button>
+                                <mat-spinner  class="small_loader mx-auto mt-2" *ngIf="profilestatusLoader"></mat-spinner>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-8">
+                            <div class="profile-details">
+                                <div class="designer-name" ><p class="editable">{{designerprofiledata?.designerProfile?.displayName}}</p>  
+                                    <!-- <div *ngIf="hide_data == true" class="edit-icon" (click)="hide_details()">
+                                        <img src="assets/images/pencil.png">
+                                    </div> -->
+                                    <button  (click)="hide_details()" mat-button class="fab-btn d-flex align-items-center justify-content-center" mat-fab aria-label="Filter Product">
+                                        <img src="assets/images/pencil.png" *ngIf="hide_data">
+                                        <mat-icon *ngIf="!hide_data">close</mat-icon>
+                                    </button>
+                                </div>
+                                <p class="brand">
+                                    <img src="assets/images/campaign.png">
+                                    {{designerprofiledata?.boutiqueProfile?.boutiqueName}}
+                                </p>
+                                <p class="designer-desc not-in-mobile mb-1 " *ngIf="designerprofiledata?.profileStatus != 'SAVED' &&   designerprofiledata?.profileStatus != 'SUBMITTED' || designerprofiledata?.isProfileCompleted" [ngClass] = "{'show' : show}">
+                                    {{designerprofiledata?.socialProfile?.description}}
+                                </p>
+                                <div *ngIf="designerprofiledata?.socialProfile?.description && designerprofiledata?.profileStatus != 'SAVED' &&   designerprofiledata?.profileStatus != 'SUBMITTED' || designerprofiledata?.isProfileCompleted">
+                                    <span (click)="show = !show" class="cursor-pointer not-in-mobile text-primary w-fit" *ngIf="designerprofiledata?.socialProfile?.description.length > 548">Show {{show ? 'Less' : 'More'}}</span>
+                                </div>
+                                <div class="mobile-only">
+                                    <div class="follower-product">
+                                        <p>
+                                            <b>{{designerprofiledata?.followerCount ? designerprofiledata?.followerCount : '0'}}</b>
+                                            Followers
+                                        </p>
+                                        <p>
+                                            <b>{{designerprofiledata?.productCount ? designerprofiledata?.productCount : '0'}}</b>
+                                            Products
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mobile-only" *ngIf="designerprofiledata?.profileStatus != 'SAVED' &&   designerprofiledata?.profileStatus != 'SUBMITTED' || designerprofiledata?.isProfileCompleted">
+                        <div class="col-12" *ngIf="designerprofiledata?.socialProfile?.description">
+                            <p class="designer-desc mb-1" [ngClass] = "{'show' : show}">
+                                {{designerprofiledata?.socialProfile?.description}}
+                            </p>
+                            <span (click)="show = !show" class="cursor-pointer  text-primary lg-tab w-fit"  *ngIf="designerprofiledata?.socialProfile?.description.length > 250">Show {{show ? 'Less' : 'More'}}</span>
+                            <span (click)="show = !show" class="cursor-pointer  text-primary lg-mobile w-fit"  *ngIf="designerprofiledata?.socialProfile?.description.length > 170">Show {{show ? 'Less' : 'More'}}</span>
+                            <span (click)="show = !show" class="cursor-pointer  text-primary sm-mobile w-fit"  *ngIf="designerprofiledata?.socialProfile?.description.length > 150">Show {{show ? 'Less' : 'More'}}</span>
+                            <span (click)="show = !show" class="cursor-pointer  text-primary xs-mobile w-fit"  *ngIf="designerprofiledata?.socialProfile?.description.length > 80">Show {{show ? 'Less' : 'More'}}</span>
+
+                        </div>
+                    </div>
+                    <div class="row mt-4 not-in-mobile">
+                        <div class="col-lg-3">
+                            <div class="profile-btn ">
+                                <button class="button1" mat-raised-button (click)="activeDesigner('Online')" *ngIf="designerCurrentStatus == 'Offline' || designerCurrentStatus == null" [disabled]="profilestatusLoader">ACTIVE</button>
+                                <button class="button1" mat-raised-button (click)="activeDesigner('Offline')" *ngIf="designerCurrentStatus == 'Online'" [disabled]="profilestatusLoader">INACTIVE</button>
+                                <mat-spinner  class="small_loader mx-auto " *ngIf="profilestatusLoader"></mat-spinner>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-9 d-flex flex-column justify-content-between m-auto">
+                            <div class="profile-footer-desc">
+                                <p>Followers : <span>{{designerprofiledata?.followerCount ? designerprofiledata?.followerCount : '0'}}</span></p>
+                                <p>Products : <span>{{designerprofiledata?.productCount ? designerprofiledata?.productCount : '0'}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- profile card end -->
+        
+        <section class="profile-information" [ngClass]="{'edit' : !hide_data}">
+            <div class="container">
+                <form #profileEdit="ngForm" (ngSubmit)="onSubmitProfile(profileEdit)">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <!-- profile -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" [ngClass]="{'disabledclick' : hide_data}">
+                                <div class="profile-info-card">
+                                    <div class="info-card-title">
+                                        <h4>Profile</h4>
+                                    </div>
+                                    <div class="profile-form">
+                                        <div class="row">
+                                            <input  type="hidden" name="accountStatus"  [(ngModel)]="modal.accountStatus" clearInput >
+
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 disabled" tabindex="-1">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Designer Category</mat-label>
+                                                    <input [tabindex]="tabIndex" matInput type="text" pattern="\S(.*\S)?" name="designerCategory"  [(ngModel)]="modal.designerCategory" clearInput >
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Boutique Name</mat-label>
+                                                    <input [tabindex]="tabIndex" matInput type="text" name="boutiqueName"  pattern="[a-zA-Z][a-zA-Z ]+" [(ngModel)]="modal.boutiqueName" clearInput  [readonly]="hide_data" required>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                Designer 1
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Firstname</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="firstName1" [(ngModel)]="modal.firstName1" pattern="\S(.*\S)?" required clearInput [readonly]="hide_data" >
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Lastname</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="lastName1" required [(ngModel)]="modal.lastName1" pattern="\S(.*\S)?"  clearInput [readonly]="hide_data" >
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                                Designer 2
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Firstname</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="firstName2" pattern="\S(.*\S)?" [(ngModel)]="modal.firstName2" clearInput [readonly]="hide_data" >
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Lastname</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="lastName2" pattern="\S(.*\S)?" [(ngModel)]="modal.lastName2" clearInput [readonly]="hide_data" >
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6" [ngClass]="{'disabled': hide_data}" tabindex="-1">
+                                                <mat-form-field appearance="outline" class="example-form-field">
+                                                    <mat-label>Date of birth</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" [matDatepicker]="datepicker" name="dateOfbirth" [(ngModel)]="modal.dateOfbirth" readonly required> 
+                                                    <mat-datepicker-toggle matSuffix [for]="datepicker" [tabindex]="tabIndex"></mat-datepicker-toggle>
+                                                    <mat-datepicker #datepicker [tabindex]="tabIndex">
+                                                        <mat-datepicker-actions [tabindex]="tabIndex">
+                                                        <button mat-button matDatepickerCancel>Cancel</button>
+                                                        <button mat-raised-button color="primary" matDatepickerApply (click)="changeFateFormat(modal.dateOfbirth)">Apply</button>
+                                                        </mat-datepicker-actions>
+                                                    </mat-datepicker>
+                                                </mat-form-field>
+                                            </div>
+                                            <input type="hidden" name="dob" [(ngModel)]="modal.dob">
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-20" tabindex="-1" [ngClass]="{'disabled': hide_data}">
+                                                <p class="gender-title">Gender</p>
+                                                <mat-radio-group aria-label="Select an option" name="gender" [(ngModel)]="modal.gender" required [tabindex]="tabIndex">
+                                                    <mat-radio-button value="male" [checked]="true" class="mr-r-18"  [tabindex]="tabIndex">Male</mat-radio-button>
+                                                    <mat-radio-button value="female" [tabindex]="tabIndex">Female</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Mobile No</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="mobileNo" [(ngModel)]="modal.mobileNo" clearInput [readonly]="hide_data" pattern="^((\\+91-?)|0)?[0-9]{10}$"  onKeyPress="if(this.value.length==10) {return false;}" maxlength="10" minlength="10" required>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Alt-Mobile No</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="altMobileNo" [(ngModel)]="modal.altMobileNo" clearInput pattern="^((\\+91-?)|0)?[0-9]{10}$"  onKeyPress="if(this.value.length==10) {return false;}" maxlength="10" minlength="10" [readonly]="hide_data" >
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 disabled">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Email</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="email" [(ngModel)]="modal.email" clearInput readonly required >
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <!-- Social -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 mobile-only" [ngClass]="{'disabledclick' : hide_data}">
+                                <div class="profile-info-card">
+                                    <div class="info-card-title">
+                                        <h4>Social</h4>
+                                    </div>
+                                    <div class="social-form">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Description</mat-label>
+                                                    <textarea matInput [tabindex]="tabIndex" name="description"  [(ngModel)]="modal.description" clearInput [readonly]="hide_data" required rows="5"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Facebook</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="facebookLink"  [(ngModel)]="modal.facebookLink" clearInput  [readonly]="hide_data" pattern="\S(.*\S)?">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Instagram</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="instagramLink"  [(ngModel)]="modal.instagramLink" clearInput [readonly]="hide_data"  pattern="\S(.*\S)?">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Website</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="youtubeLink" [(ngModel)]="modal.youtubeLink"  clearInput  [readonly]="hide_data" pattern="\S(.*\S)?">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- More -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" [ngClass]="{'disabledclick' : hide_data}">
+                                <div class="profile-info-card">
+                                    <div class="info-card-title">
+                                        <h4>Address</h4>
+                                    </div>
+                                    <div class="more-form">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6" [ngClass]="{'disabledclick' :  hide_data}" tabindex="-1">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Select Country</mat-label>
+                                                    <mat-select placeholder="State" [(ngModel)]="modal.country" name="country"  [ngClass]="{'disabledclick' : hide_data}" (selectionChange)="selectedCountry($event.value)" required [tabindex]="tabIndex">
+                                                        <mat-option *ngFor="let country of countryData" [value]="country.name" [tabindex]="tabIndex" [disabled]="hide_data">
+                                                            {{ country?.name }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6" [ngClass]="{'disabled' : !modal.country || hide_data}" [tabindex]="tabIndex">
+                                                <mat-form-field appearance="outline" [ngClass]="{'disabled' : !modal.country }">
+                                                    <mat-label>Select State</mat-label>
+                                                    <mat-select placeholder="State"[(ngModel)]="modal.state" name="state" required >
+                                                        <mat-option *ngFor="let state of stateData" [value]="state.name"  [disabled]="hide_data">
+                                                            {{ state?.name }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6" [ngClass]="{'disabledclick' : !modal.state }">
+                                                <mat-form-field appearance="outline" [ngClass]="{'disabledclick' : !modal.state }">
+                                                    <mat-label>City</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="city"  [(ngModel)]="modal.city" clearInput  [readonly]="hide_data" required pattern="\S(.*\S)?">
+                                                </mat-form-field>
+                                            </div>
+                                            
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Your Address</mat-label>
+                                                    <textarea matInput [tabindex]="tabIndex" placeholder="Address" name="address"  [(ngModel)]="modal.address" clearInput [readonly]="hide_data" required></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                           <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Pin Code</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" pattern="^[1-9][0-9]{5}$" name="pinCode" maxlength="6" minlength="6"  [(ngModel)]="modal.pinCode" clearInput required [readonly]="hide_data">
+                                                </mat-form-field>
+                                            </div>
+                                            <!-- <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Year of experience</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="number" min="0" [tabindex]="tabIndex"  name="experience"  [(ngModel)]="modal.experience" clearInput [readonly]="hide_data" required>
+                                                </mat-form-field>
+                                            </div> -->
+                                            <input  type="hidden" value="0" name="experience"  [(ngModel)]="modal.experience">
+
+                                            
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Operating City</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="operatingCity"  [(ngModel)]="modal.operatingCity" clearInput [readonly]="hide_data" required pattern="\S(.*\S)?">
+                                                </mat-form-field>
+                                            </div>
+                                            <!-- <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Professional Category</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="professionalCategory"  [(ngModel)]="modal.professionalCategory" clearInput  [readonly]="hide_data" required>
+                                                </mat-form-field>
+                                            </div> -->
+                                            <input  type="hidden" value="all" name="professionalCategory"  [(ngModel)]="modal.professionalCategory">
+                                            <!-- <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Year of Operation</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" type="number" min="0" [tabindex]="tabIndex"  name="yearOfOperation" [(ngModel)]="modal.yearOfOperation" clearInput [readonly]="hide_data"  required>
+                                                </mat-form-field>
+                                            </div> -->
+                                            <input  type="hidden" value="1" min="0" name="yearOfOperation" [(ngModel)]="modal.yearOfOperation" >
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Women std chart -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 not-in-mobile" [ngClass]="{'disabledclick' : hide_data}">
+                                <div class="profile-info-card">
+                                    <div class="info-card-title d-flex space-between"  matTooltip="All field required you can put 0.">
+                                        <h4>Women std chart<sup >*</sup></h4>
+                                    </div>
+                                    <!-- [ngClass]="{'dis_none':allgarmentReturnData == ''}" -->
+                                    <div class="women-charts">
+                                        <div class="row pd-b-20">
+                                            <div class="in-cms"  [ngClass]="{'disabled':hide_data}" tabindex="-1"><span class="in">In</span><mat-slide-toggle (change)="onClick($event, 'womenChart',profileEdit)" name="womenChartInCM" [(ngModel)]="womenChartInCM"></mat-slide-toggle><span class="cms">Cms</span></div>
+                                        </div>
+                                        <table>
+                                            <thead>
+                                                <th>(in {{womenChartInCM ? 'CMS' : 'inches'}})</th>
+                                                <th>UK</th>
+                                                <th>Bust</th>
+                                                <th>Waist</th>
+                                                <th>Hip</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><b>XS</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XS_uk" [(ngModel)]="chart.women_XS_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XS_bust" [(ngModel)]="chart.women_XS_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XS_waist" [(ngModel)]="chart.women_XS_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XS_hip" [(ngModel)]="chart.women_XS_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>S</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_S_uk" [(ngModel)]="chart.women_S_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_S_bust" [(ngModel)]="chart.women_S_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_S_waist" [(ngModel)]="chart.women_S_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_S_hip" [(ngModel)]="chart.women_S_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>M</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_M_uk" [(ngModel)]="chart.women_M_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_M_bust" [(ngModel)]="chart.women_M_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_M_waist" [(ngModel)]="chart.women_M_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_M_hip" [(ngModel)]="chart.women_M_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>L</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_L_uk" [(ngModel)]="chart.women_L_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_L_bust" [(ngModel)]="chart.women_L_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_L_waist" [(ngModel)]="chart.women_L_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_L_hip" [(ngModel)]="chart.women_L_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XL_uk" [(ngModel)]="chart.women_XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XL_bust" [(ngModel)]="chart.women_XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XL_waist" [(ngModel)]="chart.women_XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XL_hip" [(ngModel)]="chart.women_XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>XXL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XXL_uk" [(ngModel)]="chart.women_XXL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XXL_bust" [(ngModel)]="chart.women_XXL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XXL_waist" [(ngModel)]="chart.women_XXL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XXL_hip" [(ngModel)]="chart.women_XXL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>3XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_3XL_uk" [(ngModel)]="chart.women_3XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_3XL_bust" [(ngModel)]="chart.women_3XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_3XL_waist" [(ngModel)]="chart.women_3XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_3XL_hip" [(ngModel)]="chart.women_3XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>4XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_4XL_uk" [(ngModel)]="chart.women_4XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_4XL_bust" [(ngModel)]="chart.women_4XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_4XL_waist" [(ngModel)]="chart.women_4XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_4XL_hip" [(ngModel)]="chart.women_4XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>5XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_5XL_uk" [(ngModel)]="chart.women_5XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_5XL_bust" [(ngModel)]="chart.women_5XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_5XL_waist" [(ngModel)]="chart.women_5XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_5XL_hip" [(ngModel)]="chart.women_5XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>6XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_6XL_uk" [(ngModel)]="chart.women_6XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_6XL_bust" [(ngModel)]="chart.women_6XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_6XL_waist" [(ngModel)]="chart.women_6XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_6XL_hip" [(ngModel)]="chart.women_6XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <!-- Social -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 not-in-mobile" tabindex="-1" [ngClass]="{'disabledclick' : hide_data}">
+                                <div class="profile-info-card">
+                                    <div class="info-card-title">
+                                        <h4>Social</h4>
+                                    </div>
+                                    <div class="social-form">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" >
+                                                <mat-form-field appearance="outline" >
+                                                    <mat-label>Description</mat-label>
+                                                    <textarea [tabindex]="tabIndex" matInput name="description"  [(ngModel)]="modal.description" clearInput [readonly]="hide_data" required rows="5"></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Facebook</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="facebookLink"  [(ngModel)]="modal.facebookLink" clearInput  [readonly]="hide_data" pattern="\S(.*\S)?">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Instagram</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="instagramLink"  [(ngModel)]="modal.instagramLink" clearInput  [readonly]="hide_data" pattern="\S(.*\S)?">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Website</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="youtubeLink" [(ngModel)]="modal.youtubeLink"  clearInput  [readonly]="hide_data" pattern="\S(.*\S)?">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bank Details -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" tabindex="-1" [ngClass]="{'disabledclick' : hide_data || isProfileCompleted}">
+                                <div class="profile-info-card">
+                                    <div class="info-card-title">
+                                        <h4>Bank Details</h4>
+                                    </div>
+                                    <div class="bank_details-form">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Account Number</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" minlength="9" maxlength="18" type="text" pattern="^[0-9]*$" name="accountNumber" [(ngModel)]="modal.accountNumber" clearInput [readonly]="hide_data || isProfileCompleted"  required>
+                                                    <mat-hint>Account number length must be  9 - 18.</mat-hint>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>Bank Name</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" pattern="[a-zA-Z][a-zA-Z ]+" name="bankName" [(ngModel)]="modal.bankName" clearInput  [readonly]="hide_data || isProfileCompleted" required>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>IFSC Code</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="ifscCode" [(ngModel)]="modal.ifscCode" pattern="^[A-Z]{4}0[A-Z0-9]{6}$"
+                                                    maxlength="11"   required [readonly]="hide_data || isProfileCompleted">
+                                                    <mat-hint class="d-flex align-items-center cursor-pointer" (click)="showInfo = !showInfo">IFSC Code Format.&nbsp;<mat-icon>info</mat-icon></mat-hint>
+                                                        </mat-form-field>
+                                                    <div class="showInfo" [ngClass]="{'show  mb-2':showInfo}">
+                                                    1.It should be 11 characters long.<br>
+                                                    2.The first four characters should be upper case alphabets.<br>
+                                                    3.The fifth character should be 0.<br>
+                                                    4.The last six characters usually numeric, but can also be alphabetic.</div>
+                                            </div>
+                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                                <mat-form-field appearance="outline">
+                                                    <mat-label>GSTIN</mat-label>
+                                                    <input matInput [tabindex]="tabIndex" type="text" name="gstin" maxlength="15" minlength="15"  [(ngModel)]="modal.gstin" clearInput pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$" [readonly]="hide_data || isProfileCompleted" required>
+                                                    <mat-hint class="d-flex align-items-center cursor-pointer" (click)="showInfo2 = !showInfo2">GSTIN Format.&nbsp;<mat-icon>info</mat-icon></mat-hint>
+                                                </mat-form-field>
+                                                <div class="showInfo" [ngClass]="{'show  mb-2':showInfo2}">
+                                                   1. It should be 15 characters long.<br>
+                                                   2.The first 2 characters should be a number.<br>
+                                                   3.The next 10 characters should be the PAN number of the taxpayer.<br>
+                                                   4.The 13th character (entity code) should be a number from 1-9 or an alphabet.<br>
+                                                   5.The 14th character should be Z.<br>
+                                                   6.The 15th character should be an alphabet or a number.
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-20 d-flex align-items-center">
+                                                <div class="custom-file preview">
+                                                    <input type="hidden"  name="aadharCard" [(ngModel)]="modal.aadharCard" required>
+                                                    <input class="custom-file-input" id="aadharFileUpload" tabindex="-1" type="file" name="imageUrl" accept="image/*" [ngClass]="{'disabled': hide_data  || isProfileCompleted}" (change)="selectFile($event,'aadharCard')"  required>
+                                                    <label class="custom-file-label" for="aadharFileUpload" tabindex="-1" [ngClass]="{'disabled': hide_data || isProfileCompleted}">Aadhar image*</label>
+                                                </div>
+                                                <img *ngIf="previewimageSrc_aadher && !aadhar_loader" class="preview-img" [src]="previewimageSrc_aadher">
+                                                &nbsp;<mat-spinner  class="ml-0 small_loader mt-3" *ngIf="aadhar_loader"></mat-spinner>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-20  d-flex align-items-center">
+                                                <div class="custom-file preview">
+                                                    <input type="hidden"  name="panCard" [(ngModel)]="modal.panCard"  required>
+                                                    <input class="custom-file-input" id="panFileUpload" type="file" name="imageUrl" accept="image/*" (change)="selectFile($event,'panCard')"  tabindex="-1" [ngClass]="{'disabled': hide_data || isProfileCompleted}" required>
+                                                    <label class="custom-file-label" for="panFileUpload" tabindex="-1" [ngClass]="{'disabled': hide_data || isProfileCompleted}">PAN image*</label>
+                                                </div>
+                                                <img *ngIf="previewimageSrc_pan && !pan_loader" class="preview-img" [src]="previewimageSrc_pan">
+                                                &nbsp;<mat-spinner  class="ml-0 small_loader mt-3" *ngIf="pan_loader"></mat-spinner>
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-md-6 col-lg-6 d-flex align-items-center">
+                                                <div class="custom-file preview">
+                                                    <input type="hidden"  name="digitalSignature" [(ngModel)]="modal.digitalSignature"  required >
+                                                    <input class="custom-file-input" id="digitalSignature" type="file" name="imageUrl" accept="image/*" (change)="selectFile($event,'digitalSignature')"  tabindex="-1" [ngClass]="{'disabled': hide_data || isProfileCompleted}" required>
+                                                    <label class="custom-file-label" for="digitalSignature" tabindex="-1" [ngClass]="{'disabled': hide_data || isProfileCompleted}">Digital Signature*</label>
+                                                </div>
+                                                <img *ngIf="previewimageSrc_digitalSignature && !digitalSignature_loader" class="preview-img" [src]="previewimageSrc_digitalSignature">
+                                                &nbsp;<mat-spinner  class="ml-0 small_loader mt-3" *ngIf="digitalSignature_loader"></mat-spinner>
+                                            </div>
+                                            <div class="col-12 mt-3">
+                                                <p class="infotext text-left Note">Note&nbsp;:&nbsp;Only 'JPG' , 'JPEG' , 'PNG' , 'WEBP' type images are allowed.All images are required.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Women std chart -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 mobile-only" tabindex="-1" [ngClass]="{'disabledclick' : hide_data}">
+                                <div class="profile-info-card">
+                                    <div class="info-card-title d-flex space-between" matTooltip="All field required you can put 0.">
+                                        <h4>Women std chart<sup >*</sup></h4>
+                                    </div>
+                                    <!-- [ngClass]="{'dis_none':allgarmentReturnData == ''}" -->
+                                    <div class="women-charts">
+                                        <div class="row pd-b-20">
+                                            <div class="in-cms"  [ngClass]="{'disabled':hide_data}" tabindex="-1"><span class="in" >In</span><mat-slide-toggle (change)="onClick($event, 'womenChart' ,profileEdit)" name="womenChartInCM" [(ngModel)]="womenChartInCM"></mat-slide-toggle><span class="cms">Cms</span></div>
+                                        </div>
+                                        <table>
+                                            <thead>
+                                                <th>(in {{womenChartInCM ? 'CMS' : 'inches'}})</th>
+                                                <th>UK</th>
+                                                <th>Bust</th>
+                                                <th>Waist</th>
+                                                <th>Hip</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><b>XS</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XS_uk" [(ngModel)]="chart.women_XS_uk" placeholder="Enter Value" [readonly]="hide_data" required >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"  name="women_XS_bust" [(ngModel)]="chart.women_XS_bust" placeholder="Enter Value" [readonly]="hide_data" required >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"  name="women_XS_Waist" [(ngModel)]="chart.women_XS_waist" placeholder="Enter Value" [readonly]="hide_data" required >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"  name="women_XS_hip" [(ngModel)]="chart.women_XS_hip" placeholder="Enter Value" [readonly]="hide_data" required >
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>S</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"  name="women_S_uk" [(ngModel)]="chart.women_S_uk" placeholder="Enter Value" [readonly]="hide_data" required >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"  name="women_S_bust" [(ngModel)]="chart.women_S_bust" placeholder="Enter Value" [readonly]="hide_data" required >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_S_waist" [(ngModel)]="chart.women_S_waist" placeholder="Enter Value" [readonly]="hide_data" required >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_S_hip" [(ngModel)]="chart.women_S_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>M</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_M_uk" [(ngModel)]="chart.women_M_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_M_bust" [(ngModel)]="chart.women_M_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_M_waist" [(ngModel)]="chart.women_M_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_M_hip" [(ngModel)]="chart.women_M_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>L</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_L_uk" [(ngModel)]="chart.women_L_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_L_bust" [(ngModel)]="chart.women_L_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_L_waist" [(ngModel)]="chart.women_L_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_L_hip" [(ngModel)]="chart.women_L_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XL_uk" [(ngModel)]="chart.women_XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XL_bust" [(ngModel)]="chart.women_XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XL_waist" [(ngModel)]="chart.women_XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XL_hip" [(ngModel)]="chart.women_XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>XXL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XXL_uk" [(ngModel)]="chart.women_XXL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XXL_bust" [(ngModel)]="chart.women_XXL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XXL_waist" [(ngModel)]="chart.women_XXL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_XXL_hip" [(ngModel)]="chart.women_XXL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>3XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_3XL_uk" [(ngModel)]="chart.women_3XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_3XL_bust" [(ngModel)]="chart.women_3XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_3XL_waist" [(ngModel)]="chart.women_3XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_3XL_hip" [(ngModel)]="chart.women_3XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>4XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_4XL_uk" [(ngModel)]="chart.women_4XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_4XL_bust" [(ngModel)]="chart.women_4XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_4XL_waist" [(ngModel)]="chart.women_4XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_4XL_hip" [(ngModel)]="chart.women_4XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>5XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_5XL_uk" [(ngModel)]="chart.women_5XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_5XL_bust" [(ngModel)]="chart.women_5XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_5XL_waist" [(ngModel)]="chart.women_5XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_5XL_hip" [(ngModel)]="chart.women_5XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>6XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_6XL_uk" [(ngModel)]="chart.women_6XL_uk" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_6XL_bust" [(ngModel)]="chart.women_6XL_bust" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_6XL_waist" [(ngModel)]="chart.women_6XL_waist" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="women_6XL_hip" [(ngModel)]="chart.women_6XL_hip" placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Men/Kids std chart -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" tabindex="-1" [ngClass]="{'disabledclick' : hide_data}">
+                                <div class="profile-info-card">
+                                    <div class="info-card-title d-flex space-between" matTooltip="All field required you can put 0.">
+                                        <h4>Men/Kids std chart <sup>*</sup></h4>
+                                    </div>
+                                    <div class="menkids-charts">
+                                        <div class="row pd-b-20">
+                                            <div class="in-cms" [ngClass]="{'disabled':hide_data}" tabindex="-1"><span class="in">In</span><mat-slide-toggle (change)="onClick($event, 'mencms',profileEdit)" name="menChartInCM" [(ngModel)]="menChartInCM"></mat-slide-toggle><span class="cms">Cms</span></div>
+                                        </div>
+                                        <table>
+                                            <thead>
+                                                <th>(in {{menChartInCM ? 'CMS' : 'inches'}})</th>
+                                                <th>Chest</th>
+                                                <th>Waist</th>
+                                                <th>Neck</th>
+                                                <th>Hip</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><b>XS</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XS_Chest" [(ngModel)]="chart.men_XS_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_XS_waist_min" [(ngModel)]="chart.men_XS_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_XS_waist_max" [(ngModel)]="chart.men_XS_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_XS_Neck" [(ngModel)]="chart.men_XS_Neck"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XS_hip_min" [(ngModel)]="chart.men_XS_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XS_hip_max" [(ngModel)]="chart.men_XS_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>S</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_S_Chest" [(ngModel)]="chart.men_S_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_S_waist_min" [(ngModel)]="chart.men_S_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_S_waist_max" [(ngModel)]="chart.men_S_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_S_Neck" [(ngModel)]="chart.men_S_Neck"   placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_S_hip_min" [(ngModel)]="chart.men_S_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_S_hip_max" [(ngModel)]="chart.men_S_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>M</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_M_Chest" [(ngModel)]="chart.men_M_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_M_waist_min" [(ngModel)]="chart.men_M_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_M_waist_max" [(ngModel)]="chart.men_M_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_M_Neck" [(ngModel)]="chart.men_M_Neck"   placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_M_hip_min" [(ngModel)]="chart.men_M_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_M_hip_max" [(ngModel)]="chart.men_M_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>L</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_L_Chest" [(ngModel)]="chart.men_L_Chest"  placeholder="Enter Value" [readonly]="hide_data" required required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_L_waist_min" [(ngModel)]="chart.men_L_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_L_waist_max" [(ngModel)]="chart.men_L_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_L_Neck" [(ngModel)]="chart.men_L_Neck"   placeholder="Enter Value" [readonly]="hide_data" required required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_L_hip_min" [(ngModel)]="chart.men_L_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_L_hip_max" [(ngModel)]="chart.men_L_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XL_Chest" [(ngModel)]="chart.men_XL_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_XL_waist_min" [(ngModel)]="chart.men_XL_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_XL_waist_max" [(ngModel)]="chart.men_XL_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_XL_Neck" [(ngModel)]="chart.men_XL_Neck"   placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XL_hip_min" [(ngModel)]="chart.men_XL_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XL_hip_max" [(ngModel)]="chart.men_XL_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>XXL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XXL_Chest" [(ngModel)]="chart.men_XXL_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_XXL_waist_min" [(ngModel)]="chart.men_XXL_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_XXL_waist_max" [(ngModel)]="chart.men_XXL_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_XXL_Neck" [(ngModel)]="chart.men_XXL_Neck"   placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XXL_hip_min" [(ngModel)]="chart.men_XXL_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_XXL_hip_max" [(ngModel)]="chart.men_XXL_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>3XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_3XL_Chest" [(ngModel)]="chart.men_3XL_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_3XL_waist_min" [(ngModel)]="chart.men_3XL_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_3XL_waist_max" [(ngModel)]="chart.men_3XL_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_3XL_Neck" [(ngModel)]="chart.men_3XL_Neck"   placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_3XL_hip_min" [(ngModel)]="chart.men_3XL_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_3XL_hip_max" [(ngModel)]="chart.men_3XL_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>4XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_4XL_Chest" [(ngModel)]="chart.men_4XL_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_4XL_waist_min" [(ngModel)]="chart.men_4XL_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_4XL_waist_max" [(ngModel)]="chart.men_4XL_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_4XL_Neck" [(ngModel)]="chart.men_4XL_Neck"   placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_4XL_hip_min" [(ngModel)]="chart.men_4XL_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_4XL_hip_max" [(ngModel)]="chart.men_4XL_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>5XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_5XL_Chest" [(ngModel)]="chart.men_5XL_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_5XL_waist_min" [(ngModel)]="chart.men_5XL_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_5XL_waist_max" [(ngModel)]="chart.men_5XL_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_5XL_Neck" [(ngModel)]="chart.men_5XL_Neck"   placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_5XL_hip_min" [(ngModel)]="chart.men_5XL_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_5XL_hip_max" [(ngModel)]="chart.men_5XL_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>6XL</b></td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_6XL_Chest" [(ngModel)]="chart.men_6XL_Chest"  placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"     name="men_6XL_waist_min" [(ngModel)]="chart.men_6XL_waist_min"  placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_6XL_waist_max" [(ngModel)]="chart.men_6XL_waist_max"  placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="from-field">
+                                                            <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"    name="men_6XL_Neck" [(ngModel)]="chart.men_6XL_Neck"   placeholder="Enter Value" [readonly]="hide_data" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_6XL_hip_min" [(ngModel)]="chart.men_6XL_hip_min" placeholder="Min" [readonly]="hide_data" required>
+                                                            </div>&nbsp; - &nbsp;<div class="from-field waist_hip">
+                                                                <input type="number" min="0" [tabindex]="tabIndex" onkeyup="if(this.value<0){this.value= this.value * -1}"   name="men_6XL_hip_max" [(ngModel)]="chart.men_6XL_hip_max" placeholder="Max" [readonly]="hide_data" required>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Save Button -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="!hide_data">
+                                <div class="btn-content">
+                                    <div class="width-160 mr-r-15" *ngIf="designerprofiledata.isProfileCompleted != true"  [ngClass]="{'d-none' : designerprofiledata.profileStatus == 'SUBMITTED' || designerprofiledata.profileStatus == 'REJECTED'}">
+                                        <a class="save-button text-white" mat-raised-button type="submit" (click)="SavingData(profileEdit)">Save</a>
+                                    </div>
+                                    <div class="width-160">
+                                        <button class="submit-button" mat-raised-button type="submit" [disabled]="!profileEdit.valid">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngIf="hide_data">
+                                <div class="btn-content">
+                                    <div class="width-160 mr-r-15">
+                                        <button class="save-button profile-option" mat-raised-button type="button" (click)="changePsw_modal(changePSW)" >Change Password</button>
+                                    </div>
+                                    <div class="width-160">
+                                        <button class="submit-button profile-option" mat-raised-button type="button" (click)="logOutUser()"><mat-icon>power_settings_new</mat-icon>Logout</button>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </div>
+    
+</div>
+<ng-template #changePSW let-modal>
+    <div class="orders_modal">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Change Password</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+        <form  #ChangePSWForm="ngForm" (ngSubmit)="onSubmitChangePSWForm(ChangePSWForm)" >
+            <div class="modal-body">
+                <div class="">
+                        <!-- <div class="login-logo">
+                            <img src="assets/images/logo.png" />
+                        </div> -->
+                        <div class="row">
+                            <input type="hidden" name="userName" [(ngModel)]="userName">
+                            <div class="col-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Old Password</mat-label>
+                                    <input matInput [tabindex]="tabIndex" [type]="hide ? 'password' : 'text'" name="oldPass" clearInput [(ngModel)]="modal.oldPass" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$">
+                                    <a mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                        <mat-icon class="mat-icon-color">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    </a>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>New Password</mat-label>
+                                    <input matInput [tabindex]="tabIndex" [type]="hide2 ? 'password' : 'text'" name="newPass" clearInput [(ngModel)]="modal.newPass" required (keyup)="passwordvalid(modal.newPass,modal.comformpassword)" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"> 
+                                    <a mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+                                        <mat-icon class="mat-icon-color">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    </a>
+                                    <mat-hint>Password example  - abcdeA@9</mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Confirm  Password</mat-label>
+                                    <input matInput [tabindex]="tabIndex" [type]="hide3 ? 'password' : 'text'" name="comformpassword" clearInput [(ngModel)]="modal.comformpassword" required (keyup)="passwordvalid(modal.newPass,modal.comformpassword)" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$">
+                                    <a mat-icon-button matSuffix (click)="hide3 = !hide3" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide3">
+                                        <mat-icon class="mat-icon-color">{{hide3 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    </a>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12" *ngIf="errormsg">
+                            <h5 class="text-danger text-center mb-0">{{errormsg}}</h5>
+                            </div>
+                        </div>
+                </div>  
+            </div>
+            <div class="modal-footer">
+                <button class="loader-button button1" mat-raised-button [disabled]="!ChangePSWForm.valid || errormsg" type="submit"><mat-spinner *ngIf="ChangePSWFormLoading" class="ml-0"></mat-spinner>&nbsp;&nbsp;Change Password</button>
+                
+                <!-- <button class="loader-button" mat-raised-button [disabled]="!ChangePSWForm.valid"><mat-spinner *ngIf="ChangePSWFormLoading" class="ml-0"></mat-spinner>&nbsp;&nbsp;Change Password</button> -->
+            </div>
+            <br/>
+        </form>
+    </div>
+</ng-template>
+
