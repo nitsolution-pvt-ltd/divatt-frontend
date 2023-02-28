@@ -1,0 +1,476 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content class="order-list">
+  <div class="page-body">
+    <div class="page-wrapper">
+      <div class="table-listing">
+        <div class="container-fluid">
+          <div class="page-header">
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="page-header-left">
+                          <h3 *ngIf="tableTitle != 'returnRequest' && tableTitle !='returnRefund'">{{tableTitle}} Order List</h3>
+                          <h3 *ngIf="tableTitle == 'returnRequest' || tableTitle =='returnRefund'">{{tableTitle =='returnRefund' ? 'Return/Refund' : 'Return Request'}} Order List</h3>
+                      </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+                        <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                <mat-icon>home</mat-icon>
+                            </a></li>
+                        <li class="breadcrumb-item">
+                          Order Management
+                        </li>
+                        <li class="breadcrumb-item active">
+                          Order List
+                        </li>
+                    </ol>
+                </div>
+                  <!-- <div class="col-lg-6">
+                      <ol class="breadcrumb pull-right">
+                          <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                  <app-feather-icons [icon]="'home'"></app-feather-icons>
+                              </a></li>
+                          <li class="breadcrumb-item" *ngIf="breadcrumbs?.parentBreadcrumb">
+                            Product
+                          </li>
+                          <li class="breadcrumb-item active" *ngIf="breadcrumbs?.childBreadcrumb">
+                              Category
+                          </li>
+                      </ol>
+                  </div> -->
+              </div>
+          </div>
+        </div>
+        <div class="note-section">
+          <ion-grid>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
+                <h3 class="card-row">Orders</h3>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-primary card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('New')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon> new_releases </mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">New</p>
+                        <p *ngIf="order_countData?.New"><b>{{order_countData?.New}}</b> Products</p>
+                        <p *ngIf="!order_countData?.New"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-Purple card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Orders')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>add_shopping_cart</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Orders</p>
+                        <p *ngIf="order_countData?.Orders"><b>{{order_countData?.Orders}}</b> Products</p>
+                        <p *ngIf="!order_countData?.Orders"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-info card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Packed')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>store</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Packed</p>
+                        <p *ngIf="order_countData?.Packed"><b>{{order_countData?.Packed}}</b> Products</p>
+                        <p *ngIf="!order_countData?.Packed"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-warning card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Shipped')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon> local_shipping</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Shipped</p>
+                        <p *ngIf="order_countData?.Shipped"><b>{{order_countData?.Shipped}}</b> Products</p>
+                        <p *ngIf="!order_countData?.Shipped"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-success card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Delivered')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>assignment_turned_in</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Delivered</p>
+                        <p *ngIf="order_countData?.Delivered"><b>{{order_countData?.Delivered}}</b> Products</p>
+                        <p *ngIf="!order_countData?.Delivered"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
+                <h3 class="card-row">Approvals</h3>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <!-- Return Request -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('returnRequest')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>assignment_return</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Return Request</p>
+                        <p *ngIf="order_countData?.returnRequest"><b>{{order_countData?.returnRequest}}</b> Products</p>
+                        <p *ngIf="!order_countData?.returnRequest"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- Cancel Request -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Request for cancelation')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>cancel_presentation</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Cancel Request</p>
+                        <p *ngIf="order_countData?.requestForCancelation"><b>{{order_countData?.requestForCancelation}}</b> Products</p>
+                        <p *ngIf="!order_countData?.requestForCancelation"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- Return Rejected -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Return rejected by admin')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>sync_disabled</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Return Request Rejected</p>
+                        <p ><b>{{tabeData?.returnRejectedByAdmin ? tabeData?.returnRejectedByAdmin :'0'}}</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- return request approve -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Return request approved')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>done</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Return request approved</p>
+                        <p *ngIf="tableData?.returnRequestApproved"><b>{{tableData?.returnRequestApproved}}</b> Products</p>
+                        <p *ngIf="!tableData?.returnRequestApproved"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+               <!-- Canceled -->
+               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('cancelled')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>clear</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Canceled</p>
+                        <p *ngIf="order_countData?.Cancelled"><b>{{order_countData?.Cancelled}}</b> Products</p>
+                        <p *ngIf="!order_countData?.Cancelled"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
+                <h3 class="card-row">Return Process</h3>
+              </ion-col>
+            </ion-row>
+            <ion-row>              
+              <!-- Product Shipped by user -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Product Shipped by user')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>assignment_return</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Product Shipped by user</p>
+                        <p *ngIf="tableData?.productShippedByUser"><b>{{tableData?.productShippedByUser}}</b> Products</p>
+                        <p *ngIf="!tableData?.productShippedByUser"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- Product received from user -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Product received from user')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>clear</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Product received from user</p>
+                        <p *ngIf="tableData?.productReceivedFromUser"><b>{{tableData?.productReceivedFromUser}}</b> Products</p>
+                        <p *ngIf="!tableData?.productReceivedFromUser"><b>0</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- Return/Refund -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('returnRefund')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>assignment_return</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Return/Refund</p>
+                        <p ><b>{{order_countData?.returnRefund ? order_countData?.returnRefund :'0'}}</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+              <!-- Return/Refund Rejected -->
+              <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
+                <div class="note-item note-item2 note-box-danger card-outer order-cards">
+                  <div matRipple class="card card-box" (click)="datatype('Rejected')">
+                      <div class="top">
+                          <div class="icon">
+                            <mat-icon>assignment_return</mat-icon>
+                          </div>
+                      </div>
+                      <div class="bottom">
+                        <p class="heading">Return/Refund Rejected</p>
+                        <p ><b>{{order_countData?.Rejected ? order_countData?.Rejected :'0'}}</b> Products</p>
+                      </div>
+                  </div>
+                </div>             
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <div class="card card-box card-table">
+          <!-- <div class="card-header">
+            <div class="card-header-tittle">
+            {{tableTitle}}  order List
+            </div>
+            <div class="card-header-action">
+              <ion-button class="custom-btn" (click)="openorderExportModal('orderExportModal','','')">
+                <mat-icon>file_upload</mat-icon>Export Doc
+              </ion-button>
+            </div>
+          </div> -->
+          <div class="card-body">
+            <div class="table-header">
+              <div class="records-wrapper">
+                  <ion-item class="record">
+                    <span class="text-black mr-1">Records: </span>
+                    <mat-form-field  class="m-0">
+                      <mat-select [(ngModel)]="displayRecord" name="record" (selectionChange)="displayRecordChange($event.value)">
+                        <mat-option *ngFor="let record of displayRecords" [value]="record.displayValue">
+                          <span *ngIf="record.displayValue > 0">{{record.displayValue}}</span>
+                          <!-- <span *ngIf="record.displayValue == 0">All</span> -->
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </ion-item>
+              </div>
+              <div class="search-wrapper">
+                <ion-searchbar class="p-0" showCancelButton="focus" debounce="500" placeholder="Search data ...." [(ngModel)]="searchTerm" (ionChange)="searchList($event)"></ion-searchbar>
+              </div>
+             </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="ion-text-start">
+                                <div>
+                                    #
+                                </div>
+                            </th>                            
+                            <th *ngFor="let th of tableHeaderData" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
+                              <div>
+                                {{th.display_name}}
+                                <mat-icon *ngIf="th.sortingButtonName == ''">import_export</mat-icon>
+                                <mat-icon *ngIf="th.sortingButtonName == 'ASC'">expand_less</mat-icon>
+                                <mat-icon *ngIf="th.sortingButtonName == 'DESC'">expand_more</mat-icon>
+                              </div>
+                            </th>
+                            <th class="">
+                              <div class="justify-content-center">
+                                Order Status
+                              </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr  [hidden]="!isListLoading" class="loading-table-data">
+                        <td colspan="100" class="text-center">
+                          Data is loading...
+                        </td>
+                      </tr>
+                      <tr [hidden]="isListLoading" *ngIf="tableData?.data.length == 0" class="loading-table-data">
+                        <td colspan="100" class="text-center">
+                          No data found
+                        </td>
+                      </tr>
+                      <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td>
+                          <a [routerLink]="['/', 'order-products-list', item?.orderId,item?.productId]" class="text-decoration-none">{{item?.orderId}}</a>
+                        </td>
+                        <td>
+                          {{item?.invoiceId ? item?.invoiceId : 'N/A'}}
+                        </td>
+                        <td>
+                          {{item?.displayName}}
+                        </td>
+                        <td>
+                          {{item?.createdOn}}
+                        </td>
+                        <td>
+                          {{item?.mrp}}
+                        </td>
+                        <td>
+                          {{item?.discount ? item?.discount : '0'}}
+                        </td>
+                        <td>
+                          {{item?.salesPrice ? item?.salesPrice : 'N/A'}}
+                        </td>
+                        <td>
+                          {{item?.giftWrapAmount ? item?.giftWrapAmount : '0'}}
+                        </td>
+                        <td>
+                           {{item?.paymentData?.paymentMode ? item?.paymentData?.paymentMode : 'N/A'}}
+                        </td>
+                        <!-- <td>
+                          {{item?.paymentData?.paymentDetails?.razorpay_order_id}}
+                        </td> -->
+                        <td>
+                          {{item?.paymentData?.paymentDetails?.razorpay_payment_id ? item?.paymentData?.paymentDetails?.razorpay_payment_id : 'N/A'}}
+                        </td>
+                        <td class="ion-text-center">
+                          <!-- <span class="status" [ngClass]="{'success': item?.deliveryStatus == 'dispatch'}" *ngIf="item?.deliveryStatus != 'cancel' && item?.paymentData && item?.paymentData?.paymentStatus != 'FALLED'">
+                            {{item?.deliveryStatus}}
+                          </span>
+                          <span class="status success" *ngIf="!item?.paymentData || item?.paymentData?.paymentStatus == 'FALLED'">
+                            Order Not Conformed
+                          </span> -->
+                          <!-- <span class="status danger"  *ngIf="item.deliveryStatus == 'cancel'">
+                            {{item?.deliveryStatus}}
+                          </span>  -->
+                          <span class="status" *ngIf="item?.orderItemStatus != 'returnRefund' && item?.orderItemStatus != 'Rejected' && item?.paymentData" [ngClass]="{'success': item?.orderItemStatus == 'Delivered' ,'danger': item?.orderItemStatus == 'cancelled' || item?.orderItemStatus == 'Request for cancelation', 'warning': item?.orderItemStatus == 'New' || item?.orderItemStatus == 'Return request approved' || item?.orderItemStatus == 'Product received from user' || item?.orderItemStatus == 'Product shipped by user' || item?.orderItemStatus == 'Orders' || item?.orderItemStatus == 'Packed' || item?.orderItemStatus == 'Shipped' || item?.orderItemStatus == 'returnRequest' }">
+                            {{item?.orderItemStatus == 'returnRequest' ? 'Return Request' : item?.orderItemStatus}}
+                          </span>
+                          <span class="status success" *ngIf="item?.orderItemStatus == 'returnRefund' && item?.paymentData">
+                            Return/Refund
+                          </span>
+                          <span class="status warning" *ngIf="item?.orderItemStatus == 'Rejected' && item?.paymentData">
+                            Return Rejected
+                          </span>
+                          <span class="status warning" *ngIf="!item?.paymentData">
+                            Order Not Confirmed
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="action">
+              <ion-button matTooltip="Refresh" matTooltipPosition="above" size="small" color="primary" (click)="onRefresh()">
+                <mat-icon>refresh</mat-icon>
+              </ion-button>
+            </div>
+            <div>
+                <ul class="pagination">
+                    <li (click)="setPage(0)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="First" matTooltipPosition="above">
+                        <a>
+                          <!-- First -->
+                          <ion-icon name="play-skip-back"></ion-icon>
+                        </a>
+                    </li>
+                    <li (click)="setPage(tableData.currentPage - 1)" [ngClass]="{disabled:tableData?.currentPage === 0}" class="circle-border" matTooltip="Previous" matTooltipPosition="above">
+                        <a>
+                          <!-- Previous -->
+                          <ion-icon name="caret-back"></ion-icon>
+                        </a>
+                    </li>
+                    <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                    <li>
+                        Page <a>{{ tableData?.currentPage + 1 }}</a> of {{ tableData?.totalPage + 1 }} 
+                    </li>
+                    <li> <span class="ran-separator pull-right margin-top-3"></span> </li>
+                    <li (click)="setPage(tableData.currentPage + 1)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Next" matTooltipPosition="above">
+                        <a>
+                          <!-- Next -->
+                          <ion-icon name="caret-forward"></ion-icon>
+                        </a>
+                    </li>
+                    <li (click)="setPage(tableData.totalPage)" [ngClass]="{disabled:tableData?.currentPage === tableData?.totalPage}" class="circle-border" matTooltip="Last" matTooltipPosition="above">
+                        <a>
+                          <!-- Last -->
+                          <ion-icon name="play-skip-forward"></ion-icon>
+                        </a>
+                    </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- common footer show -->
+<common-footer></common-footer>

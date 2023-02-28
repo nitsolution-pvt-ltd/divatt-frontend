@@ -1,0 +1,136 @@
+<common-header></common-header>
+<ion-content>
+  <div class="page-body">
+    <div class="page-wrapper profile-page">
+        <div class="container-fluid">
+          <div class="page-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-header-left">
+                        <h3>Profile
+                            <!-- <small>Divatt Admin panel</small> -->
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-right">
+                      <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                              <mat-icon>home</mat-icon>
+                          </a></li>
+                      <li class="breadcrumb-item active">
+                        Profile
+                      </li>
+                  </ol>
+              </div>
+            </div>
+        </div>
+          <div class="row">
+            <div class="col-xl-4">
+              <div class="card">
+                  <div class="card-body">
+                      <div class="profile-details text-center">
+
+                        <div *ngIf="role == 'ADMIN'" class="w-fit m-auto label">
+                          <mat-spinner class="formloader small-width"  *ngIf="imageLoader"></mat-spinner>
+                          <img [src]="adminprofiledata?.profilePic!= null ? adminprofiledata?.profilePic : 'assets/images/noimage.jpg'" alt="" class="img-fluid img-90 rounded-circle blur-up lazyloaded">
+                          <label for="profilepic" class="image_update_btn"><mat-icon *ngIf="!formBtn">edit</mat-icon></label>
+                        </div >  
+                        <input type="file"  *ngIf="role == 'ADMIN'" id="profilepic"  class="opacity-0 h-0 p-0" [ngClass]="{ 'disabled': imageLoader}" (change)="chooseFile('ADMIN',$event)">
+                        
+                        
+                        <div *ngIf="role == 'DESIGNER'" class="w-fit m-auto label">
+                          <mat-spinner class="formloader small-width" *ngIf="imageLoader"></mat-spinner>
+                          <img [src]="designerprofiledata?.designerProfile?.profilePic!= null ? designerprofiledata?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="" class="img-fluid img-90 rounded-circle blur-up lazyloaded">
+                          <label for="profilepic" class="image_update_btn"><mat-icon (click)="cancleUploading('edit','DESIGNER')">edit</mat-icon></label>
+                        </div> 
+                        <input type="file" *ngIf="role == 'DESIGNER'" id="profilepic"  class="opacity-0 h-0 p-0" [ngClass]="{ 'disabled': imageLoader}"  (change)="chooseFile('DESIGNER',$event)">
+                          
+                        <p class="text-muted  text-black" *ngIf="role == 'ADMIN'">{{adminprofiledata?.firstName}} {{adminprofiledata?.lastName}}</p>
+                        <p class="text-muted  text-black" *ngIf="role == 'DESIGNER'">{{designerprofiledata?.designerProfile?.firstName1}}  {{designerprofiledata?.designerProfile?.lastName1}}</p>
+                        <p class="text-muted  text-black text-capitalize d-flex justify-content-center" *ngIf="role == 'DESIGNER'">
+                          <span class="status" [ngClass]="{ 'warning': designerprofiledata.profileStatus == 'SUBMITTED' , 'danger': designerprofiledata.profileStatus == 'REJECTED','success': designerprofiledata.profileStatus == 'COMPLETED'}">
+                          {{designerprofiledata?.profileStatus}}
+                        </span></p>
+                        <p class="text-muted  text-black text-capitalize d-flex justify-content-center" *ngIf="role == 'DESIGNER'"><mat-icon class="mr-1">people</mat-icon><span style="line-height: 25px;">Followers :</span><span style="line-height: 25px;">{{followers}}</span></p>
+                        <p *ngIf="role == 'DESIGNER'">
+                          <mat-slide-toggle
+                            class="example-margin"
+                            (change)="statusChange(designerprofiledata.designerId)"
+                            [checked]="designerprofiledata.accountStatus == true">
+                          </mat-slide-toggle>
+                        </p>
+                        </div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-xl-8">
+              <div class="card">
+                <div class="card-body">
+                  <mat-tab-group mat-align-tabs="start" [ngClass]="{'onlyOne' : role != 'DESIGNER'}">
+                    <mat-tab *ngIf="role == 'ADMIN'">
+                      <ng-template mat-tab-label>
+                        <mat-icon>person_outline</mat-icon>
+                        <span >Profile</span>
+                      </ng-template>
+                        <div class="dtl-body pt-2 pb-2 p-4">
+                          <div class="d-flex align-items-center justify-content-between">
+                            <h3 class="font-weight-500 mb-3 h3 mt-3">Profile</h3>
+                           
+                          </div>
+                          <div class="table-responsive">
+                            <table>
+                              <tr  *ngIf="adminprofiledata.firstName">
+                                <td class="border-0"><span class="text-black">First Name:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.firstName}}</span></td>
+                              </tr>
+                              <tr *ngIf="adminprofiledata.lastName">
+                                <td class="border-0" ><span class="text-black">Last Name:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.lastName}}</span></td>
+                              </tr>
+                              <tr *ngIf="adminprofiledata.email">
+                                <td class="border-0" ><span class="text-black">Email:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.email}}</span></td>
+                              </tr>
+                              <tr  *ngIf="adminprofiledata.gender">
+                                <td class="border-0"><span class="text-black">Gender:</span></td>
+                                <td class="border-0"><span class="text-capitalize">{{adminprofiledata?.gender}}</span></td>
+                                <td class="border-0"><span class="text-black">Mobile No:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.mobileNo}}</span></td>
+                              </tr>
+                              <tr >
+                                <td class="border-0" ><span class="text-black">DOB:</span></td>
+                                <td class="border-0"><span>{{adminDob}}</span></td>
+                                <td class="border-0" ><span class="text-black">GSTIN:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.gstIn}}</span></td>
+                              </tr>
+                              <tr>
+                                <td class="border-0" ><span class="text-black">City:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.city}}</span></td>
+                                <td class="border-0" ><span class="text-black">Pin:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.pin}}</span></td>
+                              </tr>
+                              <tr>
+                                <td class="border-0" ><span class="text-black">State:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.state}}</span></td>
+                                <td class="border-0" ><span class="text-black">Country:</span></td>
+                                <td class="border-0"><span>{{adminprofiledata?.country}}</span></td>
+                              </tr>
+                            </table>
+                          </div>
+                        </div>
+                        
+                    </mat-tab>
+                  </mat-tab-group>
+                  <p>
+                    <ion-button *ngIf="role == 'ADMIN'"    type="button"   (click)="openAdminProfilemodal('adminprofile_modal', adminprofiledata, '');" class="custom-btn float-right">
+                      Edit
+                    </ion-button>
+                    </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</ion-content>

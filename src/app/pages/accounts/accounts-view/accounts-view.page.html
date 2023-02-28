@@ -1,0 +1,257 @@
+<!-- common header show -->
+<common-header></common-header>
+
+<ion-content>
+    <div class="page-body">
+        <div class="page-wrapper">
+          <div class="table-listing account-view">
+            <div class="container-fluid">
+              <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="page-header-left">
+                            <h3>Account View</h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <ol class="breadcrumb float-right">
+                          <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
+                                  <mat-icon>home</mat-icon>
+                              </a></li>
+                          <li class="breadcrumb-item">
+                            Account List
+                          </li>
+                          <li class="breadcrumb-item active">
+                            Account Singel View
+                          </li>
+                      </ol>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-sm-12 col-md-12 col-lg-10 m-auto">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="card border-0 ">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                          <h3>Order Details</h3>
+                          <button mat-mini-fab  class="bg-theme d-flex align-items-center justify-content-center" matTooltip="Download order details" (click)="genaratePDF(accountData?.order_details?.order_id,'orderinvoice')">
+                            <mat-icon>sim_card_download</mat-icon>
+                          </button>
+                        </div>
+                        <div class="card-body">
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Order ID&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.order_id}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Order Date&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.datetime}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Invoice Number&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.invoice_id}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Delivery Date&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.delivery_datetime}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12 mt-4">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Product SKU&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.product_sku}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Gross Amount&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.mrp | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Discounts&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.discount | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Taxable Value&nbsp; :</h4>
+                              <p class="account-body">
+                                {{taxValue | number:'1.2-2'}}
+                                <!-- {{accountData?.order_details?.mrp - (accountData?.order_details?.hsn_cgst + accountData?.order_details?.hsn_sgst + accountData?.order_details?.hsn_igst).toFixed(0) | number:'1.2-2'}} -->
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">CGST(6%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.hsn_cgst | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div><div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">SGST(6%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.hsn_sgst | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">IGST <span *ngIf="accountData?.order_details?.hsn_igst">(12%)</span>&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.hsn_igst | number:'1.2-2'}}
+                              </p>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                              <div class="account-item flex price">
+                                <h4 class="account-header">Giftwrap&nbsp; :</h4>
+                                <p class="account-body">
+                                  {{accountData?.order_details?.giftWrapAmount | number:'1.2-2'}}
+                                  <!-- 0.00 -->
+                                </p>
+                              </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                              <hr style="margin: 5px 0;background: rgb(0 0 0);"/>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                              <div class="account-item flex price">
+                                <h4 class="account-header font-weight-bold">Total&nbsp; :</h4>
+                                <p class="account-body font-weight-bold" *ngIf="accountData?.order_details?.sales_price != 0">
+                                  {{accountData?.order_details?.sales_price | number:'1.2-2'}}
+                                </p>
+                                <p class="account-body font-weight-bold" *ngIf="accountData?.order_details?.sales_price == 0">
+                                  {{accountData?.order_details?.mrp | number:'1.2-2'}}
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card border-0 ">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                          <h3>Divatt Charges Details</h3>
+                          <button mat-mini-fab  class="bg-theme d-flex align-items-center justify-content-center" matTooltip="Download payment details" (click)="genaratePDF(accountData,'')">
+                            <mat-icon>sim_card_download</mat-icon>
+                          </button>
+                        </div>
+                        <div class="card-body">
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Invoice Id&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.service_charge?.designer_invoice_id}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Basic Value&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.service_charge?.fee}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">CGST (9%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.service_charge?.cgst}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">SGST (9%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.service_charge?.sgst}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12 ">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">IGST (18%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.service_charge?.igst}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <hr style="margin: 5px 0;background: rgb(0 0 0);"/>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Total&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.service_charge?.fee + accountData?.service_charge?.igst}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">TCS (1%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.service_charge?.tcs}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <hr style="margin: 5px 0;background: rgb(0 0 0);"/>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Gross Amount&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.service_charge?.total_amount}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Payable Amount:&nbsp; :</h4>
+                              <p class="account-body">
+                                {{accountData?.order_details?.mrp - accountData?.service_charge?.total_amount}}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- common footer show -->
+    <common-footer></common-footer>
+</ion-content>
+
