@@ -1,0 +1,300 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>Collection</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/home'">Home</a></li>
+            <li class="breadcrumb-item" *ngIf="!searchkey && category != 'category'"><a>{{categoryName}}</a></li>
+            <li class="breadcrumb-item active" *ngIf="!searchkey">{{subcategoryName == 'subcategoryName' ? 'All' : subcategoryName }} collection</li>
+            <li class="breadcrumb-item active" *ngIf="searchkey">{{searchkey}} collection</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb End -->
+<section class="section-b-space pt-3">
+
+  <div class="collection-wrapper">
+    <div class="container-fluid fixed-width" >
+      <div class="row">
+        <div class="col-md-12 pd_on_mb">
+          <div class="collection-content col">
+            <div class="page-main-content">
+              <div class="top-banner-wrapper">
+                <!-- <a href="#"><img src="../assets/images/mega-menu/2.jpg" class="img-fluid blur-up lazyload" alt=""></a> -->
+                <div class="row mb-5"  *ngIf="allproducts?.length">
+                  <div class="col-md-12 ">
+                    <div class="collection_title d-flex align-items-center justify-content-between">
+                      <div class=" w-fit">
+                        <img src="assets/images/sort.png" alt=""
+                          style="width:22px;height:24px;margin: 4px; padding: 1px;cursor: pointer;" [matMenuTriggerFor]="sortby">
+                          <mat-menu #sortby="matMenu" class="sortingMenu">
+                            <!-- <button mat-menu-item (click)="sortBy('')">
+                            <span>Popularity</span>
+                          </button> -->
+                            <button mat-menu-item (click)="sortBy('price','lowToHigh')" [ngClass]="{'active' : sortByOrder == 'lowToHigh'}">
+                              <span>Price -- Low to High</span>
+                            </button>
+                            <button mat-menu-item (click)="sortBy('price','highToLow')" [ngClass]="{'active' : sortByOrder == 'highToLow'}">
+                              <span>Price -- High to Low</span>
+                            </button>
+                            <button mat-menu-item (click)="sortBy('date','new')" [ngClass]="{'active' : sortByOrder == 'new'}">
+                              <span>Newest First</span>
+                            </button>
+                            <button mat-menu-item (click)="sortBy('date','old')" [ngClass]="{'active' : sortByOrder == 'old'}">
+                              <span>Oldest First</span>
+                            </button>
+                          </mat-menu>
+                        <!-- <h3 class="m-0 text-black"><span>{{category}}</span> <mat-icon>arrow_forward_ios</mat-icon> <span>{{subcategory}} collection</span> </h3> -->
+                      </div>
+                      <div class="float-right">
+                        <img class="img-fluid icon-width icon-height  curser-pointer" id="menu-toggle"
+                          (click)="visiblefilter = true" src="assets/images/siger.png"
+                          style="width:22px;height:24px; padding: 1px;">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-sm-12 col-lg-12">
+                    <div class="m-auto bg-gray-200 justify-content-center toggle-btn2 text-sm text-gray-500 leading-none border-2 border-gray-200 rounded-full d-flex">
+                      <button matTooltip="Only pop designer products are categorized" class="active d-flex align-items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-r-full px-4 py-2">
+                        <span>Pop</span>
+                      </button> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="filtter_bar" [ngClass]="{'show': visiblefilter }">
+        <p class="close-button mt-2">
+          <a tabindex="0" class="ui-sidebar-close ui-corner-all" (click)="visiblefilter = false">
+            <span class="pi pi-times"></span>
+          </a>
+        </p>
+
+        <div class="items">
+          <!-- filter start -->
+          <!-- designer filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : search}">
+            <h3 class="collapse-block-title" (click)="search = !search"><span class="lead">Search</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox pr-0 pl-0">
+                  <div class="searchbar">
+                    <input type="text" class="searchinput pl-3 w-100 rounded" name="searchevent"
+                      [(ngModel)]="searchevent" required placeholder="Search" (keydown.enter)="searchText(searchevent)">
+                    <i class="ti ti-search rounded-right" (click)="searchText(searchevent)" [ngClass]="{'disabled':!searchevent}"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- designer filter end -->
+          <!-- designer filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : designerftr}">
+            <h3 class="collapse-block-title" (click)="designerftr=!designerftr"><span class="lead">designer</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox" *ngFor="let filter of designers">
+                  <input type="checkbox" class="custom-control-input" [value]="filter.dId"
+                    (change)="checkedFilter('designername',$event)" id="{{filter.dId}}" [(ngModel)]="filter.isSelected">
+                  <label class="custom-control-label"
+                    for="{{filter.dId}}">{{filter?.designerName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- designer filter end -->
+          <!-- category filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : categoryftr}">
+            <h3 class="collapse-block-title" (click)="categoryftr=!categoryftr"><span class="lead">category</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter pt-3">
+                <div *ngFor="let filter2 of categoris">
+                  <div class="custom-control custom-checkbox collection-filter-checkbox cursor-default mt-1" *ngIf="filter2.id == activatedRoute.snapshot.params.category || activatedRoute.snapshot.params.category == 'category'">
+                    <input type="checkbox" class="custom-control-input cursor-default" [value]="filter2.id" [(ngModel)]="filter2.isActive"
+                      (change)="checkedFilter('categoryName',$event)" id="{{filter2.id}}" (change)="choseCategory(filter2.id,$event)" [disabled]="filter2.id == activatedRoutecategory && activatedRoute.snapshot.params.category != 'category'" [checked]="filter2.id == activatedRoute.snapshot.params.category && activatedRoute.snapshot.params.category != 'category'">
+                    <label class="custom-control-label cursor-default" for="{{filter2.id}}">{{filter2?.categoryName}}</label>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <!-- category filter end -->
+          <!-- category filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : subcategoryftr}" *ngIf="subcategoris.length">
+            <h3 class="collapse-block-title" (click)="subcategoryftr=!subcategoryftr"><span class="lead">Sub category</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox"
+                  *ngFor="let filter3 of subcategoris">
+                  <input type="checkbox" class="custom-control-input" [value]="filter3.id"
+                    (change)="checkedFilter('subcategoryName',$event)" id="{{filter3.id}}" [(ngModel)]="filter3.isSelected" [checked]="filter3.categoryName == subcategoryName">
+                  <label class="custom-control-label" for="{{filter3.id}}">{{filter3?.categoryName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- category filter end -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : priceftr}">
+            <h3 class="collapse-block-title pb-3" (click)="priceftr=!priceftr"><span class="lead">price</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="mt-4">
+
+                  <!-- <range-slider [min]="minPrice" [max]="maxPrice" [step]="50" [(ngModel)]="range"
+                    (onRangeChange)="priceChanged($event)" [highlightClass]="'stephighlightClass'"
+                    [barClass]="'stepBarClass'" [sliderClass]="'stepSliderClass'">
+                  </range-slider> -->
+                  <ngx-slider [(value)]="value" [(ngModel)]="sliderValue" (mouseup)="priceChanged(sliderValue)"   (userChangeStart)="priceChanged(sliderValue)" (userChange)="priceChanged(sliderValue)"[(highValue)]="highValue" [options]="options"></ngx-slider>
+                </div>
+                <p class="mt-3 lead">₹ {{options?.floor}} <span class="float-right">₹ {{options?.ceil}}</span> </p>
+
+              </div>
+            </div>
+          </div>
+          <!-- sizes filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : sizeftr}">
+            <h3 class="collapse-block-title" (click)="sizeftr=!sizeftr"><span class="lead">sizes</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox" *ngFor="let filter4 of sizes">
+                  <input type="checkbox" class="custom-control-input" [value]="filter4.name" [(ngModel)]="filter4.isSelected"
+                    (change)="checkedFilter('sizeName',$event)" id="{{filter4.name}}"  [checked]="unchecked">
+                  <label class="custom-control-label" for="{{filter4.name}}">{{filter4?.name}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- sizes filter end -->
+          <!-- colors filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : colorftr}">
+            <h3 class="collapse-block-title" (click)="colorftr=!colorftr"><span class="lead">colors</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox" *ngFor="let filter3 of colors">
+                  <input type="checkbox" class="custom-control-input" [value]="filter3.colorName"
+                    (change)="checkedFilter('colorName',$event)" [(ngModel)]="filter3.isSelected" id="{{filter3.colorName}}" [checked]="unchecked">
+                  <label class="custom-control-label" for="{{filter3.colorName}}">{{filter3?.colorName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- colors filter end -->
+          <!-- Cash On Delivery filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : moreftr}">
+            <h3 class="collapse-block-title" (click)="moreftr=!moreftr"><span class="lead">Others</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox toggle-btn">
+                  <!-- <div class="in-cms custom-toggle justify-content-between">
+                    <span class="in">Cash On Delivery</span>
+                    <mat-slide-toggle (change)="toggleFilter($event.checked,'COD')"></mat-slide-toggle>
+                  </div> -->
+                  <div class="in-cms custom-toggle justify-content-between">
+                    <span class="in">Size Customization</span>
+                    <mat-slide-toggle name="customization" [(ngModel)]="customization" (change)="toggleFilter($event.checked,'customization')"></mat-slide-toggle>
+                  </div>
+                  <div class="in-cms custom-toggle justify-content-between">
+                    <span class="in">Giftwrap</span>
+                    <mat-slide-toggle name="giftWrap" [(ngModel)]="giftWrap" (change)="toggleFilter($event.checked,'giftwrap')"></mat-slide-toggle>
+                  </div>
+                  <!-- <div class="in-cms custom-toggle justify-content-between">
+                <span class="in" >Return Status</span>
+                <mat-slide-toggle (change)="toggleFilter($event.checked,'returnStatus')"></mat-slide-toggle>
+              </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Cash On Delivery filter end -->
+        </div>
+        <div class="buttons">
+          <div class="buttons filtter">
+            <a class="link curser-pointer" (click)="appllyFilter()">view all result</a>
+            <a class="link curser-pointer" (click)="clearFilter()">clear</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-fluid collection-page fixed-width">
+    <div class="row d-flex" *ngIf="countproducts.length > 0">
+      <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" *ngFor="let product of allproducts">
+        <div class="product-box">
+          <div class="img-wrapper">
+            <div class="lable-block">
+              <!-- <span class="lable3" title="New"></span> -->
+              <span class="lable4" title="Sale" *ngIf="product?.deal?.salePrice"></span>
+            </div>
+            <div class="front">
+              <!--  [queryParams]="product.productName" -->
+              <a [routerLink]="'/product-detail/'+product.slug+'/'+product.productId" target="_blank">
+              <img [src]="product?.images ? product?.images[0]?.large : 'assets/images/fashion/product/80.jpg'" class="img-fluid">
+              </a>
+            </div>
+            <a  class="action_btn actionWishlist" (click)="addToWishlist(product)" title="Add to Wishlist">
+              <img _ngcontent-tmi-c2="" alt="" class="icon-height wishlist_icon" src="assets/images/icon/feather/wishlist.png"  title="Wishlist">
+            </a>
+          </div>
+          <div class="product-detail2 buttom">
+            <div>
+              
+              <div class="designer">
+                <div class="name" *ngIf="product?.designerProfile?.firstName1">{{product?.designerProfile?.displayName}}</div>
+                <div class="name" *ngIf="!product?.designerProfile?.firstName1">Display Name </div>
+              </div>
+                <a >
+                <h6>{{product?.productDetails?.productName}}</h6>
+              </a>
+              <h4 *ngIf="product?.deal?.salePrice">₹ {{product?.deal?.salePrice}}
+                <del><span class="money">₹ {{product?.mrp}}</span></del>
+              </h4>
+              <h4 *ngIf="!product?.deal?.salePrice">₹ {{product?.mrp}}</h4>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-block" *ngIf="!loader">
+      <button class="load-more btn" matRipple (click)="loadData()" *ngIf="pagination?.totalPage > 0 && pagination?.totalPage != pagination?.currentPage">
+        <span>Load More </span> <mat-icon>expand_more</mat-icon>
+      </button>
+      <!-- <p *ngIf="noProductfound" class="text-center font-weight-bold h5 mt-3">No more product found.</p> -->
+    </div>
+    <div class="row d-block text-center" *ngIf="loader">
+      <mat-spinner class="loader m-auto"></mat-spinner>
+      <p class="mt-1 mb-0"><small><b>Loading..</b></small></p>
+    </div>
+  </div>
+  <!-- <div class="row small_pd" [ngClass]="{'d-none': loader}" *ngIf="allproducts.length">
+    <div class="col-12 mt-5" style="display: flex;justify-content: center;">
+      <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+    </div>
+  </div> -->
+  <div class="row justify-content-center empty-cart-cls" *ngIf="allproducts.length == 0 && !loader">
+    <div class="text-center">
+      <img src="assets/images/no-product-found.png" alt="">
+      <h3>No Product Found.</h3>
+    </div>
+  </div>
+  <a (click)="scrollToTop()" class="scroll_to_top">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </a>
+</section>
+<app-footer></app-footer>

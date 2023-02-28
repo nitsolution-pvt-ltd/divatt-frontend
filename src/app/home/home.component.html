@@ -1,0 +1,336 @@
+<!-- Recently viewed end -->
+<!-- 'home-mobile' class for mobile screen  -->
+<div class="container-fluid fixed-width px-0 mx-0 mb-0 body-first-child ">
+  <app-slider></app-slider>
+</div>
+<section class="section-b-spac p-t-0 pb-2">
+  <div class="title1  section-t-space">
+      <h2 class="title-inner1 mb-3 pb-0">Top designer</h2>
+  </div>
+  <div class="container-fluid fixed-width for_desktop designerlisting">
+    <div class="row padding-lg"  *ngIf="designerlist.length != 0">
+      <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6 card4" [id]="i" *ngFor="let designer of designerlist;let i = index"  [ngClass]="{'d-none': i > 5 , 'md_screen': i > 3 ,'small_screen': i > 3 ,'xsmall_screen': i > 1}" >
+        <div class="pb-2">
+          <div class="follow_btn text-right" *ngIf="!get_user_dtls">
+            <img src="assets/images/follow.png" class="follow_img" alt=""  (click)="openLoginNav()">
+          </div>
+          <div class="follow_btn text-right" *ngIf="get_user_dtls">
+            <img src="assets/images/follow.png" class="follow_img" alt="" *ngIf="!designer.isFollowing" (click)="openfollowModal('follow','',designer)">
+            <img src="assets/images/unfollow.png" class="follow_img" alt="" *ngIf="designer.isFollowing" (click)="openfollowModal('unfollow','',designer)">
+          </div>
+          <div [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">
+            <img [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="">
+            <h5 class="name" [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</h5>
+          </div> 
+          <div class="descption" [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{designer?.designerProfileEntity?.socialProfile?.address}}
+          </div>
+          <div class="followers" [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">
+            Followers :&nbsp;{{designer?.follwerCount}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center empty-cart-cls" *ngIf="designerlist.length == 0 && !designerloader">
+      <div class="text-center">
+        <img src="assets/images/no-user.png" alt="" class="opacity-6">
+        <p class="custom-title">No Designer Found!</p>
+      </div>
+      
+    </div>
+  </div>
+  <div class="container-fluid two-on-small designer-slider for_mobile">
+    <div class="row" *ngIf="designerlist.length != 0">
+      <div class="col">
+        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
+          <div ngxSlickItem class="card4" *ngFor="let designer of designerlist;let i = index">
+            <div class="pb-2">
+              <div class="follow_btn text-right">
+                <img src="assets/images/follow.png" class="follow_img" alt="" *ngIf="!designer.isFollowing" (click)="openfollowModal(designer?.designerProfileEntity?.designerId)">
+            <img src="assets/images/unfollow.png" class="follow_img" alt="" *ngIf="designer.isFollowing" (click)="openfollowModal(designer?.designerProfileEntity?.designerId)">
+              </div>
+              <div>
+                <img [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="">
+                <h5 class="name" [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</h5>
+              </div> 
+              <div class="descption">
+                <i class="fa fa-map-marker" aria-hidden="true"></i> {{designer?.designerProfileEntity?.socialProfile?.address}}
+              </div>
+              <div class="followers">
+                Followers :&nbsp;{{designer?.follwerCount}}
+              </div>
+            </div>
+             
+           </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+    <div class="row justify-content-center empty-cart-cls" *ngIf="designerlist.length == 0">
+      <div class="text-center">
+        <img src="assets/images/no-user.png" alt="" class="opacity-6">
+        <p class="custom-title">No Designer Found!</p>
+      </div>
+      
+    </div>
+  </div>
+  <div class="container text-center" *ngIf="designerloader">
+    <mat-spinner class="loader m-auto"></mat-spinner>
+    <p class="mt-1 mb-2"><small><b>Loading..</b></small></p>
+  </div>
+</section>
+<!-- Top designer end -->
+
+<!-- Bestseller start -->
+<section class="section-b-spac p-t-0 pt-0">
+  <div class="title1  section-t-space pt-0">
+      <h2 class="title-inner1 pt-0">Best seller</h2>
+  </div>
+  <div class="container-fluid fixed-width two-on-small nospace-mobile">
+    <div class="row">
+      <div class="col">
+        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="bestDesignerproductSlideConfig">
+          <div ngxSlickItem class="product-box" *ngFor="let product of bestSellerproducts">
+             <app-product [product]="product"></app-product>   
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+    <div class="row justify-content-center empty-cart-cls" *ngIf="!bestSellerproducts.length">
+      <div class="text-center">
+        <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
+        <p class="custom-title">No product found!!</p>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Bestseller end -->
+
+<!-- New product start -->
+<section class="section-b-spac p-t-0">    
+  <div class="title1  section-t-space">
+      <h2 class="title-inner1">New product</h2>
+  </div>
+  <div class="container-fluid fixed-width two-on-small nospace-mobile">
+    <div class="row">
+      <div class="col">
+        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="newproductSlideConfig">
+          <div ngxSlickItem class="product-box" *ngFor="let product of newProducts">
+             <app-product [product]="product"></app-product>
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+    <div class="row justify-content-center empty-cart-cls" *ngIf="!newProducts.length">
+      <div class="text-center">
+        <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
+        <p class="custom-title">No product found!!</p>
+      </div>
+      
+    </div>
+  </div>
+</section>
+<!-- New product end -->
+<!-- Recently viewed start -->
+<section class="section-b-spac p-t-0">    
+  <div class="title1  section-t-space">
+      <h2 class="title-inner1">Recently viewed</h2>
+  </div>
+  <div class="container-fluid fixed-width two-on-small nospace-mobile mb-4">
+    <div class="row">
+      <div class="col">
+        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="recentViewproductSlideConfig">
+          <div ngxSlickItem class="product-box" *ngFor="let product of recentViewproducts">
+            <app-product [product]="product"></app-product>
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+    <div class="row justify-content-center empty-cart-cls" *ngIf="!recentViewproducts.length">
+      <div class="text-center">
+        <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
+        <p class="custom-title">No product found!!</p>
+      </div>
+      
+    </div>
+  </div>
+</section>
+<!-- home-mobile-footer -->
+<app-footer class="position-relative"></app-footer>
+<swiper class="swiper-container" [config]="config" (indexChange)="onIndexChange($event)" fxFlex="auto" *ngIf="false">
+  <div class="swiper-slide" [style.width.px]="innerWidth">
+    <div>
+      <div class="container-fluid fixed-width px-0 mx-0 mb-0 body-first-child overflow-hidden">
+        <app-slider></app-slider>
+      </div>
+    </div>
+  </div>
+  <div class="swiper-slide">
+    <div>
+      <section class="section-b-space p-t-0 pb-2">
+        <div class="title1  section-t-space">
+            <!-- <h4>New</h4> -->
+            <h2 class="title-inner1 mb-3 pb-0">Top designer</h2>
+        </div>
+        <div class="container-fluid fixed-width for_desktop designerlisting">
+          <div class="row" *ngIf="designerlist.length">
+            <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6 card4" [id]="i" *ngFor="let designer of designerlist;let i = index"  [ngClass]="{'d-none': i > 5 , 'md_screen': i > 3 ,'small_screen': i > 3 ,'xsmall_screen': i > 1}" >
+              <div class="pb-2">
+                <div class="follow_btn text-right" *ngIf="!get_user_dtls">
+                  <img src="assets/images/follow.png" class="follow_img" alt=""  (click)="openLoginNav()">
+                  <!-- <img src="assets/images/unfollow.png" class="follow_img" alt="" *ngIf="designer.isFollowing" (click)="openfollowModal(designer?.designerProfileEntity?.designerId)"> -->
+                </div>
+                <div class="follow_btn text-right" *ngIf="get_user_dtls">
+                  <img src="assets/images/follow.png" class="follow_img" alt="" *ngIf="!designer.isFollowing" (click)="openfollowModal('follow','',designer)">
+                  <img src="assets/images/unfollow.png" class="follow_img" alt="" *ngIf="designer.isFollowing" (click)="openfollowModal('unfollow','',designer)">
+                </div>
+                <div [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">
+                  <img [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="">
+                  <h5 class="name" [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</h5>
+                </div> 
+                <div class="descption" [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp; {{designer?.designerProfileEntity?.socialProfile?.address}}
+                </div>
+                <div class="followers" [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">
+                  Followers :&nbsp;{{designer?.follwerCount}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center empty-cart-cls" *ngIf="designerlist.length == 0">
+            <div class="text-center">
+              <img src="assets/images/no-user.png" alt="" class="opacity-6">
+              <p class="custom-title">No Designer Found!</p>
+            </div>
+            
+          </div>
+        </div>
+        <div class="container-fluid two-on-small designer-slider for_mobile">
+          <div class="row">
+            <div class="col">
+              <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
+                <div ngxSlickItem class="card4" *ngFor="let designer of designerlist;let i = index">
+                  <div class="pb-2">
+                    <div class="follow_btn text-right" *ngIf="!get_user_dtls">
+                      <img src="assets/images/follow.png" class="follow_img" alt=""  (click)="openLoginNav()">
+                    </div>
+                    <div class="follow_btn text-right" *ngIf="get_user_dtls">
+                      <img src="assets/images/follow.png" class="follow_img" alt="" *ngIf="!designer.isFollowing" (click)="openfollowModal(designer?.designerProfileEntity?.designerId)">
+                      <img src="assets/images/unfollow.png" class="follow_img" alt="" *ngIf="designer.isFollowing" (click)="openfollowModal(designer?.designerProfileEntity?.designerId)">
+                    </div>
+                    <div>
+                      <img [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="">
+                      <h5 class="name" [routerLink]="['../designer/', designer?.designerProfileEntity?.designerId]">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</h5>
+                    </div> 
+                    <div class="descption">
+                      <i class="fa fa-map-marker" aria-hidden="true"></i> {{designer?.designerProfileEntity?.socialProfile?.address}}
+                    </div>
+                    <div class="followers">
+                      Followers :&nbsp;{{designer?.follwerCount}}
+                    </div>
+                  </div>
+                   
+                 </div>
+              </ngx-slick-carousel>
+            </div>
+          </div>
+        </div>
+        <div class="container text-center" *ngIf="designerloader">
+          <mat-spinner class="loader m-auto"></mat-spinner>
+          <p class="mt-1 mb-2"><small><b>Loading..</b></small></p>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="swiper-slide">
+    <section class="section-b-space p-t-0 pt-0">
+      <div class="title1  section-t-space pt-0">
+          <h2 class="title-inner1 pt-0">Best seller</h2>
+      </div>
+      <div class="container-fluid fixed-width two-on-small nospace-mobile">
+        <div class="row" *ngIf="products.length">
+          <div class="col">
+            <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
+              <div ngxSlickItem class="product-box" *ngFor="let product of products">
+                 <app-product [product]="product"></app-product>
+              </div>
+            </ngx-slick-carousel>
+          </div>
+        </div>
+        <div class="row justify-content-center empty-cart-cls" *ngIf="!products.length">
+          <div class="text-center">
+            <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
+            <p class="custom-title">No product found!!</p>
+          </div>
+          
+        </div>
+      </div>
+  </section>
+  </div>
+  <div class="swiper-slide">
+    <section class="section-b-space p-t-0">    
+      <div class="title1  section-t-space">
+          <h2 class="title-inner1">New product</h2>
+      </div>
+      <div class="container-fluid fixed-width two-on-small nospace-mobile">
+        <div class="row" *ngIf="products.length">
+          <div class="col">
+            <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
+              <div ngxSlickItem class="product-box" *ngFor="let product of products">
+                 <app-product [product]="product"></app-product>
+              </div>
+            </ngx-slick-carousel>
+          </div>
+        </div>
+        <div class="row justify-content-center empty-cart-cls" *ngIf="!products.length">
+          <div class="text-center">
+            <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
+            <p class="custom-title">No product found!!</p>
+          </div>
+          
+        </div>
+      </div>
+  </section>
+  </div>
+  <div class="swiper-slide">
+    <section class="section-b-space p-t-0">    
+      <div class="title1  section-t-space">
+          <h2 class="title-inner1">Recently viewed</h2>
+      </div>
+      <div class="container-fluid fixed-width two-on-small nospace-mobile mb-4">
+        <div class="row" *ngIf="products.length">
+          <div class="col">
+            <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="productSlideConfig">
+              <div ngxSlickItem class="product-box" *ngFor="let product of products">
+                 <app-product [product]="product"></app-product>
+              </div>
+            </ngx-slick-carousel>
+          </div>
+        </div>
+        <div class="row justify-content-center empty-cart-cls" *ngIf="!products.length">
+          <div class="text-center">
+            <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
+            <p class="custom-title">No product found!!</p>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="swiper-slide">
+    <app-footer></app-footer>
+  </div>
+  <div class="swiper-pagination"></div>
+</swiper>
+<!-- Recently viewed end -->
+
+<!-- <a href="#" class="btn btn-solid fixed" [routerLink]="['../product-compare']"  style="" [ngClass]="{'disabled': allcompareproduct.length < 2}" *ngIf="allcompareproduct != '' " >
+    <i  aria-hidden="true" class="ti-reload"></i> Compare Now
+  </a> -->
+
+  <!--**************** old design  *******************-->
+<!-- <app-category-collection-banner></app-category-collection-banner> -->
+<!-- <app-product-tab [products]="products"></app-product-tab> -->
+<!-- <app-parallax-banner></app-parallax-banner> -->
+<!-- <app-services></app-services> -->

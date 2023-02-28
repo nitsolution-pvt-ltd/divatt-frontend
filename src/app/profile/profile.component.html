@@ -1,0 +1,749 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h2>Profile</h2>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="'/home'">Home</a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb End -->
+
+<!--section start-->
+<section class="profile-section section-b-space" infinite-scroll
+[infiniteScrollDistance]="scrollDistance"
+[infiniteScrollUpDistance]="scrollUpDistance"
+[infiniteScrollThrottle]="throttle"
+(scrolled)="onScrollDown()"
+(scrolledUp)="onUp()">
+    <div class="container">
+        <div class="profile-wrapper">
+            <!-- <div class="profileimg text-center mb-3">
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" width="100px" class="img-rounded">
+            </div> -->
+            <div class="w-fit m-auto label">
+                <mat-spinner class="formloader small-width" *ngIf="imageLoader"></mat-spinner>
+                <img [src]="userDetailsFromApi?.profilePic ? userDetailsFromApi?.profilePic :'assets/images/nouser.png'" alt="" width="100px" class="img-rounded">
+                <label for="profilepic" class="image_update_btn" [ngClass]="{'disabled':imageLoader}"><mat-icon>edit</mat-icon></label>
+              </div> 
+              <div [ngClass]="{'disabled':imageLoader}">
+                <input type="file"  id="profilepic"  class="opacity-0 h-0 p-0"  accept="image/x-png,image/gif,image/jpeg,image/jpg,image/jfif"  (change)="chooseFile($event)">
+              </div>
+                
+            <h2 class="text-center">Welcome <br> {{userDetailsFromApi?.firstName}} {{userDetailsFromApi?.lastName}}</h2>
+            <!-- <p>From Your "Profile" Page You Have The Ability To View Your Recent Account Activity And Update Your Account Information. Just Select A Link Below.</p> -->
+        </div>
+        <div class="container">
+            <div class="custom-tab">
+                <div class="row">
+                    <div class="col-md-3">
+                        
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Account Information</a>
+                            <a class="nav-link"  id="v-pills-mesorment-tab" data-toggle="pill" href="#v-pills-mesorment" role="tab" aria-controls="v-pills-mesorment" aria-selected="true">Measurement </a>
+                            <a class="nav-link" [routerLink]="['/following']" role="tab" aria-selected="false">Following</a>
+                            <a class="nav-link" [routerLink]="['/address/all']" role="tab" aria-selected="false">Address</a>
+                            <a class="nav-link" [routerLink]="['/order-list']" role="tab" aria-selected="false">Orders</a>
+                            <a class="nav-link" (click)="openchangepasswordNav()" role="tab" aria-selected="false">Change Password</a>
+                            <a class="nav-link" (click)="logOutUser()" role="tab" aria-selected="false">Logout</a>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+
+                    <div class="col-md-9">
+                        
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="card tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                <div class="card-header" role="tab" id="v-collapse-heading-home">
+                                    <a data-toggle="collapse" href="#v-collapse-home" class="theme-color" data-parent="#v-pills-tabContent" aria-expanded="true" aria-controls="v-collapse-home">
+                                        Account Information
+                                    </a>
+                                </div>
+                                <div id="v-collapse-home" class="collapse show" role="tabpanel" aria-labelledby="v-collapse-heading-home" data-parent="#v-pills-tabContent">
+                                    <div class="card-body">
+                                        <div class="tab-header">
+                                            <!-- <i class="fa fa-pencil-square-o" aria-hidden="true"></i> -->
+                                            <a  class="lead  font-sm color-main" (click)="openModal(updatemodal)"><i class="fa fa-pencil-square-o" aria-hidden="true" ></i></a>
+                                        </div>
+                                        <ul class="show-details">
+                                            <li class="d-flex">
+                                                <span class="title_info">Name:</span>
+                                                <span class="text_info">{{userDetailsFromApi?.firstName}} {{userDetailsFromApi?.lastName}}</span>
+                                            </li>
+                                            <li class="d-flex">
+                                                <span class="title_info">Date of Birth:</span>
+                                                <span class="text_info">{{userDetailsFromApi?.dob | date:'dd MMM yyy'}}</span>
+                                            </li>
+                                            <li class="d-flex">
+                                                <span class="title_info">Username:</span>
+                                                <span class="text_info">{{userDetailsFromApi?.username}}</span>
+                                            </li>
+                                            <li class="d-flex">
+                                                <span class="title_info">Mobile Number:</span>
+                                                <span class="text_info">{{userDetailsFromApi?.mobileNo}}</span>
+                                            </li>
+                                            <li class="d-flex">
+                                                <span class="title_info">Email:</span>
+                                                <span class="text_info">{{userDetailsFromApi?.email}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card tab-pane fade" id="v-pills-mesorment" role="tabpanel" aria-labelledby="v-pills-mesorment-tab">
+                                <div class="card-header" role="tab" id="v-collapse-heading-mesorment">
+                                    <a data-toggle="collapse" href="#v-collapse-mesorment" class="theme-color" data-parent="#v-pills-tabContent" aria-expanded="true" aria-controls="v-collapse-mesorment">
+                                        Your Saved Measurement 
+                                    </a>
+                                </div>
+                                <div id="v-collapse-mesorment" class="collapse show" role="tabpanel" aria-labelledby="v-collapse-heading-mesorment" data-parent="#v-pills-tabContent">
+                                    <div class="card-body">
+                                        <div class="mesorment-list">
+                                            <div class="h4 mb-3">Your Measurement  List</div>
+                                            <div class="listData">
+                                                <div class="row">
+                                                    <!-- <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 mb-2" *ngFor="let mesorment of mesormentList; let i = index;"> -->
+                                                        <a *ngFor="let mesorment of mesormentList; let i = index;" class="custom-button d-inline-block text-white mr-1 mb-2 " [matTooltip]="mesorment?.displyName" mat-raised-button (click)="custom_modal(customchart,mesorment)" [ngClass]="{'active': mesormentId == mesorment?.id}">{{mesorment?.displyName}}</a>
+                                                    <!-- </div> -->
+                                                    <!-- <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 mb-2"> -->
+                                                      <a class="custom-button text-white mr-1 d-inline-block " matTooltip="Add Measurement"  mat-raised-button [matMenuTriggerFor]="menu"><mat-icon  class="curser-pointer mr-1" >add</mat-icon></a>
+                                                      
+                                                      <mat-menu #menu="matMenu">
+                                                        <button mat-menu-item (click)="addChart('men',customchart)" >
+                                                          <span>Men/Kids</span>
+                                                        </button>
+                                                        <button mat-menu-item  (click)="addChart('women',customchart)">
+                                                          <span>Women</span>
+                                                        </button>
+                                                      </mat-menu>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="card tab-pane fade" role="tabpanel" [routerLink]="['/following']">
+                                <div class="card-header" role="tab">
+                                    <a  aria-expanded="false" class="text-decoration none theme-color">
+                                        Following
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card tab-pane fade" role="tabpanel" [routerLink]="['/address/all']">
+                                <div class="card-header" role="tab">
+                                    <a  aria-expanded="false" class="text-decoration none theme-color">
+                                        Address
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <div class="card tab-pane fade" role="tabpanel"  [routerLink]="['/order-list']">
+                                <div class="card-header" role="tab">
+                                    <a aria-expanded="false" class="text-decoration none theme-color">
+                                        Orders
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <div class="card tab-pane fade" role="tabpanel" (click)="openchangepasswordNav()">
+                                <div class="card-header" role="tab">
+                                    <a  aria-expanded="false" class="text-decoration none theme-color">
+                                        Change Password
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <div class="card tab-pane fade" role="tabpanel" (click)="logOutUser()">
+                                <div class="card-header" role="tab">
+                                    <a  aria-expanded="false" class="text-decoration none theme-color">
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+    </div>
+</section>
+<!--section end-->
+<!-- profile modal -->
+<ng-template #updatemodal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+        Update Your Profile
+        </h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>  
+    <div class="modal-body">
+        <!-- <img src="../assets/images/size-chart.jpg" alt="" class="img-fluid blur-up lazyload" /> -->
+        <form class="theme-form" #updateUser="ngForm" (ngSubmit)="onSubmitUserAccount(updateUser)" (keyup.enter)="onSubmitCreateAccount(updateUser)" novalidate>
+        <!-- Hidden data -->
+        <div class="form-group mb-0">
+            <mat-form-field appearance="fill">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" name="firstName" [(ngModel)]="model.firstName" required>
+            </mat-form-field>
+        </div>
+        <div class="form-group mb-0">
+            <mat-form-field appearance="fill">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" name="lastName" [(ngModel)]="model.lastName" required>
+            </mat-form-field>
+        </div>
+        <div class="form-group mb-0">
+            <mat-form-field appearance="fill">
+            <input matInput (change)="dateFormatChange(model.dob)"  placeholder="Choose a date" type="date" name="dob" [(ngModel)]="model.dob" required>
+            </mat-form-field>
+        </div>
+        <input type="hidden" name="senddob" [(ngModel)]="model.senddob">
+        <div class="form-group mb-0">
+            <mat-form-field appearance="fill" class="disabled">
+            <mat-label>Mobile Number</mat-label>
+            <input matInput readonly OnlyNumber="true" type="number" tabindex="-1"  minlength="10" maxlength="10" pattern="^((\\+91-?)|0)?[0-9]{10}$"  onKeyPress="if(this.value.length==10) {return false;}" name="mobileNo" [(ngModel)]="model.mobileNo" required>
+            </mat-form-field>
+        </div>
+        <!-- adedamola.kerry@minutestep.com -->
+        <div class="form-group mb-0">
+            <mat-form-field appearance="fill" class="disabled" >
+            <mat-label>email</mat-label>
+            <input matInput readonly type="email" name="email" tabindex="-1"  [(ngModel)]="model.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" required>
+            </mat-form-field>
+        </div>
+        <p *ngIf="errorMsg" class="errorMsg">{{errorMsg}}</p>
+        <div class="d-flex">
+            <button class="btn btn-solid" type="submit" [ngClass]="{'loadingEnable':isLoading}" [disabled]="!updateUser.valid || isLoading">
+                <div class="spinner-border text-muted"></div>
+                Update
+            </button> &nbsp;
+            <a class="btn btn-link" (click)="modal.dismiss('Cross click')">
+                Cancel
+            </a>
+        </div>
+        
+        </form>
+    </div>
+</ng-template>
+  <!--profile modal /-->
+  <!-- Standard Measurement Charts Modal Start -->
+<ng-template #customchart let-modal>
+    <div class="customchart_modal">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Standard Measurement Charts</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
+      </div>
+      <form #customchartform="ngForm" (ngSubmit)="onSubmitcustomchartform(customchartform)">
+        <div class="modal-body">
+          <div class="d-flex justify-content-between">
+            <h4 class="d-flex justify-content-between">{{gender == 'women' ? 'Women' : 'Men/Kids'}}</h4>
+            <div class="in-cms custom-toggle" [ngClass]="{'disabled' : !customchartform.valid}">
+              <span class="in" >In</span>
+              <mat-slide-toggle name="sizeType" [(ngModel)]="sizeType" (change)="convartValue(customchartform,gender)"></mat-slide-toggle><span class="cms">Cms</span>
+            </div>
+          </div>
+           <!-- Women -->
+           <div class="row" *ngIf="gender == 'women'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Neck</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="neck" [(ngModel)]="model.neck" >
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Crotch Length</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="crotchLength" [(ngModel)]="model.crotchLength">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Shoulder</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="shoulder" [(ngModel)]="model.shoulder">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waist" [(ngModel)]="model.waist">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Bust</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="bust" [(ngModel)]="model.bust">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Hip</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="hip" [(ngModel)]="model.hip">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Rib cage (under bust)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="ribCage" [(ngModel)]="model.ribCage">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Top hip (low waist)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="topHip" [(ngModel)]="model.topHip">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Side neck point to waist apex (front neck depth)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="sideNeck" [(ngModel)]="model.sideNeck">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist to hip</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToHip" [(ngModel)]="model.waistToHip">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Back side neck point to waist (back neck depth)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="backSide" [(ngModel)]="model.backSide">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Front side neck point to waist (kurta length along with waist to knee)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="frontSide" [(ngModel)]="model.frontSide">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Back width</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="backWidth" [(ngModel)]="model.backWidth">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist to knee</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToKnee" [(ngModel)]="model.waistToKnee">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Armscye depth</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="armscyeDepth" [(ngModel)]="model.armscyeDepth">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Knee to ankle(may be required for ankle length)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="kneeToAnkle" [(ngModel)]="model.kneeToAnkle">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Armhole</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="armhole" [(ngModel)]="model.armhole">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Thigh</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="thigh" [(ngModel)]="model.thigh">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Top arm(bicep)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="topArm" [(ngModel)]="model.topArm">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Knee</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="knee" [(ngModel)]="model.knee">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Elbow</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="elbow" [(ngModel)]="model.elbow">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Calf circumference</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="calfCircumference" [(ngModel)]="model.calfCircumference">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Wrist</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="wrist" [(ngModel)]="model.wrist">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>High ankle</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="highAnkle" [(ngModel)]="model.highAnkle">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Sleeve length</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="sleeveLength" [(ngModel)]="model.sleeveLength">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Ankle</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="ankle" [(ngModel)]="model.ankle">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Crotch depth</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="crotchDepth" [(ngModel)]="model.crotchDepth">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist to floor (bottom length)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToFloor" [(ngModel)]="model.waistToFloor">
+                  </mat-form-field>
+              </div>
+            </div>
+            
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Display Name</mat-label>
+                    <input type="text" matInput required name="displyName" [(ngModel)]="model.displyName">
+                  </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- Men/Kids -->
+          <div class="row" *ngIf="gender == 'men'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Neck</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="neck" [(ngModel)]="model.neck" >
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Shoulder</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="shoulder" [(ngModel)]="model.shoulder">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Chest</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="chest" [(ngModel)]="model.chest">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Crotch Length</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="crotchLength" [(ngModel)]="model.crotchLength">
+                  </mat-form-field>
+              </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Side neck point to waist</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="sideNeck" [(ngModel)]="model.sideNeck">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Nape to waist</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="napeNaist" [(ngModel)]="model.napeNaist">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Back width</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="backWidth" [(ngModel)]="model.backWidth">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Armscye depth</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="armscyeDepth" [(ngModel)]="model.armscyeDepth">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Armhole</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="armhole" [(ngModel)]="model.armhole">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Top arm(bicep)</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="topArm" [(ngModel)]="model.topArm">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Elbow</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="elbow" [(ngModel)]="model.elbow">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Wrist</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="wrist" [(ngModel)]="model.wrist">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Sleeve length</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="sleeveLength" [(ngModel)]="model.sleeveLength">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Crotch depth</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="crotchDepth" [(ngModel)]="model.crotchDepth">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waist" [(ngModel)]="model.waist">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Hip</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="hip" [(ngModel)]="model.hip">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Top hip</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="topHip" [(ngModel)]="model.topHip">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist to hip</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToHip" [(ngModel)]="model.waistToHip">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist to knee</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToknee" [(ngModel)]="model.waistToknee">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist to ankle</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToAnkle" [(ngModel)]="model.waistToAnkle">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Knee to ankle</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="kneeToAnkle" [(ngModel)]="model.kneeToAnkle">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Thigh</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="thigh" [(ngModel)]="model.thigh">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Knee</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="knee" [(ngModel)]="model.knee">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Calf circumference</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="calfCircumference" [(ngModel)]="model.calfCircumference">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>High ankle</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="highAnkle" [(ngModel)]="model.highAnkle">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Ankle</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="ankle" [(ngModel)]="model.ankle">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Waist to floor</mat-label>
+                    <input type="number" matInput required min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" name="waistToFloor" [(ngModel)]="model.waistToFloor">
+                  </mat-form-field>
+              </div>
+            </div>
+            
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div class="form-group">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Display Name</mat-label>
+                    <input type="text" matInput required name="displyName" [(ngModel)]="model.displyName">
+                  </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <div *ngIf="type == 'update'" class="delete-button">
+            <a type="button" class="btn btn-outline-dark btn-danger submit-btn del pl-2 pr-2" mat-raised-button (click)="deleteMsment()"><mat-icon>delete</mat-icon>Delete Measurement </a>
+          </div>
+          <div class="add-button">
+            <button type="submit" class="btn btn-outline-dark submit-btn mr-2"  mat-raised-button [disabled]="!customchartform.valid || !model.displyName">{{type == 'update' ? 'Update' : 'Add'}}</button>
+            <a type="button" class="btn btn-outline-dark btn-danger submit-btn" mat-raised-button (click)="modal.dismiss('Cross click')">Cancel</a>
+          </div>
+          
+        </div>
+      </form>
+    </div>
+  </ng-template>
+  <!-- Standard Measurement Charts Modal Start -->
+<app-footer></app-footer>

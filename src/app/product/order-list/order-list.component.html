@@ -1,0 +1,268 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="page-title">
+            <h2>Order List</h2>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <nav aria-label="breadcrumb" class="theme-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a [routerLink]="'/home'">Home</a></li>
+              <li class="breadcrumb-item active">Order List</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- breadcrumb End -->
+  <!--section start-->
+  <section class="order-section  section-b-space pb-4">
+    <div class="container pb-3 pt-3">
+      <div class="col-md-12 empty-cart-cls text-center" *ngIf='!OrderlistItems.length' [ngClass]="{'d-none': loader}">
+        <img src="assets/images/empty-wishlist.png" alt="Empty cart" title="Emprt cart">
+        <h3 class="mt-4"><b>Orderlist is Empty</b></h3>
+        <h4>Explore more shortlist some items.</h4>
+      </div>
+      <div class="load" *ngIf="loader">
+        <mat-spinner class="loader m-auto"></mat-spinner>
+        <p class="mt-1 mb-0 text-center"><small><b>Loading..</b></small></p>
+      </div>
+      <div class="row" *ngIf='OrderlistItems.length' [ngClass]="{'disabled': loader}">
+        <div class="col-lg-12 cart-section m-auto" *ngFor="let item of OrderlistItems">
+          <div class="cart-item"  *ngFor="let product of item?.OrderSKUDetails">
+            <div class="item_image">
+              <a [routerLink]="['/order-item-details/', item.orderId, product.designerId, product.productId]">
+                <!-- <img [src]="item?.products[0]?.pictures[1].name!= null ? item?.products[0]?.pictures[1].name : 'assets/images/fashion/product/1.jpg'" alt=""> -->
+                <img [src]="product?.images!= null ? product?.images : 'assets/images/fashion/product/1.jpg'" alt="">
+
+              </a>
+            </div>
+            <div class="item_descption">
+              <div class="item_descption-inner">
+                <div class="item_name">
+                    <p class="mb-1 orderid"><span>ORDER ID :</span><a [routerLink]="['/order-item-details/', item.orderId, product.designerId, product.productId]" class="text-decoration-none"> {{item?.orderId}}</a></p>
+                    <h5 class="designername">{{product?.designerName}}</h5>
+                    <div class="m-0 item_name">
+                      <a [routerLink]="['/order-item-details/', item.orderId, product.designerId, product.productId]">
+                        {{ product?.productName }}
+                      </a>
+                    </div>
+                  <!-- <div class="product_type bold">
+                    Cotton Top <span>-New</span>
+                  </div> -->
+                  <div class="product_type">
+                    Size: {{ product?.size }}
+                  </div>
+                </div>
+                <div class="item_abality">
+                  <p class="m-0">Quantity : {{product?.units}}</p>
+                </div>
+                <div class="item_price">
+                  <!-- <h5 class="td-color m-0">{{ item.price | currency:productsService?.currency:'symbol' }}</h5> -->
+                  <h5 class="td-color m-0">₹{{ product?.salesPrice == 0 ? product?.mrp : product?.salesPrice }}</h5>
+                </div>
+              </div>
+              <div class="item_action">
+                <a style="min-width: 96px;font-size: 13px;"  (click)="askCancleOrder(item.orderId,product,cancelModal)" *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable == true && product.size!='Custom'" class="icon canclebtn" >
+                  <i class="ti-close"></i>
+                  <span>Cancel</span>
+                </a>
+                <a style="min-width: 96px;font-size: 13px;"   *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable != true || product.size=='Custom' && item?.paymentData && product.orderItemStatus == 'New'" class="icon canclebtn" >
+                  <!-- <i class="ti-close"></i> -->
+                  <span >No cancellation</span>
+                </a>
+                <a style="min-width: 96px;font-size: 13px;"   *ngIf="product.orderItemStatus == 'Return rejected by admin'" class="icon canclebtn" >
+                  <!-- <i class="ti-close"></i> -->
+                  <span >Return rejected</span>
+                </a>
+                <a  style="min-width: 96px;font-size: 13px;"  *ngIf="item?.paymentData && product.orderItemStatus == 'Orders' || item?.paymentData && product.orderItemStatus == 'Shipped' || product.orderItemStatus == 'Packed' || product.orderItemStatus == 'cancelled' || product.orderItemStatus == 'Request for cancelation'" class="icon canclebtn" >
+                  <!-- <i class="ti-close"></i> -->
+                  <span *ngIf="product.orderItemStatus == 'Request for cancelation'">Cancelation request</span>
+                  <span *ngIf="product.orderItemStatus != 'Request for cancelation'">{{product.orderItemStatus == 'cancelled' ? 'Order cancelled' : 'Order Process'}}</span>
+                </a>
+                <a  style="min-width: 96px;font-size: 13px;line-height:12px"  *ngIf="item?.paymentData && product.orderItemStatus == 'Request for cancelation'" class="icon canclebtn text-danger mr-0" >
+                  <!-- <i class="ti-close"></i> -->
+                  <span class="w-100 text-right">On Process</span>
+                </a>
+                <a  style="min-width: 96px;font-size: 13px;" (click)="askCancleOrder(item.orderId,product,returnModal)" *ngIf="item?.paymentData && product.orderItemStatus == 'Delivered' && product.returnAcceptable == true"  class="icon canclebtn" >
+                  <i class="ti-close"></i>
+                  <span>Return</span>
+                </a>
+                <a style="min-width: 96px;font-size: 13px;" *ngIf="item?.paymentData && product.orderItemStatus == 'Delivered' && product.returnAcceptable != true"  class="icon canclebtn" >
+                  <span>No Return</span>
+                </a>
+                <a style="min-width: 96px;font-size: 13px;" *ngIf="!item?.paymentData"  class="icon canclebtn" >
+                  <span>N/A</span>
+                </a>
+                <a  style="min-width: 96px;font-size: 13px;" *ngIf="product.orderItemStatus == 'Rejected' || product.orderItemStatus == 'returnRequest' || product.orderItemStatus == 'returnRefund' || product.orderItemStatus == 'Return request approved' || product.orderItemStatus == 'Product received from user' || product.orderItemStatus == 'Product shipped by user'"  class="icon canclebtn" >
+                  <span *ngIf="product.orderItemStatus != 'Rejected' && product.orderItemStatus != 'Return request approved' && product.orderItemStatus != 'Product received from user' && product.orderItemStatus != 'Product shipped by user'">{{product.orderItemStatus == 'returnRequest' ? 'Return Process' : 'Return/Refund' }}</span>
+                  <span  *ngIf="product.orderItemStatus == 'Rejected'">Return Rejected</span>
+                  <span  *ngIf="product.orderItemStatus == 'Return request approved'">Wait for shipping</span>
+                  <span  *ngIf="product.orderItemStatus == 'Product received from user'">Procuct received</span>
+                  <span  *ngIf="product.orderItemStatus == 'Product shipped by user'">Product shipping</span>
+                </a>
+                <!-- order-status -->
+                <a class="cart order-status pending text-capitalize" [ngClass]="{'success': product.orderItemStatus == 'Delivered','text-danger' : product?.orderItemStatu == 'Request for cancelation'}" *ngIf="item?.paymentData && product?.orderItemStatus != 'cancelled' && product?.orderItemStatus != 'Request for cancelation'" >
+                  <span style="font-size: 13px;" *ngIf="item?.paymentData && product?.orderItemStatus != 'returnRefund' && product?.orderItemStatus != 'Return rejected by admin' && product?.orderItemStatus != 'Rejected' && product?.orderItemStatus != 'Return request approved' && product?.orderItemStatus != 'Product shipped by user' && product?.orderItemStatus != 'returnRequest' && product?.orderItemStatus != 'Request for cancelation' && product?.orderItemStatus != 'Product received from user'">
+                  {{product?.orderItemStatus}}
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'Return request approved'" class="text-success" style="font-size: 13px;">
+                    Return Approve
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'Return rejected by admin'" class="text-warning" style="font-size: 13px;">
+                    Return Rejected
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'Product received from user'" class="text-success" style="font-size: 13px;">
+                    Product received
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'returnRefund'" class="text-success" style="font-size: 13px;">
+                    Return Completed
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'returnRequest'" style="font-size: 13px;">
+                    Return Request
+                  </span>
+                  <span *ngIf="product?.orderItemStatus == 'Rejected'" class="text-warning" style="font-size: 13px;">
+                    Return Rejected
+                  </span>
+                </a>
+                <!-- <a class="cart order-status pending text-capitalize text-warning" style="font-size: 13px;line-height: 12px;"  *ngIf="product?.orderItemStatus == 'Request for cancelation'" >
+                  <span >
+                    Orders
+                    </span>
+                </a> -->
+                <a class="cart order-status text-danger text-capitalize" style="font-size: 13px;line-height: 12px;" *ngIf="product?.orderItemStatus == 'cancelled'">
+                  {{product?.orderItemStatus}}
+                </a>
+                <a style="font-size: 11px;" class="cart order-status pending text-capitalize" *ngIf="!item?.paymentData">
+                  Order Not Confirmed
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <ng-template #cancelModal let-modal>
+
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Reason of cancelation
+      </h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form #cancelOrderData="ngForm" (ngSubmit)="cancleOrder(cancelOrderData)">
+      <div class="modal-body">
+        <div class="order-item d-flex pt-3 pb-3 mb-2">
+          <div class="imgbox">
+              <img [src]="selectedProduct?.images ? selectedProduct?.images : 'assets/images/fashion/product/2.jpg'" alt="">
+          </div>
+          <div class="descption pl-3">
+            <div class="font-weight-bold">
+              {{selectedProduct?.orderId}}
+            </div>  
+            <p class="product-name font-weight-bold mb-1 text-dark">
+                  {{selectedProduct?.productName}}
+              </p>
+              <p class="product-name font-weight-bold mb-1 text-dark">
+              Size :  {{selectedProduct?.size}}
+              </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="d-block font-weight-bold">Reason of cancelation:</label>
+              <mat-radio-group name="cancelReason"
+                [(ngModel)]="model.cancelReason" required>
+                <mat-radio-button class="d-block" *ngFor="let reason of cancelReasonList" [value]="reason?.reason">
+                  {{reason?.reason}}.
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Leave a comment</mat-label>
+                <textarea matInput rows="6" name="comment" [(ngModel)]="model.comment" placeholder="Please write cancelation reason.." required></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- <p class="terms font-weight-mediam text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. with <a href="" class="link">Terms</a></p> -->
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark submit-btn btn-solid mx-2"  mat-raised-button [disabled]="!cancelOrderData.valid">Submit</button>
+        <a type="button" class="btn text-white opacity-full  btn-danger close-btn" mat-raised-button (click)="modal.dismiss('Cross click')">Close</a>
+      </div>
+      </form>
+  </ng-template>
+  <ng-template #returnModal let-modal>
+
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Reason of Return
+      </h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form #returnOrderData="ngForm" (ngSubmit)="returnOrder(returnOrderData)">
+      <div class="modal-body">
+        <div class="order-item d-flex pt-3 pb-3 mb-2">
+          <div class="imgbox">
+              <img [src]="selectedProduct?.images ? selectedProduct?.images : 'assets/images/fashion/product/2.jpg'" alt="">
+          </div>
+          <div class="descption pl-3">
+            <div class="font-weight-bold">
+              {{selectedProduct?.orderId}}
+            </div>  
+            <p class="product-name font-weight-bold mb-1 text-dark">
+                  {{selectedProduct?.productName}}
+              </p>
+              <p class="product-name font-weight-bold mb-1 text-dark">
+              Size :  {{selectedProduct?.size}}
+              </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="d-block font-weight-bold">Reason of return:</label>
+              <mat-radio-group name="returnReason"
+                [(ngModel)]="model.returnReason" required>
+                <mat-radio-button class="d-block" *ngFor="let reason of returnReasonList" [value]="reason?.reason">
+                  {{reason?.reason}}.
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Leave a comment</mat-label>
+                <textarea matInput rows="6" name="comment" [(ngModel)]="model.comment" placeholder="Please write return reason.." required></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div  class="col-md-12">
+            <p class="text-danger warning-msg mb-0"><sup>** </sup>You needs to ship the product to designer.</p>
+          </div>
+        </div>
+        <!-- <p class="terms font-weight-mediam text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. with <a href="" class="link">Terms</a></p> -->
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark submit-btn btn-solid mx-2 "  mat-raised-button [disabled]="!returnOrderData.valid">Submit</button>
+        <a type="button" class="btn text-white opacity-full  btn-danger close-btn" mat-raised-button (click)="modal.dismiss('Cross click')">Close</a>
+      </div>
+      </form>
+  </ng-template>
+  <!--section end-->
+  <app-footer></app-footer>

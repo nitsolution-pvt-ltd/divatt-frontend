@@ -1,0 +1,424 @@
+<!-- breadcrumb start -->
+<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>Designer</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/home'">Home</a></li>
+            <li class="breadcrumb-item">Designer List</li>
+            <li class="breadcrumb-item active">Designer</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb End -->
+<section class="designer">
+  <div class="collection-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="profile_card">
+            <div class="row  on-desktop">
+              <div class="col-md-3  on-desktop"> 
+                <div class="imgbox">
+                  <img class="rounded mt-2" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic!= null ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'"/>
+                  <p class="follow_btn text-center on-mobile" *ngIf="get_user_dtls">
+                    <a class="btn btn-transparent" *ngIf="!designer?.isFollowing" (click)="openfollowModal('follow',designer)"> <i class="ti-plus"></i> Follow</a>
+                    <a class="btn btn-solid" *ngIf="designer?.isFollowing" (click)="openfollowModal('unfollow',designer)"> Following</a>
+                  </p>
+                  <p class="follow_btn text-center on-mobile" *ngIf="!get_user_dtls">
+                    <a class="btn btn-transparent"  (click)="openLoginNav()"> <i class="ti-plus"></i> Follow</a>
+                    
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-9 p-2 py-2 on-desktop">
+                <div class="descption">
+                  <div class="name mb-2"> 
+                      <p class="designer">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</p> 
+                      <p class="boutiqueName"><img src="assets/images/campaign.png" alt=""><span>{{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span></p> 
+
+                     <!-- <a [routerLink]="['/designer/', productDetail.designerId]" class="btn btn-solid float-right">View Profile</a> -->
+                  </div>
+                  
+                  <p class="info_text font-family"  [ngClass] = "{'show' : show}">
+                    {{designer?.designerProfileEntity?.socialProfile?.description}}
+                  </p>
+                  <span (click)="show = !show" class="cursor-pointer not-in-mobile text-primary w-fit" *ngIf="designer?.designerProfileEntity?.socialProfile?.description.length > 548">Show {{show ? 'Less' : 'More'}}</span>
+
+                </div>
+              </div>
+              <div class="col-md-12 on-desktop">
+                <div class="row">
+                  <div class="col-md-3 col-lg-3">
+                    <p class="follow_btn text-center mb-0" *ngIf="get_user_dtls">
+                      <a class="btn btn-transparent" *ngIf="!designer?.isFollowing" (click)="openfollowModal('follow',designer)"> <i class="ti-plus"></i> Follow</a>
+                      <a class="btn btn-solid" *ngIf="designer?.isFollowing" (click)="openfollowModal('unfollow',designer)"> Following</a>
+                    </p>
+                    <p class="follow_btn text-center" *ngIf="!get_user_dtls">
+                      <a class="btn btn-transparent"  (click)="openLoginNav()"> <i class="ti-plus"></i> Follow</a>
+                    </p>
+                  </div>
+                  <div class="col-md-9 col-lg-9">
+                    <div class="followers mt-2"> 
+                      <p class="follower">
+                        <b>Followers :</b> {{designer?.follwerCount}}
+                      </p> 
+                      <p class="product">
+                        <b>Products : </b> {{designer?.productCount}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+
+              </div>
+            </div>
+            <div class="row on-mobile">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-3 col-4"> 
+                  <div class="imgbox">
+                    <img class="rounded mt-2" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic!= null ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'"/>
+                  </div>
+                </div>
+                <div class="col-md-9 col-8 p-2 py-2">
+                  <div class="descption">
+                    <div class="name"> 
+                        <p class="designer">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</p> 
+                        <p class="boutiqueName"><img src="assets/images/campaign.png" alt=""><span>{{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span></p> 
+                    </div>
+                    
+                  </div>
+                </div>
+                </div>
+              </div>
+              
+              
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-3 col-4"> 
+                    <p class="follow_btn text-center " *ngIf="get_user_dtls">
+                      <a class="btn btn-transparent" *ngIf="!designer?.isFollowing" (click)="openfollowModal('follow',designer)"> <i class="ti-plus"></i> Follow</a>
+                      <a class="btn btn-solid" *ngIf="designer?.isFollowing" (click)="openfollowModal('unfollow',designer)"> Following</a>
+                    </p>
+                    <p class="follow_btn text-center " *ngIf="!get_user_dtls">
+                      <a class="btn btn-transparent"  (click)="openLoginNav()"> <i class="ti-plus"></i> Follow</a>
+                    </p>
+                  </div>
+                  <div class="col-md-9 col-8">
+                    <div class="followers"> 
+                      <p class="follower d-grid text-center">
+                        {{designer?.follwerCount}}
+                        <b>Followers</b> 
+                      </p> 
+                      <p class="product d-grid text-center">
+                        {{designer?.productCount}}
+                        <b>Products </b> 
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                
+                <p class="info_text font-family"  [ngClass] = "{'show' : show}">
+                  {{designer?.designerProfileEntity?.socialProfile?.description}}
+                  
+                </p>
+                
+                <span (click)="show = !show" class="cursor-pointer  text-primary lg-tab w-fit"  *ngIf="designer?.designerProfileEntity?.socialProfile?.description.length > 250">Show {{show ? 'Less' : 'More'}}</span>
+                    <span (click)="show = !show" class="cursor-pointer  text-primary lg-mobile w-fit"  *ngIf="designer?.designerProfileEntity?.socialProfile?.description.length > 170">Show {{show ? 'Less' : 'More'}}</span>
+                    <span (click)="show = !show" class="cursor-pointer  text-primary sm-mobile w-fit"  *ngIf="designer?.designerProfileEntity?.socialProfile?.description.length > 150">Show {{show ? 'Less' : 'More'}}</span>
+                    <span (click)="show = !show" class="cursor-pointer  text-primary xs-mobile w-fit"  *ngIf="designer?.designerProfileEntity?.socialProfile?.description.length > 80">Show {{show ? 'Less' : 'More'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div class="title1  section-t-space mt-5" *ngIf="!noproducts">
+      <h2 class="title-inner1">Latest Product</h2>
+    </div> -->
+    <div class="container-fluid fixed-width pt-5">
+      <div class="row ">
+        <div class="col-md-12">
+          <div class="collection_title d-flex align-items-center justify-content-between">
+            <div class=" w-fit">
+              <!-- <h3 class="m-0 text-black">{{collection_title + ' collections'| uppercase}}</h3> -->
+              <h3 class="m-0 text-black">Collection</h3>
+            </div>
+            <div class="float-right">
+              <img class="img-fluid icon-width icon-height mx-3 curser-pointer" id="menu-toggle" (click)="visiblefilter = true"
+                    src="https://cdn-icons-png.flaticon.com/512/639/639178.png"
+                    style="width:20px;height:25px;margin: 4px; padding: 1px;" width="20px">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filtter_bar" [ngClass]="{'show': visiblefilter }">
+        <p class="close-button mt-2">
+          <a tabindex="0" class="ui-sidebar-close ui-corner-all" (click)="visiblefilter = false">
+            <span class="pi pi-times"></span>
+          </a>
+        </p>
+
+        <div class="items">
+          <!-- filter start -->
+          <!-- designer filter start -->
+          <!-- <div class="collection-collapse-block" [ngClass]="{'hide' : search}">
+            <h3 class="collapse-block-title" (click)="search = !search"><span class="lead">Search</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox pr-0 pl-0">
+                  <div class="searchbar">
+                    <input type="text" class="searchinput pl-3 w-100 rounded" name="searchevent"
+                      [(ngModel)]="searchevent" placeholder="Search" (keydown.enter)="searchText(searchevent)">
+                    <i class="ti ti-search rounded-right" (click)="searchText(searchevent)"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- search filter end -->
+          <!-- designer filter start -->
+          <!-- <div class="collection-collapse-block" [ngClass]="{'hide' : designerftr}">
+            <h3 class="collapse-block-title" (click)="designerftr=!designerftr"><span class="lead">designer</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox" *ngFor="let filter of designers">
+                  <input type="checkbox" class="custom-control-input" [value]="filter.dId"
+                    (change)="checkedFilter('designername',$event)" id="{{filter.dId}}" [checked]="unchecked">
+                  <label class="custom-control-label"
+                    for="{{filter.dId}}">{{filter?.designerProfileEntity?.designerName}}</label>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- designer filter end -->
+          <!-- category filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : categoryftr}">
+            <h3 class="collapse-block-title" (click)="categoryftr=!categoryftr"><span class="lead">category</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter  pt-3">
+                <div *ngFor="let filter2 of categoris">
+                  <div class="custom-control custom-checkbox collection-filter-checkbox cursor-default mt-1" >
+                    <input type="checkbox" class="custom-control-input cursor-default" [value]="filter2.id" [(ngModel)]="filter2.isActive"
+                      (change)="checkedFilter('categoryName',$event)" id="{{filter2.id}}" (change)="choseCategory(filter2.id,$event)">
+                    <label class="custom-control-label cursor-default" for="{{filter2.id}}">{{filter2?.categoryName}}</label>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <!-- category filter end -->
+          <!-- category filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : subcategoryftr}" *ngIf="subcategoris.length">
+            <h3 class="collapse-block-title" (click)="subcategoryftr=!subcategoryftr"><span class="lead">Sub category</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox"
+                  *ngFor="let filter3 of subcategoris">
+                  <input type="checkbox" class="custom-control-input" [value]="filter3.id"
+                    (change)="checkedFilter('subcategoryName',$event)" id="{{filter3.categoryName}}" [(ngModel)]="filter3.isSelected">
+                  <label class="custom-control-label" for="{{filter3.categoryName}}">{{filter3?.categoryName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- category filter end -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : priceftr}">
+            <h3 class="collapse-block-title pb-3" (click)="priceftr=!priceftr"><span class="lead">price</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="mt-4">
+
+                  <!-- <range-slider [min]="minPrice" [max]="maxPrice" [step]="50" [(ngModel)]="range"
+                    (onRangeChange)="priceChanged($event)" [highlightClass]="'stephighlightClass'"
+                    [barClass]="'stepBarClass'" [sliderClass]="'stepSliderClass'">
+                  </range-slider> -->
+                  <ngx-slider [(value)]="value" [(ngModel)]="sliderValue" (mouseup)="priceChanged(sliderValue)"   (userChangeStart)="priceChanged(sliderValue)" (userChange)="priceChanged(sliderValue)"[(highValue)]="highValue" [options]="options"></ngx-slider>
+                </div>
+                <p class="mt-3 lead">₹ {{options?.floor}} <span class="float-right">₹ {{options?.ceil}}</span> </p>
+
+              </div>
+            </div>
+          </div>
+          <!-- sizes filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : sizeftr}">
+            <h3 class="collapse-block-title" (click)="sizeftr=!sizeftr"><span class="lead">sizes</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox" *ngFor="let filter4 of sizes">
+                  <input type="checkbox" class="custom-control-input" [value]="filter4.name"  [(ngModel)]="filter4.isSelected"
+                    (change)="checkedFilter('sizeName',$event)" id="{{filter4.name}}" [checked]="unchecked">
+                  <label class="custom-control-label" for="{{filter4.name}}">{{filter4?.name}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- sizes filter end -->
+          <!-- colors filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : colorftr}">
+            <h3 class="collapse-block-title" (click)="colorftr=!colorftr"><span class="lead">colors</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox" *ngFor="let filter3 of colors">
+                  <input type="checkbox" class="custom-control-input" [value]="filter3.colorName" [(ngModel)]="filter3.isSelected"
+                    (change)="checkedFilter('colorName',$event)" id="{{filter3.colorName}}" [checked]="unchecked">
+                  <label class="custom-control-label" for="{{filter3.colorName}}">{{filter3?.colorName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- colors filter end -->
+          <!-- Cash On Delivery filter start -->
+          <div class="collection-collapse-block" [ngClass]="{'hide' : moreftr}">
+            <h3 class="collapse-block-title" (click)="moreftr=!moreftr"><span class="lead">Others</span></h3>
+            <div class="collection-collapse-block-content">
+              <div class="collection-brand-filter">
+                <div class="custom-control custom-checkbox collection-filter-checkbox toggle-btn">
+                  <!-- <div class="in-cms custom-toggle justify-content-between">
+                    <span class="in">Cash On Delivery</span>
+                    <mat-slide-toggle (change)="toggleFilter($event.checked,'COD')"></mat-slide-toggle>
+                  </div> -->
+                  <div class="in-cms custom-toggle justify-content-between">
+                    <span class="in">Size Customization</span>
+                    <mat-slide-toggle name="customization" [(ngModel)]="customization" (change)="toggleFilter($event.checked,'customization')"></mat-slide-toggle>
+                  </div>
+                  <div class="in-cms custom-toggle justify-content-between">
+                    <span class="in">Giftwrap</span>
+                    <mat-slide-toggle name="giftWrap" [(ngModel)]="giftWrap" (change)="toggleFilter($event.checked,'giftwrap')"></mat-slide-toggle>
+                  </div>
+                  <!-- <div class="in-cms custom-toggle justify-content-between">
+                <span class="in" >Return Status</span>
+                <mat-slide-toggle (change)="toggleFilter($event.checked,'returnStatus')"></mat-slide-toggle>
+              </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Cash On Delivery filter end -->
+        </div>
+        <div class="buttons">
+          <div class="buttons filtter">
+            <a class="link curser-pointer" (click)="appllyFilter()">view all result</a>
+            <a class="link curser-pointer" (click)="clearFilter()">clear</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid fixed-width collection-page mb-5 mt-4" >
+      <div class="row" *ngIf="allproducts.length">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" *ngFor="let product of allproducts | paginate: config">
+          <div class="product-box">
+            <!-- <app-product [product]="product"></app-product> -->
+            <div class="img-wrapper">
+              <div class="lable-block">
+                <!-- <span class="lable3" title="New"></span> -->
+                <span class="lable4" title="Sale" *ngIf="product?.deal?.salePrice"></span>
+              </div>
+              <div class="front">
+                <!--  [queryParams]="product.productName" -->
+                <a [routerLink]="'/product-detail/'+product.slug+'/'+product.productId" target="_blank">
+                <img [src]="product?.images ? product?.images[0]?.large : 'assets/images/fashion/product/80.jpg'" class="img-fluid">
+                </a>
+              </div>
+              <a  class="action_btn actionWishlist" (click)="addToWishlist(product)" title="Add to Wishlist">
+                <img _ngcontent-tmi-c2="" alt="" class="icon-height wishlist_icon" src="assets/images/icon/feather/wishlist.png"  title="Wishlist">
+              </a>
+            </div>
+            <div class="product-detail2 buttom">
+              <div>
+                
+                <div class="designer">
+                  <div class="name" *ngIf="product?.designerProfile?.displayName">{{product?.designerProfile?.displayName}}</div>
+                  <div class="name" *ngIf="!product?.designerProfile?.displayName">Display Name </div>
+                </div>
+                  <a >
+                  <h6>{{product?.productDetails?.productName}}</h6>
+                </a>
+                <h4 *ngIf="product?.deal?.salePrice">₹ {{product?.deal?.salePrice}}
+                  <del><span class="money">₹ {{product?.mrp}}</span></del>
+                </h4>
+                <h4 *ngIf="!product?.deal?.salePrice">₹ {{product?.mrp}}</h4>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row" *ngIf="allproducts.length">
+        <div class="col-12 mt-5" style="display: flex;justify-content: center;">
+          <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+        </div>
+       
+      </div> -->
+      <div class="row d-block" *ngIf="!loader">
+        <button class="load-more btn" matRipple (click)="loadData()" *ngIf="pagination?.totalPage > 0 && pagination?.totalPage != pagination?.currentPage">
+          <span>Load More </span> <mat-icon>expand_more</mat-icon>
+        </button>
+        <!-- <p *ngIf="noProductfound" class="text-center font-weight-bold h5 mt-3">No more product found.</p> -->
+      </div>
+    </div>
+    <div class="title1  section-t-space" *ngIf="!allproducts.length">
+      <img src="assets/images/no-product-found.png" class="no_product_designer" alt="">
+      <h2 class="title-inner1 h5">No Product Found</h2>
+    </div>  
+  </div>
+</section>
+<!-- follow  modal -->
+<ng-template #followmodal let-modal>
+  <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Follow the Designer
+      </h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+      </button>
+  </div>  
+  <div class="modal-body">
+      <!-- <img src="../assets/images/size-chart.jpg" alt="" class="img-fluid blur-up lazyload" /> -->
+      <form class="theme-form" #followDesigner="ngForm" (ngSubmit)="onSubmitFollowform(followDesigner)" (keyup.enter)="onSubmitFollowform(updateUser)" novalidate>
+      <!-- Hidden data -->
+      <input type="hidden" name="designerId" [(ngModel)]="model.designerId">
+      <input type="hidden" name="userId" [(ngModel)]="model.userId">
+      <input type="hidden" name="username" [(ngModel)]="model.username">
+      <input type="hidden" name="isFollowing" [(ngModel)]="model.isFollowing">
+      <div class="form-group mb-0">
+          <mat-form-field appearance="fill">
+          <mat-label>Comment</mat-label>
+          <input matInput type="text" name="comment" [(ngModel)]="model.comment" required>
+          </mat-form-field>
+      </div>
+      <!-- <div class="form-group">
+        <P>Give Rating</P>
+        <ul class="list-inline rating-list" 
+          *ngFor="let star of stars" style="display: inline-block" >
+            <li (click)="countStar(star)"
+                [ngClass]="{'selected': (star <= selectedValue)}">
+              <i class="fa fa-star"></i>
+            </li> 
+      </ul>
+      </div> -->
+      <!-- <input type="hidden" name="raiting" [(ngModel)]="model.raiting" required> -->
+      <!-- <p *ngIf="errorMsg" class="errorMsg">{{errorMsg}}</p> -->
+      <button class="btn btn-solid" type="submit" [ngClass]="{'loadingEnable':isLoading}">
+          <div class="spinner-border text-muted"></div>
+          Follow 
+      </button>
+      </form>
+  </div>
+</ng-template>
+<!--follow modal /-->
+<app-footer></app-footer>

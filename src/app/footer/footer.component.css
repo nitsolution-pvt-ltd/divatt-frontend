@@ -1,0 +1,10 @@
+button {
+    color: #fff;
+}
+app-footer,footer
+{
+    /* height: 100%; */
+}
+footer{
+    padding-bottom: 0px;
+}

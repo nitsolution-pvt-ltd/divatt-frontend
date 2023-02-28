@@ -1,0 +1,63 @@
+<ul class="sm pixelstrap sm-vertical desktop">
+  <li class="main-item">
+    <!-- ngif submenu -->
+    <a   class="main-link" (click)="closeNav()" routerLink="/designer-list/all" *ngIf="!designerlists.length" [ngClass]="{'noSubMenu':!designerlists.length}"><span>Designer</span></a>
+
+   <!-- ngif nosubmenu -->
+    <a   class="main-link"  *ngIf="designerlists.length">
+      <span>Designer</span>
+      <mat-icon>chevron_right</mat-icon>
+    </a>
+    <ul class="sub-menu">
+      <li *ngFor="let subnavitem of designerlists" >
+        <a  (click)="closeNav()" (click)="GoNav(subnavitem?.Name)" [ngClass]="{'active':subnavitem?.Name == currentUrl}" (click)="setActive(subnavitem?.Name)">{{subnavitem?.Name}}</a>
+      </li>
+    </ul>
+  </li>
+  <li class="main-item" *ngFor="let navitem of lists">
+    <a  class="main-link"  *ngIf="navitem?.subCategoryEntities" >
+      <span>{{navitem?.categoryName}}</span>
+      <mat-icon>chevron_right</mat-icon>
+    </a>
+    <a class="main-link" *ngIf="!navitem?.subCategoryEntities" routerLink="/collections/{{navitem?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!navitem.subCategoryEntities}">
+      <span>{{navitem?.categoryName}}</span>
+    </a>
+    <ul class="sub-menu" *ngIf="navitem?.subCategoryEntities">
+      <li *ngFor="let subnavitem of navitem?.subCategoryEntities" >
+        <a routerLink="/collections/{{navitem?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+<ul class="sm pixelstrap sm-vertical tablets">
+  <!-- Designer start -->
+  <li class="main-item block" (click)="collapse('Designer')">
+    <!-- ngif submenu -->
+    <a   class="main-link" (click)="closeNav()" routerLink="/designer-list/all" *ngIf="!designerlists.length" [ngClass]="{'noSubMenu':!designerlists.length}"><span>Designer</span></a>
+
+   <!-- ngif nosubmenu -->
+    <a   class="main-link"  *ngIf="designerlists.length">
+      <span>Designer</span>
+      <mat-icon>chevron_right</mat-icon>
+    </a>
+    <ul class="sub-menu" *ngIf="categoryName == 'Designer'">
+      <li *ngFor="let subnavitem of designerlists" >
+        <a  (click)="closeNav()" (click)="GoNav(subnavitem?.Name)" [ngClass]="{'active':subnavitem?.Name == currentUrl}">{{subnavitem?.Name}}</a>
+      </li>
+    </ul>
+  </li>
+  <li class="main-item block"  (click)="collapse(navitem?.categoryName)" *ngFor="let navitem of lists">
+    <a  class="main-link"  *ngIf="navitem.subCategoryEntities" >
+      <span>{{navitem.categoryName}}</span>
+      <mat-icon>chevron_right</mat-icon>
+    </a>
+    <a class="main-link" *ngIf="!navitem.subCategoryEntities" routerLink="/collections/{{navitem?.id}}/subcategory/search/subcategoryname" [ngClass]="{'noSubMenu':!navitem?.subCategoryEntities}">
+      <span>{{navitem?.categoryName}}</span>
+    </a>
+    <ul class="sub-menu" *ngIf="categoryName == navitem?.categoryName">
+      <li *ngFor="let subnavitem of navitem?.subCategoryEntities" >
+        <a routerLink="/collections/{{navitem?.id}}/{{subnavitem?.id}}/search/{{subnavitem?.categoryName}}" (click)="closeNav()" [ngClass]="{'active':subnavitem?.categoryName == currentUrl}" (click)="setActive(subnavitem?.categoryName)">{{subnavitem?.categoryName}}</a>
+      </li>
+    </ul>
+  </li>
+</ul>
