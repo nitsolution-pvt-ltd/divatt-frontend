@@ -19,8 +19,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from 'src/app/services/auth/auth.service';
 import { NgForm } from '@angular/forms';
 import { LoginNavService } from 'src/app/services/login-nav.service';
+import { environment } from 'src/environments/environment';
 declare var $: any;
-
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-product-left-image',
   templateUrl: './product-left-image.component.html',
@@ -156,7 +157,7 @@ export class ProductLeftImageComponent implements OnInit {
       this.api_url = 'user/view/'+this.productId;
     }
         // this.api_url+'?userId='+this.get_user_dtls.uid
-    this.productDataSubscribe = this.http.get(this.api_url).subscribe(
+    this.productDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         this.productDetail = response;
         if(response.categoryName == 'Men' || response.categoryName == 'Kids')
@@ -186,7 +187,7 @@ export class ProductLeftImageComponent implements OnInit {
           }
 
         }
-      this.getColorListSubscribe = this.http.get("adminMData/coloreList").subscribe(
+      this.getColorListSubscribe = this.http.get(API_URL+"adminMData/coloreList").subscribe(
         (res:any) => {
           var colourlist:any[] = res;
           for (let index = 0; index < colourlist.length; index++) {
@@ -217,7 +218,7 @@ export class ProductLeftImageComponent implements OnInit {
   getProductList()
   {
  
-    this.productDataSubscribe = this.http.get(this.listapi_url).subscribe(
+    this.productDataSubscribe = this.http.get(API_URL+this.listapi_url).subscribe(
       (response:any) => {
         console.log("response",response);
         this.products = response;
@@ -447,7 +448,7 @@ export class ProductLeftImageComponent implements OnInit {
   getDesignerById()
   {
     this.designerapi_url = 'user/designerProfile/'+this.productDetail.designerId;
-    this.getDesignerSubscribe = this.http.get(this.designerapi_url).subscribe(
+    this.getDesignerSubscribe = this.http.get(API_URL+this.designerapi_url).subscribe(
       (response:any) => {
         this.designer = response;
         this.designerPic = response.designerProfileEntity.designerProfile.profilePic;
@@ -516,7 +517,7 @@ if(identifire == 'unfollow')
 {
   this.model.isFollowing = false;
 }
-this.designerFollowSubscribe = this.http.post('user/followDesigner',this.model).subscribe(
+this.designerFollowSubscribe = this.http.post(API_URL+'user/followDesigner',this.model).subscribe(
     (response:any) => {
       this.toastrService.success(response.message);
       this.getDesignerById();
@@ -536,7 +537,7 @@ onSubmitFollowform(form:NgForm)
   // var data ={
   //   comment:form.value.
   // }
-  this.designerFollowSubscribe = this.http.post(this.followapi_url,form.value).subscribe(
+  this.designerFollowSubscribe = this.http.post(API_URL+this.followapi_url,form.value).subscribe(
     (response:any) => {
       console.log("response",response);
       if(response.status === 200){
@@ -931,7 +932,7 @@ onSubmitFollowform(form:NgForm)
     {
       if(this.actionType == 'add')
       {
-        this.designerMencustomchartSubscribe = this.http.post("userMeasurement/addMeasurement",this.measurementObject).subscribe(
+        this.designerMencustomchartSubscribe = this.http.post(API_URL+"userMeasurement/addMeasurement",this.measurementObject).subscribe(
           (response:any) => {
             this.toastrService.success(response.message);
             this.customSize = true;
@@ -945,7 +946,7 @@ onSubmitFollowform(form:NgForm)
       }
       else if(this.actionType == 'update')
       {
-        this.designerMencustomchartSubscribe = this.http.put("userMeasurement/updateMeasurement?measurementId="+this.mesormentId,this.measurementObject).subscribe(
+        this.designerMencustomchartSubscribe = this.http.put(API_URL+"userMeasurement/updateMeasurement?measurementId="+this.mesormentId,this.measurementObject).subscribe(
           (response:any) => {
             this.toastrService.success(response.message);
             this.customSize = true;
@@ -1161,7 +1162,7 @@ onSubmitFollowform(form:NgForm)
   }
   getMencustomchart()
   {
-    this.mencustomchartListSubscribe = this.http.get("userMeasurement/getMeasurementlist/"+this.gender).subscribe(
+    this.mencustomchartListSubscribe = this.http.get(API_URL+"userMeasurement/getMeasurementlist/"+this.gender).subscribe(
       (response:any) => {
         // this.mesormentList = [];
         // var data = []
@@ -1201,7 +1202,7 @@ onSubmitFollowform(form:NgForm)
   }
   getDesignerMencustomchart()
   {
-    this.mencustomchartListSubscribe = this.http.get("designer/"+this.productDetail.designerId).subscribe(
+    this.mencustomchartListSubscribe = this.http.get(API_URL+"designer/"+this.productDetail.designerId).subscribe(
       (response:any) => {
         this.designerMesormentChart = {
           menChartData:response.menChartData.measurementsMen,

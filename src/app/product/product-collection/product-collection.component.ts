@@ -14,7 +14,8 @@ import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { Options } from '@angular-slider/ngx-slider';
 import { delay } from 'rxjs/operators';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-product-collection',
   templateUrl: './product-collection.component.html',
@@ -125,7 +126,7 @@ export class ProductCollectionComponent implements OnInit {
           this.categoryName = 'All' 
         }else{
           
-          this.getCategoryList =  this.http.get('category/viewByCategoryName').subscribe(
+          this.getCategoryList =  this.http.get(API_URL+'category/viewByCategoryName').subscribe(
             (res:any) => {
             let categoris:any = [] = res;
               for (let index = 0; index < res.length; index++) {
@@ -163,7 +164,7 @@ export class ProductCollectionComponent implements OnInit {
       this.categoryName = 'All' 
     }else{
       
-      this.getCategoryList =  this.http.get('category/viewByCategoryName').subscribe(
+      this.getCategoryList =  this.http.get(API_URL+'category/viewByCategoryName').subscribe(
         (res:any) => {
          let categoris:any = [] = res;
           for (let index = 0; index < res.length; index++) {
@@ -188,7 +189,7 @@ export class ProductCollectionComponent implements OnInit {
       this.searchevent = ''; 
     }
     this.searchkey = this.searchevent;
-    this.getCategoryList =  this.http.get('category/viewByCategoryName').subscribe(
+    this.getCategoryList =  this.http.get(API_URL+'category/viewByCategoryName').subscribe(
       (res:any) => {
         this.categoris = res;
         for (let index = 0; index < res.length; index++) {
@@ -252,7 +253,7 @@ export class ProductCollectionComponent implements OnInit {
   count = 0;
   getSubcategory(id)
   { 
-    this.designerListSubscribe = this.http.get('subcategory/getAllSubcategory/'+id).subscribe(
+    this.designerListSubscribe = this.http.get(API_URL+'subcategory/getAllSubcategory/'+id).subscribe(
       (response:any) => {
         for (let index = 0; index < response.length; index++) {
             this.subcategoris.push({categoryName:response[index].categoryName,id:response[index].id,isSelected:false})          
@@ -279,7 +280,7 @@ export class ProductCollectionComponent implements OnInit {
   getalldata()
   {
     // designerlist
-    this.designerListSubscribe = this.http.get('user/designer/list').subscribe(
+    this.designerListSubscribe = this.http.get(API_URL+'user/designer/list').subscribe(
       (response:any) => {
         this.designers = [];
         for (let index = 0; index < response.length; index++) {
@@ -293,7 +294,7 @@ export class ProductCollectionComponent implements OnInit {
     // end designerlist
     
       // colors
-      this.getcolorsList =  this.http.get('adminMData/coloreList').subscribe(
+      this.getcolorsList =  this.http.get(API_URL+'adminMData/coloreList').subscribe(
         (res:any) => {
           this.colors = [];
           for (let index = 0; index < res.length; index++) {
@@ -580,7 +581,7 @@ public getProductList()
   this.searchkey = this.searchevent;
   this.filter_api = 'designerProducts/searching?searchKey='+this.searchevent+'&page='+this.page+'&limit='+48+'&sortBy=Id'+'&designerId='+this.designerId+'&categoryId='+this.category+'&subCategoryId='+this.subcategory+'&colour='+this.colorName+'&cod='+this.cod+'&customization='+this.customization+'&priceType='+this.priceType+'&returnStatus='+this.returnStatus+'&giftWrap='+this.giftWrap+'&maxPrice='+this.maxPrice+'&minPrice='+this.minPrice+'&size='+this.sizeName+'&sortDateType='+this.sortDateType+'&sortPrice='+this.sortPrice+'&isFilter='+true;
 
-  this.productDataSubscribe = this.http.get(this.filter_api).subscribe(
+  this.productDataSubscribe = this.http.get(API_URL+this.filter_api).subscribe(
     (response:any) => {
       this.loader = false;
       // console.log('this.allproducts',this.allproducts,response);

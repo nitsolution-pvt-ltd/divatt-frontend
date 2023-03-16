@@ -20,8 +20,9 @@ import {
   FacebookLoginProvider,
   GoogleLoginProvider
 } from 'angular5-social-login';
+import { environment } from 'src/environments/environment';
 declare var $: any;
-
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-header-widgets',
   templateUrl: './header-widgets.component.html',
@@ -339,7 +340,7 @@ onSubmitForgotPassword(form:NgForm){
     return;
   }
 
-  this.formSubmitSubscribe = this.http.get(this.api_url+'/'+form.value.email).subscribe(
+  this.formSubmitSubscribe = this.http.get(API_URL+this.api_url+'/'+form.value.email).subscribe(
     (response:any) => {
       if(response.status === 200){
         this.toastrService.success(response.message);
@@ -386,7 +387,7 @@ onSubmitChangePassword(form:NgForm){
     return;
   }
 
-  this.formSubmitSubscribe = this.http.post('auth/changePassword', form.value).subscribe(
+  this.formSubmitSubscribe = this.http.post(API_URL+'auth/changePassword', form.value).subscribe(
     (response:any) => {
       if(response.status === 200){
         this.toastrService.success(response.message);
@@ -431,7 +432,7 @@ onSubmitCreateAccount(form:NgForm){
   if(!form.valid){
     return;
   }
-  this.formSubmitSubscribe = this.http.post(this.api_url, form.value).subscribe(
+  this.formSubmitSubscribe = this.http.post(API_URL+this.api_url, form.value).subscribe(
     (response:any) => {
       console.log('response', response);
       

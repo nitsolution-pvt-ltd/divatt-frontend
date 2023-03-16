@@ -7,6 +7,10 @@ import { ToastrService } from 'ngx-toastr';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/auth.service';
 import { LoginNavService } from 'src/app/services/login-nav.service';
+import { environment } from 'src/environments/environment';
+
+const API_URL = environment.apiUrl;
+
 @Component({
   selector: 'app-designer-card',
   templateUrl: './designer-card.component.html',
@@ -111,7 +115,7 @@ export class DesignerCardComponent implements OnInit {
   // commonFunction end
   getUserDetailsList(){
     
-    this.getUserDetailss = this.http.get(this.getUserDetailsList_api).subscribe(
+    this.getUserDetailss = this.http.get(API_URL+this.getUserDetailsList_api).subscribe(
         (res:any) => {
           this.userdata = res;
           console.log("User Data",res,this.userdata);
@@ -141,7 +145,7 @@ changeType(_type)
     }
     this.designerlist = [];
     this.loader = true;
-    this.designerListSubscribe = this.http.get(this.designerList_api).subscribe(
+    this.designerListSubscribe = this.http.get(API_URL+this.designerList_api).subscribe(
       (response:any) => {
         console.log("response",response);
         this.designerlist = [];
@@ -204,7 +208,7 @@ openfollowModal(_identifier,followmodal,designer) {
     
   }
   
-  this.designerFollowSubscribe = this.http.post('user/followDesigner',this.model).subscribe(
+  this.designerFollowSubscribe = this.http.post(API_URL+'user/followDesigner',this.model).subscribe(
       (response:any) => {
         this.toastrService.success(response.message);
         this.getDesignerList();
@@ -224,7 +228,7 @@ openfollowModal(_identifier,followmodal,designer) {
       // var data ={
       //   comment:form.value.
       // }
-      this.designerFollowSubscribe = this.http.post(this.followapi_url,form.value).subscribe(
+      this.designerFollowSubscribe = this.http.post(API_URL+this.followapi_url,form.value).subscribe(
         (response:any) => {
           console.log("response",response);
           if(response.status === 200){

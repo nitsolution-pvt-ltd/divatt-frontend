@@ -10,7 +10,8 @@ import * as $ from 'jquery';
 import { Filter } from './filter.model';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 
 @Component({
   selector: 'app-filter',
@@ -233,7 +234,7 @@ export class FilterComponent implements OnInit {
   designers;
   public designerlist()
   {
-    this.designerListSubscribe = this.http.get(this.api_url).subscribe(
+    this.designerListSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         console.log("response",response);
         this.designers = response;

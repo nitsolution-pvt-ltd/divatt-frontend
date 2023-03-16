@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { CommonUtils } from 'src/app/services/common-utils/common-utils';
-
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-order-item-details',
   templateUrl: './order-item-details.component.html',
@@ -73,7 +73,7 @@ export class OrderItemDetailsComponent implements OnInit {
     this.commonFunction();
   }
   getUserDetailsList(){
-    this.getUserDetailss = this.http.get(this.getUserDetailsList_api).subscribe(
+    this.getUserDetailss = this.http.get(API_URL+this.getUserDetailsList_api).subscribe(
         (res:any) => {
           
           this.userData = res;
@@ -114,7 +114,7 @@ export class OrderItemDetailsComponent implements OnInit {
     getorderDetails()
     {
       this.loader = true;
-      this.getOrderDataSubscribe = this.http.get(this.api_url).subscribe(
+      this.getOrderDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
         (response:any) => {
           this.orderDetails = response;
           console.log("ABCD",this.orderDetails.OrderSKUDetails.length);
@@ -133,7 +133,7 @@ export class OrderItemDetailsComponent implements OnInit {
            {
               this.trackingDetails = this.orderDetails.OrderSKUDetails[index].orderStatusDetails;
               
-              this.http.get('user/designerProfile/'+this.orderDetails.OrderSKUDetails[index].designerId).subscribe(
+              this.http.get(API_URL+'user/designerProfile/'+this.orderDetails.OrderSKUDetails[index].designerId).subscribe(
                 (response:any) => {
                   this.return_shipping = {
                     displayName:response.designerProfileEntity.designerProfile.displayName,
@@ -242,7 +242,7 @@ export class OrderItemDetailsComponent implements OnInit {
     getTrackingDetails()
     {
       this.parms_order_id, this.parms_designer_id, this.parms_product_id
-      this.getTrackingDetailsDataSubscribe = this.http.get('userOrder/getTracking/'+this.parms_order_id+'?userId='+this.get_user_dtls.uid+'&designerId='+ this.parms_designer_id).subscribe(
+      this.getTrackingDetailsDataSubscribe = this.http.get(API_URL+'userOrder/getTracking/'+this.parms_order_id+'?userId='+this.get_user_dtls.uid+'&designerId='+ this.parms_designer_id).subscribe(
         (response:any) => {
           
           console.log("getTrackingDetails",response);
@@ -303,7 +303,7 @@ export class OrderItemDetailsComponent implements OnInit {
         
       }
       var orderStatusapi = 'userOrder/orderStatusUpdate/'+this.selectedProduct.orderId+'/'+this.selectedProduct.productId;
-    this.statusChangeSubscribe = this.http.put(orderStatusapi,body).subscribe(
+    this.statusChangeSubscribe = this.http.put(API_URL+orderStatusapi,body).subscribe(
       (res:any) => {
         this.toastrService.success(res.message);
         this.getorderDetails();
@@ -322,7 +322,7 @@ export class OrderItemDetailsComponent implements OnInit {
     {
       console.log("getInvoice()",this.orderDetails);
       
-      this.getInvoiceDataSubscribe = this.http.get('userOrder/getOrderByInvoiceId/'+this.orderDetails.invoiceId).subscribe(
+      this.getInvoiceDataSubscribe = this.http.get(API_URL+'userOrder/getOrderByInvoiceId/'+this.orderDetails.invoiceId).subscribe(
         (response:any) => {
           
           console.log("orderDetails",response);

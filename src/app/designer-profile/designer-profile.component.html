@@ -25,7 +25,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="profile_card">
+          <div class="profile_card"  #screen>
             <div class="row  on-desktop">
               <div class="col-md-3  on-desktop"> 
                 <div class="imgbox">
@@ -43,7 +43,7 @@
               <div class="col-md-9 p-2 py-2 on-desktop">
                 <div class="descption">
                   <div class="name mb-2"> 
-                      <p class="designer">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</p> 
+                      <p class="designer">{{designer?.designerProfileEntity?.designerProfile?.displayName}} <i (click)="downloadImage()" class="fa fa-download" title="Download Card" aria-hidden="true"></i></p> 
                       <p class="boutiqueName"><img src="assets/images/campaign.png" alt=""><span>{{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span></p> 
 
                      <!-- <a [routerLink]="['/designer/', productDetail.designerId]" class="btn btn-solid float-right">View Profile</a> -->
@@ -422,3 +422,8 @@
 </ng-template>
 <!--follow modal /-->
 <app-footer></app-footer>
+
+<div id="download">
+  <img #canvas>
+  <a #downloadLink></a>
+</div>

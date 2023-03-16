@@ -17,7 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 declare var $ :any;
 declare var Razorpay: any;
-
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -142,7 +142,7 @@ export class CheckoutComponent implements OnInit {
    getsession:any ={};
    getAddressList()
    {
-     this.getAddressSubscribe = this.http.get('user/address').subscribe(
+     this.getAddressSubscribe = this.http.get(API_URL+'user/address').subscribe(
        (response:any) => {
          this.addresslist = response;
          if(this.parms_action_id == 'guest')
@@ -235,7 +235,7 @@ export class CheckoutComponent implements OnInit {
    // getDesignerList end
     getCartListData() {
       var _taxamount = 0 ,_netAmount = 0;
-      this.getCartlistSubscribe = this.http.get(this.cartlistapi).subscribe(
+      this.getCartlistSubscribe = this.http.get(API_URL+this.cartlistapi).subscribe(
         (response: any) => {
           console.log('Cart list', response);
           this.cartListData = response;
@@ -503,7 +503,7 @@ export class CheckoutComponent implements OnInit {
 
   /* -------------Get modules start------------- */
   getUserDetailsList(){
-    this.getUserDetailss = this.http.get(this.getUserDetailsList_api).subscribe(
+    this.getUserDetailss = this.http.get(API_URL+this.getUserDetailsList_api).subscribe(
       (res:any) => {
         
         this.userDetails = res;
@@ -569,7 +569,7 @@ export class CheckoutComponent implements OnInit {
       }
       console.log("totalProducts",totalProducts);
       
-      this.razorpayOrderIdSubscribe = this.http.post('userOrder/razorpay/create',totalProducts).subscribe(
+      this.razorpayOrderIdSubscribe = this.http.post(API_URL+'userOrder/razorpay/create',totalProducts).subscribe(
         (response:any) => {
           console.log('paymentOrderId', response);
           this.paymentOrderId = response.id
@@ -748,7 +748,7 @@ export class CheckoutComponent implements OnInit {
     }
     console.log("totalProducts",data);
     
-    this.orderApiSubscribe = this.http.post('userOrder/add', data).subscribe(
+    this.orderApiSubscribe = this.http.post(API_URL+'userOrder/add', data).subscribe(
       (res:any) => {
         // if(res.status === 200){
           console.log("res.orderId",res.orderId);
@@ -802,7 +802,7 @@ export class CheckoutComponent implements OnInit {
     }
     console.log("totalProducts",data);
     
-    this.orderApiSubscribe = this.http.post('userOrder/payment/add', data).subscribe(
+    this.orderApiSubscribe = this.http.post(API_URL+'userOrder/payment/add', data).subscribe(
       (res:any) => {
           this.btnLoader = false;
         if(res.status === 200){
@@ -874,7 +874,7 @@ orderAdd(){
   }
   console.log("totalProducts",data);
   
-  this.orderApiSubscribe = this.http.post('userOrder/add', data).subscribe(
+  this.orderApiSubscribe = this.http.post(API_URL+'userOrder/add', data).subscribe(
     (res:any) => {
       if(res.status === 200){
         console.log("res.orderId",res.orderId);
@@ -923,7 +923,7 @@ orderAdd(){
       }
       console.log("datadata",data);
       
-      this.removefromCartSubscribe = this.http.delete('user/cart/multipleDelete/'+this.get_user_dtls.uid,data).subscribe(
+      this.removefromCartSubscribe = this.http.delete(API_URL+'user/cart/multipleDelete/'+this.get_user_dtls.uid,data).subscribe(
         (response:any) => {
           console.log('response', response);
           if(response.status == 200){

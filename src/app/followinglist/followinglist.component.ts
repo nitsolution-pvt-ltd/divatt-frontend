@@ -2,10 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { LoginService } from '../services/auth/auth.service';
 import { CommonUtils } from '../services/common-utils/common-utils';
 import { LoginNavService } from '../services/login-nav.service';
-
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-followinglist',
   templateUrl: './followinglist.component.html',
@@ -58,7 +59,7 @@ export class FollowinglistComponent implements OnInit {
     this.loader = true;
     this.designerlist=[];
     this.api_url = 'user/followedDesigner/'+this.get_user_dtls.username;
-    this.designerListSubscribe = this.http.get(this.api_url).subscribe(
+    this.designerListSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         this.loader = false;
         console.log("Designerlist",response);
@@ -109,7 +110,7 @@ export class FollowinglistComponent implements OnInit {
       this.model.isFollowing=false;
       
     }
-    this.designerFollowSubscribe = this.http.post(this.followapi_url,this.model).subscribe(
+    this.designerFollowSubscribe = this.http.post(API_URL+this.followapi_url,this.model).subscribe(
         (response:any) => {
           console.log("response",response);
           if(response.status === 200){

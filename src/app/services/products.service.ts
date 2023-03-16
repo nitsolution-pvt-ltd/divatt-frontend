@@ -5,7 +5,8 @@ import { Product } from '../classes/product';
 import { BehaviorSubject, Observable, of, Subscriber} from 'rxjs';
 import { map, filter, scan } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 // Get product from Localstorage
 let products = JSON.parse(localStorage.getItem("compareItem")) || [];
 
@@ -26,7 +27,7 @@ export class ProductsService {
 
   // Observable Product Array
   private products(): Observable<Product[]> {
-     return this.http.get('user/product/list').pipe(map((res:any) => res));
+     return this.http.get(API_URL+'user/product/list').pipe(map((res:any) => res));
   }
 
   // Get Products

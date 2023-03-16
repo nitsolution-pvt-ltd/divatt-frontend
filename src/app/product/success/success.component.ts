@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { LoginService } from 'src/app/services/auth/auth.service';
+import { environment } from 'src/environments/environment';
 import { Order } from '../../classes/order';
 import { OrderService } from '../../services/order.service';
-
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-success',
   templateUrl: './success.component.html',
@@ -56,7 +57,7 @@ export class SuccessComponent implements OnInit {
   getorderDetails()
   {
     let giftWrapAmount = 0;
-    this.getOrderDataSubscribe = this.http.get(this.api_url).subscribe(
+    this.getOrderDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         this.orderDetails = response;
         sessionStorage.clear();
@@ -85,7 +86,7 @@ export class SuccessComponent implements OnInit {
    // removeorderProducts start
    removeorderProducts(data)
    {
-     this.removeOrderProductSubscribe = this.http.put('designerProduct/stockClearence',data).subscribe(
+     this.removeOrderProductSubscribe = this.http.put(API_URL+'designerProduct/stockClearence',data).subscribe(
        (response:any) => {
          console.log(response);
          
@@ -117,7 +118,7 @@ export class SuccessComponent implements OnInit {
       taxAmount:this.orderDetails.taxAmount,
       userInv:this.orderDetails.userInv,
     }
-    this.genaratePDFSubscribe = this.http.post('userOrder/genpdf/order',data).subscribe(
+    this.genaratePDFSubscribe = this.http.post(API_URL+'userOrder/genpdf/order',data).subscribe(
       (response:any) => {
         console.log(response);
         

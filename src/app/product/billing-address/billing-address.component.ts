@@ -12,6 +12,8 @@ import { HttpClient } from '@angular/common/http';
 import { LoginService } from 'src/app/services/auth/auth.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-billing-address',
   templateUrl: './billing-address.component.html',
@@ -206,7 +208,7 @@ export class BillingAddressComponent implements OnInit {
   this.model.addressType = 'Home';
   this.model.userId = this.get_user_dtls.uid;
   // this.action = 'add';
-    this.getAddressSubscribe = this.http.get(this.api_url).subscribe(
+    this.getAddressSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         this.addresslist = response;
         console.log("addresslist",this.addresslist);
@@ -234,7 +236,7 @@ export class BillingAddressComponent implements OnInit {
   // getDesignerList end
   getStates()
   {
-    this.addressFormSubmitSubscribe = this.http.get("user/getStateData").subscribe(
+    this.addressFormSubmitSubscribe = this.http.get(API_URL+"user/getStateData").subscribe(
       (response:any) => {
          this.states = response;
       },
@@ -336,7 +338,7 @@ export class BillingAddressComponent implements OnInit {
       if(this.action == 'edit')
       {
         
-        this.UpdateFormSubmitSubscribe = this.http.put(this.update_api,this.alldata).subscribe(
+        this.UpdateFormSubmitSubscribe = this.http.put(API_URL+this.update_api,this.alldata).subscribe(
           (response:any) => {
             console.log("response",response);
             this.toastrService.success(response.message);
@@ -354,7 +356,7 @@ export class BillingAddressComponent implements OnInit {
       }else if(this.action == 'add') 
       {
         
-        this.addressFormSubmitSubscribe = this.http.post(this.add_api,this.alldata).subscribe(
+        this.addressFormSubmitSubscribe = this.http.post(API_URL+this.add_api,this.alldata).subscribe(
           (response:any) => {
             if(this.model.id == "guest")
             {
@@ -416,7 +418,7 @@ export class BillingAddressComponent implements OnInit {
     // addressSelected end
       //  get wish list after login start
   getCartListData() {
-    this.getCartlistSubscribe = this.http.get(this.cartlistapi).subscribe(
+    this.getCartlistSubscribe = this.http.get(API_URL+this.cartlistapi).subscribe(
       (response: any) => {
         console.log('Cart list', response);
         // this.shoppingCartItems = response;
@@ -517,7 +519,7 @@ export class BillingAddressComponent implements OnInit {
   }
   deleteAddress()
   {
-    this.deleteAddressSubscribe = this.http.delete(this.addressdelApi).subscribe(
+    this.deleteAddressSubscribe = this.http.delete(API_URL+this.addressdelApi).subscribe(
       (response: any) => {
         console.log('deleteAddressSubscribe', response);
         // this.shoppingCartItems = response;     

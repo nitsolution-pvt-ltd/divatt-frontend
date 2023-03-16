@@ -54,7 +54,7 @@ export class LoginService {
   
   // ================= login service call start ==================
     login(_url, _data, _siteInfo) {
-      return this.http.post(`${_url}`, _data).pipe(
+      return this.http.post(API_URL+`${_url}`, _data).pipe(
         tap(this.setGlobalParams.bind(this)) //use for response value send
       );
     }

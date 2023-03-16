@@ -63,7 +63,7 @@ export class InterceptorProvider implements HttpInterceptor {
 
     // Clone the request with params instead of setParams
     const requestClone = request.clone({
-      url: `${API_URL}/${request.url}`,
+      url: `${request.url}`,
       setHeaders: {
         'Authorization': authorization,
       }

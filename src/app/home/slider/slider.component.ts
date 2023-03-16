@@ -4,9 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { HomeService } from 'src/app/services/home.service'; '../../services/home.service';
+import { HomeService } from 'src/app/services/home.service';import { environment } from 'src/environments/environment';
+ '../../services/home.service';
 declare var $: any;
-
+const API_URL = environment.apiUrl;
 
 @Component({
   selector: 'app-slider',
@@ -99,7 +100,7 @@ export class SliderComponent implements OnInit {
   getBannerList()
   {
     this.api_url = 'adminMData/bannerList';
-    this.getBannerListSubscribe = this.http.get(this.api_url).subscribe(
+    this.getBannerListSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => { 
         
         this.category = [];

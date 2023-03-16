@@ -5,7 +5,8 @@ import { BehaviorSubject, Observable, Subscriber, Subscription } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import { LoginService } from './auth/auth.service';
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 // Get product from Localstorage
 let products = JSON.parse(localStorage.getItem("wishlistItem")) || [];
 @Injectable({
@@ -76,7 +77,7 @@ export class WishlistService {
       console.log('data >>>', data);
       
       // start 
-      this.addToWishlistSubscribe = this.http.post('user/wishlist/add',data).subscribe(
+      this.addToWishlistSubscribe = this.http.post(API_URL+'user/wishlist/add',data).subscribe(
         (response:any) => {
           console.log('response', response);
           if(response.status == 200){

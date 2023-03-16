@@ -11,7 +11,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { LoginNavService } from 'src/app/services/login-nav.service';
 import { CommonUtils } from 'src/app/services/common-utils/common-utils';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -94,7 +95,7 @@ export class CartComponent implements OnInit {
       this.loader = true;
     }
     // this.loader = true;
-    this.getCartlistSubscribe = this.http.get(this.cartlistapi).subscribe(
+    this.getCartlistSubscribe = this.http.get(API_URL+this.cartlistapi).subscribe(
       (response: any) => {
         this.loader = false;
         console.log('Cart list', response);
@@ -193,7 +194,7 @@ export class CartComponent implements OnInit {
   setQuantityApiCall(data)
   {
     this.pageDisabled = true;
-    this.setQtySubscribe = this.http.put(this.setqtyapi,data).subscribe(
+    this.setQtySubscribe = this.http.put(API_URL+this.setqtyapi,data).subscribe(
       (response: any) => {
        this.model.quantity = response.qty;
        this.pageDisabled = false;
@@ -299,7 +300,7 @@ export class CartComponent implements OnInit {
   }
   public removeAllcart() {
     
-   this.removefromCartSubscribe = this.http.delete('user/cart/multipleDelete/'+this.get_user_dtls.uid).subscribe(
+   this.removefromCartSubscribe = this.http.delete(API_URL+'user/cart/multipleDelete/'+this.get_user_dtls.uid).subscribe(
         (response:any) => {
           console.log('response', response);
             // this.toastrService.success(response.message); 

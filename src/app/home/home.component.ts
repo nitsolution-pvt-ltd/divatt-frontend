@@ -10,6 +10,9 @@ import { LoginNavService } from 'src/app/services/login-nav.service';
 import { CommonUtils } from '../services/common-utils/common-utils';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperConfigInterface, SwiperPaginationInterface, SwiperScrollbarInterface } from 'ngx-swiper-wrapper';
+import { GeolocationService } from '../services/geolocation.service';
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -74,7 +77,8 @@ export class HomeComponent implements OnInit {
     private loginNav: LoginNavService, 
     private authService:LoginService,
     private commonUtils: CommonUtils,
-    private modalService: NgbModal,) {   }
+    private modalService: NgbModal,
+    private geolocationService: GeolocationService) {   }
 
   ngOnInit() {
   	// this.productsService.getProducts().subscribe(product => this.products = product);
@@ -83,7 +87,12 @@ export class HomeComponent implements OnInit {
     // product get api
     
     
-    this.commonFunction()
+    this.commonFunction();
+
+    this.geolocationService.getLocation().subscribe((response) => {
+      console.log('geolocationService', response);
+      
+    })
   }
   public onIndexChange(index: number) {
     console.log('Swiper index: ', index);
@@ -116,7 +125,7 @@ export class HomeComponent implements OnInit {
   }
   getbestDesignerProductList()
   {
-    this.productDataSubscribe = this.http.get(this.api_url).subscribe(
+    this.productDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         this.bestSellerproducts = response;
         console.log("this.products",this.bestSellerproducts);
@@ -144,7 +153,7 @@ export class HomeComponent implements OnInit {
   }
   getnewProductList()
   {
-    this.productDataSubscribe = this.http.get(this.api_url).subscribe(
+    this.productDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         this.newProducts = response;
         console.log("this.products",this.newProducts);
@@ -171,7 +180,7 @@ export class HomeComponent implements OnInit {
   }
   getrecentProductList()
   {
-    this.productDataSubscribe = this.http.get(this.api_url).subscribe(
+    this.productDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         this.recentViewproducts = response;
         console.log("this.products",this.recentViewproducts);
@@ -350,7 +359,7 @@ export class HomeComponent implements OnInit {
     this.designerlist=[];
     console.log("UserName",this.get_user_dtls);
     
-    this.designerListSubscribe = this.http.get(this.designerListapi_url).subscribe(
+    this.designerListSubscribe = this.http.get(API_URL+this.designerListapi_url).subscribe(
       (response:any) => {
         console.log("Designerlist",response);
         // this.designerlist = response;
@@ -388,7 +397,7 @@ export class HomeComponent implements OnInit {
       this.model.isFollowing=false;
       
     }
-    this.designerFollowSubscribe = this.http.post(this.followapi_url,this.model).subscribe(
+    this.designerFollowSubscribe = this.http.post(API_URL+this.followapi_url,this.model).subscribe(
         (response:any) => {
           console.log("response",response);
           if(response.status === 200){

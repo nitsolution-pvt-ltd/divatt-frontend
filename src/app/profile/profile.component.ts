@@ -11,6 +11,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { LoginNavService } from '../services/login-nav.service';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -79,7 +81,7 @@ export class ProfileComponent implements OnInit {
   /* -------------Get modules start------------- */
   getUserDetailsList(){
     this.viewLoading = true;
-    this.getUserDetailss = this.http.get(this.getUserDetailsList_api).subscribe(
+    this.getUserDetailss = this.http.get(API_URL+this.getUserDetailsList_api).subscribe(
         (res:any) => {
           
           this.userDetailsFromApi = res;
@@ -149,7 +151,7 @@ export class ProfileComponent implements OnInit {
       username:this.userDetailsFromApi.username,
       profilePic:this.userDetailsFromApi.profilePic,
     }
-    this.formSubmitSubscribe = this.http.put(this.api_url, this.formdata).subscribe(
+    this.formSubmitSubscribe = this.http.put(API_URL+this.api_url, this.formdata).subscribe(
       (response:any) => {
         console.log('response', response);
         
@@ -204,7 +206,7 @@ export class ProfileComponent implements OnInit {
      this.imageLoader = true;
      var fd = new FormData(); 
      fd.append("file", image.target.files[0]);
-     this.http.post("admin/profile/s3/upload",fd).subscribe(
+     this.http.post(API_URL+"admin/profile/s3/upload",fd).subscribe(
        (res:any) => {
         this.filePath = res.path;
         this.updateProfile();
@@ -232,7 +234,7 @@ updateProfile()
     username:this.userDetailsFromApi.username,
     profilePic:this.filePath,
   }
-  this.formSubmitSubscribe = this.http.put(this.api_url, this.formdata).subscribe(
+  this.formSubmitSubscribe = this.http.put(API_URL+this.api_url, this.formdata).subscribe(
     (response:any) => {
       console.log('response', response);
       this.imageLoader = false;
@@ -253,7 +255,7 @@ updateProfile()
   }
   getMencustomchart()
   {
-    this.mencustomchartListSubscribe = this.http.get("userMeasurement/getMeasurementlist/all").subscribe(
+    this.mencustomchartListSubscribe = this.http.get(API_URL+"userMeasurement/getMeasurementlist/all").subscribe(
       (response:any) => {
         this.mesormentList = response;
        },
@@ -577,7 +579,7 @@ updateProfile()
     }
     if(this.type == 'update')
     {
-      this.designerMencustomchartSubscribe = this.http.put("userMeasurement/updateMeasurement?measurementId="+this.mesormentId,this.measurementObject).subscribe(
+      this.designerMencustomchartSubscribe = this.http.put(API_URL+"userMeasurement/updateMeasurement?measurementId="+this.mesormentId,this.measurementObject).subscribe(
         (response:any) => {
           this.toastrService.success(response.message);
           form.reset();
@@ -590,7 +592,7 @@ updateProfile()
         });
     }else 
     {
-      this.designerMencustomchartSubscribe = this.http.post("userMeasurement/addMeasurement",this.measurementObject).subscribe(
+      this.designerMencustomchartSubscribe = this.http.post(API_URL+"userMeasurement/addMeasurement",this.measurementObject).subscribe(
         (response:any) => {
           this.toastrService.success(response.message);
           form.reset();
@@ -635,7 +637,7 @@ updateProfile()
     ).then((result) => {
       if(result.value)
       {
-        this.mencustomchartDeleteSubscribe = this.http.delete("userMeasurement/delete/"+this.mesormentId).subscribe(
+        this.mencustomchartDeleteSubscribe = this.http.delete(API_URL+"userMeasurement/delete/"+this.mesormentId).subscribe(
           (response:any) => {
             this.toastrService.success(response.message);
             this.getMencustomchart();
