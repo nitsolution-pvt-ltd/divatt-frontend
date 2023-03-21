@@ -261,7 +261,7 @@
         <div class="modal-body">
           <div class="d-flex justify-content-between">
             <h4 class="d-flex justify-content-between">{{gender == 'women' ? 'Women' : 'Men/Kids'}}</h4>
-            <div class="in-cms custom-toggle" [ngClass]="{'disabled' : !customchartform.valid}">
+            <div class="in-cms custom-toggle">
               <span class="in" >In</span>
               <mat-slide-toggle name="sizeType" [(ngModel)]="sizeType" (change)="convartValue(customchartform,gender)"></mat-slide-toggle><span class="cms">Cms</span>
             </div>

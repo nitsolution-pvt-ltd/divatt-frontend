@@ -11,7 +11,9 @@
         <nav aria-label="breadcrumb" class="theme-breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a [routerLink]="'/home'">Home</a></li>
-            <li class="breadcrumb-item">Designer List</li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="'/designer-list/all'"> Designer List</a>
+             </li>
             <li class="breadcrumb-item active">Designer</li>
           </ol>
         </nav>
@@ -20,12 +22,36 @@
   </div>
 </div>
 <!-- breadcrumb End -->
+<!-- designer-screenshot start -->
+<div class="designer-screenshot" #screen>
+  <div class="innerpart">
+    <div class="image">
+      <img class="rounded mt-2" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic!= null ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'">
+    </div>
+    <p class="title">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</p>
+    <p class="labelName">
+      <img src="assets/images/campaign.png" alt="label">
+      <span>{{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span>
+    </p>
+    <div class="footer">
+      <div>
+        <img src="assets/images/icon/layout2/add-to-wishlist.png">
+        <span>{{designer?.follwerCount}}</span>
+      </div>
+      <div>
+        <img src="assets/images/menu-icon/1.png">
+        <span>{{designer?.productCount}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- designer-screenshot end -->
 <section class="designer">
   <div class="collection-wrapper">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="profile_card"  #screen>
+          <div class="profile_card">
             <div class="row  on-desktop">
               <div class="col-md-3  on-desktop"> 
                 <div class="imgbox">

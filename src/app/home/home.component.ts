@@ -78,7 +78,11 @@ export class HomeComponent implements OnInit {
     private authService:LoginService,
     private commonUtils: CommonUtils,
     private modalService: NgbModal,
-    private geolocationService: GeolocationService) {   }
+    private geolocationService: GeolocationService) { 
+      this.getPosition().then(pos => {
+        console.log(pos);
+      });
+    }
 
   ngOnInit() {
   	// this.productsService.getProducts().subscribe(product => this.products = product);
@@ -97,6 +101,24 @@ export class HomeComponent implements OnInit {
   public onIndexChange(index: number) {
     console.log('Swiper index: ', index);
   }
+
+  // user location start
+  getPosition(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        resp => {
+          resolve({
+            lng: resp.coords.longitude.toFixed(7),
+            lat: resp.coords.latitude.toFixed(7)
+          });
+        },
+        err => {
+          reject(err);
+        }
+      );
+    });
+  }
+  // user location end
   commonFunction()
   {
     this.api_url = 'user/product/list';

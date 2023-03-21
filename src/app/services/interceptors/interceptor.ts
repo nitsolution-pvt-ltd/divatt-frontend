@@ -21,7 +21,7 @@ export class InterceptorProvider implements HttpInterceptor {
     private authService : LoginService,
     private commonUtils: CommonUtils,
     private toastrService: ToastrService
-) {}
+  ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authorization;

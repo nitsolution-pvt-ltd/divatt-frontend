@@ -147,6 +147,10 @@ export class DesignerProfileComponent implements OnInit {
       this.downloadLink.nativeElement.download = 'marble-diagram.png';
       this.downloadLink.nativeElement.click();
     });
+    console.log('this.canvas.nativeElement.src ', this.canvas.nativeElement.src );
+    console.log('this.downloadLink.nativeElement.href', this.downloadLink.nativeElement.href);
+    
+    
   }
 
   // commonFunction start

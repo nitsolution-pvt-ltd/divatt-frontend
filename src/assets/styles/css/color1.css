@@ -21291,3 +21291,59 @@ mat-spinner.mini.mat-spinner circle
   color: #707070;
   font-size: 13px;
 }
+
+/* Designer profile screenshot */
+.designer-screenshot {
+  width: 400px;
+  text-align: center;
+  padding: 30px;
+  
+}
+.designer-screenshot .innerpart .image img {
+  border-radius: 50% !important;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+.designer-screenshot .innerpart .title {
+  font-size: 30px;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.designer-screenshot .innerpart .labelName {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: #000;
+  justify-content: center;
+}
+.designer-screenshot .innerpart img {
+  width: 20px;
+}
+.designer-screenshot .innerpart span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.designer-screenshot .innerpart .footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.designer-screenshot .innerpart .footer img {
+  width: 20px;
+}
+.designer-screenshot .innerpart .footer span {
+  margin-left: 10px;
+}
+
+.custom-toggle .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background: #7fb83f;
+}
+.custom-toggle .mat-slide-toggle .mat-slide-toggle-bar {
+  background: #96a0a1;
+}
