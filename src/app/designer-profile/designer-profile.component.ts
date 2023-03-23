@@ -16,8 +16,10 @@ import { WishlistService } from '../services/wishlist.service';
 import { Filter } from '../widgets/filter/filter.model';
 import { Meta } from '@angular/platform-browser';
 const API_URL = environment.apiUrl;
+const FILE_URL = environment.fileUrl;
 // import * as html2canvas from 'html2canvas';
 import html2canvas from 'html2canvas';
+import { NgNavigatorShareService } from 'ng-navigator-share';
 @Component({
   selector: 'app-designer-profile',
   templateUrl: './designer-profile.component.html',
@@ -52,6 +54,7 @@ export class DesignerProfileComponent implements OnInit {
   private getDesignerSubscribe: Subscription;
   private getProductSubscribe: Subscription;
   private designerFollowSubscribe: Subscription;
+  private ngNavigatorShareService: NgNavigatorShareService;
   designer: any={};
   errorMsg: any;
   api_url: string;
@@ -117,10 +120,11 @@ export class DesignerProfileComponent implements OnInit {
   noProductfound: boolean;
   loader: boolean;
   href;
+  pageurl;
   @ViewChild('screen', {static: false}) screen: ElementRef;
   @ViewChild('canvas', {static: false}) canvas: ElementRef;
   @ViewChild('downloadLink', {static: false}) downloadLink: ElementRef;
-
+  
   
   constructor(private http:HttpClient,
     private route: ActivatedRoute, 
@@ -131,13 +135,52 @@ export class DesignerProfileComponent implements OnInit {
     private router: Router,private modalService: NgbModal,
     private authService:LoginService,
     private metaService: Meta,
+    ngNavigatorShareService: NgNavigatorShareService,
     @Inject(DOCUMENT) private _document: HTMLDocument,) {
+      this.ngNavigatorShareService = ngNavigatorShareService;
     }
 
   ngOnInit() {
   	// this.productsService.getProducts().subscribe(product => this.products = product);
     this.commonFunction();
+    this.pageurl = 'https://dev.divatt.com/divatt'+this.router.url
   }
+
+  // Share profile start
+  share() {
+    
+    if (!this.ngNavigatorShareService.canShare()) {
+      alert(`This service/api is not supported in your Browser`);
+      return;
+    }
+ 
+    this.ngNavigatorShareService.share({
+      title: this.designer.designerProfileEntity.designerProfile.displayName,
+      text: 'Hey check out'+this.designer.designerProfileEntity.designerProfile.displayName+'Profile',
+      url: this.pageurl
+    }).then( (response) => {
+      console.log(response);
+    })
+    .catch( (error) => {
+      console.log(error);
+    });
+    
+  }
+  copyText(val: string){
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.toastrService.success('Link Copied!');
+  }
+  // Share profile end
 
   // Download designer card
   downloadImage(){
@@ -279,7 +322,7 @@ this.getalldata();
         //  for meta start
         this.metaService.updateTag({ property: 'og:title', content: response.designerProfileEntity.designerProfile.displayName });
         this.metaService.updateTag({ property: 'og:type', content: 'website' });
-        this.metaService.updateTag({ property: 'og:url', content: 'https://dev.divatt.com/divatt'+this.router.url });
+        this.metaService.updateTag({ property: 'og:url', content: this.pageurl });
         this.metaService.updateTag({ property: 'og:image', content: response.designerProfileEntity.designerProfile.profilePic });
         this.metaService.updateTag({ property: 'og:description', content: response.designerProfileEntity.socialProfile.description });
 
