@@ -1955,6 +1955,7 @@ let ModalPage = class ModalPage {
             newPass: form.value.newPass,
             oldPass: form.value.oldPass,
             userName: form.value.userName,
+            userType: 'Admin'
         };
         // console.log("Change Password-->",form.value);
         this.http.post("auth/changePassword", data).subscribe((res) => {

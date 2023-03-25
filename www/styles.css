@@ -13113,6 +13113,15 @@ textarea.form-control-lg {
  * For more information on global stylesheets, visit the documentation:
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
+/*
+Made By:
+  _________    ___.   .__                __.__  __       _____                               
+ /   _____/__ _\_ |__ |  |__ _____      |__|__|/  |_    /     \ _____    ____   ____ _____   
+ \_____  \|  |  \ __ \|  |  \\__  \     |  |  \   __\  /  \ /  \\__  \  /    \ /    \\__  \  
+ /        \  |  / \_\ \   Y  \/ __ \_   |  |  ||  |   /    Y    \/ __ \|   |  \   |  \/ __ \_
+/_______  /____/|___  /___|  (____  /\__|  |__||__|   \____|__  (____  /___|  /___|  (____  /
+        \/          \/     \/     \/\______|                  \/     \/     \/     \/     \/ 
+*/
 /* Core CSS required for Ionic components to work properly */
 html.ios {
   --ion-default-font: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Roboto", sans-serif;
@@ -16121,7 +16130,7 @@ ion-header.main-header .search-panel.active .search-box {
   left: 0;
   z-index: 1;
   height: calc(1.5em + 1.06rem + 2px);
-  padding: 0.53rem 1.3rem;
+  padding: 0.53rem 0.6rem;
   font-weight: 400;
   line-height: 1.5;
   color: #3b3e66;
