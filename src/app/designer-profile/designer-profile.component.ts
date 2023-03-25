@@ -549,7 +549,7 @@ public addToWishlist(product: Product) {
   getDesignerProducts(designerId)
   {
     this.loader = true;
-  this.filter_api = 'designerProducts/searching?searchKey='+this.searchevent+'&page='+this.page+'&limit=30'+'&sortBy=Id'+'&designerId='+designerId+'&labelType=all'+'&categoryId='+this.categoryId+'&subCategoryId='+this.subcategory+'&colour='+this.colorName+'&cod='+this.cod+'&customization='+this.customization+'&priceType='+this.priceType+'&returnStatus='+this.returnStatus+'&giftWrap='+this.giftWrap+'&maxPrice='+this.maxPrice+'&minPrice='+this.minPrice+'&size='+this.sizeName+'&sortDateType='+this.sortDateType+'&sortPrice='+this.sortPrice+'&isFilter='+true;
+  this.filter_api = 'designerProducts/productSearching?searchKey='+this.searchevent+'&page='+this.page+'&limit=30'+'&sortBy=Id'+'&designerId='+designerId+'&labelType=all'+'&categoryId='+this.categoryId+'&subCategoryId='+this.subcategory+'&colour='+this.colorName+'&cod='+this.cod+'&customization='+this.customization+'&priceType='+this.priceType+'&returnStatus='+this.returnStatus+'&giftWrap='+this.giftWrap+'&maxPrice='+this.maxPrice+'&minPrice='+this.minPrice+'&size='+this.sizeName+'&sortDateType='+this.sortDateType+'&sortPrice='+this.sortPrice+'&isFilter='+true;
     
     this.getProductSubscribe = this.http.get(API_URL+this.filter_api).subscribe(
       // this.getProductSubscribe = this.http.get(this.productapi_url+'/'+designerId).subscribe(

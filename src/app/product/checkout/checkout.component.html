@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="checkout-title">
+                            <!-- <div class="checkout-title">
                                 <h3>Payment</h3>
                             </div>
                             <div class="row">
@@ -61,17 +61,16 @@
                                                   <input type="radio" id="pay_by_online" value="ONLINE" name="payment_type" [(ngModel)]="model.payment_type" (change)="onChangePaymentMode(model.payment_type)" required checked="checked"> 
                                                   <div  class="btn btn-sık" matRipple><span>Payment by Online</span></div> 
                                                 </label>
-                                                <!-- <label class="disabled">
+                                                <label class="disabled">
                                                     <input  type="radio"  id="pay_on_cash" value="CASH" name="payment_type" [(ngModel)]="model.payment_type" (change)="onChangePaymentMode(model.payment_type)" required> 
                                                   <div class="btn btn-sık" matRipple><span>Payment by Cash</span></div>
-                                                </label> -->
+                                                </label>
                                                 
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <p><small>Payment by Cash in progress.</small></p> -->
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="col-lg-6 col-md-12 col-sm-12">
@@ -121,9 +120,9 @@
                                                                     <span class="product-text-size">Design customization : </span>
                                                                     <div class="on-off-toggle" *ngIf="orderProducts[i]?.customizationStatus">
                                                                         <input [disabled]="paid" class="on-off-toggle__input" type="checkbox" [checked]="orderProducts[i].customizationStatus"
-                                                                        [id]="i+1"
+                                                                        [id]="i+2"
                                                                         (click)="toggleChange('false',orderpack,cartItem,'customization',i)" />
-                                                                        <label [for]="i+1" class="on-off-toggle__slider"></label>
+                                                                        <label [for]="i+2" class="on-off-toggle__slider"></label>
                                                                     </div>
                                                                     <div class="on-off-toggle" *ngIf="!orderProducts[i]?.customizationStatus" [ngClass]="{'disabledClick': paid}">
                                                                         <input [disabled]="paid" class="on-off-toggle__input" type="checkbox" />
@@ -181,7 +180,7 @@
                   </div>
                   
                   <div class="btnBox" *ngIf='cartListData.length'>
-                    <a [ngClass]="{'disabled': !paymentType, 'disabledClick' : btnLoader}" (click)="checkout()" class="btn btn-solid d-flex align-items-center"><mat-spinner class="mini" *ngIf="btnLoader"></mat-spinner>&nbsp;Checkout</a>
+                    <a [ngClass]="{'disabled': !paymentType, 'disabledClick' : btnLoader}" (click)="onChangePaymentMode(model.payment_type)" class="btn btn-solid d-flex align-items-center"><mat-spinner class="mini" *ngIf="btnLoader"></mat-spinner>&nbsp;Checkout</a>
                   </div>
                 </div>
               </div>
