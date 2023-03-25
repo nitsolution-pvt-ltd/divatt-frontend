@@ -24,6 +24,7 @@
 <!-- breadcrumb End -->
 <!-- designer-screenshot start -->
 <div class="designer-screenshot" #screen>
+  <img class="logo" src="assets/images/logo.png">
   <div class="innerpart">
     <div class="image">
       <img class="rounded mt-2" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic!= null ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'">
@@ -33,7 +34,7 @@
       <img src="assets/images/campaign.png" alt="label">
       <span>{{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span>
     </p>
-    <div class="footer">
+    <!-- <div class="footer">
       <div>
         <img src="assets/images/icon/layout2/add-to-wishlist.png">
         <span>{{designer?.follwerCount}}</span>
@@ -42,7 +43,7 @@
         <img src="assets/images/menu-icon/1.png">
         <span>{{designer?.productCount}}</span>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 <!-- designer-screenshot end -->
