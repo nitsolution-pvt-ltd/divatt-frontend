@@ -215,9 +215,16 @@
             </mat-form-field>
         </div>
         <div class="form-group mb-0">
-            <mat-form-field appearance="fill">
+            <!-- <mat-form-field appearance="fill">
             <input matInput (change)="dateFormatChange(model.dob)"  placeholder="Choose a date" type="date" name="dob" [(ngModel)]="model.dob" required>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="fill">
+              <input matInput (dateChange)="dateFormatChange('dob', $event)" (dateInput)="dateFormatChange('dob', $event)" [matDatepicker]="dob" placeholder="{{model.dateofbirth}}" name="dateofbirth" [(ngModel)]="model.dateofbirth" readonly>
+              <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+              <mat-datepicker #dob></mat-datepicker>
             </mat-form-field>
+            <input type="hidden" name="dob" [(ngModel)]="model.dob">
         </div>
         <input type="hidden" name="senddob" [(ngModel)]="model.senddob">
         <div class="form-group mb-0">

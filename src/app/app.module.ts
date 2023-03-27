@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRippleModule} from '@angular/material/core';
+import {MatRippleModule, MAT_DATE_LOCALE} from '@angular/material/core';
 // import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { IsotopeModule } from 'ngx-isotope';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
@@ -289,6 +289,7 @@ export function getAuthServiceConfigs() {
     OrderService,
     PaginationService,
     HomeService,
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     {provide: LocationStrategy, useClass: PathLocationStrategy},
     // {provide: LocationStrategy, useClass: HashLocationStrategy},
     {
