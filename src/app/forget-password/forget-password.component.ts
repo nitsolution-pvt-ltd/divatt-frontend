@@ -4,7 +4,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-forget-password',
   templateUrl: './forget-password.component.html',
@@ -18,6 +19,7 @@ export class ForgetPasswordComponent implements OnInit {
   errorMsg;
   parms_link;
   parms_time;
+  parms_type;
   hide = true;
   hide2 = true;
   hide3 = true;
@@ -33,7 +35,10 @@ export class ForgetPasswordComponent implements OnInit {
   ngOnInit() {
     this.parms_link = this.activatedRoute.snapshot.paramMap.get('link');
     this.parms_time = this.activatedRoute.snapshot.paramMap.get('time');
-    this.api_url = 'auth/resetPassword/'+this.parms_link+'/'+this.parms_time;
+    this.parms_type = this.activatedRoute.snapshot.paramMap.get('type');
+    console.log('this.parms_type', this.parms_type);
+    
+    this.api_url = 'auth/resetPassword/'+this.parms_link+'/'+this.parms_time+'/'+this.parms_type+'=';
   }
 
   // =============== Change Password form submit start ==========
@@ -56,7 +61,7 @@ onSubmitChangePassword(form:NgForm){
     return;
   }
 
-  this.formSubmitSubscribe = this.http.post(this.api_url, form.value).subscribe(
+  this.formSubmitSubscribe = this.http.post(API_URL+this.api_url, form.value).subscribe(
     (response:any) => {
       if(response.status === 200){
         this.toastrService.success(response.message);

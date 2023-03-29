@@ -8,7 +8,8 @@ import { LoginService } from './auth/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonUtils } from './common-utils/common-utils';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 // Get product from Localstorage
 let products = JSON.parse(localStorage.getItem("cartItem")) || [];
 
@@ -99,7 +100,7 @@ export class CartService {
         });
       }
       console.log('data >>>', data);
-      this.addToCartlistSubscribe = this.http.post('user/cart/add',data).subscribe(
+      this.addToCartlistSubscribe = this.http.post(API_URL+'user/cart/add',data).subscribe(
         (response:any) => {
           console.log('response', response);
           if(response.status == 200){
@@ -195,7 +196,7 @@ export class CartService {
           userId: this.get_user_dtls.uid
         }
       }
-      this.removefromCartSubscribe = this.http.delete('user/cart/delete',data).subscribe(
+      this.removefromCartSubscribe = this.http.delete(API_URL+'user/cart/delete',data).subscribe(
         (response:any) => {
           console.log('response', response);
           if(response.status == 200){
@@ -229,7 +230,7 @@ export class CartService {
   public getCartListData() {
     console.log("getCartListData",this.cartlistapi);
     this.cartlistapi = "user/cart/getUserCart?userId="+this.get_user_dtls.uid+"&page=0&limit=0";
-    this.getCartlistSubscribe = this.http.get(this.cartlistapi).subscribe(
+    this.getCartlistSubscribe = this.http.get(API_URL+this.cartlistapi).subscribe(
       (response: any) => {
         console.log('Cart list-----', response);
         if(response.status == 400){

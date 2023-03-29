@@ -42,7 +42,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Full Name<sup>*</sup></mat-label>
-                                                                <input type="text" matInput name="fullName" [(ngModel)]="model.fullName">
+                                                                <input type="text" pattern="[A-Za-z ]+" matInput name="fullName" [(ngModel)]="model.fullName">
                                                                 </mat-form-field>
                                                             </div>
                                                             <input type="hidden" name="fullName" [(ngModel)]="model.fullName" required>
@@ -51,7 +51,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Address 1<sup>*</sup></mat-label>
-                                                                <textarea type="text" matInput name="address1" [(ngModel)]="model.address1"></textarea>
+                                                                <textarea type="text" matInput name="address1" pattern="[A-Za-z0-9 ]+" [(ngModel)]="model.address1"></textarea>
                                                                 </mat-form-field>
                                                             </div>
                                                             <input type="hidden" name="address1" [(ngModel)]="model.address1" required>
@@ -61,7 +61,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Address 2</mat-label>
-                                                                <textarea type="text" matInput name="address2" [(ngModel)]="model.address2"></textarea>
+                                                                <textarea type="text" matInput name="address2" pattern="[A-Za-z0-9 ]+" [(ngModel)]="model.address2"></textarea>
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -125,7 +125,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                     <mat-label>Town/City <sup>*</sup></mat-label>
-                                                                    <input matInput type="text" name="city" [(ngModel)]="model.city">
+                                                                    <input pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$" matInput type="text" name="city" [(ngModel)]="model.city">
                                                                 </mat-form-field>  
                                                             </div>
                                                             <input type="hidden" name="city" [(ngModel)]="model.city" required>
@@ -135,7 +135,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                     <mat-label>Landmark <sup>*</sup></mat-label>
-                                                                    <input matInput type="text" name="landmark" [(ngModel)]="model.landmark">
+                                                                    <input matInput type="text" pattern="[A-Za-z0-9 ]+" name="landmark" [(ngModel)]="model.landmark">
                                                                 </mat-form-field>  
                                                             </div>
                                                             <input type="hidden" name="landmark" [(ngModel)]="model.landmark" required>
@@ -144,7 +144,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                     <mat-label>Postal Code <sup>*</sup></mat-label>
-                                                                    <input matInput type="text"  name="postalCode" [(ngModel)]="model.postalCode">
+                                                                    <input matInput type="number" pattern="^((\\+91-?)|0)?[0-9]{6}$"  onKeyPress="if(this.value.length==6) {return false;}"  name="postalCode" [(ngModel)]="model.postalCode">
                                                                 </mat-form-field>  
                                                             </div>
                                                             <input type="hidden" name="postalCode" [(ngModel)]="model.postalCode" required>
@@ -332,10 +332,10 @@
                       </div>
                       
                       <div class="btnBox" *ngIf="action == ''">
-                        <a    class="btn btn-solid" (click)="proceedClick()">Proceed</a>
+                        <a    class="btn btn-solid y" (click)="proceedClick()">Proceed</a>
                       </div>
                       <div class="btnBox" *ngIf="action!=''">
-                        <a  (click)="addressForm.ngSubmit.emit()"  class="btn btn-solid" (click)="proceedClick()">Proceed</a>
+                        <a  (click)="addressForm.ngSubmit.emit(); proceedClick()"  class="btn btn-solid">Proceed</a>
                       </div>
                     </div>
                   </div>

@@ -12,8 +12,9 @@ import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { ProductsService } from 'src/app/services/products.service';
 import { WishlistService } from 'src/app/services/wishlist.service';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
-
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-order-list',
   templateUrl: './order-list.component.html',
@@ -87,7 +88,7 @@ export class OrderListComponent implements OnInit {
     // this.OrderlistItems = this.orderService.getOrderItems(this.get_user_dtls.uid);
     console.log("this.OrderlistItems",this.OrderlistItems);
     
-    this.OrderDataSubscribe = this.http.get('auth/info/'+this.get_user_dtls.authority+'/'+this.get_user_dtls.email).subscribe(  
+    this.OrderDataSubscribe = this.http.get(API_URL+'auth/info/'+this.get_user_dtls.authority+'/'+this.get_user_dtls.email).subscribe(  
       (response:any) => {
         this.userData = response;
         console.log("response",this.userData);
@@ -105,7 +106,7 @@ getOrderList()
   // this.currentPage = 0;
   this.loader = true;
     // getProductList start
-    this.OrderDataSubscribe = this.http.get('userOrder/getUserOrder/'+this.userId+'?page='+this.currentPage+'&limit='+this.limit+"&sort="+this.sort+'&sortBy=id').subscribe(  
+    this.OrderDataSubscribe = this.http.get(API_URL+'userOrder/getUserOrder/'+this.userId+'?page='+this.currentPage+'&limit='+this.limit+"&sort="+this.sort+'&sortBy=id').subscribe(  
       (response:any) => {
         console.log("response",response);
         this.OrderlistItems = response.data;
@@ -191,7 +192,7 @@ cancleOrder(form:NgForm)
   }
   console.log(orderStatusDetails);
   
-  this.cancelOrderDataSubscribe = this.http.put('userOrder/orderStatusUpdate/'+this.orderId+'/'+this.selectedProduct.productId,orderStatusDetails).subscribe(
+  this.cancelOrderDataSubscribe = this.http.put(API_URL+'userOrder/orderStatusUpdate/'+this.orderId+'/'+this.selectedProduct.productId,orderStatusDetails).subscribe(
     (response:any) => {
       // this.stockRecorver(this.selectedProduct)
       this.toastrService.success(response.message);
@@ -235,7 +236,7 @@ returnOrder(form:NgForm)
     }
   console.log(orderStatusDetails);
   
-  this.cancelOrderDataSubscribe = this.http.put('userOrder/orderStatusUpdate/'+this.orderId+'/'+this.selectedProduct.productId,orderStatusDetails).subscribe(
+  this.cancelOrderDataSubscribe = this.http.put(API_URL+'userOrder/orderStatusUpdate/'+this.orderId+'/'+this.selectedProduct.productId,orderStatusDetails).subscribe(
     (response:any) => {
       this.stockRecorver(this.selectedProduct)
       this.toastrService.success(response.message);
@@ -256,7 +257,7 @@ returnOrder(form:NgForm)
 // returnOrder end
 stockRecorver(data)
 {
-  this.stockRecorverSubscribe = this.http.put('designerProduct/stockRecoverService',data).subscribe((response:any) => {},
+  this.stockRecorverSubscribe = this.http.put(API_URL+'designerProduct/stockRecoverService',data).subscribe((response:any) => {},
     errRes => {this.toastrService.error(errRes.error.message);});
 }
 ngOnDestroy() {

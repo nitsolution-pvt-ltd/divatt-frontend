@@ -3,8 +3,9 @@ import { BehaviorSubject, Observable, from } from 'rxjs';
 import { take, map, tap, delay, switchMap, catchError  } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { PaginationService } from '../pagination.service';
+import { environment } from 'src/environments/environment';
 
-
+const API_URL = environment.apiUrl;
 /* tslint:disable */ 
 @Injectable({
     providedIn: 'root'
@@ -232,7 +233,7 @@ export class CommonUtils {
             this.tableHeaderData = [];
             this.tableheaderDropdownChecked = [];
 
-            return this.http.get(`${_getUrl}`).pipe(
+            return this.http.get(API_URL+`${_getUrl}`).pipe(
                 map((resData:any) => {
                     if(resData.return_status > 0 && resData.return_data.length > 0){
                         for (const key in resData.return_data) {
@@ -336,7 +337,7 @@ export class CommonUtils {
 
             this.items_data = []; //blank array items will be push
 
-            return this.http.get(`${_getUrl}?per_page=${_per_page_showItem}&page=${_page}${apiParameters}&search=${_search}${advanceSearchParams}`).pipe(
+            return this.http.get(API_URL+`${_getUrl}?per_page=${_per_page_showItem}&page=${_page}${apiParameters}&search=${_search}${advanceSearchParams}`).pipe(
                 map((resData:any) => {
 
                     this.items_data = [];
@@ -397,7 +398,7 @@ export class CommonUtils {
         }
 
         getlistCommon(_getUrl){
-            return this.http.get(`${_getUrl}`).pipe(
+            return this.http.get(API_URL+`${_getUrl}`).pipe(
                 map((resData:any) => {
                     if(resData.return_status > 0){
                         return resData.return_data;

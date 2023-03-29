@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from './auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +28,7 @@ export class OrderService {
   // Get order items
   public getOrderItems(userId) : Order {
       // getProductList start
-    this.OrderDataSubscribe = this.http.get('userOrder/getUserOrder/'+userId).subscribe(  
+    this.OrderDataSubscribe = this.http.get(API_URL+'userOrder/getUserOrder/'+userId).subscribe(  
       (response:any) => {
         console.log("response",response);
         this.OrderDetails = response;

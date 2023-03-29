@@ -11,7 +11,9 @@
         <nav aria-label="breadcrumb" class="theme-breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a [routerLink]="'/home'">Home</a></li>
-            <li class="breadcrumb-item">Designer List</li>
+            <li class="breadcrumb-item">
+              <a [routerLink]="'/designer-list/all'"> Designer List</a>
+             </li>
             <li class="breadcrumb-item active">Designer</li>
           </ol>
         </nav>
@@ -20,6 +22,31 @@
   </div>
 </div>
 <!-- breadcrumb End -->
+<!-- designer-screenshot start -->
+<div class="designer-screenshot" #screen>
+  <img class="logo" src="assets/images/logo.png">
+  <div class="innerpart">
+    <div class="image">
+      <img class="rounded mt-2" [src]="designer?.designerProfileEntity?.designerProfile?.profilePic!= null ? designer?.designerProfileEntity?.designerProfile?.profilePic : 'assets/images/noimage.jpg'">
+    </div>
+    <p class="title">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</p>
+    <p class="labelName">
+      <img src="assets/images/campaign.png" alt="label">
+      <span>{{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span>
+    </p>
+    <!-- <div class="footer">
+      <div>
+        <img src="assets/images/icon/layout2/add-to-wishlist.png">
+        <span>{{designer?.follwerCount}}</span>
+      </div>
+      <div>
+        <img src="assets/images/menu-icon/1.png">
+        <span>{{designer?.productCount}}</span>
+      </div>
+    </div> -->
+  </div>
+</div>
+<!-- designer-screenshot end -->
 <section class="designer">
   <div class="collection-wrapper">
     <div class="container-fluid">
@@ -43,7 +70,11 @@
               <div class="col-md-9 p-2 py-2 on-desktop">
                 <div class="descption">
                   <div class="name mb-2"> 
-                      <p class="designer">{{designer?.designerProfileEntity?.designerProfile?.displayName}}</p> 
+                      <p class="designer">
+                        {{designer?.designerProfileEntity?.designerProfile?.displayName}} 
+                        <i (click)="downloadImage()" class="fa fa-download" title="Download Card" aria-hidden="true"></i>
+                        <i (click)="copyText(pageurl); share()" class="fa fa-share-alt mr-2" title="Share Profile" aria-hidden="true"></i>
+                      </p> 
                       <p class="boutiqueName"><img src="assets/images/campaign.png" alt=""><span>{{designer?.designerProfileEntity?.boutiqueProfile?.boutiqueName}}</span></p> 
 
                      <!-- <a [routerLink]="['/designer/', productDetail.designerId]" class="btn btn-solid float-right">View Profile</a> -->
@@ -422,3 +453,8 @@
 </ng-template>
 <!--follow modal /-->
 <app-footer></app-footer>
+
+<div id="download">
+  <img #canvas>
+  <a #downloadLink></a>
+</div>

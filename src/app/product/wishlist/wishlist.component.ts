@@ -10,7 +10,8 @@ import { LoginService } from 'src/app/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
-
+import { environment } from 'src/environments/environment';
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-wishlist',
   templateUrl: './wishlist.component.html',
@@ -113,7 +114,7 @@ export class WishlistComponent implements OnInit {
   //  get wish list after login start
   getWishListData() {
     this.loader = true;
-    this.getWishlistSubscribe = this.http.get(this.wishlistapi).subscribe(
+    this.getWishlistSubscribe = this.http.get(API_URL+this.wishlistapi).subscribe(
       (response: any) => {
         console.log('Wish list', response);
         this.wishlistItems = response;
@@ -221,7 +222,7 @@ export class WishlistComponent implements OnInit {
         }
       }
       
-      this.deleteWishlistSubscribe = this.http.delete(this.wishlistdeleteapi,options).subscribe(
+      this.deleteWishlistSubscribe = this.http.delete(API_URL+this.wishlistdeleteapi,options).subscribe(
         (response: any) => {
           console.log('Wish list', response);
           this.wishlistItems = response;
@@ -508,7 +509,7 @@ onSubmitcustomchartform(form:NgForm){
   {
     if(this.actionType == 'add')
     {
-      this.designerMencustomchartSubscribe = this.http.post("userMeasurement/addMeasurement",this.measurementObject).subscribe(
+      this.designerMencustomchartSubscribe = this.http.post(API_URL+"userMeasurement/addMeasurement",this.measurementObject).subscribe(
         (response:any) => {
           this.toastrService.success(response.message);
           form.reset();
@@ -521,7 +522,7 @@ onSubmitcustomchartform(form:NgForm){
     }
     else if(this.actionType == 'update')
     {
-      this.designerMencustomchartSubscribe = this.http.put("userMeasurement/updateMeasurement?measurementId="+this.mesormentId,this.measurementObject).subscribe(
+      this.designerMencustomchartSubscribe = this.http.put(API_URL+"userMeasurement/updateMeasurement?measurementId="+this.mesormentId,this.measurementObject).subscribe(
         (response:any) => {
           this.toastrService.success(response.message);
           this.customSize = true;
@@ -668,7 +669,7 @@ onSelectCustomOld(mesorment)
 }
 getMencustomchart()
 {
-  this.mencustomchartListSubscribe = this.http.get("userMeasurement/getMeasurementlist/"+this.gender).subscribe(
+  this.mencustomchartListSubscribe = this.http.get(API_URL+"userMeasurement/getMeasurementlist/"+this.gender).subscribe(
     (response:any) => {
       // this.mesormentList = [];
       // var data = []

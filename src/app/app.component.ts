@@ -12,7 +12,7 @@ import { environment } from '../environments/environment';
 import { ResponsiveService } from './services/responsive.service'; //responive check
 import { CartService } from './services/cart.service';
 declare var $: any;
-
+const API_URL = environment.apiUrl;
 /* tslint:disable */ 
 @Component({
   selector: 'app-root',
@@ -162,7 +162,7 @@ export class AppComponent implements OnInit {
       
 
       this.userInfodDataLoading = true;
-      this.userInfoSubscribe = this.http.get('login/commoninfo?link='+this.site_url_name).subscribe(
+      this.userInfoSubscribe = this.http.get(API_URL+'login/commoninfo?link='+this.site_url_name).subscribe(
         (response:any) => {
         this.userInfodDataLoading = false;
         if(response.return_status > 0){
@@ -282,7 +282,7 @@ export class AppComponent implements OnInit {
 
      console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww >', this.checkAuthentication);
      this.siteInfoLoading = true;
-     this.groupMenuDataSubscribe = this.http.get('siteinfo/sitedetails?link='+this.site_url_name)
+     this.groupMenuDataSubscribe = this.http.get(API_URL+'siteinfo/sitedetails?link='+this.site_url_name)
      .pipe(
       take(1)
       ).subscribe(
@@ -307,7 +307,7 @@ export class AppComponent implements OnInit {
 
   // ================== view data fetch start =====================
   userDataGet(){
-    this.userDataSubscribe = this.http.get('student/dashboard').pipe(
+    this.userDataSubscribe = this.http.get(API_URL+'student/dashboard').pipe(
       take(1)
       ).subscribe(
       (res:any) => {

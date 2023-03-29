@@ -50,7 +50,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'forgetpassword/:link/:time',
+    path: 'forgetpassword/:link/:time/:type',
     component: ForgetPasswordComponent
   },
   {

@@ -21,7 +21,7 @@ export class InterceptorProvider implements HttpInterceptor {
     private authService : LoginService,
     private commonUtils: CommonUtils,
     private toastrService: ToastrService
-) {}
+  ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authorization;
@@ -63,7 +63,7 @@ export class InterceptorProvider implements HttpInterceptor {
 
     // Clone the request with params instead of setParams
     const requestClone = request.clone({
-      url: `${API_URL}/${request.url}`,
+      url: `${request.url}`,
       setHeaders: {
         'Authorization': authorization,
       }

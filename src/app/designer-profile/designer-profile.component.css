@@ -77,3 +77,16 @@
   overflow: visible !important;
   display: block !important;
 }
+
+#download {
+  display: none;
+}
+.descption .designer i {
+  float: right;
+  font-size: 16px;
+  color: #87c048;
+  border-radius: 50%;
+  padding: 6px;
+  border: 1px solid;
+  cursor: pointer;
+}

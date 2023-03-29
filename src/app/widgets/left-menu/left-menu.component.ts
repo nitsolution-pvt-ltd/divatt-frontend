@@ -4,9 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LandingFixService } from 'src/app/services/landing-fix.service';
+import { environment } from 'src/environments/environment';
 import { MENUITEMS, Menu } from './left-menu-items';
 declare var $: any;
-
+const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-left-menu',
   templateUrl: './left-menu.component.html',
@@ -52,7 +53,7 @@ export class LeftMenuComponent implements OnInit {
   getCategory()
   {
     let api = 'category/viewByCategoryName';
-    this.getCategoryList =  this.http.get(api).subscribe(
+    this.getCategoryList =  this.http.get(API_URL+api).subscribe(
       (res:any) => {
         console.log("MENULIST",res);
         this.lists = res;
@@ -68,7 +69,7 @@ export class LeftMenuComponent implements OnInit {
   getDesignerLebel()
   {
     let api = 'designer/getDesignerCategory';
-    this.getCategoryList =  this.http.get(api).subscribe(
+    this.getCategoryList =  this.http.get(API_URL+api).subscribe(
       (res:any) => {
         console.log("MENULIST",res);
         this.designerlists = res;
