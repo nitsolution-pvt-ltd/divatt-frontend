@@ -79,6 +79,7 @@ export class CheckoutComponent implements OnInit {
   giftWrapAmount: number = 0;
   totalUnits: number = 0;
   btnLoader: boolean;
+  curentDate;
   // Form Validator
   constructor(private fb: FormBuilder, private cartService: CartService, private http: HttpClient,
     private router: Router,
@@ -110,6 +111,9 @@ export class CheckoutComponent implements OnInit {
 
 
     this.commonFunction();
+    this.curentDate = new Date();
+    console.log('this.curentDate', this.curentDate);
+    
   }
 
   //  commonFunction start
@@ -794,6 +798,7 @@ export class CheckoutComponent implements OnInit {
         razorpay_signature: this.razorpay_signature
       },
       paymentStatus: paymentStatus,
+      dateTime: moment(this.curentDate).format('DD/MM/YYYY')+' '+moment(this.curentDate).format('H:mm:ss')
     }
     console.log("totalProducts", data);
 

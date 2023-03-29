@@ -62,40 +62,35 @@ export class HomeComponent implements OnInit {
   isLogin: boolean = false;
   followapi_url: any;
   designerloader: boolean = false;
-  public variantImage  :  any = ''; 
-  public selectedItem  :  any = '';
+  public variantImage: any = '';
+  public selectedItem: any = '';
   private designerListSubscribe: Subscription;
   private logoutDataSubscribe: Subscription;
   private designerFollowSubscribe: Subscription;
   designerListapi_url: string;
-  
-  
-  constructor(private productsService: ProductsService,private http : HttpClient,
+
+
+  constructor(private productsService: ProductsService, private http: HttpClient,
     private toastrService: ToastrService,
-    private activatedRoute : ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
-    private loginNav: LoginNavService, 
-    private authService:LoginService,
+    private loginNav: LoginNavService,
+    private authService: LoginService,
     private commonUtils: CommonUtils,
     private modalService: NgbModal,
-    private geolocationService: GeolocationService) { 
-      this.getPosition().then(pos => {
-        console.log(pos);
-      });
-    }
+    private geolocationService: GeolocationService) {
+    this.getPosition().then(pos => {
+      console.log(pos);
+    });
+  }
 
   ngOnInit() {
-  	// this.productsService.getProducts().subscribe(product => this.products = product);
-    
-    // this.allcompareproduct= JSON.parse(localStorage.getItem("compareItem"));
-    // product get api
-    
-    
+
     this.commonFunction();
 
     this.geolocationService.getLocation().subscribe((response) => {
       console.log('geolocationService', response);
-      
+
     })
   }
   public onIndexChange(index: number) {
@@ -119,24 +114,22 @@ export class HomeComponent implements OnInit {
     });
   }
   // user location end
-  commonFunction()
-  {
+  commonFunction() {
     this.api_url = 'user/product/list';
-   
+
     this.followapi_url = 'user/followDesigner'
     this.logoutDataSubscribe = this.authService.globalparamsData.subscribe(res => {
       console.log('(header)  globalparamsData res ssss >>>>>>>>>>>', res);
-      if(res != null || res != undefined){
+      if (res != null || res != undefined) {
         this.get_user_dtls = res.logininfo;
         console.log('this.get_user_dtls************', this.get_user_dtls);
         // user details set
         // referesh cart list
       }
     });
-    if(this.get_user_dtls)
-    {
-      this.designerListapi_url = 'designer/getDesignerDetails/all'+'?usermail='+this.get_user_dtls.email;
-    }else{
+    if (this.get_user_dtls) {
+      this.designerListapi_url = 'designer/getDesignerDetails/all' + '?usermail=' + this.get_user_dtls.email;
+    } else {
       this.designerListapi_url = 'designer/getDesignerDetails/all';
     }
     this.getDesignerList();
@@ -145,26 +138,24 @@ export class HomeComponent implements OnInit {
     this.getrecentProductList();
 
   }
-  getbestDesignerProductList()
-  {
-    this.productDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
-      (response:any) => {
+  getbestDesignerProductList() {
+    this.productDataSubscribe = this.http.get(API_URL + this.api_url).subscribe(
+      (response: any) => {
         this.bestSellerproducts = response;
-        console.log("this.products",this.bestSellerproducts);
+        console.log("this.products", this.bestSellerproducts);
         for (let index = 0; index < this.bestSellerproducts.length; index++) {
-          if(!this.bestSellerproducts[index].slug)
-          {
-            let name = this.bestSellerproducts[index].productDetails.productName.toLowerCase( );
+          if (!this.bestSellerproducts[index].slug) {
+            let name = this.bestSellerproducts[index].productDetails.productName.toLowerCase();
             this.bestSellerproducts[index].slug = name.replace(/ /g, "-");
           }
-          
+
         }
         // this.toastrService.success(response.message);
       },
       errRes => {
-        if(errRes.error.message){
+        if (errRes.error.message) {
           this.errorMsg = errRes.error.message;
-        }else if(errRes.error.messagee){
+        } else if (errRes.error.messagee) {
           this.errorMsg = errRes.error.messagee;
         } else {
           this.errorMsg = errRes.message
@@ -173,25 +164,23 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-  getnewProductList()
-  {
-    this.productDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
-      (response:any) => {
+  getnewProductList() {
+    this.productDataSubscribe = this.http.get(API_URL + this.api_url).subscribe(
+      (response: any) => {
         this.newProducts = response;
-        console.log("this.products",this.newProducts);
+        console.log("this.products", this.newProducts);
         for (let index = 0; index < this.newProducts.length; index++) {
-          if(!this.newProducts[index].slug)
-          {
-            let name = this.newProducts[index].productDetails.productName.toLowerCase( );
+          if (!this.newProducts[index].slug) {
+            let name = this.newProducts[index].productDetails.productName.toLowerCase();
             this.newProducts[index].slug = name.replace(/ /g, "-");
           }
         }
         // this.toastrService.success(response.message);
       },
       errRes => {
-        if(errRes.error.message){
+        if (errRes.error.message) {
           this.errorMsg = errRes.error.message;
-        }else if(errRes.error.messagee){
+        } else if (errRes.error.messagee) {
           this.errorMsg = errRes.error.messagee;
         } else {
           this.errorMsg = errRes.message
@@ -200,25 +189,23 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-  getrecentProductList()
-  {
-    this.productDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
-      (response:any) => {
+  getrecentProductList() {
+    this.productDataSubscribe = this.http.get(API_URL + this.api_url).subscribe(
+      (response: any) => {
         this.recentViewproducts = response;
-        console.log("this.products",this.recentViewproducts);
+        console.log("this.products", this.recentViewproducts);
         for (let index = 0; index < this.recentViewproducts.length; index++) {
-          if(!this.recentViewproducts[index].slug)
-          {
-            let name = this.recentViewproducts[index].productDetails.productName.toLowerCase( );
+          if (!this.recentViewproducts[index].slug) {
+            let name = this.recentViewproducts[index].productDetails.productName.toLowerCase();
             this.recentViewproducts[index].slug = name.replace(/ /g, "-");
           }
         }
         // this.toastrService.success(response.message);
       },
       errRes => {
-        if(errRes.error.message){
+        if (errRes.error.message) {
           this.errorMsg = errRes.error.message;
-        }else if(errRes.error.messagee){
+        } else if (errRes.error.messagee) {
           this.errorMsg = errRes.error.messagee;
         } else {
           this.errorMsg = errRes.message
@@ -227,8 +214,8 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-// opfollow start
-// onfollow end
+  // opfollow start
+  // onfollow end
   public bestDesignerproductSlideConfig: any = {
     infinite: true,
     speed: 300,
@@ -237,41 +224,41 @@ export class HomeComponent implements OnInit {
     autoplay: false,
     dots: true,
     autoplaySpeed: 3000,
-    nextArrow:"<div class='nav-btn next-slide fa fa-angle-right'></div>",
-    prevArrow:"<div class='nav-btn prev-slide fa fa-angle-left'></div>",
+    nextArrow: "<div class='nav-btn next-slide fa fa-angle-right'></div>",
+    prevArrow: "<div class='nav-btn prev-slide fa fa-angle-left'></div>",
     responsive: [{
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 5,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 427,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          arrows:false,
-          dots:false,
-        }
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 5,
+        dots: false,
       }
+    },
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        dots: false,
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        dots: false,
+      }
+    },
+    {
+      breakpoint: 427,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        arrows: false,
+        dots: false,
+      }
+    }
     ]
   };
   public newproductSlideConfig: any = {
@@ -282,41 +269,41 @@ export class HomeComponent implements OnInit {
     autoplay: false,
     dots: true,
     autoplaySpeed: 3000,
-    nextArrow:"<div class='nav-btn next-slide fa fa-angle-right'></div>",
-    prevArrow:"<div class='nav-btn prev-slide fa fa-angle-left'></div>",
+    nextArrow: "<div class='nav-btn next-slide fa fa-angle-right'></div>",
+    prevArrow: "<div class='nav-btn prev-slide fa fa-angle-left'></div>",
     responsive: [{
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 5,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 427,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          arrows:false,
-          dots:false,
-        }
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 5,
+        dots: false,
       }
+    },
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        dots: false,
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        dots: false,
+      }
+    },
+    {
+      breakpoint: 427,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        arrows: false,
+        dots: false,
+      }
+    }
     ]
   };
   public recentViewproductSlideConfig: any = {
@@ -327,127 +314,122 @@ export class HomeComponent implements OnInit {
     autoplay: false,
     dots: true,
     autoplaySpeed: 3000,
-    nextArrow:"<div class='nav-btn next-slide fa fa-angle-right'></div>",
-    prevArrow:"<div class='nav-btn prev-slide fa fa-angle-left'></div>",
+    nextArrow: "<div class='nav-btn next-slide fa fa-angle-right'></div>",
+    prevArrow: "<div class='nav-btn prev-slide fa fa-angle-left'></div>",
     responsive: [{
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 5,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          dots:false,
-        }
-      },
-      {
-        breakpoint: 427,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          arrows:false,
-          dots:false,
-        }
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 5,
+        dots: false,
       }
+    },
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        dots: false,
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        dots: false,
+      }
+    },
+    {
+      breakpoint: 427,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        arrows: false,
+        dots: false,
+      }
+    }
     ]
   };
   public addToCompare(product: Product) {
     console.log(product);
     this.productsService.addToCompare(product);
-    this.allcompareproduct= JSON.parse(localStorage.getItem("compareItem"));    
+    this.allcompareproduct = JSON.parse(localStorage.getItem("compareItem"));
   }
   // Change variant images
   public changeVariantImage(image) {
     this.variantImage = image;
-    this.selectedItem = image; 
+    this.selectedItem = image;
   }
-  designerlist=[];
-  getDesignerList()
-  {
+  designerlist = [];
+  getDesignerList() {
     this.designerloader = true;
-    this.designerlist=[];
-    console.log("UserName",this.get_user_dtls);
-    
-    this.designerListSubscribe = this.http.get(API_URL+this.designerListapi_url).subscribe(
-      (response:any) => {
-        console.log("Designerlist",response);
+    this.designerlist = [];
+    console.log("UserName", this.get_user_dtls);
+
+    this.designerListSubscribe = this.http.get(API_URL + this.designerListapi_url).subscribe(
+      (response: any) => {
+        console.log("Designerlist", response);
         // this.designerlist = response;
         for (let index = 0; index < response.length; index++) {
-          if(response[index].productCount > 0)
-          {
+          if (response[index].productCount > 0) {
             this.designerlist.push(response[index]);
           }
-          
+
         }
         this.designerloader = false;
         // this.toastrService.success(response.message);
 
       },
       errRes => {
-        console.log("error handeller >>@@",errRes );
+        console.log("error handeller >>@@", errRes);
         this.designerloader = false;
         this.toastrService.error(errRes.error.message);
       }
     );
   }
   // openfollowModal start
-  openfollowModal(_identifier,followmodal,designer:any) {
-    console.log("_identifier", _identifier,designer);
+  openfollowModal(_identifier, followmodal, designer: any) {
+    console.log("_identifier", _identifier, designer);
     // this.model = designer;
-      this.model = {
-        designerId:designer.dId,
-        userId:this.get_user_dtls.uid,
-        isFollowing:true,
-      }
-    if(_identifier == 'follow')
-    {
-    }else if(_identifier == 'unfollow')
-    {
-      this.model.isFollowing=false;
-      
+    this.model = {
+      designerId: designer.dId,
+      userId: this.get_user_dtls.uid,
+      isFollowing: true,
     }
-    this.designerFollowSubscribe = this.http.post(API_URL+this.followapi_url,this.model).subscribe(
-        (response:any) => {
-          console.log("response",response);
-          if(response.status === 200){
-            this.toastrService.success(response.message);
-            this.modalService.dismissAll();
-          }else {
-          }
-          this.getDesignerList();
-        },
-        errRes => {
-          console.log("error handeller >>@@",errRes );
-          if(errRes.error.message){
-            this.errorMsg = errRes.error.message;
-          }else if(errRes.error.messagee){
-            this.errorMsg = errRes.error.messagee;
-          } else {
-            this.errorMsg = errRes.message
-          }
-          this.toastrService.error(this.errorMsg);
+    if (_identifier == 'follow') {
+    } else if (_identifier == 'unfollow') {
+      this.model.isFollowing = false;
+
+    }
+    this.designerFollowSubscribe = this.http.post(API_URL + this.followapi_url, this.model).subscribe(
+      (response: any) => {
+        console.log("response", response);
+        if (response.status === 200) {
+          this.toastrService.success(response.message);
+          this.modalService.dismissAll();
+        } else {
         }
-      ); 
+        this.getDesignerList();
+      },
+      errRes => {
+        console.log("error handeller >>@@", errRes);
+        if (errRes.error.message) {
+          this.errorMsg = errRes.error.message;
+        } else if (errRes.error.messagee) {
+          this.errorMsg = errRes.error.messagee;
+        } else {
+          this.errorMsg = errRes.message
+        }
+        this.toastrService.error(this.errorMsg);
+      }
+    );
   }
   // openfollowModal end
-  openLoginNav()
-  {
+  openLoginNav() {
     this.loginNav.addNavLogin();
   }
-   // ----------- destroy unsubscription start ---------
+  // ----------- destroy unsubscription start ---------
   ngOnDestroy() {
     if (this.productDataSubscribe !== undefined) {
       this.productDataSubscribe.unsubscribe();
@@ -461,7 +443,7 @@ export class HomeComponent implements OnInit {
     if (this.designerFollowSubscribe !== undefined) {
       this.designerFollowSubscribe.unsubscribe();
     }
-    
+
   }
   // ----------- destroy unsubscription end ---------  
 }
