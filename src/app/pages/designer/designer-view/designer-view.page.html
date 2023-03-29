@@ -196,6 +196,7 @@
                                  </div>
                               </div>
                           </div>
+                          <!-- aadhar card -->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6  mb-2" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">
                           <!-- <div class="item">
                             <label>aadhar Card Image : </label>
@@ -211,11 +212,8 @@
                             <input type="hidden" name="aadharCard" [(ngModel)]="designerData.aadharCard">
                           </div>
                         </div>
+                        <!-- pan card -->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 mb-2" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">
-                          <!-- <div class="item">
-                            <label>pan Card image : </label>
-                            <div class="note"><img [src]="designerData?.designerPersonalInfoEntity?.designerDocuments?.panCard" alt=""> </div>
-                          </div> -->
                           <div class="form-item">
                             <div class="custom-file"  tabindex="-1" >
                               <input class="custom-file-input"  tabindex="-1"  id="panCard" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'panCard')" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}" required>
@@ -224,9 +222,33 @@
                               <mat-spinner  class="ml-0 small_loader mt-3" *ngIf="pan_loader"></mat-spinner>
                             </div>
                             <input type="hidden" name="panCard" [(ngModel)]="designerData.panCard">
-
                           </div>
                         </div>
+                        <!-- cancel cheque -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 mb-2" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">
+                            <div class="form-item">
+                              <div class="custom-file"  tabindex="-1" >
+                                <input class="custom-file-input"  tabindex="-1"  id="cancelCheck" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'cancelCheck')" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}" required>
+                                <label class="custom-file-label"  tabindex="-1"  for="cancelCheck" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">Cancel Cheque Image</label>
+                                <img [src]="designerData?.cancelCheck" *ngIf="!cancelCheck_loader  && designerData?.cancelCheck" (click)="openImg(designerData?.cancelCheck)"/>
+                                <mat-spinner  class="ml-0 small_loader mt-3" *ngIf="cancelCheck_loader"></mat-spinner>
+                              </div>
+                              <input type="hidden" name="cancelCheck" [(ngModel)]="designerData.cancelCheck">
+                            </div>
+                        </div>
+                        <!-- GST Certificate -->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 mb-2" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">
+                            <div class="form-item">
+                              <div class="custom-file"  tabindex="-1" >
+                                <input class="custom-file-input"  tabindex="-1"  id="gstCertificate" type="file" name="imageUrl" accept="image/*" (change)="handleInputChange($event,'gstCertificate')" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}" required>
+                                <label class="custom-file-label"  tabindex="-1"  for="gstCertificate" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">GST Certificate Image</label>
+                                <img [src]="designerData?.gstCertificate" *ngIf="!gstCertificate_loader  && designerData?.gstCertificate" (click)="openImg(designerData?.gstCertificate)"/>
+                                <mat-spinner  class="ml-0 small_loader mt-3" *ngIf="gstCertificate_loader"></mat-spinner>
+                              </div>
+                              <input type="hidden" name="gstCertificate" [(ngModel)]="designerData.gstCertificate">
+                            </div>
+                        </div>
+                        <!-- digital signature -->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 mb-2" [ngClass]="{'disabledclick': designerData?.profileStatus == 'APPROVE' || designerData?.isDeleted == true || designerData?.profileStatus == 'REJECTED'}">
                           <!-- <div class="item">
                             <label>Digital Signature : </label>

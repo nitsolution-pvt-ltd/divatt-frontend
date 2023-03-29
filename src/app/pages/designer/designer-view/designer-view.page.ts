@@ -34,6 +34,8 @@ export class DesignerViewPage implements OnInit {
   isProfileCompleted: any;
   aadhar_loader: boolean;
   pan_loader: boolean;
+  cancelCheck_loader: boolean;
+  gstCertificate_loader: boolean;
   digital_loader: boolean;
 
   constructor( public menuCtrl: MenuController,private http:HttpClient,
@@ -101,6 +103,14 @@ export class DesignerViewPage implements OnInit {
         {
           this.pan_loader = true;
 
+        }else if(identifier == 'cancelCheck')
+        {
+          this.cancelCheck_loader = true;
+
+        }else if(identifier == 'gstCertificate')
+        {
+          this.gstCertificate_loader = true;
+
         }else if(identifier == 'digitalSignature')
         {
           this.digital_loader = true;
@@ -118,6 +128,14 @@ export class DesignerViewPage implements OnInit {
         {
           this.pan_loader = false;
           this.designerData.panCard = res.path;
+        }else if(identifier == 'cancelCheck')
+        {
+          this.cancelCheck_loader = false;
+          this.designerData.cancelCheck = res.path;
+        }else if(identifier == 'gstCertificate')
+        {
+          this.gstCertificate_loader = false;
+          this.designerData.gstCertificate = res.path;
         }else if(identifier == 'digitalSignature')
         {
           this.digital_loader = false;
@@ -147,6 +165,8 @@ export class DesignerViewPage implements OnInit {
         this.designerData.gstin = res?.boutiqueProfile?.gstin;
         this.designerData.aadharCard = res?.designerPersonalInfoEntity?.designerDocuments?.aadharCard;
         this.designerData.panCard = res?.designerPersonalInfoEntity?.designerDocuments?.panCard;
+        this.designerData.cancelCheck = res?.designerPersonalInfoEntity?.designerDocuments?.cancelCheck;
+        this.designerData.gstCertificate = res?.designerPersonalInfoEntity?.designerDocuments?.gstCertificate;
         this.designerData.digitalSignature = res?.designerProfile?.digitalSignature;
         this.chart = {
           womenSizeType:res?.womenChartData?.sizeType,
@@ -329,6 +349,8 @@ export class DesignerViewPage implements OnInit {
             aadharCard:form.value.aadharCard,
             digitalSignature:form.value.digitalSignature,
             panCard:form.value.panCard,
+            cancelCheck:form.value.cancelCheck,
+            gstCertificate:form.value.gstCertificate,
           }
         },
        
