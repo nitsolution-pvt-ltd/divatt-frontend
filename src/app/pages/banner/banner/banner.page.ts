@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -244,6 +245,19 @@ export class BannerPage implements OnInit {
         this.model.end_Date = null;
       }
      
+    }
+    
+  }
+
+  dateFormatChange(_identifier, event: MatDatepickerInputEvent<Date>){
+    console.log('_identifier', _identifier);
+    console.log('_data', event);
+    if (_identifier == 'startDate') {
+      this.model.startDate = moment(event.value).format('YYYY/MM/DD');
+      console.log('this.model.startDate ', this.model.startDate );
+    }else if (_identifier == 'endDate') {
+      this.model.endDate = moment(event.value).format('YYYY/MM/DD');
+      console.log('this.model.endDate ', this.model.endDate );
     }
     
   }

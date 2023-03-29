@@ -15,7 +15,7 @@ import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@a
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorProvider } from './services/interceptors/interceptor';
 import { IonicStorageModule } from '@ionic/storage';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   providers: [
     MatDatepickerModule,
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     {provide: LocationStrategy, useClass: PathLocationStrategy},
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider,multi: true},

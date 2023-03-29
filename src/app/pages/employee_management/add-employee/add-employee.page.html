@@ -66,10 +66,18 @@
                   <!-- Date of birth -->
                   <ion-col size-xs="12" size-sm="12" size-md="4"  size-lg="4">
                     <div class="form-item">
-                      <mat-form-field appearance="outline">
+                      <!-- <mat-form-field appearance="outline">
                         <mat-label>Date of Birth</mat-label>
                         <input (change)="changeDateFormat('dateOfBirth', model.chkdob)" matInput placeholder="Date of Birth" type="date" name="chkdob" [(ngModel)]="model.chkdob" required>
+                      </mat-form-field> -->
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Date of Birth</mat-label>
+                        <input matInput (dateChange)="dateFormatChange('dob', $event)" (dateInput)="dateFormatChange('dob', $event)" [matDatepicker]="dob" placeholder="{{model.dob}}" name="chkdob" [(ngModel)]="model.chkdob" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                        <mat-datepicker #dob></mat-datepicker>
                       </mat-form-field>
+                      <input type="hidden" name="dob" [(ngModel)]="model.dob">
                     </div>
                   </ion-col>
                   <!-- Hidden -->

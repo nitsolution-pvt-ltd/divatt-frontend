@@ -76,9 +76,16 @@
                         <!-- effectiveDate -->
                         <ion-col size-xs="12" size-sm="6" size-md="4"  size-lg="4">
                           <div class="form-group">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <!-- <mat-form-field class="example-full-width" appearance="outline">
                               <mat-label>Effective Date</mat-label>
                               <input matInput type="date"  name="date"  [(ngModel)] = "model.date" (change)="changeDateFormat(model.date)" required>
+                            </mat-form-field> -->
+
+                            <mat-form-field appearance="outline">
+                              <mat-label>Effective Date</mat-label>
+                              <input matInput (dateChange)="dateFormatChange('effectiveDate', $event)" (dateInput)="dateFormatChange('effectiveDate', $event)" [matDatepicker]="effectiveDate" placeholder="{{model.effectiveDate}}" name="date" [(ngModel)]="model.date" readonly>
+                              <mat-datepicker-toggle matSuffix [for]="effectiveDate"></mat-datepicker-toggle>
+                              <mat-datepicker #effectiveDate></mat-datepicker>
                             </mat-form-field>
                           </div>
                           <!-- [min]="dateRange" -->

@@ -186,6 +186,15 @@ export class AddEmployeePage implements OnInit {
     // console.log('model.isntRegDate', this.model.isntRegDate);
 
   }
+
+  dateFormatChange(_identifier, event: MatDatepickerInputEvent<Date>){
+    console.log('_identifier', _identifier);
+    console.log('_data', event);
+    
+    this.model.dob = moment(event.value).format('YYYY/MM/DD');
+    console.log('this.model.dob ', this.model.dob );
+    
+  }
   // Date format change end
   
   // ---------- init start ----------

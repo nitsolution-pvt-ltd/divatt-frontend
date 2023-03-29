@@ -67,18 +67,32 @@
                         </ion-col>
                         <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="3">
                           <div class="form-group">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <!-- <mat-form-field class="example-full-width" appearance="outline">
                               <mat-label>Start Date</mat-label>
                               <input matInput type="date"  name="start_Date" [required]="model.start_Date" [(ngModel)] = "model.start_Date" [min]="currentDate" (change)="changeDateFormat(model.start_Date,'start',$event)" >
+                            </mat-form-field> -->
+
+                            <mat-form-field appearance="outline">
+                              <mat-label>Start Date</mat-label>
+                              <input matInput (dateChange)="dateFormatChange('startDate', $event)" (dateInput)="dateFormatChange('startDate', $event)" [min]="currentDate" [matDatepicker]="startDate" placeholder="{{model.startDate}}" name="start_Date" [(ngModel)]="model.start_Date" readonly>
+                              <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                              <mat-datepicker #startDate></mat-datepicker>
                             </mat-form-field>
                           </div>
                         </ion-col>
                         <input type="hidden" name="startDate" [(ngModel)]="model.startDate">
                         <ion-col size-xs="12" size-sm="6" size-md="6"  size-lg="3">
                           <div class="form-group">
-                            <mat-form-field class="example-full-width" appearance="outline">
+                            <!-- <mat-form-field class="example-full-width" appearance="outline">
                               <mat-label>End Date</mat-label>
                               <input matInput type="date"  name="end_Date" required [disabled]="!model.start_Date" [(ngModel)] = "model.end_Date" [min]="model.start_Date" (change)="changeDateFormat(model.end_Date,'end',$event)" >
+                            </mat-form-field> -->
+
+                            <mat-form-field appearance="outline">
+                              <mat-label>End Date</mat-label>
+                              <input matInput (dateChange)="dateFormatChange('endDate', $event)" (dateInput)="dateFormatChange('endDate', $event)" required [disabled]="!model.startDate" [min]="model.start_Date" [matDatepicker]="endDate" placeholder="{{model.endDate}}" name="end_Date" [(ngModel)]="model.end_Date" readonly>
+                              <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                              <mat-datepicker #endDate></mat-datepicker>
                             </mat-form-field>
                           </div>
                         </ion-col>

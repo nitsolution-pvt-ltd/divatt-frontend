@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController, ModalController, AlertController } from '@ionic/angular';
 import * as moment from 'moment';
@@ -124,6 +125,15 @@ export class AddHsnPage implements OnInit {
     
     this.model.effectiveDate = moment(date).format('YYYY/MM/DD');
   }
+
+  dateFormatChange(_identifier, event: MatDatepickerInputEvent<Date>){
+    console.log('_identifier', _identifier);
+    console.log('_data', event);
+    
+    this.model.effectiveDate = moment(event.value).format('YYYY/MM/DD');
+    console.log('this.model.effectiveDate ', this.model.effectiveDate );
+    
+  }
   /* -----------Image uploading start----------- */
   public imageSrc: string = '';
   public previewimageSrc: string = '';
@@ -185,6 +195,7 @@ export class AddHsnPage implements OnInit {
             // console.log(error);
             this.btnloader =false;
             this.commonUtils.presentToast('error', error.error.message);
+            this.commonUtils.presentToast('error', error.message);
         })
         // console.log("allda",this.allhsndata);
         
