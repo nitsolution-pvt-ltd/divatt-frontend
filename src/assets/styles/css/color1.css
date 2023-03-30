@@ -19149,9 +19149,9 @@ section.review .review_card_slider.slick-slider .slick-dots
 {
   font-size: 30px;
   color: #000;
-  white-space: nowrap;
+  /* white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
 .designer .profile_card  .name .boutiqueName img
 {
@@ -19224,19 +19224,18 @@ section.review .review_card_slider.slick-slider .slick-dots
   /* font-family: sans-serif; */
   font-size: 14px;
   margin-top: 20px;
-  word-break: break-all;
-  font-weight: 400; 
-  /* letter-spacing: 0.7px; */
-  display: -webkit-box;
-  line-height: 20px;
+  font-weight: 400;
   color: #000;
+  word-break: break-all;
+  display: -webkit-box;
   -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
   -ms-box-orient: vertical;
   box-orient: vertical;
-  -webkit-line-clamp: 5;
-  -moz-line-clamp: 5;
-  -ms-line-clamp: 5;
-  line-clamp: 5;
+  -webkit-line-clamp: 3;
+  -moz-line-clamp: 3;
+  -ms-line-clamp: 3;
+  line-clamp: 3;
   overflow: hidden;
 }
 .on-mobile

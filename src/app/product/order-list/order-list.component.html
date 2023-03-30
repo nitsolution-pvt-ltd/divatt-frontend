@@ -67,11 +67,11 @@
                 </div>
               </div>
               <div class="item_action">
-                <a style="min-width: 96px;font-size: 13px;"  (click)="askCancleOrder(item.orderId,product,cancelModal)" *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable == true && product.size!='Custom'" class="icon canclebtn" >
+                <a style="min-width: 96px;font-size: 13px;" (click)="askCancleOrder(item.orderId,product,cancelModal)" *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable == true && product.size!='Custom' && product.customizationStatus == false"  class="icon canclebtn" >
                   <i class="ti-close"></i>
                   <span>Cancel</span>
                 </a>
-                <a style="min-width: 96px;font-size: 13px;"   *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable != true || product.size=='Custom' && item?.paymentData && product.orderItemStatus == 'New'" class="icon canclebtn" >
+                <a style="min-width: 96px;font-size: 13px;"   *ngIf="item?.paymentData && product.orderItemStatus == 'New' && product.cancelAcceptable != true || product.size=='Custom' || product.customizationStatus== true && item?.paymentData && product.orderItemStatus == 'New'" class="icon canclebtn" >
                   <!-- <i class="ti-close"></i> -->
                   <span >No cancellation</span>
                 </a>
