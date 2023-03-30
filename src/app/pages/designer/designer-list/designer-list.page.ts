@@ -17,14 +17,14 @@ import { ModalPage } from "../../modal/modal.page";
   styleUrls: ["./designer-list.page.scss"],
 })
 export class DesignerListPage implements OnInit {
-  item:any={}
+  item: any = {}
   filttertype: any;
-  filttername='isProfileCompleated';
-  tabletitle= "Completed";
+  filttername = 'isProfileCompleated';
+  tabletitle = "Completed";
   showAction;
   profileStatus = "COMPLETED";
-  private  LebellistDataSubcribe: Subscription;
-  Lebellist=[];
+  private LebellistDataSubcribe: Subscription;
+  Lebellist = [];
   constructor(
     private http: HttpClient,
     public toastController: ToastController,
@@ -33,7 +33,7 @@ export class DesignerListPage implements OnInit {
     private commonUtils: CommonUtils,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
   tableListData = [];
   allselectModel;
   itemcheckClick = false;
@@ -44,7 +44,7 @@ export class DesignerListPage implements OnInit {
       display_name: "Display Name",
       sortingButtonName: "",
     }
-    ,{
+    , {
       column_name: "boutiqueName",
       display_name: "Boutique Name",
       sortingButtonName: "",
@@ -58,23 +58,23 @@ export class DesignerListPage implements OnInit {
       column_name: "firstName1",
       display_name: "Designer 1",
       sortingButtonName: "",
-    },{
+    }, {
       column_name: "firstName2",
       display_name: "Designer 2",
       sortingButtonName: "",
-    },{
+    }, {
       column_name: "email",
       display_name: "Email",
       sortingButtonName: "",
-    },{
+    }, {
       column_name: "mobileNo",
       display_name: "Mobile No",
       sortingButtonName: "",
-    },{
+    }, {
       column_name: "gender",
       display_name: "Gender",
       sortingButtonName: "",
-    },{
+    }, {
       column_name: "dob",
       display_name: "dob",
       sortingButtonName: "",
@@ -96,8 +96,8 @@ export class DesignerListPage implements OnInit {
   private deleteDataSubscribe: Subscription;
   private permissionDataSubscribe: Subscription;
   pagePermission;
-  categories:any;
-  model:any={}
+  categories: any;
+  model: any = {}
   // Variables end
 
   ngOnInit() {
@@ -112,18 +112,18 @@ export class DesignerListPage implements OnInit {
     /*Check permission status start*/
     this.authService.globalparamsData.subscribe(res => {
       // console.log('res>>', res);
-      if(res.authority == 'ADMIN'){
+      if (res.authority == 'ADMIN') {
         this.permissionDataSubscribe = this.commonUtils.menuPermissionObservable.subscribe(data => {
-          if(data){
+          if (data) {
             // console.log('menu>>', data);
             // console.log('this.router.url>>', this.router.url);
-    
+
             let pageUrl = this.router.url.split("/");
             // console.log('pageUrl', pageUrl);
-    
-            for(let item of data) {
-              if(item.modDetails.url == pageUrl[1]){
-                if(item.modPrivs.list == true){
+
+            for (let item of data) {
+              if (item.modDetails.url == pageUrl[1]) {
+                if (item.modPrivs.list == true) {
                   // console.log('-----Permission Granted-----');
                   this.pagePermission = item;
                   // console.log('this.pagePermission', this.pagePermission);
@@ -132,16 +132,16 @@ export class DesignerListPage implements OnInit {
                   // delete api
                   this.deleteApi = "adminMData/deleteDesignerLevels";
                   break;
-                }else {
+                } else {
                   // console.log('-------No Permission--------');
                   this.router.navigateByUrl('/error');
                 }
-                
+
               }
             }
           }
         })
-      }else {
+      } else {
         this.router.navigateByUrl('/error');
       }
     })
@@ -152,59 +152,59 @@ export class DesignerListPage implements OnInit {
   /*----------------Table list data start----------------*/
 
   // checkDesignerList start
-  checkDesignerList(_identifier){
+  checkDesignerList(_identifier) {
     this.pageNo = 0;
-    if(_identifier == 'completed'){
-      this.tabletitle= "Completed";
+    if (_identifier == 'completed') {
+      this.tabletitle = "Completed";
       this.showAction = "";
-      
+
       this.profileStatus = "COMPLETED";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-    }else if(_identifier == 'waitForApprove'){
-      this.tabletitle= "Waiting For Approve";
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    } else if (_identifier == 'waitForApprove') {
+      this.tabletitle = "Waiting For Approve";
       this.showAction = "waitForApprove";
 
       this.profileStatus = "waitForApprove";
       // this.profileStatus = "ACTIVE";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-    }else if(_identifier == 'waitForSubmit'){
-      this.tabletitle= "Approved";
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    } else if (_identifier == 'waitForSubmit') {
+      this.tabletitle = "Approved";
       this.showAction = "";
 
       this.profileStatus = "APPROVE";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-    }else if(_identifier == 'submitted'){
-      this.tabletitle= "Submitted";
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    } else if (_identifier == 'submitted') {
+      this.tabletitle = "Submitted";
       this.showAction = "submitted";
 
       this.profileStatus = "SUBMITTED";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-    }else if(_identifier == 'saved'){
-      this.tabletitle= "Saved";
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    } else if (_identifier == 'saved') {
+      this.tabletitle = "Saved";
       this.showAction = "Saved";
 
       this.profileStatus = "SAVED";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-    }else if(_identifier == 'rejected'){
-      this.tabletitle= "rejected";
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    } else if (_identifier == 'rejected') {
+      this.tabletitle = "rejected";
       this.showAction = "";
       this.profileStatus = "REJECTED";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-    }else if(_identifier == 'deleted'){
-      this.tabletitle= "Deleted";
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    } else if (_identifier == 'deleted') {
+      this.tabletitle = "Deleted";
       this.showAction = "";
       this.profileStatus = "";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-    }else if(_identifier == 'changeRequest'){
-      this.tabletitle= "Change Request";
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    } else if (_identifier == 'changeRequest') {
+      this.tabletitle = "Change Request";
       this.showAction = "changeRequest";
       this.profileStatus = "changeRequest";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-    }else if(_identifier == 'changeRequest'){
-      this.tabletitle= "Change Request";
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    } else if (_identifier == 'changeRequest') {
+      this.tabletitle = "Change Request";
       this.showAction = "changeRequest";
       this.profileStatus = "changeRequest";
-      this.onListDate( this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+      this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
     }
   }
   // checkDesignerList end
@@ -212,10 +212,10 @@ export class DesignerListPage implements OnInit {
   // Display records start
   displayRecord = 10;
   displayRecords = [
-    { id : '1', displayValue: 10},
-    { id : '2', displayValue: 25},
-    { id : '3', displayValue: 50},
-    { id : '4', displayValue: 100},
+    { id: '1', displayValue: 10 },
+    { id: '2', displayValue: 25 },
+    { id: '3', displayValue: 50 },
+    { id: '4', displayValue: 100 },
     // { id : '5', displayValue: '0'}
   ];
   displayRecordChange(_record) {
@@ -223,20 +223,19 @@ export class DesignerListPage implements OnInit {
 
     this.displayRecord = _record;
     this.pageNo = 0;
-    this.onListDate( this.listing_url, this.pageNo, _record,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+    this.onListDate(this.listing_url, this.pageNo, _record, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
   }
   // Display records end
   // List data start
-  onListDate( _listUrl, _pageNo, _displayRecord,_sortColumnName,filttertype ,_sortOrderName, _searchTerm, _profileStatus) 
-  {
+  onListDate(_listUrl, _pageNo, _displayRecord, _sortColumnName, filttertype, _sortOrderName, _searchTerm, _profileStatus) {
     this.isListLoading = true;
     // isDeleted=true
     let api;
-    if(this.tabletitle == 'Deleted'){
-     api =_listUrl+"?page="+_pageNo+"&limit="+_displayRecord+"&sortName="+_sortColumnName+"&sort="+_sortOrderName+"&keyword="+_searchTerm+"&isDeleted=true"+"&profileStatus="+_profileStatus;
+    if (this.tabletitle == 'Deleted') {
+      api = _listUrl + "?page=" + _pageNo + "&limit=" + _displayRecord + "&sortName=" + _sortColumnName + "&sort=" + _sortOrderName + "&keyword=" + _searchTerm + "&isDeleted=true" + "&profileStatus=" + _profileStatus;
 
-    }else{
-     api =_listUrl+"?page="+_pageNo+"&limit="+_displayRecord+"&sortName="+_sortColumnName+"&sort="+_sortOrderName+"&keyword="+_searchTerm+"&profileStatus="+_profileStatus;
+    } else {
+      api = _listUrl + "?page=" + _pageNo + "&limit=" + _displayRecord + "&sortName=" + _sortColumnName + "&sort=" + _sortOrderName + "&keyword=" + _searchTerm + "&profileStatus=" + _profileStatus;
 
     }
     this.tableListSubscribe = this.http.get(api).subscribe(
@@ -270,7 +269,7 @@ export class DesignerListPage implements OnInit {
     // console.log("page");
 
     this.pageNo = page;
-    this.onListDate( this.listing_url,this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName, this.searchTerm, this.profileStatus);
+    this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
   }
   // Pagination end
 
@@ -298,7 +297,7 @@ export class DesignerListPage implements OnInit {
     // console.log("this.sortOrderName", this.sortOrderName);
     // console.log("_tableHeaderData>>", _tableHeaderData);
 
-    this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName,this.searchTerm,this.profileStatus);
+    this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
   }
   // Sorting end
 
@@ -306,7 +305,7 @@ export class DesignerListPage implements OnInit {
   searchTerm: string = "";
   searchList(event) {
     this.searchTerm = event.target.value;
-    this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName,this.searchTerm,this.profileStatus);
+    this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
 
   }
   // Search end
@@ -320,7 +319,7 @@ export class DesignerListPage implements OnInit {
     this.tableValueType = "0";
     this.getLebellist();
     // table data call
-    this.onListDate(this.listing_url,this.pageNo,this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName,this.searchTerm,this.profileStatus);
+    this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
   }
   // Referesh end
 
@@ -330,22 +329,22 @@ export class DesignerListPage implements OnInit {
     let sentValues = { id: _id };
     this.deleteLoading = true;
     this.deleteDataSubscribe = this.http.put(this.deleteApi, sentValues).subscribe(
-        (res: any) => {
-          this.deleteLoading = false;
-          // // console.log("Delete data  res >", res.return_data);
-          if (res.status == 200) {
-            this.commonUtils.presentToast("success", res.message);
-            this.onRefresh();
-          } else {
-            this.commonUtils.presentToast("error", res.message);
-          }
-        },
-        (errRes) => {
-          // this.selectLoadingDepend = false;
-          this.commonUtils.presentToast("error", errRes.error.message);
-          this.deleteLoading = false;
+      (res: any) => {
+        this.deleteLoading = false;
+        // // console.log("Delete data  res >", res.return_data);
+        if (res.status == 200) {
+          this.commonUtils.presentToast("success", res.message);
+          this.onRefresh();
+        } else {
+          this.commonUtils.presentToast("error", res.message);
         }
-      );
+      },
+      (errRes) => {
+        // this.selectLoadingDepend = false;
+        this.commonUtils.presentToast("error", errRes.error.message);
+        this.deleteLoading = false;
+      }
+    );
   }
   // Delete end
 
@@ -401,22 +400,19 @@ export class DesignerListPage implements OnInit {
   }
   // selectLabel start
   labelValue;
-  selectLabel(value)
-  {
+  selectLabel(value) {
     this.labelValue = value.Name;
     // console.log("this.Lebellist",value,this.labelValue);
-    
+
   }
   // selectLabel end
-  changeStatus(type,actiontype,_item) {
+  changeStatus(type, actiontype, _item) {
     // console.log("_item",_item);
-    
-    if(actiontype == 'waitForApprove')
-    {
+
+    if (actiontype == 'waitForApprove') {
       var _items;
       var formData;
-      if(type == 'reject')
-      {
+      if (type == 'reject') {
         formData = {
           dId: _item.dId,
           uid: _item.uid,
@@ -427,9 +423,8 @@ export class DesignerListPage implements OnInit {
           isProfileSubmitted: _item.isProfileSubmitted,
         };
         this.openDesignerCommentmodal('Desigerrejected_modal', formData, _items);
-      }else if(type == 'approve')
-      {
-         formData = {
+      } else if (type == 'approve') {
+        formData = {
           dId: _item.dId,
           uid: _item.uid,
           isActive: _item.isActive,
@@ -450,16 +445,13 @@ export class DesignerListPage implements OnInit {
         //   }
         // );
       }
-    }else if(actiontype == 'submitted' || actiontype == 'changeRequest')
-    {
+    } else if (actiontype == 'submitted' || actiontype == 'changeRequest') {
       var profileStatus = 'REJECTED'
-      if(actiontype == 'changeRequest')
-      {
+      if (actiontype == 'changeRequest') {
         profileStatus = "COMPLETED";
       }
-      if(type == 'reject')
-      {
-          formData = {
+      if (type == 'reject') {
+        formData = {
           dId: _item.dId,
           uid: _item.uid,
           isActive: _item.isActive,
@@ -468,16 +460,15 @@ export class DesignerListPage implements OnInit {
           isDeleted: _item.isDeleted,
           isProfileCompleted: true,
           isProfileSubmitted: _item.isProfileSubmitted,
-          displayName:_item.designerProfileEntity.designerProfile.displayName,
-          designerCategory:_item.designerProfileEntity.designerProfile.designerCategory,
+          displayName: _item.designerProfileEntity.designerProfile.displayName,
+          designerCategory: _item.designerProfileEntity.designerProfile.designerCategory,
           // displayName:"Sonar Bangla",
           // designerCategory:"Neo",
         };
         this.openDesignerCommentmodal('Desigerrejected_modal', formData, _items);
-      }else if(type == 'approve')
-      {
-         formData = 
-         {
+      } else if (type == 'approve') {
+        formData =
+        {
           dId: _item.dId,
           uid: _item.uid,
           isActive: _item.isActive,
@@ -489,23 +480,23 @@ export class DesignerListPage implements OnInit {
           displayName: _item?.designerProfileEntity?.designerProfile?.displayName,
           // designerCategory: "Neo",
           // displayName: "Sonar Bangla",
-          designerProfileEntity:{
-            designerPersonalInfoEntity:{
-              bankDetails:{
-                accountNumber:_item?.designerProfileEntity?.designerPersonalInfoEntity?.bankDetails?.accountNumber,
-                bankName:_item?.designerProfileEntity?.designerPersonalInfoEntity?.bankDetails?.bankName,
-                ifscCode:_item?.designerProfileEntity?.designerPersonalInfoEntity?.bankDetails?.ifscCode,
+          designerProfileEntity: {
+            designerPersonalInfoEntity: {
+              bankDetails: {
+                accountNumber: _item?.designerProfileEntity?.designerPersonalInfoEntity?.bankDetails?.accountNumber,
+                bankName: _item?.designerProfileEntity?.designerPersonalInfoEntity?.bankDetails?.bankName,
+                ifscCode: _item?.designerProfileEntity?.designerPersonalInfoEntity?.bankDetails?.ifscCode,
               },
-              designerDocuments:{
-                aadharCard:_item?.designerProfileEntity?.designerPersonalInfoEntity?.designerDocuments?.aadharCard,
-                panCard:_item?.designerProfileEntity?.designerPersonalInfoEntity?.designerDocuments?.panCard,
+              designerDocuments: {
+                aadharCard: _item?.designerProfileEntity?.designerPersonalInfoEntity?.designerDocuments?.aadharCard,
+                panCard: _item?.designerProfileEntity?.designerPersonalInfoEntity?.designerDocuments?.panCard,
               }
             },
-            designerProfile:{
-              digitalSignature:_item?.designerProfileEntity?.designerProfile?.digitalSignature,
+            designerProfile: {
+              digitalSignature: _item?.designerProfileEntity?.designerProfile?.digitalSignature,
             },
-            boutiqueProfile:{
-              gstin:_item?.designerProfileEntity?.boutiqueProfile?.gstin
+            boutiqueProfile: {
+              gstin: _item?.designerProfileEntity?.boutiqueProfile?.gstin
             }
           }
         }
@@ -514,7 +505,7 @@ export class DesignerListPage implements OnInit {
           (res: any) => {
             this.commonUtils.presentToast("success", res.message);
             // this.getcategoryList();
-            this.onListDate( this.listing_url, this.pageNo,this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName,this.searchTerm, this.profileStatus);
+            this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
           },
           (error) => {
             this.commonUtils.presentToast("error", error.error.message);
@@ -523,9 +514,9 @@ export class DesignerListPage implements OnInit {
       }
     }
     // console.log('_item', _item);
-   
-    
-      
+
+
+
   }
   // select all check box start
   async openProductCommentmodal(_identifier, _item, _items) {
@@ -535,24 +526,24 @@ export class DesignerListPage implements OnInit {
     profile_modal = await this.modalController.create({
       component: ModalPage,
       cssClass: 'mymodalClass small openProductComment',
-      componentProps: { 
+      componentProps: {
         identifier: _identifier,
         modalForm_item: _item,
         modalForm_array: _items
       }
     });
-    
+
     // modal data back to Component
     profile_modal.onDidDismiss()
-    .then((getdata) => {
-      // console.log('getdata >>>>>>>>>>>', getdata);
-      this.onListDate( this.listing_url, this.pageNo,this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName,this.searchTerm, this.profileStatus);
+      .then((getdata) => {
+        // console.log('getdata >>>>>>>>>>>', getdata);
+        this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
 
-      if(getdata.data == 'submitClose'){
-        
-      }
+        if (getdata.data == 'submitClose') {
 
-    });
+        }
+
+      });
 
     return await profile_modal.present();
   }
@@ -648,12 +639,12 @@ export class DesignerListPage implements OnInit {
                 isProfileCompleted: _item.isProfileCompleted,
                 isProfileSubmitted: _item.isProfileSubmitted,
               };
-              this.changeStatusSubscribe = this.http.put("designer/designerProfileDelete?designerEmail="+_item.email,'').subscribe(
+              this.changeStatusSubscribe = this.http.put("designer/designerProfileDelete?designerEmail=" + _item.email, '').subscribe(
                 (res: any) => {
                   this.commonUtils.presentToast("success", res.message);
                   this.model = {};
                   this.getLebellist();
-                  this.onListDate( this.listing_url, this.pageNo,this.displayRecord,this.sortColumnName,this.filttertype,this.sortOrderName,this.searchTerm, this.profileStatus);
+                  this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
                 },
                 (error) => {
                   this.commonUtils.presentToast("error", error.error.message);
@@ -745,23 +736,23 @@ export class DesignerListPage implements OnInit {
     profile_modal = await this.modalController.create({
       component: ModalPage,
       cssClass: 'mymodalClass small openProductComment',
-      componentProps: { 
+      componentProps: {
         identifier: _identifier,
         modalForm_item: _item,
         modalForm_array: _items
       }
     });
-    
+
     // modal data back to Component
     profile_modal.onDidDismiss()
-    .then((getdata) => {
-      // console.log('getdata >>>>>>>>>>>', getdata);
-      this.onListDate(this.listing_url, this.pageNo, this.displayRecord,this.sortColumnName,this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
-      if(getdata.data == 'submitClose'){
-        
-      }
+      .then((getdata) => {
+        // console.log('getdata >>>>>>>>>>>', getdata);
+        this.onListDate(this.listing_url, this.pageNo, this.displayRecord, this.sortColumnName, this.filttertype, this.sortOrderName, this.searchTerm, this.profileStatus);
+        if (getdata.data == 'submitClose') {
 
-    });
+        }
+
+      });
 
     return await profile_modal.present();
   }
@@ -774,35 +765,34 @@ export class DesignerListPage implements OnInit {
     profile_modal = await this.modalController.create({
       component: ModalPage,
       cssClass: 'mymodalClass small rejectemodal',
-      componentProps: { 
+      componentProps: {
         identifier: _identifier,
         modalForm_item: _item,
         modalForm_array: _items
       }
     });
-    
+
     // modal data back to Component
     profile_modal.onDidDismiss()
-    .then((getdata) => {
-      
-      // console.log('getdata >>>>>>>>>>>', getdata);
-      if(getdata.data == 'submitClose'){
-        
-      }
+      .then((getdata) => {
 
-    });
+        // console.log('getdata >>>>>>>>>>>', getdata);
+        if (getdata.data == 'submitClose') {
+
+        }
+
+      });
 
     return await profile_modal.present();
   }
   // openRejectemodal end
   // getLebellist start
-  getLebellist()
-  {
-    this.LebellistDataSubcribe = this.http.get("adminMData/getDesignerCategory").subscribe((res:any) =>{
+  getLebellist() {
+    this.LebellistDataSubcribe = this.http.get("adminMData/getDesignerCategory").subscribe((res: any) => {
       this.Lebellist = res.data;
-      },error =>{
-        // console.log(error);
-        this.commonUtils.presentToast('error', error.error.message);
+    }, error => {
+      // console.log(error);
+      this.commonUtils.presentToast('error', error.error.message);
     })
   }
   // getLebellist end
@@ -817,10 +807,10 @@ export class DesignerListPage implements OnInit {
     if (this.changeStatusSubscribe !== undefined) {
       this.changeStatusSubscribe.unsubscribe();
     }
-    if(this.permissionDataSubscribe !== undefined){
+    if (this.permissionDataSubscribe !== undefined) {
       this.permissionDataSubscribe.unsubscribe();
     }
-    if(this.LebellistDataSubcribe !== undefined){
+    if (this.LebellistDataSubcribe !== undefined) {
       this.LebellistDataSubcribe.unsubscribe();
     }
   }
