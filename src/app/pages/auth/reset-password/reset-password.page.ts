@@ -33,6 +33,7 @@ export class ResetPasswordPage implements OnInit {
   btnloader: boolean;
   link: any;
   time: any;
+  type: any;
   newPass: any;
   data: any;
   errormsg: string;
@@ -50,6 +51,7 @@ export class ResetPasswordPage implements OnInit {
   ngOnInit() {
     this.link = this.activatedRoute.snapshot.params.link;
     this.time = this.activatedRoute.snapshot.params.linktime;
+    this.type = this.activatedRoute.snapshot.params.linktype;
   }
   onsubmitResetform(form:NgForm)
   {
@@ -57,7 +59,7 @@ export class ResetPasswordPage implements OnInit {
   
     this.data = {newPass:form.value.newPass};
     this.btnloader = true;
-    this.http.post("auth/resetPassword/"+this.link+"/"+this.time,this.data).subscribe(
+    this.http.post("auth/resetPassword/"+this.link+"/"+this.time+"/"+this.type+"=",this.data).subscribe(
       (res:any) => {
         // console.log("p",res);
         

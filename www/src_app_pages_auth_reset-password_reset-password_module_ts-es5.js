@@ -264,6 +264,7 @@
           value: function ngOnInit() {
             this.link = this.activatedRoute.snapshot.params.link;
             this.time = this.activatedRoute.snapshot.params.linktime;
+            this.type = this.activatedRoute.snapshot.params.linktype;
           }
         }, {
           key: "onsubmitResetform",
@@ -275,7 +276,7 @@
               newPass: form.value.newPass
             };
             this.btnloader = true;
-            this.http.post("auth/resetPassword/" + this.link + "/" + this.time, this.data).subscribe(function (res) {
+            this.http.post("auth/resetPassword/" + this.link + "/" + this.time + "/" + this.type + "=", this.data).subscribe(function (res) {
               // console.log("p",res);
               if (res.status == 200) {
                 _this.commonUtils.presentToast('success', res.message);

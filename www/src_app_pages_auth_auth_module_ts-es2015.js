@@ -29,7 +29,7 @@ const routes = [
         loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_pages_auth_forgot-password_forgot-password_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password/forgot-password.module */ 97002)).then(m => m.ForgotPasswordPageModule)
     },
     {
-        path: 'reset-password/:link/:linktime',
+        path: 'reset-password/:link/:linktime/:linktype',
         loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_pages_auth_reset-password_reset-password_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./reset-password/reset-password.module */ 92200)).then(m => m.ResetPasswordPageModule)
     }
 ];

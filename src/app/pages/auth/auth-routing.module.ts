@@ -13,7 +13,7 @@ const routes: Routes = [
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
   {
-    path: 'reset-password/:link/:linktime',
+    path: 'reset-password/:link/:linktime/:linktype',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   }
 ];

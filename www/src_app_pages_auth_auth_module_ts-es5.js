@@ -71,7 +71,7 @@
           });
         }
       }, {
-        path: 'reset-password/:link/:linktime',
+        path: 'reset-password/:link/:linktime/:linktype',
         loadChildren: function loadChildren() {
           return __webpack_require__.e(
           /*! import() */
