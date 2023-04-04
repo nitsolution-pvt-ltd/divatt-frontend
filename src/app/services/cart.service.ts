@@ -61,7 +61,8 @@ export class CartService {
   selectedSize
   public addToCart(product: Product, quantity: number): CartItem | boolean {
     console.log("get_user_dtls",this.get_user_dtls);
-    console.log("Products",products);
+    this.selectedSize = product.selectedSize;
+    console.log("Products----",products);
     console.log("product",product);
     
     if(this.get_user_dtls)
@@ -125,19 +126,40 @@ export class CartService {
       var item: CartItem | boolean = false;
       // If Products exist
       let hasItem = products.find((items, index) => {
-        console.log('Cart itemsOKK', items,'itemsOKK',products,'itemsOKKS',product);
+        console.log('items----', items,'/n','product----',product);
+        let oldSize = items.selectedSize;
         items.selectedSize = product.selectedSize;
         items.customization =  product.customization;
-        console.log('Cart itemsOKK', items);
+        console.log('Cart items---', items);
         // localStorage.removeItem('wishlistItem');
-        if(items.product.productId == product.productId) {
-          let qty = products[index].quantity + quantity;
-          let stock = this.calculateStockCounts(products[index], quantity);
-          if (qty != 0 && stock) {
-            products[index]['quantity'] = qty;
-            this.toastrService.success('Cart added succesfully');
-          }
-          return true;
+        console.log('product.selectedSize---',product.selectedSize,oldSize);
+        if(items.product.productId == product.productId && oldSize == product.selectedSize) {
+          // if(oldSize == product.selectedSize){
+            let qty = products[index].quantity + quantity;
+            let stock = this.calculateStockCounts(products[index], quantity);
+            if (qty != 0 && stock) {
+              products[index]['quantity'] = qty;
+              this.toastrService.success('Cart added succesfully');
+            }
+            return true;
+          // }
+          // else{
+          //   return false;
+          // }
+        }
+        // old
+        // if(items.product.productId == product.productId && oldSize == product.selectedSize) {
+        //   let qty = products[index].quantity + quantity;
+        //     let stock = this.calculateStockCounts(products[index], quantity);
+        //     if (qty != 0 && stock) {
+        //       products[index]['quantity'] = qty;
+        //       this.toastrService.success('Cart added succesfully');
+        //     }
+        //     return true;
+        // }
+        // old end
+        else{
+          
         }
       });
       // If Products does not exist (Add New Products)
