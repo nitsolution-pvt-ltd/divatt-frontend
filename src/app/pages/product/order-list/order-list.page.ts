@@ -53,7 +53,11 @@ export class OrderListPage implements OnInit {
       display_name: "Order Date",
       sortingButtonName: "",
     },
-    
+    {
+      column_name: "cancelationTime",
+      display_name: "Canceled Date",
+      sortingButtonName: "",
+    },
     {
       column_name: "mrp",
       display_name: "MRP",

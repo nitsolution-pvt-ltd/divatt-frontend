@@ -337,9 +337,10 @@
                                     #
                                 </div>
                             </th>                            
-                            <th *ngFor="let th of tableHeaderData" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
+                            <th *ngFor="let th of tableHeaderData"  [hidden]="th.column_name =='cancelationTime' && tableTitle !== 'cancelled'" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
                               <div>
-                                {{th.display_name}}
+                                <span>{{th.display_name}}</span>
+                                
                                 <mat-icon *ngIf="th.sortingButtonName == ''">import_export</mat-icon>
                                 <mat-icon *ngIf="th.sortingButtonName == 'ASC'">expand_less</mat-icon>
                                 <mat-icon *ngIf="th.sortingButtonName == 'DESC'">expand_more</mat-icon>
@@ -376,6 +377,10 @@
                         </td>
                         <td>
                           {{item?.createdOn}}
+                        </td>
+                        <td *ngIf="tableTitle == 'cancelled'">
+                          {{item?.orderStatusDetails?.cancelOrderDetails?.cancelationTime}}
+                          {{item?.orderStatusDetails?.cancelFromUser?.dateTime | date:'dd MMM yyy'}}
                         </td>
                         <td>
                           {{item?.mrp}}

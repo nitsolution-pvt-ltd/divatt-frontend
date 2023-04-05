@@ -5477,8 +5477,8 @@
         apiUrl: 'https://dev.divatt.com/dev',
         fileUrl: 'https://dev.divatt.com/dev' // apiUrl:'https://192.168.1.87:9095/default',
         // fileUrl:'https://192.168.1.87:9095/default'
-        // apiUrl:'https://192.168.1.148:9095/dev',
-        // fileUrl:'https://192.168.1.148:9095/dev'
+        // apiUrl:'https://192.168.1.8:9095/dev',
+        // fileUrl:'https://192.168.1.8:9095/dev'
 
       };
       /*
