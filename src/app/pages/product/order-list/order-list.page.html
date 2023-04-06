@@ -337,7 +337,7 @@
                                     #
                                 </div>
                             </th>                            
-                            <th *ngFor="let th of tableHeaderData"  [hidden]="th.column_name =='cancelationTime' && tableTitle !== 'cancelled'" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
+                            <th *ngFor="let th of tableHeaderData"  [hidden]="th.column_name =='createdOn' && tableTitle == 'cancelled' || th.column_name =='cancelationTime' && tableTitle !== 'cancelled'" (click)="isSortTableHeader(tableHeaderData, th)" class="ion-text-center">
                               <div>
                                 <span>{{th.display_name}}</span>
                                 
@@ -364,7 +364,7 @@
                           No data found
                         </td>
                       </tr>
-                      <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index">
+                      <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index" [routerLink]="['/', 'order-products-list', item?.orderId,item?.productId]">
                         <td>{{i + 1}}</td>
                         <td>
                           <a [routerLink]="['/', 'order-products-list', item?.orderId,item?.productId]" class="text-decoration-none">{{item?.orderId}}</a>
@@ -375,7 +375,7 @@
                         <td>
                           {{item?.displayName}}
                         </td>
-                        <td>
+                        <td *ngIf="tableTitle !== 'cancelled'">
                           {{item?.createdOn}}
                         </td>
                         <td *ngIf="tableTitle == 'cancelled'">
