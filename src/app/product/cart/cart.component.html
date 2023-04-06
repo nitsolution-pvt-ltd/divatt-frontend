@@ -22,73 +22,92 @@
 <!-- section start for localstorage-->
 <section class="cart-section cart-page section-b-space" *ngIf="localstorage">
   <div class="container pb-4">
-    <div class="col-sm-12 empty-cart-cls text-center" *ngIf="!shoppingCartItems.length">
+    <div class="col-sm-12 empty-cart-cls text-center" *ngIf="!data.length">
       <img src="assets/images/icon-empty-cart.png" class="img-fluid mb-4">
       <h3><strong>Your Cart is Empty</strong></h3>
       <h4>Add something to make me happy :)</h4>
     </div>
-    <div class="row" *ngIf='shoppingCartItems.length'>
-     <div class="col-lg-12 m-auto">
-        <div class="cart-item" *ngFor="let item of shoppingCartItems">
+    <div class="row" *ngIf='data.length'>
+      <div class="col-lg-12 m-auto">
+        <div class="cart-item" *ngFor="let item of data">
           <div class="item_image">
-            <a [routerLink]="'/product-detail/'+item?.product?.slug+'/'+item?.product?.productId">
-              <img [src]="item?.product?.images[0].large!=null ? item?.product?.images[0].large :  'assets/images/fashion/product/80.jpg'" alt="">
+            <a [routerLink]="'/product-detail/'+item?.slug+'/'+item?.productId">
+              <img
+                [src]="item?.images!=null ? item?.images :  'assets/images/fashion/product/80.jpg'"
+                alt="">
             </a>
           </div>
           <div class="item_descption">
             <div class="item_descption-inner">
               <div class="item_name">
-                <div class="designername mb-1" *ngIf="item?.product?.designerProfile?.displayName != null">{{item?.product?.designerProfile?.displayName}} </div>
-                <div class="designername mb-1" *ngIf="item?.product?.designerProfile?.displayName == null">Display Name </div>
-                <a [routerLink]="'/product-detail/'+item?.product?.slug+'/'+item?.product?.productId">{{ item?.product?.productDetails?.productName }}</a>
+                <div class="designername mb-1" *ngIf="item?.displayName != null">
+                  {{item?.displayName}} </div>
+                <div class="designername mb-1" *ngIf="item?.displayName == null">Display Name
+                </div>
+                <a [routerLink]="'/product-detail/'+item?.slug+'/'+item?.productId">{{
+                  item?.productName }}</a>
                 <div class="product_type size">
-                  Size: {{ item?.product?.selectedSize }}
+                  Size: {{ item?.selectedSize }}
+                  <!-- Size: {{ item?.product?.selectedSize }} old changes -->
                 </div>
               </div>
               <div class="qty-box">
                 <div class="input-group">
                   <span class="input-group-prepend">
-                  <button type="button" class="btn quantity-left-minus" [disabled]="item?.quantity == item?.product?.purchaseMinQuantity || item?.quantity < item?.product?.purchaseMinQuantity" (click)="decrement(item.product,item?.quantity)" data-type="minus" data-field="">
+                    <!-- <button type="button" class="btn quantity-left-minus" [disabled]="item?.quantity == item?.product?.purchaseMinQuantity || item?.quantity < item?.product?.purchaseMinQuantity" (click)="decrement(item.product,item?.quantity)" data-type="minus" data-field=""> old change-->
+                    <button type="button" class="btn quantity-left-minus"
+                      [disabled]="item?.quantity == item?.purchaseMinQuantity || item?.quantity < item?.purchaseMinQuantity"
+                      (click)="decrement(item,item?.selectedSize,item?.quantity)" data-type="minus"
+                      data-field="">
                     <i class="ti-minus"></i>
-                  </button>
-                </span>
-                  <input type="text" name="quantity" disabled class="form-control input-number" [(ngModel)]="item.quantity">
+                    </button>
+                  </span>
+                  <input type="text" name="quantity" disabled class="form-control input-number"
+                    [(ngModel)]="item.quantity">
                   <span class="input-group-prepend">
-                  <button type="button" class="btn quantity-right-plus" [disabled]="item?.quantity == item?.product?.purchaseMaxQuantity || item?.quantity > item?.product?.purchaseMaxQuantity" (click)="increment(item.product,item?.quantity)" data-type="plus" data-field="">
-                    <i class="ti-plus"></i>
-                  </button>
-                </span>
+                    <!-- <button type="button" class="btn quantity-right-plus" [disabled]="item?.quantity == item?.product?.purchaseMaxQuantity || item?.quantity > item?.product?.purchaseMaxQuantity" (click)="increment(item.product,item?.quantity)" data-type="plus" data-field="">  old change-->
+
+                    <!-- </button> -->
+                    <button type="button" class="btn quantity-right-plus"
+                      [disabled]="item?.quantity == item?.purchaseMaxQuantity || item?.quantity > item?.purchaseMaxQuantity"
+                      (click)="increment(item,item?.selectedSize,item?.quantity)" data-type="plus"
+                      data-field="">
+                      <i class="ti-plus"></i>
+                    </button>
+                  </span>
                 </div>
               </div>
               <div class="item_price">
-                <h5 class="td-color 2" *ngIf="item?.product?.deal?.salePrice || item?.product?.deal?.salePrice == 0">₹{{ item?.product?.deal?.salePrice * item.quantity }}</h5>
-                <h5 class="td-color 1" *ngIf="!item?.product?.deal?.salePrice && item?.product?.deal?.salePrice != 0">₹{{ item?.product?.mrp * item.quantity}}</h5>
+                <h5 class="td-color 2" *ngIf="item?.salePrice || item?.salePrice == 0">₹{{
+                  item?.salePrice * item.quantity }}</h5>
+                <h5 class="td-color 1" *ngIf="!item?.salePrice && item?.salePrice != 0">
+                  ₹{{ item?.mrp * item.quantity}}</h5>
               </div>
             </div>
             <div class="item_action">
-              <a  (click)="removeItem(item)" class="icon">
+              <a (click)="removeItem(item)" class="icon">
                 <i class="ti-close"></i>
               </a>
-              <a (click)="addToWishlist(item.product)" class="wishlist_icon">
-                <img src="assets/images/divattIcons/lock.png"  class="img-fluid wishlist_btn" alt="">
+              <a (click)="addToWishlist(item)" class="wishlist_icon">
+                <img src="assets/images/divattIcons/lock.png" class="img-fluid wishlist_btn" alt="">
               </a>
             </div>
           </div>
         </div>
       </div>
-      
+
     </div>
-   <div class="position-fixed cart-btn-section">
+    <div class="position-fixed cart-btn-section">
       <div class="total_price d-flex align-items-center" *ngIf="total_price">
-        <div class="price d-grid"> 
+        <div class="price d-grid">
           <div class="w-100 font-10">
             <!-- <span>Total:</span><span class="float-right"> {{ getTotal() | async | currency:productsService?.currency:'symbol'}}</span> -->
             <span>Total:</span><span class="float-right">₹ {{ total_price }}</span>
           </div>
         </div>
-        
-        <div class="btnBox" *ngIf='shoppingCartItems.length'>
-          <a  class="btn btn-solid" (click)="openLoginNav()">Login to Proceed</a>
+
+        <div class="btnBox" *ngIf='data.length'>
+          <a class="btn btn-solid" (click)="openLoginNav()">Login to Proceed</a>
         </div>
       </div>
     </div>
@@ -96,9 +115,9 @@
 </section>
 <!--section end localstorage-->
 <!-- section start for localstorage-->
-<div class="container" [ngClass]="{'d-none': loader}" *ngIf="shoppingCartItems.length && !localstorage">
+<div class="container" [ngClass]="{'d-none': loader}" *ngIf="data.length && !localstorage">
   <div class="w-100 mt-2" *ngIf="mulDelBtn">
-    <p class="text-right"> 
+    <p class="text-right">
       <a (click)="askToClearcart()" class="btn btn-link text-success"><u>Clear Cart</u></a>
     </p>
   </div>
@@ -106,7 +125,7 @@
 
 <section class="cart-section  cart-page section-b-space" *ngIf="!localstorage" [ngClass]="{'disabled': pageDisabled}">
   <div class="container pb-4">
-    <div class="col-sm-12 empty-cart-cls text-center" *ngIf="!shoppingCartItems.length" [ngClass]="{'d-none': loader}">
+    <div class="col-sm-12 empty-cart-cls text-center" *ngIf="!data.length" [ngClass]="{'d-none': loader}">
       <img src="assets/images/icon-empty-cart.png" class="img-fluid mb-4">
       <h3><strong>Your Cart is Empty.</strong></h3>
       <!-- <h4>Add something to make me happy :)</h4> -->
@@ -115,20 +134,23 @@
       <mat-spinner class="loader m-auto"></mat-spinner>
       <p class="mt-1 mb-0"><small><b>Loading..</b></small></p>
     </div>
-    <div class="row" *ngIf="shoppingCartItems.length">
-     <div class="col-lg-12 m-auto">
-        <div class="cart-item" *ngFor="let item of shoppingCartItems">
+    <div class="row" *ngIf="data.length">
+      <div class="col-lg-12 m-auto">
+        <div class="cart-item" *ngFor="let item of data">
           <div class="item_image">
             <a [routerLink]="'/product-detail/'+item?.slug+'/'+item?.productId">
-              <img [src]="item?.images[0].large!=null ? item?.images[0].large :  'assets/images/fashion/product/80.jpg'" alt="">
+              <img [src]="item?.images!=null ? item?.images :  'assets/images/fashion/product/80.jpg'"
+                alt="">
             </a>
           </div>
           <div class="item_descption">
             <div class="item_descption-inner">
               <div class="item_name">
-                <div class="designername mb-1" *ngIf="item?.designerProfile?.displayName != null">{{item?.designerProfile?.displayName}} </div>
-                <div class="designername mb-1" *ngIf="item?.designerProfile?.displayName == null">Disply Name </div>
-                <a [routerLink]="'/product-detail/'+item?.slug+'/'+item?.productId">{{ item?.productDetails?.productName }}</a>
+                <div class="designername mb-1" *ngIf="item?.displayName != null">
+                  {{item?.displayName}} </div>
+                <div class="designername mb-1" *ngIf="item?.displayName == null">Disply Name </div>
+                <a [routerLink]="'/product-detail/'+item?.slug+'/'+item?.productId">{{ item?.productName
+                  }}</a>
                 <div class="product_type size">
                   Size: {{ item?.selectedSize }}
                 </div>
@@ -136,13 +158,19 @@
               <div class="qty-box">
                 <div class="input-group">
                   <span class="input-group-prepend">
-                    <button type="button" class="btn quantity-left-minus" [disabled]="item.cartData.qty == item?.purchaseMinQuantity || item.cartData.qty < item?.purchaseMinQuantity" (click)="setQuantity('decrement',item,item.cartData.qty)" data-type="minus" data-field="">
+                    <button type="button" class="btn quantity-left-minus"
+                      [disabled]="item?.quantity == item?.purchaseMinQuantity || item?.quantity < item?.purchaseMinQuantity"
+                      (click)="setQuantity('decrement',item,item?.quantity)" data-type="minus" data-field="">
                       <i class="ti-minus"></i>
                     </button>
                   </span>
-                  <input type="text" name="quantity" disabled class="form-control input-number" min="1" [(ngModel)]="item.cartData.qty">
+                  <input type="text" name="quantity" disabled class="form-control input-number" min="1"
+                    [(ngModel)]="item.quantity">
                   <span class="input-group-prepend">
-                    <button type="button" [disabled]="item.cartData.qty == item?.purchaseMaxQuantity || item.cartData.qty > item?.purchaseMaxQuantity" class="btn quantity-right-plus" (click)="setQuantity('increment',item,item.cartData.qty)" data-type="plus" data-field="">
+                    <button type="button"
+                      [disabled]="item?.quantity == item?.purchaseMaxQuantity || item?.quantity > item?.purchaseMaxQuantity"
+                      class="btn quantity-right-plus" (click)="setQuantity('increment',item,item?.quantity)"
+                      data-type="plus" data-field="">
                       <i class="ti-plus"></i>
                     </button>
                   </span>
@@ -152,8 +180,10 @@
                 <h5 class="td-color">₹ {{item.cartData.qty * item?.deal?.salePrice}}</h5>
               </div> -->
               <div class="item_price">
-                <h5 class="td-color" *ngIf="item?.deal?.salePrice || item?.deal?.salePrice == 0">₹ {{ item?.deal?.salePrice * item.cartData.qty}}</h5>
-                <h5 class="td-color" *ngIf="!item?.deal?.salePrice && item?.deal?.salePrice != 0">₹ {{ item?.mrp * item.cartData.qty}}</h5>
+                <h5 class="td-color" *ngIf="item?.salePrice || item?.salePrice == 0">₹ {{
+                  item?.salePrice * item?.quantity}}</h5>
+                <h5 class="td-color" *ngIf="!item?.salePrice && item?.salePrice != 0">₹ {{ item?.mrp *
+                  item?.quantity}}</h5>
               </div>
             </div>
             <div class="item_action">
@@ -161,13 +191,13 @@
                 <i class="ti-close"></i>
               </a>
               <a (click)="addToWishlist(item)" class="wishlist_icon">
-                <img src="assets/images/divattIcons/lock.png"  class="img-fluid" alt="">
+                <img src="assets/images/divattIcons/lock.png" class="img-fluid" alt="">
               </a>
             </div>
           </div>
         </div>
       </div>
-      
+
     </div>
     <!-- <div class="row cart-buttons" *ngIf='shoppingCartItems.length'>
       <div class="col-6">
@@ -179,16 +209,16 @@
     </div> -->
     <div class="position-fixed cart-btn-section">
       <div class="total_price d-flex align-items-center">
-        <div class="price d-grid"> 
+        <div class="price d-grid">
           <div class="w-100 font-10 mb-1">
             <!-- <span>Total:</span><span class="float-right"> {{ getTotal() | async | currency:productsService?.currency:'symbol'}}</span> -->
             <span>Total:</span><span class="float-right">₹ {{ total_price}}</span>
           </div>
-          
+
           <!-- <p class="font-10 mb-2 text-right">GST include</p>
           <p class="font-10 m-0 text-right">* EXCL SHIPPING COST</p> -->
         </div>
-        
+
         <div class="btnBox" *ngIf='shoppingCartItems.length'>
           <a [routerLink]="['/address/shop']" class="btn btn-solid">Proceed</a>
         </div>
@@ -197,4 +227,3 @@
   </div>
 </section>
 <!--section end localstorage-->
-

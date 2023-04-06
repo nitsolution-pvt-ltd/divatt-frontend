@@ -32,12 +32,13 @@
           </a>
         </div>
         <div *ngIf="!isLogin">
-          <span class="cart_qty_cls">{{shoppingCartItems.length}}</span>
+          <span class="cart_qty_cls" *ngIf="data.length">{{data?.length}}</span>
+          <span class="cart_qty_cls" *ngIf="!data.length">0</span>
         
           </div>
         <div *ngIf="isLogin">
-          <span class="cart_qty_cls" *ngIf='shoppingCartItems.length'>{{shoppingCartItems?.length}}</span>
-          <span class="cart_qty_cls" *ngIf='!shoppingCartItems.length'>0</span>
+          <span class="cart_qty_cls" *ngIf='data.length'>{{data?.length}}</span>
+          <span class="cart_qty_cls" *ngIf='!data.length'>0</span>
         </div>
       </li>
       <li class="onhover-div mobile-setting">

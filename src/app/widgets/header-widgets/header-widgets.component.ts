@@ -54,6 +54,8 @@ export class HeaderWidgetsComponent implements OnInit {
   wishlistapi: string;
   getWishlistSubscribe: Subscription;
   errormsg: any;
+  data: any = [];
+  Data: any = [];
 
   constructor(private cartService: CartService,
     private authService:LoginService,
@@ -86,16 +88,48 @@ export class HeaderWidgetsComponent implements OnInit {
         this.isLogin = true;
         this.commonUtils.onClicksigninCheck(res);
         // referesh cart list
-        this.cartService.getCartListData();
-      }else{this.isLogin = false;}
+        this.Data = this.cartService.getCartListData();
+        console.log("Hearde Cart Count data....",this.Data);
+        
+      }else{
+        this.isLogin = false;
+        this.data = JSON.parse(localStorage.getItem("cartItem")) || [];
+        console.log("Catr Data Length",this.data);
+        
+      }
     });
 
 
     // cart list check start
-    this.cartDataSubscribe = this.commonUtils.onChangeCartList.subscribe((res:any) => {
-      console.log(' =========== Cart data  >>>>>>>>>>>', res);
+    this.cartDataSubscribe = this.commonUtils.onChangeCartList.subscribe((response:any) => {
+      console.log('=========== Cart data 12345  >>>>>>>>>>>', response);
       if(this.get_user_dtls) {
-        this.shoppingCartItems = res;
+        // this.shoppingCartItems   = response;
+        this.data = [];
+        for (let index = 0; index < response.length; index++) {
+          let Data = response[index].cartData;
+          for (let j = 0; j < Data.length; j++) {
+            this.data.push(
+              {
+              displayName:response[index].designerProfile.displayName,
+              productName:response[index].productDetails.productName,
+              images:response[index].images[0].large,
+              productId:response[index].productId,
+              slug:response[index].slug,
+              selectedSize:response[index].cartData[j].selectedSize,
+              purchaseMinQuantity:response[index].purchaseMinQuantity,
+              quantity:response[index].cartData[j].qty,
+              purchaseMaxQuantity:response[index].purchaseMaxQuantity,
+              salePrice:response[index].deal.salePrice,
+              mrp:response[index].mrp,
+              customization:response[index].cartData[j].customization,
+              id:response[index].cartData[j].id
+            }
+            )
+            console.log("Data Length...",this.data.length);
+            
+          }
+        }
       }
       
     });

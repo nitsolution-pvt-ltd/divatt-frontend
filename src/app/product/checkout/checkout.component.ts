@@ -80,6 +80,7 @@ export class CheckoutComponent implements OnInit {
   totalUnits: number = 0;
   btnLoader: boolean;
   curentDate;
+  data: any = [];
   // Form Validator
   constructor(private fb: FormBuilder, private cartService: CartService, private http: HttpClient,
     private router: Router,
@@ -238,44 +239,86 @@ export class CheckoutComponent implements OnInit {
       (response: any) => {
         console.log('Cart list', response);
         this.cartListData = response;
+        this.data = [];
+        for (let index = 0; index < this.cartListData.length; index++) {
+          let Data = response[index].cartData;
+          for (let j = 0; j < Data.length; j++) {
+            this.data.push(
+              {
+              displayName:response[index].designerProfile.displayName,
+              productName:response[index].productDetails.productName,
+              images:response[index].images[0].large,
+              productId:response[index].productId,
+              slug:response[index].slug,
+              selectedSize:response[index].cartData[j].selectedSize,
+              purchaseMinQuantity:response[index].purchaseMinQuantity,
+              quantity:response[index].cartData[j].qty,
+              purchaseMaxQuantity:response[index].purchaseMaxQuantity,
+              salePrice:response[index].deal.salePrice,
+              mrp:response[index].mrp,
+              customization:response[index].cartData[j].customization,
+              id:response[index].cartData[j].id,
+              taxValue:response[index].deal.taxAmount.taxValue,
+              dealType:response[index].deal.dealType,
+              state:response[index].designerProfile.state,
+              cgst:response[index].deal.taxAmount.cgst,
+              sgst:response[index].deal.taxAmount.sgst,
+              igst:response[index].deal.taxAmount.igst,
+              giftWrapAmount:response[index].giftWrapAmount,
+              cancelAcceptable:response[index].cancelAcceptable,
+              returnAcceptable:response[index].returnAcceptable,
+              colour:response[index].colour,
+              productSku:response[index].sku,
+              measurementObject:response[index].cartData[j].measurementObject,
+              cod:response[index].cod,
+              priceType:response[index].priceType,
+              designerId:response[index].designerId,
+              firstName1:response[index].designerProfile.firstName1,
+              lastName1:response[index].designerProfile.lastName1,
+              withDesignCustomization:response[index].withDesignCustomization,
+              withGiftWrap:response[index].withGiftWrap,
+            }
+            )
+          }
+        }
         var productTotal = 0, _mrp = 0, discountAmount = 0, amount = 0, _salePrice = 0, _basicAmount = 0, _afterDiscount = 0, producttax = 0, _discount = 0, _taxamount = 0, hsnData: any = {};
 
-        for (let index = 0; index < this.cartListData.length; index++) {
+        for (let index = 0; index < this.data.length; index++) {
 
-          _basicAmount = parseInt(((100 * this.cartListData[index].mrp) / (100 + this.cartListData[index].deal.taxAmount.taxValue)).toFixed(0))
-          amount = parseInt(((100 * this.cartListData[index].mrp) / (100 + this.cartListData[index].deal.taxAmount.taxValue)).toFixed(0))
+          _basicAmount = parseInt(((100 * this.data[index].mrp) / (100 + this.data[index].taxValue)).toFixed(0))
+          amount = parseInt(((100 * this.data[index].mrp) / (100 + this.data[index].taxValue)).toFixed(0))
 
-          if (this.cartListData[index].deal.dealType != 'None') {
-            discountAmount = parseInt(((100 * this.cartListData[index].deal.salePrice) / (100 + this.cartListData[index].deal.taxAmount.taxValue)).toFixed(0))
+          if (this.data[index].dealType != 'None') {
+            discountAmount = parseInt(((100 * this.data[index].salePrice) / (100 + this.data[index].taxValue)).toFixed(0))
             // _discount = parseInt((( 100 *this.cartListData[index].deal.salePrice) / ( 100 +this.cartListData[index].deal.taxAmount.taxValue)).toFixed(0))  * this.cartListData[index].cartData.qty
 
-            if (this.cartListData[index].deal.salePrice < discountAmount) {
-              _taxamount = parseInt((discountAmount - this.cartListData[index].deal.salePrice).toFixed(0)) * this.cartListData[index].cartData.qty;
+            if (this.data[index].salePrice < discountAmount) {
+              _taxamount = parseInt((discountAmount - this.data[index].salePrice).toFixed(0)) * this.data[index].quantity;
             }
             else {
-              _taxamount = parseInt((this.cartListData[index].deal.salePrice - discountAmount).toFixed(0)) * this.cartListData[index].cartData.qty;
+              _taxamount = parseInt((this.data[index].salePrice - discountAmount).toFixed(0)) * this.data[index].quantity;
             }
           }
           else {
-            _taxamount = (this.cartListData[index].mrp - amount) * this.cartListData[index].cartData.qty;
+            _taxamount = (this.data[index].mrp - amount) * this.data[index].quantity;
             // _discount= 0;
           }
-          if (this.cartListData[index].deal.salePrice != null && this.cartListData[index].deal.salePrice != 0) {
-            _salePrice = parseInt((this.cartListData[index].deal.salePrice * this.cartListData[index].cartData.qty).toFixed(2));
-            _mrp = parseInt((this.cartListData[index].mrp * this.cartListData[index].cartData.qty).toFixed(2));
-            productTotal = parseInt((this.cartListData[index].deal.salePrice * this.cartListData[index].cartData.qty).toFixed(2));
+          if (this.data[index].salePrice != null && this.data[index].salePrice != 0) {
+            _salePrice = parseInt((this.data[index].salePrice * this.data[index].quantity).toFixed(2));
+            _mrp = parseInt((this.data[index].mrp * this.data[index].quantity).toFixed(2));
+            productTotal = parseInt((this.data[index].salePrice * this.data[index].quantity).toFixed(2));
             // _discount = parseInt(((this.cartListData[index].mrp - this.cartListData[index].deal.salePrice) * this.cartListData[index].cartData.qty).toFixed(2));
-            _afterDiscount = parseInt(((100 * this.cartListData[index].deal.salePrice) / (100 + this.cartListData[index].deal.taxAmount.taxValue)).toFixed(0))
+            _afterDiscount = parseInt(((100 * this.data[index].salePrice) / (100 + this.data[index].taxValue)).toFixed(0))
           }
           else {
             _salePrice = 0;
-            _mrp = parseInt((this.cartListData[index].mrp * this.cartListData[index].cartData.qty).toFixed(2));
-            productTotal = parseInt((this.cartListData[index].mrp * this.cartListData[index].cartData.qty).toFixed(2));
+            _mrp = parseInt((this.data[index].mrp * this.data[index].quantity).toFixed(2));
+            productTotal = parseInt((this.data[index].mrp * this.data[index].quantity).toFixed(2));
           }
 
-          if (this.cartListData[index].deal.dealType != 'None') {
+          if (this.data[index].dealType != 'None') {
             // _discount = parseInt((( 100 * this.cartListData[index].deal.salePrice) / ( 100 + this.cartListData[index].deal.taxAmount.taxValue)).toFixed(0))
-            _discount = (_basicAmount - _afterDiscount) * this.cartListData[index].cartData.qty;
+            _discount = (_basicAmount - _afterDiscount) * this.data[index].quantity;
           } else {
             _discount = 0;
           }
@@ -284,8 +327,8 @@ export class CheckoutComponent implements OnInit {
           // {
           //   _taxamount = parseInt(((this.cartListData[index].mrp -  (( 100 * this.cartListData[index].mrp) / ( 100 + this.cartListData[index].deal.taxAmount.taxValue))) * this.cartListData[index].cartData.qty).toFixed(2));
           // }
-          _netAmount = parseInt((((100 * this.cartListData[index].mrp) / (100 + this.cartListData[index].deal.taxAmount.taxValue)) * this.cartListData[index].cartData.qty).toFixed(2));
-          this.totalUnits = this.totalUnits + this.cartListData[index].cartData.qty;
+          _netAmount = parseInt((((100 * this.data[index].mrp) / (100 + this.data[index].taxValue)) * this.data[index].quantity).toFixed(2));
+          this.totalUnits = this.totalUnits + this.data[index].quantity;
           console.log("_netAmount", _netAmount);
           this.netAmount = this.netAmount + _netAmount;
           this.discountAmount = this.discountAmount + _discount;
@@ -293,53 +336,53 @@ export class CheckoutComponent implements OnInit {
           this.mrpAmount = this.mrpAmount + _mrp;
           this.saleAmount = this.saleAmount + _salePrice;
           this.taxAmount = this.taxAmount + _taxamount;
-          console.log("this.taxAmount", this.taxAmount, _taxamount, this.cartListData[index].mrp);
+          console.log("this.taxAmount", this.taxAmount, _taxamount, this.data[index].mrp);
 
           // products
-          if (this.cartListData[index].designerProfile.state == this.showAddress.state) {
+          if (this.data[index].state == this.showAddress.state) {
             hsnData = {
-              cgst: this.cartListData[index].deal.taxAmount.cgst,
-              sgst: this.cartListData[index].deal.taxAmount.sgst
+              cgst: this.data[index].cgst,
+              sgst: this.data[index].sgst
             }
           }
           else {
-            hsnData = { igst: this.cartListData[index].deal.taxAmount.igst }
+            hsnData = { igst: this.data[index].igst }
           }
           const products = {
             hsnData: hsnData,
-            productId: this.cartListData[index].productId,
-            giftWrapAmount: this.cartListData[index].giftWrapAmount,
+            productId: this.data[index].productId,
+            giftWrapAmount: this.data[index].giftWrapAmount,
             discount: _discount,
-            size: this.cartListData[index].selectedSize,
-            productName: this.cartListData[index].productDetails.productName,
+            size: this.data[index].selectedSize,
+            productName: this.data[index].productName,
             orderItemStatus: "Active",
             reachedCentralHub: "",
-            cancelAcceptable: this.cartListData[index].cancelAcceptable,
-            returnAcceptable: this.cartListData[index].returnAcceptable,
-            images: this.cartListData[index].images[0].large,
-            colour: this.cartListData[index].colour,
-            productSku: this.cartListData[index].productSku,
-            units: this.cartListData[index].cartData.qty,
-            cod: this.cartListData[index].cod,
-            customization: this.cartListData[index].cartData.customization,
-            measurementObject: this.cartListData[index].cartData.measurementObject,
+            cancelAcceptable: this.data[index].cancelAcceptable,
+            returnAcceptable: this.data[index].returnAcceptable,
+            images: this.data[index].images,
+            colour: this.data[index].colour,
+            sku: this.data[index].sku,
+            units: this.data[index].quantity,
+            cod: this.data[index].cod,
+            customization: this.data[index].customization,
+            measurementObject: this.data[index].measurementObject,
             customizationStatus: false,
             giftwrapStatus: false,
             customObject: {},
             giftWrapObject: {},
-            mrp: parseInt((this.cartListData[index].mrp * this.cartListData[index].cartData.qty).toFixed(2)),
-            salesPrice: parseInt((this.cartListData[index].deal.salePrice * this.cartListData[index].cartData.qty).toFixed(2)),
+            mrp: parseInt((this.data[index].mrp * this.data[index].quantity).toFixed(2)),
+            salesPrice: parseInt((this.data[index].salePrice * this.data[index].quantity).toFixed(2)),
             taxRate: 0,
             taxAmount: _taxamount,
-            taxType: this.cartListData[index].priceType,
-            designerId: this.cartListData[index].designerId,
-            displayName: this.cartListData[index].designerProfile.displayName,
-            designerName: this.cartListData[index].designerProfile.firstName1 + ' ' + this.cartListData[index].designerProfile.lastName1,
+            taxType: this.data[index].priceType,
+            designerId: this.data[index].designerId,
+            displayName: this.data[index].displayName,
+            designerName: this.data[index].firstName1 + ' ' + this.data[index].lastName1,
             userId: this.get_user_dtls.uid,
             user_id: this.get_user_dtls.uid
           }
-          if (this.cartListData[index].deal.taxAmount.taxValue) {
-            products.taxRate = this.cartListData[index].deal.taxAmount.taxValue;
+          if (this.data[index].taxValue) {
+            products.taxRate = this.data[index].taxValue;
           }
           console.log('getCartListData', '_taxamount', _taxamount, '_discount', _discount, 'discountAmount', this.discountAmount, 'total', this.total, 'mrpAmount', this.mrpAmount, '_mrp', _mrp, 'productTotal', productTotal, '_salePrice', _salePrice);
           this.orderProducts.push(products);
@@ -379,6 +422,7 @@ export class CheckoutComponent implements OnInit {
         //   {
         this.orderProducts[index].customizationStatus = false;
         this.orderProducts[index].customObject = {}
+        
         //   } 
         // }
       } else if (identifire == 'giftwrap') {
@@ -388,7 +432,9 @@ export class CheckoutComponent implements OnInit {
         for (let index = 0; index < this.orderProducts.length; index++) {
           if (this.selectedProduct.productId == this.orderProducts[index].productId) {
             this.orderProducts[index].giftwrapStatus = false;
-            this.orderProducts[index].giftWrapObject = {}
+            this.orderProducts[index].giftWrapObject = {};
+            console.log("this.orderProducts[index].giftWrapObject...",this.orderProducts[index].giftWrapObject);
+            
           }
           console.log("orderProducts", this.orderProducts, this.total, this.orderProducts[index].giftWrapAmount);
 
@@ -411,6 +457,25 @@ export class CheckoutComponent implements OnInit {
     console.log("orderProducts", this.orderProducts, this.total, this.orderProducts[index].giftWrapAmount);
 
   }
+  // Edit Design Customization Start
+  editDesignGift(content: any, item: any, identifire,index: any){
+    this.selectedProduct = item;
+      this.selectedIdentifire = identifire;
+      this.modal.index = false;
+    this.modalService.open(content, { size: 'sm' });
+    if(this.selectedIdentifire == 'customization'){
+      this.model={
+        customizationDetails: this.orderProducts[index].customObject.customizationDetails
+      }
+    }else if(this.selectedIdentifire == 'giftwrap')
+    
+    this.model={
+      from:this.orderProducts[index].giftWrapObject.from,
+      to:this.orderProducts[index].giftWrapObject.to,
+      message:this.orderProducts[index].giftWrapObject.message
+    }
+  }
+  // Edit Design Customization End
   ordersCustomizationSubmit(form: NgForm) {
     if (form.value.customizationDetails == '') {
       this.index = false;
@@ -425,7 +490,6 @@ export class CheckoutComponent implements OnInit {
     }
     form.reset();
     this.modalService.dismissAll();
-
     console.log("orderProducts", this.orderProducts);
   }
   ordersGiftSubmit(form: NgForm) {

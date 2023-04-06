@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Product } from '../../classes/product';
 import { CartItem } from '../../classes/cart-item';
 import { ProductsService } from '../../services/products.service';
@@ -39,10 +39,11 @@ export class CartComponent implements OnInit {
   mulDelBtn: boolean;
   loader: boolean;
   noLoader: boolean;
+  data: any = [];
   constructor(private productsService: ProductsService,
     private cartService: CartService,private wishlistService: WishlistService,
     private authService: LoginService,private toastrService:ToastrService,
-    private http:HttpClient,private loginNav: LoginNavService,private commonUtils: CommonUtils,) { }
+    private http:HttpClient,private loginNav: LoginNavService,private commonUtils: CommonUtils,private changeDetector: ChangeDetectorRef,) { }
 
   ngOnInit() {
     this.mulDelBtn = true;
@@ -81,12 +82,37 @@ export class CartComponent implements OnInit {
         // Call wish list data 
         this.getCartListData();
         this.localstorage = false;
+      }else{
+        this.data = [];
+        let data = JSON.parse(localStorage.getItem("cartItem")) || [];
+        for (let j = 0; j < data.length; j++) {
+          this.data.push(
+            {
+            displayName:data[j].product.designerProfile.displayName,
+            productName:data[j].product.productDetails.productName,
+            images:data[j].product.images[0].large,
+            productId:data[j].product.productId,
+            slug:data[j].product.slug,
+            selectedSize:data[j].selectedSize,
+            purchaseMinQuantity:data[j].product.purchaseMinQuantity,
+            quantity:data[j].quantity,
+            purchaseMaxQuantity:data[j].product.purchaseMaxQuantity,
+            salePrice:data[j].product.deal.salePrice,
+            mrp:data[j].product.mrp,
+            customization:data[j].customization,
+            
+          }
+          )
+        }
       }
     });
   }
   // commonFunction end
   //  get wish list after login start
+  
   getCartListData() {
+    console.log('getCartListData');
+    
     if(this.noLoader == true)
     {
       this.loader = false;
@@ -100,31 +126,58 @@ export class CartComponent implements OnInit {
         this.loader = false;
         console.log('Cart list', response);
         this.shoppingCartItems = response;
+        this.data = [];
+        for (let index = 0; index < this.shoppingCartItems.length; index++) {
+          let Data = response[index].cartData;
+          for (let j = 0; j < Data.length; j++) {
+            this.data.push(
+              {
+              displayName:response[index].designerProfile.displayName,
+              productName:response[index].productDetails.productName,
+              images:response[index].images[0].large,
+              productId:response[index].productId,
+              slug:response[index].slug,
+              selectedSize:response[index].cartData[j].selectedSize,
+              purchaseMinQuantity:response[index].purchaseMinQuantity,
+              quantity:response[index].cartData[j].qty,
+              purchaseMaxQuantity:response[index].purchaseMaxQuantity,
+              salePrice:response[index].deal.salePrice,
+              mrp:response[index].mrp,
+              customization:response[index].cartData[j].customization,
+              id:response[index].cartData[j].id
+            }
+            )
+            this.changeDetector.detectChanges();
+            // this.data = response[index].cartData[j];
+            console.log("All Shopping Cart quantity...",this.data.quantity);
+            console.log("All Shopping Cart Items length...",this.data);
+          }
+        }
         this.total_price = 0
         var getitemTotal = 0
-        for (let index = 0; index < this.shoppingCartItems.length; index++) {
-          if(!this.shoppingCartItems[index].slug)
+        for (let index = 0; index < this.data.length; index++) {
+          if(!this.data[index].slug)
           {
-            let name = this.shoppingCartItems[index].productDetails.productName.toLowerCase( );
-            this.shoppingCartItems[index].slug = name.replace(/ /g, "-");
+            let name = this.data[index].productName.toLowerCase( );
+            this.data[index].slug = name.replace(/ /g, "-");
           }
           
         }
         console.log('this.shoppingCartItems',this.shoppingCartItems);
         
-        for(let i = 0;i < response.length; i++)
+        for(let i = 0;i < this.data.length; i++)
         {
 
-          if(response[i].deal.salePrice || response[i].deal.salePrice == 0)
+          if(this.data[i].salePrice || this.data[i].salePrice == 0)
           {
-            getitemTotal = response[i].cartData.qty * response[i].deal.salePrice
+            getitemTotal = this.data[i].quantity * this.data[i].salePrice
           }else{
-            getitemTotal = response[i].cartData.qty * response[i].mrp
+            getitemTotal = this.data[i].quantity * this.data[i].mrp
           }
           this.total_price = this.total_price + getitemTotal;
         }
         
-        console.log("shoppingCartItems",this.shoppingCartItems,this.shoppingCartItems.length);
+        // console.log("shoppingCartItems",this.shoppingCartItems,this.shoppingCartItems.length);
        
         // this.toastrService.success(response.message); 
         if(response.status == 200)
@@ -162,8 +215,8 @@ export class CartComponent implements OnInit {
           userId:this.get_user_dtls.uid,
           productId:product.productId,
           selectedSize:product.selectedSize,
-          customization:product.cartData.customization,
-          qty:qty
+          customization:product.customization,
+          qty:qty,
         }
         this.setQuantityApiCall(data);
       }
@@ -181,7 +234,7 @@ export class CartComponent implements OnInit {
           userId:this.get_user_dtls.uid,
           productId:product.productId,
           selectedSize:product.selectedSize,
-          customization:product.cartData.customization,
+          customization:product.customization,
           qty:qty
         }
         this.setQuantityApiCall(data);
@@ -191,12 +244,19 @@ export class CartComponent implements OnInit {
       }
     }
   }
+  item: any ={};
   setQuantityApiCall(data)
   {
     this.pageDisabled = true;
     this.setQtySubscribe = this.http.put(API_URL+this.setqtyapi,data).subscribe(
       (response: any) => {
-       this.model.quantity = response.qty;
+        console.log("setQuantityApiCall....",response);
+        
+      //  this.item = {
+      //   quantity:response.qty
+      //  }
+      //  console.log("this.model.quantity",this.item.quantity );
+       
        this.pageDisabled = false;
        this.noLoader = true;
         this.getCartListData()
@@ -210,11 +270,16 @@ export class CartComponent implements OnInit {
     );
   }
   // Add to wishlist
+  product: any;
   public addToWishlist(product: Product) {
     this.wishlistService.addToWishlist(product);
   }
   // Increase Product Quantity
-  public increment(product: any, quantity: number) {
+  public increment(product: any, size:any, quantity: number) {
+    console.log("size...",size);
+    product.selectedSize = size;
+    console.log("product...",product.selectedSize);
+    
     if(quantity < product.purchaseMaxQuantity )
     {
       this.cartService.updateCartQuantity(product,1);
@@ -224,10 +289,21 @@ export class CartComponent implements OnInit {
       this.toastrService.warning('Maximum purchase quantity for this item is ' + product.purchaseMaxQuantity)
     }
   }
+  // public increment(product: any, quantity: number) {
+  //   if(quantity < product.purchaseMaxQuantity )
+  //   {
+  //     this.cartService.updateCartQuantity(product,1);
+  //     this.getTotal()
+  //   }
+  //   else{
+  //     this.toastrService.warning('Maximum purchase quantity for this item is ' + product.purchaseMaxQuantity)
+  //   }
+  // } //old change
   
   // Decrease Product Quantity
-  public decrement(product: any, quantity: number) {
+  public decrement(product: any, size: any, quantity: number) {
     console.log(product);
+    product.selectedSize = size;
     
     if(quantity > product.purchaseMinQuantity )
     {
@@ -238,6 +314,18 @@ export class CartComponent implements OnInit {
       this.toastrService.warning('Minimum purchase quantity for this item is ' + product.purchaseMinQuantity)
     }
   }
+  // public decrement(product: any, quantity: number) {
+  //   console.log(product);
+    
+  //   if(quantity > product.purchaseMinQuantity )
+  //   {
+  //     this.cartService.updateCartQuantity(product,-1);
+  //     this.getTotal()
+  //   }
+  //   else{
+  //     this.toastrService.warning('Minimum purchase quantity for this item is ' + product.purchaseMinQuantity)
+  //   }
+  // } //old change
   
   // Get Total
   // public getTotal(): Observable<number> {
