@@ -80,32 +80,6 @@
 </section>
 <!-- Top designer end -->
 
-<!-- Near By Product start -->
-<section class="section-b-spac p-t-0 pt-0">
-  <div class="title1  section-t-space pt-0">
-      <h2 class="title-inner1 pt-0">Nearby Products</h2>
-  </div>
-  <div class="container-fluid fixed-width two-on-small nospace-mobile">
-    <div class="row">
-      <div class="col">
-        <ngx-slick-carousel class="product-4 product-m no-arrow product-slider" #slickModal="slick-carousel" [config]="bestDesignerproductSlideConfig">
-          <div ngxSlickItem class="product-box" *ngFor="let nearByItem of nearByProductList">
-             <app-product [product]="nearByItem"></app-product>   
-          </div>
-        </ngx-slick-carousel>
-      </div>
-    </div>
-    <div class="row justify-content-center empty-cart-cls" *ngIf="!nearByProductList.length">
-      <div class="text-center">
-        <img src="assets/images/no-product-found.png" alt="" class="opacity-6">
-        <p class="custom-title">No product found!!</p>
-      </div>
-      
-    </div>
-  </div>
-</section>
-<!-- Near By Product end -->
-
 <!-- Bestseller start -->
 <section class="section-b-spac p-t-0 pt-0">
   <div class="title1  section-t-space pt-0">

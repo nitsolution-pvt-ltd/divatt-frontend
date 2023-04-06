@@ -61,6 +61,7 @@ export class BillingAddressComponent implements OnInit {
   loader: boolean;
   identifire: string;
   addressViewType: any;
+  data = [];
 
   // public payPalConfig ? : PayPalConfig;
 
@@ -160,6 +161,7 @@ export class BillingAddressComponent implements OnInit {
   }
   selectAddress: any = false;
   addressSelected(data) {
+    this.action = '';
     console.log('addressSelected', data);
     this.model = {};
     this.selectAddress = data.id;
@@ -279,6 +281,8 @@ export class BillingAddressComponent implements OnInit {
   // onSubmitAddressForm start
   onSubmitAddressForm(form: NgForm) {
     console.log("form.value", form.value);
+    console.log('this.action',this.action);
+    
     // this.selectAddress = true;
     if (!form.value.ask) {
       form.value.ask = false;
@@ -289,7 +293,9 @@ export class BillingAddressComponent implements OnInit {
       || form.value.state == undefined || form.value.city == undefined || form.value.landmark == undefined
       || form.value.postalCode == undefined) {
       if (!this.selectAddress) {
-        this.toastrService.warning('Fill the details..');
+        this.toastrService.error('Fill all the details.');
+      }else {
+        this.action = '';
       }
 
       // this.action = 'add';
@@ -399,14 +405,49 @@ export class BillingAddressComponent implements OnInit {
     this.getCartlistSubscribe = this.http.get(API_URL + this.cartlistapi).subscribe(
       (response: any) => {
         console.log('Cart list', response);
+        this.data = [];
+        for (let index = 0; index < response.length; index++) {
+          let Data = response[index].cartData;
+          for (let j = 0; j < Data.length; j++) {
+            this.data.push(
+              {
+              displayName:response[index].designerProfile.displayName,
+              productName:response[index].productDetails.productName,
+              images:response[index].images[0].large,
+              productId:response[index].productId,
+              slug:response[index].slug,
+              selectedSize:response[index].cartData[j].selectedSize,
+              purchaseMinQuantity:response[index].purchaseMinQuantity,
+              quantity:response[index].cartData[j].qty,
+              purchaseMaxQuantity:response[index].purchaseMaxQuantity,
+              salePrice:response[index].deal.salePrice,
+              mrp:response[index].mrp,
+              customization:response[index].cartData[j].customization,
+              id:response[index].cartData[j].id
+            }
+            )
+            
+          }
+        }
         // this.shoppingCartItems = response;
         this.total_price = 0
         var getitemTotal = 0
-        for (let i = 0; i < response.length; i++) {
-          if (response[i].deal.salePrice || response[i].deal.salePrice == 0) {
-            getitemTotal = response[i].cartData.qty * response[i].deal.salePrice;
-          } else {
-            getitemTotal = response[i].cartData.qty * response[i].mrp;
+        for (let index = 0; index < this.data.length; index++) {
+          if(!this.data[index].slug)
+          {
+            let name = this.data[index].productName.toLowerCase( );
+            this.data[index].slug = name.replace(/ /g, "-");
+          }
+          
+        }
+        for(let i = 0;i < this.data.length; i++)
+        {
+
+          if(this.data[i].salePrice || this.data[i].salePrice == 0)
+          {
+            getitemTotal = this.data[i].quantity * this.data[i].salePrice
+          }else{
+            getitemTotal = this.data[i].quantity * this.data[i].mrp
           }
           this.total_price = this.total_price + getitemTotal;
         }
@@ -534,9 +575,12 @@ export class BillingAddressComponent implements OnInit {
   }
   proceedClick() {
     console.log('proceedClick');
-    this.action = '';
+    if (this.selectAddress) {
+      this.action = '';
+    }
     if (!this.selectAddress || this.selectAddress == '' || this.selectAddress == null || this.selectAddress == undefined) {
       console.log('if');
+      console.log('this.selectAddress',this.selectAddress);
       
     } else {
       console.log('else');

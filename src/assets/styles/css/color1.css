@@ -4801,6 +4801,73 @@ header {
 .theme-modal.cart-modal .modal-dialog .modal-content .modal-body .product-upsell h4 {
   font-weight: 600;
 }
+/* modal msg box */
+.modal-body .chat-messages::-webkit-scrollbar{
+  width: 2px;
+background-color: transparent;
+}
+.modal-body .chat-messages::-webkit-scrollbar-thumb{
+  background-color: transparent;
+border: 0;
+}
+
+.modal-body .message-box-holder {
+  width: 100%;
+  margin: 0 0 15px;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+}
+
+.modal-body .message-sender {
+  font-size: 12px;
+  margin: 0 0 15px;
+  color: #30649c;
+  align-self: flex-start;
+}
+
+.modal-body .message-sender a, .modal-body .message-sender a:link, .modal-body .message-sender a:visited, .modal-body .chat-partner-name a, .modal-body .chat-partner-name a:link, .modal-body .chat-partner-name a:visited {
+  color: #30649c;
+  text-decoration: none;
+}
+
+.modal-body .message-box {
+  padding: 6px 10px;
+  border-radius: 6px 0 6px 0;
+  position: relative;
+  background: rgba(100, 170, 0, .1);
+  border: 2px solid rgba(100, 170, 0, .1);
+  color: #6c6c6c;
+  font-size: 12px;
+}
+
+.modal-body .message-box:after {
+  /* // content: ""; */
+  position: absolute;
+  border: 10px solid transparent;
+  border-top: 10px solid rgba(100, 170, 0, .2);
+  border-right: none;
+  bottom: -22px;
+  right: 10px;
+}
+
+.modal-body .message-partner {
+  background: rgba(0, 114, 135, .1);
+  border: 2px solid rgba(0, 114, 135, .1);
+  align-self: flex-start;
+}
+
+.modal-body .message-partner:after {
+  right: auto;
+  bottom: auto;
+  top: -22px;
+  left: 9px;
+  border: 10px solid transparent;
+  border-bottom: 10px solid rgba(0, 114, 135, .2);
+  border-left: none;
+}
+/* Modal msg box end  */
+
 .theme-modal.exit-modal .media .media-body h4 {
   font-size: 20px;
   line-height: 1.2;

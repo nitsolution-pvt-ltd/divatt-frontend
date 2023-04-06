@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit {
   public recentViewproducts: Product[] = []
   allcompareproduct: any;
   private productDataSubscribe: Subscription;
-  private getNearbyProductSubscribe: Subscription;
   api_url: string;
   errorMsg: any;
   model: any = {};
@@ -70,8 +69,6 @@ export class HomeComponent implements OnInit {
   private designerFollowSubscribe: Subscription;
   designerListapi_url: string;
   currentLatLng;
-  nearByProduct_url;
-  nearByProductList;
 
   constructor(private productsService: ProductsService, private http: HttpClient,
     private toastrService: ToastrService,
@@ -92,12 +89,9 @@ export class HomeComponent implements OnInit {
     this.getPosition().then(pos => {
       this.currentLatLng = pos;
       console.log('currentLatLng', this.currentLatLng);
-
-      this.nearByProduct_url = "/designer/getDesignerByArea?page=0&limit=15&sortBy=id&longitude=" + pos.lng + "&latitude=" + pos.lat;
-
-      this.getNearbyProduct();
+      this.commonFunction();
     });
-    this.commonFunction();
+    
 
     this.geolocationService.getLocation().subscribe((response) => {
       console.log('geolocationService', response);
@@ -141,9 +135,9 @@ export class HomeComponent implements OnInit {
       }
     });
     if (this.get_user_dtls) {
-      this.designerListapi_url = 'designer/getDesignerDetails/all' + '?usermail=' + this.get_user_dtls.email;
+      this.designerListapi_url = 'designer/getDesignerDetails/all' + '?usermail=' + this.get_user_dtls.email+"&longitude=" + this.currentLatLng.lng + "&latitude=" + this.currentLatLng.lat;
     } else {
-      this.designerListapi_url = 'designer/getDesignerDetails/all';
+      this.designerListapi_url = "designer/getDesignerDetails/all?longitude=" + this.currentLatLng.lng + "&latitude=" + this.currentLatLng.lat;
     }
     this.getDesignerList();
     this.getbestDesignerProductList();
@@ -202,19 +196,7 @@ export class HomeComponent implements OnInit {
       }
     );
   }
-  /* --------Near by product start-------- */
-  getNearbyProduct() {
-    this.getNearbyProductSubscribe = this.http.get(API_URL + this.nearByProduct_url).subscribe(
-      (response: any) => {
-        console.log('getNearbyProduct', response);
-        this.nearByProductList = response;
-      },
-      errRes => {
-
-      }
-    );
-  }
-  /* Near by product end */
+  
   getrecentProductList() {
     this.productDataSubscribe = this.http.get(API_URL + this.api_url).subscribe(
       (response: any) => {
@@ -459,9 +441,6 @@ export class HomeComponent implements OnInit {
   ngOnDestroy() {
     if (this.productDataSubscribe !== undefined) {
       this.productDataSubscribe.unsubscribe();
-    }
-    if (this.getNearbyProductSubscribe !== undefined) {
-      this.getNearbyProductSubscribe.unsubscribe();
     }
     if (this.designerListSubscribe !== undefined) {
       this.designerListSubscribe.unsubscribe();
