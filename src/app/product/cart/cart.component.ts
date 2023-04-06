@@ -344,18 +344,18 @@ export class CartComponent implements OnInit {
   // getTotal start
   getTotal()
   {
-    var allcart:any = {};
+    // var allcart:any = {};
     this.total_price = 0
     var getitemTotal = 0;
-    allcart = this.shoppingCartItems;
-    
-    for(let i = 0;i < this.shoppingCartItems.length; i++)
+    // allcart = this.shoppingCartItems;
+    this.data = [];
+    for(let i = 0;i < this.data.length; i++)
     {
-      if(allcart[i].product.deal.salePrice || allcart[i].product.deal.salePrice == 0)
+      if(this.data[i].salePrice || this.data[i].salePrice == 0)
       {
-        getitemTotal =  allcart[i].quantity *  allcart[i].product.deal.salePrice
+        getitemTotal =  this.data[i].quantity *  this.data[i].salePrice;
       }else{
-        getitemTotal =  allcart[i].quantity *  allcart[i].product.mrp
+        getitemTotal =  this.data[i].quantity *  this.data[i].mrp;
       }
       this.total_price = this.total_price + getitemTotal;
     }

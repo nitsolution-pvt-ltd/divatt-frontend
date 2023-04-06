@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Options } from '@angular-slider/ngx-slider';
 import { delay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { LoginService } from 'src/app/services/auth/auth.service';
 const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-product-collection',
@@ -58,6 +59,7 @@ export class ProductCollectionComponent implements OnInit {
   xyz
   public loader: boolean;
   private designerListSubscribe: Subscription;
+  public logoutDataSubscribe: any;
   cod: string = '';
   customization: string = '';
   giftWrap: string = '';
@@ -109,12 +111,15 @@ export class ProductCollectionComponent implements OnInit {
   noProductfound: boolean;
   searchCategoryName: string;
   activatedRoutecategory: any;
+  alldesigners = [];
+  get_user_dtls: any;
   constructor(private route: ActivatedRoute,
     private toastrService: ToastrService,
     private router: Router,
     private productsService: ProductsService,
     private fix: LandingFixService,
     private activatedRoute: ActivatedRoute,
+    private authService: LoginService,
     private _cdr: ChangeDetectorRef,
     private http: HttpClient, private wishlistService: WishlistService,) {
     this.route.params.subscribe(event => {
@@ -213,6 +218,15 @@ export class ProductCollectionComponent implements OnInit {
         this.getSubcategory(this.activatedRoute.snapshot.params.category)
       }
     }
+
+    this.logoutDataSubscribe = this.authService.globalparamsData.subscribe(res => {
+      console.log('(header)  globalparamsData res ssss >>>>>>>>>>>', res);
+      if (res != null || res != undefined) {
+        this.get_user_dtls = res.logininfo;
+        console.log('this.get_user_dtls************', this.get_user_dtls);
+      }
+    });
+
     this.getalldata();
     this.allproducts = [];
     this.getProductList();
@@ -521,6 +535,7 @@ export class ProductCollectionComponent implements OnInit {
     this.categoryTagsArray = [];
     this.subcategoryTagsArray = [];
     this.allproducts = [];
+
     this.page = 0;
     this.getProductList();
     console.log(this.designerTagsArray);
@@ -552,6 +567,9 @@ export class ProductCollectionComponent implements OnInit {
         this.loader = false;
         // console.log('this.allproducts',this.allproducts,response);
         this.countproducts = response.data;
+        this.alldesigners = response.designerProfile;
+        console.log('DesignerProfile', this.alldesigners);
+        
         if (this.allproducts.length != 0) {
           for (let index = 0; index < response.data.length; index++) {
             if (this.allproducts[index].productId != response.data[index].productId) {
