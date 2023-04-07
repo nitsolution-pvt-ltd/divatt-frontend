@@ -323,7 +323,18 @@ let AccountsPage = class AccountsPage {
         this.endYear = moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY');
         this.currentMonth = moment__WEBPACK_IMPORTED_MODULE_2__().format('MMMM');
         this.model.year = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY'));
-        // // console.log("this.endYear.......", this.endYear);
+        this.model.month = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('MM'));
+        this.selectedMonth = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('MM'));
+        let day = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('DD'));
+        console.log("this.day.......", day);
+        if (day < 16) {
+            this.model.settlement = 'firstSettlement';
+            this.settlement = 'firstSettlement';
+        }
+        else {
+            this.model.settlement = 'secondSettlement';
+            this.settlement = 'secondSettlement';
+        }
         // // console.log("this.model.year.....", this.model.year);
         this.selectedYear = this.model.year;
         if (this.model.year == this.endYear) {
@@ -860,7 +871,7 @@ let AccountsPage = class AccountsPage {
     }
     // public filteredDesignerList = this.designerList.slice();
     genarateExcle() {
-        var url = 'account/excelReport?designerReturn=' + this.designerReturn + '&serviceCharge=' + this.serviceCharge + '&govtCharge=' + this.govtCharge + '&order_status=' + this.order_status + '&ReturnStatus=' + this.ReturnStatus + '&settlement=' + this.settlement + '&year=' + this.selectedYear + '&month=' + this.selectedMonth;
+        var url = 'account/excelReport?designerReturn=' + this.designerReturn + '&serviceCharge=' + this.serviceCharge + '&govtCharge=' + this.govtCharge + '&order_status=' + this.order_status + '&ReturnStatus=' + this.ReturnStatus + '&settlement=' + this.settlement + '&year=' + this.selectedYear + '&month=' + this.selectedMonth + '&designerId=' + this.designerId;
         this.http.get(url, { responseType: 'blob' }).subscribe(data => {
             const file = new File([data], "Divatt-payments-report-" + this.currentDateTime + '.xlsx', { type: 'application/vnd.ms-excel' });
             file_saver__WEBPACK_IMPORTED_MODULE_7__.saveAs(file);

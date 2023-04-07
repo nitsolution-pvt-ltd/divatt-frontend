@@ -598,8 +598,20 @@
             this.checkedList = [];
             this.endYear = moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY');
             this.currentMonth = moment__WEBPACK_IMPORTED_MODULE_2__().format('MMMM');
-            this.model.year = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY')); // // console.log("this.endYear.......", this.endYear);
-            // // console.log("this.model.year.....", this.model.year);
+            this.model.year = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('YYYY'));
+            this.model.month = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('MM'));
+            this.selectedMonth = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('MM'));
+            var day = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('DD'));
+            console.log("this.day.......", day);
+
+            if (day < 16) {
+              this.model.settlement = 'firstSettlement';
+              this.settlement = 'firstSettlement';
+            } else {
+              this.model.settlement = 'secondSettlement';
+              this.settlement = 'secondSettlement';
+            } // // console.log("this.model.year.....", this.model.year);
+
 
             this.selectedYear = this.model.year;
 
@@ -1291,7 +1303,7 @@
           value: function genarateExcle() {
             var _this8 = this;
 
-            var url = 'account/excelReport?designerReturn=' + this.designerReturn + '&serviceCharge=' + this.serviceCharge + '&govtCharge=' + this.govtCharge + '&order_status=' + this.order_status + '&ReturnStatus=' + this.ReturnStatus + '&settlement=' + this.settlement + '&year=' + this.selectedYear + '&month=' + this.selectedMonth;
+            var url = 'account/excelReport?designerReturn=' + this.designerReturn + '&serviceCharge=' + this.serviceCharge + '&govtCharge=' + this.govtCharge + '&order_status=' + this.order_status + '&ReturnStatus=' + this.ReturnStatus + '&settlement=' + this.settlement + '&year=' + this.selectedYear + '&month=' + this.selectedMonth + '&designerId=' + this.designerId;
             this.http.get(url, {
               responseType: 'blob'
             }).subscribe(function (data) {

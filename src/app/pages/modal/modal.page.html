@@ -546,9 +546,9 @@
                   <div class="form-group">
                     <mat-radio-group name="status" [(ngModel)]="model.status">
                       <mat-radio-button [disabled]="get_item?.designer_return_amount[0]?.status == 'RETURN'"
-                        value="RETURN">RETURN</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                        value="RETURN">Paid</mat-radio-button>&nbsp;&nbsp;&nbsp;
                       <mat-radio-button [disabled]="get_item?.designer_return_amount[0]?.status == 'RETURN'"
-                        value="NOT RETURN">NOT RETURN</mat-radio-button>
+                        value="NOT RETURN">Unpaid</mat-radio-button>
                     </mat-radio-group>
                   </div>
                 </ion-col>

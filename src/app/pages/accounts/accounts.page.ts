@@ -209,7 +209,17 @@ export class AccountsPage implements OnInit {
     this.endYear = moment().format('YYYY');
     this.currentMonth = moment().format('MMMM');
     this.model.year = parseInt(moment().format('YYYY'));
-    // // console.log("this.endYear.......", this.endYear);
+    this.model.month = parseInt(moment().format('MM'));
+    this.selectedMonth = parseInt(moment().format('MM'));
+    let day = parseInt(moment().format('DD'));
+    console.log("this.day.......", day);
+    if (day < 16) {
+      this.model.settlement = 'firstSettlement';
+      this.settlement = 'firstSettlement';
+    }else {
+      this.model.settlement = 'secondSettlement';
+      this.settlement = 'secondSettlement';
+    }
 
     // // console.log("this.model.year.....", this.model.year);
     this.selectedYear = this.model.year;
@@ -799,7 +809,7 @@ export class AccountsPage implements OnInit {
 
   // public filteredDesignerList = this.designerList.slice();
   genarateExcle() {
-    var url = 'account/excelReport?designerReturn=' + this.designerReturn + '&serviceCharge=' + this.serviceCharge + '&govtCharge=' + this.govtCharge + '&order_status=' + this.order_status + '&ReturnStatus=' + this.ReturnStatus + '&settlement=' + this.settlement + '&year=' + this.selectedYear + '&month=' + this.selectedMonth;
+    var url = 'account/excelReport?designerReturn=' + this.designerReturn + '&serviceCharge=' + this.serviceCharge + '&govtCharge=' + this.govtCharge + '&order_status=' + this.order_status + '&ReturnStatus=' + this.ReturnStatus + '&settlement=' + this.settlement + '&year=' + this.selectedYear + '&month=' + this.selectedMonth + '&designerId=' + this.designerId;
 
     this.http.get(url, { responseType: 'blob' }).subscribe(data => {
 
