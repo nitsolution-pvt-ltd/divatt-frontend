@@ -67,7 +67,7 @@ export class CartService {
     
     if(this.get_user_dtls)
     {
-      console.log("product",product);
+      
       console.log("get_user_dtls",this.get_user_dtls);
       var data:any = [];
       if(products.length > 0){
@@ -122,12 +122,13 @@ export class CartService {
       
     }
     else{
+      console.log("product12345678...",product);
       console.log("get_user_dtls",this.get_user_dtls);
       var item: CartItem | boolean = false;
       // If Products exist
       let hasItem = products.find((items, index) => {
         console.log('items----', items,'/n','product----',product);
-        let oldSize = items.selectedSize;
+        let oldSize = items.product.customization;
         items.selectedSize = product.selectedSize;
         items.customization =  product.customization;
         console.log('Cart items---', items);
@@ -181,8 +182,12 @@ export class CartService {
   
   // Update Cart Value
   public updateCartQuantity(product: Product, quantity: number): CartItem | boolean {
+    console.log("updateCartQuantity product...",product);
     return products.find((items, index) => {
-      if(items.product.productId == product.productId) {
+      console.log("Product Quantity...",items);
+      console.log("products....",products);
+      
+      if(items.product.productId == product.productId && items.product.selectedSize == product.selectedSize) {
        let qty = products[index].quantity + quantity;
         let stock = this.calculateStockCounts(products[index], quantity);
         if (qty != 0 && stock) 
@@ -214,7 +219,7 @@ export class CartService {
           'Content-Type': 'application/json'
         }),
         body: {
-          id: this.removeItem.cartData.id,
+          id: this.removeItem.cartData[0].id,
           userId: this.get_user_dtls.uid
         }
       }
@@ -234,6 +239,8 @@ export class CartService {
     }else{
       if (item === undefined) return false; 
       const index = products.indexOf(item);
+      console.log("index......",index);
+      
       products.splice(index, 1);
       localStorage.setItem("cartItem", JSON.stringify(products));
     }

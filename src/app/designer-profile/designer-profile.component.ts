@@ -183,11 +183,13 @@ export class DesignerProfileComponent implements OnInit {
   // Share profile end
 
   // Download designer card
-  downloadImage(){
+  downloadImage(_displayName){
+    console.log('_displayName', _displayName);
+    
     html2canvas(this.screen.nativeElement, {logging: true, allowTaint: false, useCORS: true }).then(canvas => {
       this.canvas.nativeElement.src = canvas.toDataURL();
       this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-      this.downloadLink.nativeElement.download = 'marble-diagram.png';
+      this.downloadLink.nativeElement.download = _displayName+'.png';
       this.downloadLink.nativeElement.click();
     });
     console.log('this.canvas.nativeElement.src ', this.canvas.nativeElement.src );

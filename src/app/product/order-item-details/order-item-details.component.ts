@@ -243,18 +243,22 @@ export class OrderItemDetailsComponent implements OnInit {
   }
   //  Get tracking details end
   /* Customization details input start */
-  openCustomizeModel(product, content) {
+  openCustomizeModel(product, _size, content) {
+    console.log('_size', _size);
+    this.model.changesDetails = null;
     var productData: any = [] = product.OrderSKUDetails;
-
+    this.selectedProduct = null;
     console.log('product', product);
     for (let index = 0; index < productData.length; index++) {
-      productData[index].productId == this.parms_product_id;
-      this.selectedProduct = productData[index];
+      if (productData[index].productId == this.parms_product_id && productData[index].size == _size) {
+        this.selectedProduct = productData[index]; 
+        this.modalService.open(content, { size: 'sm' });
+      }
     }
-    this.modalService.open(content, { size: 'sm' });
+    
     this.orderId = this.selectedProduct.orderId;
     // this.selectedProduct = product;
-    console.log(this.selectedProduct);
+    console.log('selectedProduct',this.selectedProduct);
 
   }
   /* Customization details input end */
@@ -327,7 +331,7 @@ export class OrderItemDetailsComponent implements OnInit {
         }
       ],
     }
-    var designChanges = 'userOrder/updateDialogBox?orderId=' + this.selectedProduct.orderId + '&productId=' + this.selectedProduct.productId;
+    var designChanges = 'userOrder/updateDialogBox?orderId=' + this.selectedProduct.orderId + '&productId=' + this.selectedProduct.productId + '&size=' + form.value.size;
     this.designChangesSubscribe = this.http.put(API_URL + designChanges, body).subscribe(
       (res: any) => {
         this.toastrService.success(res.message);

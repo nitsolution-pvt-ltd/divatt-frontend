@@ -108,7 +108,7 @@
                     <button type="button" class="btn btn-solid mb-2" (click)="addToWishlist(productDetail)"><span class="lead fs-25" style="font-size: 15px;">Wishlist</span></button>
                   </div>
                   <div class="shopping_feature">
-                    <a  >
+                    <a>
                       <img src="assets/images/icon/cash-on-delivery.png" alt="">
                       <span>Ships in {{productDetail?.shipmentTime}}&nbsp;days.</span>
                     </a>
@@ -116,7 +116,7 @@
                       <img src="assets/images/icon/cash-on-delivery.png" alt="">
                       <span>Cash on delivery available.</span>
                     </a> -->
-                    <a  *ngIf="productDetail?.returnAcceptable">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.returnAcceptable}">
                       <img src="assets/images/icon/return-box.png" alt="">
                       <span class="mr-0">Easy return available.</span>
                     </a>
@@ -124,19 +124,19 @@
                       <img src="assets/images/icon/free_india.png" alt="">
                       <span>Free shipping only in india.</span>
                     </a>
-                    <a *ngIf="productDetail?.withGiftWrap">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.withGiftWrap}">
                       <img src="assets/images/icon/giftwrap.png" alt="">
                       <span>GiftWrap available.</span>
                     </a>
-                    <a *ngIf="productDetail?.cancelAcceptable">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.cancelAcceptable}">
                       <img src="assets/images/icon/cancelproduct.jpg" alt="">
                       <span>Cancellation  available.</span>
                     </a>
-                    <a *ngIf="productDetail?.withCustomization">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.withCustomization}">
                       <img src="assets/images/icon/pencil.png" alt="">
                       <span>Size Customization available.</span>
                     </a>
-                    <a *ngIf="productDetail?.withDesignCustomization">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.withDesignCustomization}">
                       <img src="assets/images/icon/pencil.png" />
                       <span class="d-flex align-items-center">Design Customization available.&nbsp;
                         <mat-icon (click)="designCustomizationFeatures=!designCustomizationFeatures" class="cursor-pointer">chat</mat-icon>
@@ -165,10 +165,10 @@
                   </div>
                   <h6 class="text-uppercase lead mt-2">Colour</h6>
                   <div class="border-product">
-                   <!-- <p> -->
-                    <!-- {{colour}} -->
-                    <div [style.background-color]='colour' style="width: 20px;height: 20px;border-radius: 50%;"></div>
-                    <!-- </p> -->
+                   <p>
+                    {{productDetail?.colour}}
+                    <!-- <div [style.background-color]='colour' style="width: 20px;height: 20px;border-radius: 50%;"></div> -->
+                    </p>
                   </div>
                   <h6 class="text-uppercase lead">fit</h6>
                   <div class="border-product mt-2">
@@ -312,7 +312,7 @@
                     <button type="button" class="btn btn-solid more-width" (click)="addToWishlist(productDetail)"><span class="lead fs-25" style="font-size: 15px;">Wishlist</span></button>
                   </div>
                   <div class="shopping_feature">
-                    <a >
+                    <a>
                       <img src="assets/images/icon/cash-on-delivery.png" alt="">
                       <span>Ships in {{productDetail?.shipmentTime}}&nbsp;days.</span>
                     </a>
@@ -320,7 +320,7 @@
                       <img src="assets/images/icon/cash-on-delivery.png" alt="">
                       <span>Cash on delivery available.</span>
                     </a> -->
-                    <a  *ngIf="productDetail?.returnAcceptable">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.returnAcceptable}">
                       <img src="assets/images/icon/return-box.png" alt="">
                       <span class="mr-0">Easy return available.</span>
                     </a>
@@ -328,19 +328,19 @@
                       <img src="assets/images/icon/free_india.png" alt="">
                       <span>Free shipping only in india.</span>
                     </a>
-                    <a *ngIf="productDetail?.withGiftWrap">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.withGiftWrap}">
                       <img src="assets/images/icon/giftwrap.png" alt="">
                       <span>GiftWrap available.</span>
                     </a>
-                    <a *ngIf="productDetail?.cancelAcceptable">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.cancelAcceptable}">
                       <img src="assets/images/icon/cancelproduct.jpg" alt="">
                       <span>Cancellation  available.</span>
                     </a>
-                    <a *ngIf="productDetail?.withCustomization">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.withCustomization}">
                       <img src="assets/images/icon/pencil.png" alt="">
                       <span>Size Customization available.</span>
                     </a>
-                    <a *ngIf="productDetail?.withDesignCustomization">
+                    <a [ngClass]="{'lowVisibility': !productDetail?.withDesignCustomization}">
                       <img src="assets/images/icon/pencil.png" />
                       <span class="d-flex align-items-center">Design Customization available.&nbsp;
                         <mat-icon (click)="designCustomizationFeatures=!designCustomizationFeatures" class="cursor-pointer">chat</mat-icon>

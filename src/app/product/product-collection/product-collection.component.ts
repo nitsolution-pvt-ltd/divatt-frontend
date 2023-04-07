@@ -113,6 +113,12 @@ export class ProductCollectionComponent implements OnInit {
   activatedRoutecategory: any;
   alldesigners = [];
   get_user_dtls: any;
+
+  params_category;
+  params_subcategory;
+  params_keywords;
+  params_subcategoryname;
+
   constructor(private route: ActivatedRoute,
     private toastrService: ToastrService,
     private router: Router,
@@ -180,6 +186,14 @@ export class ProductCollectionComponent implements OnInit {
 
   }
   commonFunction() {
+    this.params_category = this.activatedRoute.snapshot.params.category;
+    this.params_subcategory = this.activatedRoute.snapshot.params.subcategory;
+    this.params_keywords = this.activatedRoute.snapshot.params.keywords;
+    this.params_subcategoryname = this.activatedRoute.snapshot.params.subcategoryname;
+
+    console.log('URL', this.params_category+','+this.params_subcategory+','+this.params_keywords+','+this.params_subcategoryname);
+    
+
     this.subcategoris = [];
     console.log("URL", this.category, this.subcategory, this.searchevent);
     // category 
@@ -475,8 +489,8 @@ export class ProductCollectionComponent implements OnInit {
     this.allproducts = [];
     this.getProductList();
 
-    
-    
+
+
   }
   // checkedFilter end
   // clearFilter start
@@ -569,7 +583,7 @@ export class ProductCollectionComponent implements OnInit {
         this.countproducts = response.data;
         this.alldesigners = response.designerProfile;
         console.log('DesignerProfile', this.alldesigners);
-        
+
         if (this.allproducts.length != 0) {
           for (let index = 0; index < response.data.length; index++) {
             if (this.allproducts[index].productId != response.data[index].productId) {

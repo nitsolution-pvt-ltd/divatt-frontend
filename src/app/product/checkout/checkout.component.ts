@@ -490,6 +490,9 @@ export class CheckoutComponent implements OnInit {
     }
     form.reset();
     this.modalService.dismissAll();
+    this.model = {
+      payment_type: 'ONLINE',
+    }
     console.log("orderProducts", this.orderProducts);
   }
   ordersGiftSubmit(form: NgForm) {
@@ -606,7 +609,7 @@ export class CheckoutComponent implements OnInit {
     this.btnLoader = true;
     console.log('paymeny mood>>', _select);
     this.paymentType = _select;
-    this.paid = true;
+    // this.paid = true;
     if (_select == 'ONLINE') {
       let totalProducts = {
         products: this.orderProducts,
@@ -646,7 +649,7 @@ export class CheckoutComponent implements OnInit {
   /*-----------Payment checkout start-----------*/
   paymentResponse;
   checkout() {
-    this.btnLoader = true;
+    // this.btnLoader = true;
     this.orderAdd();
     console.log(' this.totalAmount>>>', this.total, this.taxAmount);
 
@@ -722,7 +725,7 @@ export class CheckoutComponent implements OnInit {
       "modal": {
         "ondismiss": function(){
           // window.location.replace(`order-successfully/12`);
-          location.reload();
+          // location.reload();
         }
       }
 

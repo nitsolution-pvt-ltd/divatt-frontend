@@ -160,6 +160,7 @@ export class ProductLeftImageComponent implements OnInit {
     this.productDataSubscribe = this.http.get(API_URL+this.api_url).subscribe(
       (response:any) => {
         this.productDetail = response;
+        
         if(response.categoryName == 'Men' || response.categoryName == 'Kids')
         {
           this.mesormentFor = 'Men/Kids'
@@ -205,6 +206,7 @@ export class ProductLeftImageComponent implements OnInit {
         })
         this.getDesignerById();
         // this.toastrService.success(response.message);
+        console.log('productDetail', this.productDetail);
       },
       errRes => {
         console.log("error handeller >>@@",errRes );

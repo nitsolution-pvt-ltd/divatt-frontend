@@ -85,6 +85,18 @@
 }
 .lead {
   font-family: 'lato-regular' !important;
+  font-size: 14px;
+}
+.product-right p {
+  /* margin-bottom: 0;
+  line-height: 1.5em;
+  color: #4a4747;
+  font-weight: 500; */
+  font-family: 'Lato', sans-serif;
+  color: rgb(119 119 119);
+  line-height: 1.5em;
+  color: #777777;
+  font-size: 20px;
 }
 .btn.btn-solid.more-width
 {
@@ -142,6 +154,7 @@
   color: #000;
   text-decoration: none;
   margin: 0 15px 0 5px;
+  font-weight: bold;
 }
 @media screen and (max-width:768px) {
   .shopping_feature
@@ -243,4 +256,12 @@
 .customizationDescption
 {
     display: grid;
+}
+
+.lowVisibility {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+.lowVisibility mat-icon {
+  pointer-events: none;
 }

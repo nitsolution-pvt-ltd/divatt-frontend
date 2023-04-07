@@ -31,8 +31,8 @@
           <div class="collection-content col">
             <div class="page-main-content">
               <div class="top-banner-wrapper">
-                <div class="row mt-2 mb-5">
-                  <div class="col-lg-3 col-md-4 col-sm-6 card4" *ngFor="let designer of alldesigners;let i = index" [ngClass]="{'d-none': !designer?.productCount}" >
+                <div class="row mt-2 mb-5" *ngIf="params_keywords !== 'search'">
+                  <div class="col-lg-3 col-md-4 col-sm-6 card4" *ngFor="let designer of alldesigners;let i = index">
                     <div class="pb-2" >
                       <div class="follow_btn text-right" *ngIf="!get_user_dtls" title="Login to follow designer.">
                         <!-- <a href=""></a> -->
@@ -98,13 +98,13 @@
                     </div>
                   </div>
                   <div class="col-md-12 col-sm-12 col-lg-12">
-                    <div
+                    <!-- <div
                       class="m-auto bg-gray-200 justify-content-center toggle-btn2 text-sm text-gray-500 leading-none border-2 border-gray-200 rounded-full d-flex">
                       <button matTooltip="Only pop designer products are categorized"
                         class="active d-flex align-items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-r-full px-4 py-2">
                         <span>Pop</span>
                       </button>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -154,7 +154,7 @@
           </div>
           <!-- designer filter end -->
           <!-- category filter start -->
-          <div class="collection-collapse-block" [ngClass]="{'hide' : categoryftr}">
+          <div class="collection-collapse-block" [hidden]="params_category !== 'category'" [ngClass]="{'hide' : categoryftr}">
             <h3 class="collapse-block-title" (click)="categoryftr=!categoryftr"><span class="lead">category</span></h3>
             <div class="collection-collapse-block-content">
               <div class="collection-brand-filter pt-3">

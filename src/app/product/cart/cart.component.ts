@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Product } from '../../classes/product';
 import { CartItem } from '../../classes/cart-item';
 import { ProductsService } from '../../services/products.service';
@@ -16,7 +16,9 @@ const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
+  encapsulation: ViewEncapsulation.None
+
 })
 export class CartComponent implements OnInit {
 
@@ -40,6 +42,7 @@ export class CartComponent implements OnInit {
   loader: boolean;
   noLoader: boolean;
   data: any = [];
+  local_data: any =[];
   constructor(private productsService: ProductsService,
     private cartService: CartService,private wishlistService: WishlistService,
     private authService: LoginService,private toastrService:ToastrService,
@@ -84,25 +87,53 @@ export class CartComponent implements OnInit {
         this.localstorage = false;
       }else{
         this.data = [];
-        let data = JSON.parse(localStorage.getItem("cartItem")) || [];
-        for (let j = 0; j < data.length; j++) {
+        this.local_data = JSON.parse(localStorage.getItem("cartItem")) || [];
+        console.log("this.local_data ",this.local_data );
+        
+        for (let j = 0; j < this.local_data.length; j++) {
           this.data.push(
             {
-            displayName:data[j].product.designerProfile.displayName,
-            productName:data[j].product.productDetails.productName,
-            images:data[j].product.images[0].large,
-            productId:data[j].product.productId,
-            slug:data[j].product.slug,
-            selectedSize:data[j].selectedSize,
-            purchaseMinQuantity:data[j].product.purchaseMinQuantity,
-            quantity:data[j].quantity,
-            purchaseMaxQuantity:data[j].product.purchaseMaxQuantity,
-            salePrice:data[j].product.deal.salePrice,
-            mrp:data[j].product.mrp,
-            customization:data[j].customization,
-            
+            displayName:this.local_data[j].product.designerProfile.displayName,
+            productName:this.local_data[j].product.productDetails.productName,
+            images:this.local_data[j].product.images[0].large,
+            productId:this.local_data[j].product.productId,
+            slug:this.local_data[j].product.slug,
+            selectedSize:this.local_data[j].product.selectedSize,
+            purchaseMinQuantity:this.local_data[j].product.purchaseMinQuantity,
+            quantity:this.local_data[j].quantity,
+            purchaseMaxQuantity:this.local_data[j].product.purchaseMaxQuantity,
+            salePrice:this.local_data[j].product.deal.salePrice,
+            mrp:this.local_data[j].product.mrp,
+            customization:this.local_data[j].customization,
           }
           )
+          this.changeDetector.detectChanges();
+        }
+        console.log("Local Data Array...",this.data);
+        this.total_price = 0
+        var getitemTotal = 0
+        for (let index = 0; index < this.data.length; index++) {
+          
+          
+          if(!this.data[index].slug)
+          {
+            let name = this.data[index].productName.toLowerCase( );
+            this.data[index].slug = name.replace(/ /g, "-");
+          }
+          
+        }
+        console.log('this.shoppingCartItems',this.shoppingCartItems);
+        
+        for(let i = 0;i < this.data.length; i++)
+        {
+
+          if(this.data[i].salePrice || this.data[i].salePrice == 0)
+          {
+            getitemTotal = this.data[i].quantity * this.data[i].salePrice;
+          }else{
+            getitemTotal = this.data[i].quantity * this.data[i].mrp;
+          }
+          this.total_price = this.total_price + getitemTotal;
         }
       }
     });
@@ -270,20 +301,52 @@ export class CartComponent implements OnInit {
     );
   }
   // Add to wishlist
-  product: any;
+
   public addToWishlist(product: Product) {
-    this.wishlistService.addToWishlist(product);
+    let local_product:any= {} = product;
+    // console.log('this.local_data[i]',this.local_data);
+
+    if(this.get_user_dtls){
+      this.wishlistService.addToWishlist(product);
+    }else{
+      for (let i = 0; i < this.local_data.length; i++) {
+        console.log('this.local_product',local_product.productId);
+        console.log('this.local_data[i]',this.local_data[i].product.productId);
+        if(local_product.productId == this.local_data[i].product.productId)
+        // console.log('this.local_data[i]',this.local_data[i]);
+        
+        product = this.local_data[i].product;
+        console.log("product Data..",product);
+      }
+      this.wishlistService.addToWishlist(product);
+      this.local_data = [];
+    }
+    
   }
   // Increase Product Quantity
   public increment(product: any, size:any, quantity: number) {
+    let local_product:any= {} = product;
     console.log("size...",size);
     product.selectedSize = size;
-    console.log("product...",product.selectedSize);
+    console.log("product...",product);
     
     if(quantity < product.purchaseMaxQuantity )
     {
+      for (let i = 0; i < this.local_data.length; i++) {
+        console.log('this.local_product12234567',local_product.productId,this.local_data[i].product.productId,local_product.selectedSize,this.local_data[i].product.selectedSize);
+        // console.log('this.local_product',local_product.selectedSize);
+        // console.log('this.local_data[i]',this.local_data[i]);
+        if(local_product.productId == this.local_data[i].product.productId && local_product.selectedSize == this.local_data[i].product.selectedSize){
+          console.log("hello");
+          product = this.local_data[i].product;
+        }
+        // console.log('this.local_data[i]',this.local_data[i]);
+       
+      }
+      console.log("product Data..",product);
       this.cartService.updateCartQuantity(product,1);
       this.getTotal()
+      this.commonFunction();
     }
     else{
       this.toastrService.warning('Maximum purchase quantity for this item is ' + product.purchaseMaxQuantity)
@@ -309,6 +372,55 @@ export class CartComponent implements OnInit {
     {
       this.cartService.updateCartQuantity(product,-1);
       this.getTotal()
+      this.data = [];
+      this.local_data = JSON.parse(localStorage.getItem("cartItem")) || [];
+      console.log("this.local_data ",this.local_data );
+      
+      for (let j = 0; j < this.local_data.length; j++) {
+        this.data.push(
+          {
+          displayName:this.local_data[j].product.designerProfile.displayName,
+          productName:this.local_data[j].product.productDetails.productName,
+          images:this.local_data[j].product.images[0].large,
+          productId:this.local_data[j].product.productId,
+          slug:this.local_data[j].product.slug,
+          selectedSize:this.local_data[j].product.selectedSize,
+          purchaseMinQuantity:this.local_data[j].product.purchaseMinQuantity,
+          quantity:this.local_data[j].quantity,
+          purchaseMaxQuantity:this.local_data[j].product.purchaseMaxQuantity,
+          salePrice:this.local_data[j].product.deal.salePrice,
+          mrp:this.local_data[j].product.mrp,
+          customization:this.local_data[j].customization,
+        }
+        )
+      }
+      console.log("Local Data Array...",this.data);
+      this.total_price = 0
+      var getitemTotal = 0
+      // for (let index = 0; index < this.data.length; index++) {
+        
+        
+      //   if(!this.data[index].slug)
+      //   {
+      //     let name = this.data[index].productName.toLowerCase( );
+      //     this.data[index].slug = name.replace(/ /g, "-");
+      //   }
+        
+      // }
+      console.log('this.shoppingCartItems',this.shoppingCartItems);
+      
+      for(let i = 0;i < this.data.length; i++)
+      {
+
+        if(this.data[i].salePrice || this.data[i].salePrice == 0)
+        {
+          getitemTotal = this.data[i].quantity * this.data[i].salePrice
+        }else{
+          getitemTotal = this.data[i].quantity * this.data[i].mrp
+        }
+        this.total_price = this.total_price + getitemTotal;
+      }
+    
     }
     else{
       this.toastrService.warning('Minimum purchase quantity for this item is ' + product.purchaseMinQuantity)
@@ -334,11 +446,82 @@ export class CartComponent implements OnInit {
   
   // Remove cart items
   public removeItem(item: CartItem) {
-    this.cartService.removeFromCart(item);
+    
+    let local_product:any= {} = item;
+    // console.log('this.local_data[i]',this.local_data);
+    console.log("removeItem shoppingCartItems...",this.shoppingCartItems);
+    
+
+    if(this.get_user_dtls){
+      var data: any = [] = this.shoppingCartItems;
+      console.log("get_user_dtls Data..",data);
+      
+      for (let i = 0; i < data.length; i++) {
+        console.log("product Data..",data[i].productId);
+        console.log("local_product.productId..",local_product.productId);
+
+        if(data[i].productId == local_product.productId){
+        // console.log('this.local_data[i]',this.local_data[i]);
+          item = data[i];
+          console.log("product Data..this.data[i]",data[i]);
+          console.log("product Data..",item);
+        }
+      }
+      this.cartService.removeFromCart(item);
+      setTimeout(() => {
+        this.getCartListData();
+      }, 500);
+    }else{
+      for (let i = 0; i < this.local_data.length; i++) {
+        console.log('this.local_product',local_product.productId);
+        console.log('this.local_data[i]',this.local_data[i].product.productId);
+        if(local_product.productId == this.local_data[i].product.productId){
+          item = this.local_data[i].product;
+          console.log("product Data..",item);
+        }
+      }
+      this.cartService.removeFromCart(item);
+      this.data = [];
+      this.local_data = JSON.parse(localStorage.getItem("cartItem")) || [];
+      console.log("this.local_data ",this.local_data,JSON.parse(localStorage.getItem("cartItem")) );
+      
+      for (let j = 0; j < this.local_data.length; j++) {
+        this.data.push(
+          {
+          displayName:this.local_data[j].product.designerProfile.displayName,
+          productName:this.local_data[j].product.productDetails.productName,
+          images:this.local_data[j].product.images[0].large,
+          productId:this.local_data[j].product.productId,
+          slug:this.local_data[j].product.slug,
+          selectedSize:this.local_data[j].product.selectedSize,
+          purchaseMinQuantity:this.local_data[j].product.purchaseMinQuantity,
+          quantity:this.local_data[j].quantity,
+          purchaseMaxQuantity:this.local_data[j].product.purchaseMaxQuantity,
+          salePrice:this.local_data[j].product.deal.salePrice,
+          mrp:this.local_data[j].product.mrp,
+          customization:this.local_data[j].customization,
+        }
+        )
+      }
+      console.log("Local Data Array...",this.data);
+      this.data = this.shoppingCartItems;
+      this.total_price = 0
+      var getitemTotal = 0
+      console.log('this.shoppingCartItems',this.shoppingCartItems);
+      
+      for(let i = 0;i < this.data.length; i++)
+      {
+
+        if(this.data[i].salePrice || this.data[i].salePrice == 0)
+        {
+          getitemTotal = this.data[i].quantity * this.data[i].salePrice
+        }else{
+          getitemTotal = this.data[i].quantity * this.data[i].mrp
+        }
+        this.total_price = this.total_price + getitemTotal;
+      }
+    }
     this.noLoader = true;
-    setTimeout(() => {
-      this.getCartListData();
-    }, 500);
     this.getTotal();
   }
   // getTotal start
