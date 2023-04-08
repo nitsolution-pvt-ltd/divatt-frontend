@@ -30,6 +30,7 @@ export class OrderProductsListPage implements OnInit {
   url: string;
   invoiceId: any;
   showCustomization = false;
+  showChanges = false;
   showGiftwrap = false;
   shippingDate: any;
   currentDateTime: string;

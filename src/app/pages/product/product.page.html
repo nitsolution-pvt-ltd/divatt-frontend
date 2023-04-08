@@ -205,12 +205,12 @@
                         </div>
                         
                       </td> -->
-                      <td>{{item?.categoryName}}</td>
-                      <td>{{item?.subCategoryName}}</td>
-                      <td>
+                      <td [routerLink]="['/', 'product-view',  item.productId]">{{item?.categoryName}}</td>
+                      <td [routerLink]="['/', 'product-view',  item.productId]">{{item?.subCategoryName}}</td>
+                      <td [routerLink]="['/', 'product-view',  item.productId]">
                         {{item?.designerProfile?.displayName}}
                       </td>
-                      <td>
+                      <td [routerLink]="['/', 'product-view',  item.productId]">
                         {{item?.designerProfile?.designerCategory}}
                       </td>
                       <!-- <td>
@@ -225,14 +225,14 @@
                       <td>
                         {{item?.taxPercentage}}
                       </td>  -->
-                      <td>
+                      <td [routerLink]="['/', 'product-view',  item.productId]">
                         
                         {{item?.mrp}}
                       </td>                        
-                      <td>
+                      <td [routerLink]="['/', 'product-view',  item.productId]">
                         {{item?.deal?.salePrice ? item?.deal?.salePrice : '0'}}
                       </td>
-                      <td>
+                      <td [routerLink]="['/', 'product-view',  item.productId]">
                           {{item?.soh}}
                       </td>
                       <td>
@@ -255,7 +255,7 @@
                           </a>
                         </div>
                       </td>
-                      <td>
+                      <td [routerLink]="['/', 'product-view',  item.productId]">
                         <span class="status" [ngClass]="{ 'warning': item.adminStatus == 'Pending' , 'danger': item.adminStatus == 'Rejected','success': item.adminStatus == 'Approved'}">
                           {{item?.adminStatus}}
                         </span>

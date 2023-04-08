@@ -142,10 +142,11 @@
                                           <div class="color-content">
                                               <div class="color">
                                                   <span>Colour</span>
+                                                  <p>{{productDetail?.colour}}</p>
                                                   <!-- <div > -->
                                                       <!-- <input type="radio" [id]="color.colour" [value]="color.colour"   /> -->
                                                       <!-- <label [for]="productDetail?.colour"  class="d-flex" [ngClass]="{'active':coloractive == productDetail?.colour}"><span [style.background]='productDetail.colour' (click)="activeSize('color',productDetail?.colour)"></span></label> -->
-                                                      <label [for]="color"  *ngFor="let color of productColors;let i = index;" class="d-flex" ><span [style.background]='color'></span></label>
+                                                      <!-- <label [for]="color"  *ngFor="let color of productColors;let i = index;" class="d-flex" ><span [style.background]='color'></span></label> -->
                                                   <!-- </div> -->
                                               </div>
                                           </div>
@@ -162,31 +163,28 @@
                                               <!-- <div class="shopping" *ngIf="productDetail?.cod">
                                                   <img src="assets/images/cod.png" /><span>Cash on delivery</span>
                                               </div> -->
-                                              <div class="shopping" *ngIf="productDetail?.returnAcceptable">
+                                              <div [ngClass]="{'lowVisibility': !productDetail?.returnAcceptable}" class="shopping">
                                                   <img src="assets/images/easy-return.png" /><span>Easy return available.</span>
                                               </div>
                                               <div class="shopping">
                                                   <img src="assets/images/cart2.png" /><span>Free Shipping only in india</span>
                                               </div>
-                                              <div class="shopping"  *ngIf="productDetail?.withGiftWrap">
+                                              <div class="shopping" [ngClass]="{'lowVisibility': !productDetail?.withGiftWrap}">
                                                   <img src="assets/images/giftwrap.png" /><span>GiftWrap available.</span>
                                               </div>
-                                              <div class="shopping" *ngIf="productDetail?.cancelAcceptable">
+                                              <div class="shopping" [ngClass]="{'lowVisibility': !productDetail?.cancelAcceptable}">
                                                   <img src="assets/images/cancelproduct.jpg" /><span>Cancellation  available</span>
                                               </div>
-                                              <div class="shopping" *ngIf="productDetail?.withCustomization">
+                                              <div class="shopping" [ngClass]="{'lowVisibility': !productDetail?.withCustomization}">
                                                   <img src="assets/images/pencil.png" /><span>Size Customization available.</span>
                                               </div>
-                                              <div class="shopping d-flex" *ngIf="productDetail?.withDesignCustomization">
+                                              <div class="shopping d-flex" [ngClass]="{'lowVisibility': !productDetail?.withDesignCustomization}">
                                                   <img src="assets/images/pencil.png" /><span class="d-flex align-items-center">Design Customization available.&nbsp;<mat-icon (click)="designCustomizationFeatures=!designCustomizationFeatures" class="cursor-pointer">chat</mat-icon></span>
                                               </div>
                                               <div class="shopping customizationMessage mt-0 p-0 text-black" style="margin-left: 2.5em;" [ngClass]="{'showCustomization mt-1 p-1':designCustomizationFeatures}">
                                                 {{productDetail?.designCustomizationFeatures}}
                                               </div>
-                                              <div class="shopping">
-                                                  <img src="assets/images/returnable.png" /><span>Custom made orders are not returnable</span>
-                                              </div>
-                                              <p class="p-text">Note: Custom made orders are not returnable.No COD for Custom made orders.</p>
+                                              <p class="p-text">Note: Custom made orders are not returnable.</p>
                                           </div>
                                           <h1 class="specifications-head">Specifications</h1>
                                       </div>

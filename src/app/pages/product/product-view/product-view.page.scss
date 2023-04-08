@@ -4,3 +4,10 @@
     position: sticky !important;
     margin-bottom: 10px;
 }
+.lowVisibility {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}
+.lowVisibility mat-icon {
+    pointer-events: none;
+}

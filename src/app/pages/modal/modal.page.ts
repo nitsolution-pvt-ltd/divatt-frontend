@@ -432,6 +432,11 @@ export class ModalPage implements OnInit {
       }
     } else if (identifier == 'Delivered') {
 
+      const date = new Date();
+      
+      this.filter_date = moment(date.setMinutes( date.getMinutes() + 60 )).format('YYYY-MM-DD : HH:mm:ss');
+      console.log('filter_date', this.filter_date);
+      
       var designerData: any = {}, total_amount = 0, basic_amount = 0, total_amount_received = 0, total_tax_amount = 0,
         total_tax = 0, fee: any = 0, igst: any = 0, igst2: any = 0, cgst: any = 0, sgst: any = 0, data: any, accountData: any = {},
         invoiceId, hsn_amount: any = 0, hsn_cgst: any = 0, tcs = 0, hsn_igst: any = 0, hsn_rate: any = 0, hsn_sgst: any = 0, net_payable_designer = 0;
@@ -510,201 +515,141 @@ export class ModalPage implements OnInit {
               "deliveredDate": form.value.deliveredDate
             }
           }
-          data = {
-            "designerDetails": {
-              "GSTIN": designerData.boutiqueProfile.gstin,
-              "PAN": designerData?.designerPersonalInfoEntity?.designerDocuments?.panCard,
-              "name": designerData.designerProfile.designerName,
-              "mobile": designerData.designerProfile.mobileNo,
-              "address": designerData.socialProfile.address,
-              "boutiqueName": designerData?.boutiqueProfile?.boutiqueName,
+          // console.log('invoiceId',this.filter_date);
+          var salesPrice = 0;
+          if (this.get_item?.salesPrice == 0) {
+            salesPrice = this.get_item?.mrp
+          }
+          else {
+            salesPrice = this.get_item?.salesPrice
+          }
+          accountData = {
+            "admin_details": {
+              "address": this.authData?.city + ',' + this.authData?.state + ',' + this.authData?.country,
+              "admin_id": this.authData?.uid,
+              "gstIn": this.authData?.gstIn,
+              "pan": this.authData?.pan,
+              "pin": this.authData?.pin,
+              "mobile": this.authData?.mobileNo,
+              "name": this.authData?.firstName + ' ' + this.authData?.lastName,
+              "gender": this.authData?.gender
+            },
+            "datetime": this.currentDateTime,
+            "designer_details": {
+              "address": designerData?.socialProfile?.address,
               "designer_id": designerData?.designerId,
               "designer_name": designerData?.designerName,
-              "display_name": designerData?.designerProfile?.designerName,
+              "boutiqueName": designerData?.boutiqueProfile?.boutiqueName,
+              "display_name": designerData?.designerProfile?.displayName,
               "gst_in": designerData?.boutiqueProfile?.gstin,
               "email": designerData?.designerProfile?.email,
+              "mobile": designerData?.designerProfile?.mobileNo,
               "city": designerData?.designerProfile?.city,
               "state": designerData?.designerProfile?.state,
               "country": designerData?.designerProfile?.country,
-              "pan": designerData?.designerProfile?.pan,
+              "pan": designerData?.designerPersonalInfoEntity?.designerDocuments?.panCard,
               "pin": designerData?.designerProfile?.pinCode,
-
             },
-            "invoiceDatetime": '',
-            "invoiceId": '',
-            "orderDatetime": this.get_array.orderDate,
-            "orderId": this.get_array.orderId,
-            "productDetails": {
-              "colour": this.get_item.colour,
-              "createdOn": this.get_item.createdOn,
-              "designerId": this.get_item.designerId,
-              "discount": this.get_item.discount,
-              "id": this.get_item.id,
-              "images": this.get_item.images,
-              "mrp": this.get_item.mrp,
-              "orderId": this.get_item.orderId,
-              "orderItemStatus": this.get_item.orderItemStatus,
-              "productId": this.get_item.productId,
-              "productName": this.get_item.productName,
-              "productSku": this.get_item.productSku,
-              "reachedCentralHub": this.get_item.reachedCentralHub,
-              "salesPrice": this.get_item.salesPrice,
-              "size": this.get_item.size,
-              "taxAmount": this.get_item.taxAmount,
-              "taxType": this.get_item.taxType,
-              "units": this.get_item.units,
-              "updatedOn": this.get_item.updatedOn,
-              "userId": this.get_item?.userId,
-            },
-            "userDetails": {
-              "userId": this.get_array.userId,
-              "shipping_address": this.get_array.shippingAddress,
-              "billing_address": this.get_array.billingAddress,
-              "mobile": this.get_array.billingAddress.mobile,
-            },
-          }
-
-          this.GenarateInvoiceSubscribe = this.http.post("userOrder/invoices/add", data).subscribe(
-            (res: any) => {
-              invoiceId = res.invoiceId;
-              // console.log('invoiceId',this.filter_date);
-              var salesPrice = 0;
-              if (this.get_item?.salesPrice == 0) {
-                salesPrice = this.get_item?.mrp
-              }
-              else {
-                salesPrice = this.get_item?.salesPrice
-              }
-              accountData = {
-                "admin_details": {
-                  "address": this.authData?.city + ',' + this.authData?.state + ',' + this.authData?.country,
-                  "admin_id": this.authData?.uid,
-                  "gstIn": this.authData?.gstIn,
-                  "pan": this.authData?.pan,
-                  "pin": this.authData?.pin,
-                  "mobile": this.authData?.mobileNo,
-                  "name": this.authData?.firstName + ' ' + this.authData?.lastName,
-                  "gender": this.authData?.gender
-                },
+            "filter_date": this.filter_date,
+            "designer_return_amount": [
+              {
                 "datetime": this.currentDateTime,
-                "designer_details": {
-                  "address": designerData?.socialProfile?.address,
-                  "designer_id": designerData?.designerId,
-                  "designer_name": designerData?.designerName,
-                  "boutiqueName": designerData?.boutiqueProfile?.boutiqueName,
-                  "display_name": designerData?.designerProfile?.displayName,
-                  "gst_in": designerData?.boutiqueProfile?.gstin,
-                  "email": designerData?.designerProfile?.email,
-                  "mobile": designerData?.designerProfile?.mobileNo,
-                  "city": designerData?.designerProfile?.city,
-                  "state": designerData?.designerProfile?.state,
-                  "country": designerData?.designerProfile?.country,
-                  "pan": designerData?.designerPersonalInfoEntity?.designerDocuments?.panCard,
-                  "pin": designerData?.designerProfile?.pinCode,
-                },
-                "filter_date": this.filter_date,
-                "designer_return_amount": [
-                  {
-                    "datetime": this.currentDateTime,
-                    "basic_amount": basic_amount,
-                    "designer_id": this.get_item?.designerId,
-                    "discount": this.get_item?.discount,
-                    "hsn_amount": parseFloat(hsn_amount),
-                    "hsn_cgst": parseFloat(hsn_cgst),
-                    "hsn_igst": parseFloat(hsn_igst),
-                    "hsn_rate": parseFloat(hsn_rate),
-                    "hsn_sgst": parseFloat(hsn_sgst),
-                    "net_payable_designer": net_payable_designer,
-                    "payment_datetime": moment(this.get_array?.paymentData?.createdOn).format('YYYY-MM-DD hh:mm:ss'),
-                    "mrp": this.get_item?.mrp,
-                    "order_id": this.get_item?.orderId,
-                    "status": "NOT RETURN",
-                    "product_id": this.get_item?.productId,
-                    "product_sku": this.get_item?.productSku,
-                    "remarks": '',
-                    "sales_price": salesPrice,
-                    "size": this.get_item?.size,
-                    "tax_type": this.get_item?.taxType,
-                    "units": this.get_item?.units,
-                    "user_id": this.get_item?.userId,
-                    "tcs": tcs,
-                    "total_amount_received": total_amount_received,
-                    "total_tax_amount": total_tax_amount,
-                    "updated_by": this.authData.uid,
-                    "updated_datetime": this.currentDateTime
-                  }
-                ],
-                "govt_charge": [
-                  {
-                    "cgst": 0,
-                    "datetime": this.currentDateTime,
-                    "fee": fee,
-                    "igst": igst,
-                    "rate": 12,
-                    "remarks": "",
-                    "sgst": 0,
-                    "status": 'NOT PAID',
-                    "tcs": tcs,
-                    "tcs_rate": 1,
-                    "total_amount": fee + igst + tcs,
-                    "total_tax": igst + tcs,
-                    "units": this.get_item?.units,
-                    "updated_by": this.authData.uid,
-                    "updated_datetime": this.currentDateTime
-                  }
-                ],
-                "order_details": [
-                  {
-                    "basic_amount": basic_amount,
-                    "datetime": this.currentDateTime,
-                    "delivery_datetime": moment(form.value.deliver_Date).format('YYYY-MM-DD hh:mm:ss'),
-                    "designer_id": this.get_item?.designerId,
-                    "discount": this.get_item?.discount,
-                    "hsn_cgst": parseFloat(hsn_cgst),
-                    "hsn_igst": parseFloat(hsn_igst),
-                    "hsn_rate": parseFloat(hsn_rate),
-                    "hsn_sgst": parseFloat(hsn_sgst),
-                    "hsn_amount": parseFloat(hsn_amount),
-                    "image": this.get_item?.images,
-                    "giftWrapAmount": this.get_item?.giftWrapAmount,
-                    "invoice_id": invoiceId,
-                    "paymentMode": this.get_array?.paymentData?.paymentMode,
-                    "mrp": this.get_item?.mrp,
-                    "order_id": this.get_item?.orderId,
-                    "order_date": moment(this.get_item?.createdOn, "DD/MM/YYYY hh:mm:ss").format('DD/MM/YYYY'),
-                    "order_status": "DELIVERED",
-                    "product_id": this.get_item?.productId,
-                    "product_sku": this.get_item?.productSku,
-                    "remarks": '',
-                    "sales_price": salesPrice,
-                    "size": this.get_item?.size,
-                    "tax_type": this.get_item?.taxType,
-                    "total_tax": total_tax,
-                    "units": this.get_item?.units,
-                    "user_id": this.get_item?.userId
-                  }
-                ],
-                "service_charge": {
-                  "cgst": 0,
-                  "date": moment(this.currentDateTime, 'YYYY-MM-DD hh:mm:ss').format('DD/MM/YYYY'),
-                  "fee": fee,
-                  "igst": igst,
-                  "rate": 14,
-                  "remarks": "",
-                  "sgst": 0,
-                  "status": 'NOT PAID',
-                  "tcs": tcs,
-                  "tcs_rate": 1,
-                  "total_amount": fee + igst + tcs,
-                  "total_tax": igst + tcs,
-                  "units": this.get_item?.units
-                }
+                "basic_amount": basic_amount,
+                "designer_id": this.get_item?.designerId,
+                "discount": this.get_item?.discount,
+                "hsn_amount": parseFloat(hsn_amount),
+                "hsn_cgst": parseFloat(hsn_cgst),
+                "hsn_igst": parseFloat(hsn_igst),
+                "hsn_rate": parseFloat(hsn_rate),
+                "hsn_sgst": parseFloat(hsn_sgst),
+                "net_payable_designer": net_payable_designer,
+                "payment_datetime": moment(this.get_array?.paymentData?.createdOn).format('YYYY-MM-DD hh:mm:ss'),
+                "mrp": this.get_item?.mrp,
+                "order_id": this.get_item?.orderId,
+                "status": "NOT RETURN",
+                "product_id": this.get_item?.productId,
+                "product_sku": this.get_item?.productSku,
+                "remarks": '',
+                "sales_price": salesPrice,
+                "size": this.get_item?.size,
+                "tax_type": this.get_item?.taxType,
+                "units": this.get_item?.units,
+                "user_id": this.get_item?.userId,
+                "tcs": tcs,
+                "total_amount_received": total_amount_received,
+                "total_tax_amount": total_tax_amount,
+                "updated_by": this.authData.uid,
+                "updated_datetime": this.currentDateTime
               }
-              this.GenarateAccountDataSubscribe = this.http.post("account/add", accountData).subscribe(
-                (res: any) => {
-                },
-                (error) => {
-                });
+            ],
+            "govt_charge": [
+              {
+                "cgst": 0,
+                "datetime": this.currentDateTime,
+                "fee": fee,
+                "igst": igst,
+                "rate": 12,
+                "remarks": "",
+                "sgst": 0,
+                "status": 'NOT PAID',
+                "tcs": tcs,
+                "tcs_rate": 1,
+                "total_amount": fee + igst + tcs,
+                "total_tax": igst + tcs,
+                "units": this.get_item?.units,
+                "updated_by": this.authData.uid,
+                "updated_datetime": this.currentDateTime
+              }
+            ],
+            "order_details": [
+              {
+                "basic_amount": basic_amount,
+                "datetime": this.currentDateTime,
+                "delivery_datetime": moment(form.value.deliver_Date).format('YYYY-MM-DD hh:mm:ss'),
+                "designer_id": this.get_item?.designerId,
+                "discount": this.get_item?.discount,
+                "hsn_cgst": parseFloat(hsn_cgst),
+                "hsn_igst": parseFloat(hsn_igst),
+                "hsn_rate": parseFloat(hsn_rate),
+                "hsn_sgst": parseFloat(hsn_sgst),
+                "hsn_amount": parseFloat(hsn_amount),
+                "image": this.get_item?.images,
+                "giftWrapAmount": this.get_item?.giftWrapAmount,
+                "invoice_id": invoiceId,
+                "paymentMode": this.get_array?.paymentData?.paymentMode,
+                "mrp": this.get_item?.mrp,
+                "order_id": this.get_item?.orderId,
+                "order_date": moment(this.get_item?.createdOn, "DD/MM/YYYY hh:mm:ss").format('DD/MM/YYYY'),
+                "order_status": "DELIVERED",
+                "product_id": this.get_item?.productId,
+                "product_sku": this.get_item?.productSku,
+                "remarks": '',
+                "sales_price": salesPrice,
+                "size": this.get_item?.size,
+                "tax_type": this.get_item?.taxType,
+                "total_tax": total_tax,
+                "units": this.get_item?.units,
+                "user_id": this.get_item?.userId
+              }
+            ],
+            "service_charge": {
+              "cgst": 0,
+              "date": moment(this.currentDateTime, 'YYYY-MM-DD hh:mm:ss').format('DD/MM/YYYY'),
+              "fee": fee,
+              "igst": igst,
+              "rate": 14,
+              "remarks": "",
+              "sgst": 0,
+              "status": 'NOT PAID',
+              "tcs": tcs,
+              "tcs_rate": 1,
+              "total_amount": fee + igst + tcs,
+              "total_tax": igst + tcs,
+              "units": this.get_item?.units
+            }
+          }
+          this.GenarateAccountDataSubscribe = this.http.post("account/add", accountData).subscribe(
+            (res: any) => {
             },
             (error) => {
             });
@@ -964,20 +909,20 @@ export class ModalPage implements OnInit {
 
   }
 
-  dateFormatChange(_identifier, event: MatDatepickerInputEvent<Date>){
-    
+  dateFormatChange(_identifier, event: MatDatepickerInputEvent<Date>) {
+
     // this.model.effectiveDate = moment(event.value).format('YYYY/MM/DD');
     if (_identifier == 'ADMIN') {
       this.adminprofiledata.dob = moment(event.value).format('YYYY/MM/DD');
-    }else if (_identifier == 'deliveredDate') {
+    } else if (_identifier == 'deliveredDate') {
       this.model.deliveredDate = moment(event.value).format('YYYY-MM-DD');
-    }else if (_identifier == 'payment') {
+    } else if (_identifier == 'payment') {
       this.model.payment_datetime = moment(event.value).format('YYYY/MM/DD');
-    }else if (_identifier == 'updatedDatetime') {
+    } else if (_identifier == 'updatedDatetime') {
       this.model.updated_datetime = moment(event.value).format('YYYY-MM-DD hh:mm:ss');
-    }else if (_identifier == 'service_Date') {
+    } else if (_identifier == 'service_Date') {
       this.model.servicedate = moment(event.value).format('YYYY-MM-DD hh:mm:ss');
-    }else if (_identifier == 'gov_Date') {
+    } else if (_identifier == 'gov_Date') {
       this.model.govdate = moment(event.value).format('YYYY-MM-DD hh:mm:ss');
     }
   }

@@ -1446,6 +1446,9 @@ let ModalPage = class ModalPage {
             };
         }
         else if (identifier == 'Delivered') {
+            const date = new Date();
+            this.filter_date = moment__WEBPACK_IMPORTED_MODULE_2__(date.setMinutes(date.getMinutes() + 60)).format('YYYY-MM-DD : HH:mm:ss');
+            console.log('filter_date', this.filter_date);
             var designerData = {}, total_amount = 0, basic_amount = 0, total_amount_received = 0, total_tax_amount = 0, total_tax = 0, fee = 0, igst = 0, igst2 = 0, cgst = 0, sgst = 0, data, accountData = {}, invoiceId, hsn_amount = 0, hsn_cgst = 0, tcs = 0, hsn_igst = 0, hsn_rate = 0, hsn_sgst = 0, net_payable_designer = 0;
             if (this.get_item.hsnData && this.get_item.salesPrice != 0) {
                 // console.log("SALEPRICE");
@@ -1509,191 +1512,87 @@ let ModalPage = class ModalPage {
                 hsn_sgst = parseFloat((((_q = this.get_item) === null || _q === void 0 ? void 0 : _q.taxAmount) / 2).toFixed(2));
             }
             this.http.get('designer/' + this.get_item.designerId).subscribe((res) => {
-                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30;
                 designerData = res;
                 body = {
                     "DeliveryDTO": {
                         "deliveredDate": form.value.deliveredDate
                     }
                 };
-                data = {
-                    "designerDetails": {
-                        "GSTIN": designerData.boutiqueProfile.gstin,
-                        "PAN": (_b = (_a = designerData === null || designerData === void 0 ? void 0 : designerData.designerPersonalInfoEntity) === null || _a === void 0 ? void 0 : _a.designerDocuments) === null || _b === void 0 ? void 0 : _b.panCard,
-                        "name": designerData.designerProfile.designerName,
-                        "mobile": designerData.designerProfile.mobileNo,
-                        "address": designerData.socialProfile.address,
-                        "boutiqueName": (_c = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _c === void 0 ? void 0 : _c.boutiqueName,
+                // console.log('invoiceId',this.filter_date);
+                var salesPrice = 0;
+                if (((_a = this.get_item) === null || _a === void 0 ? void 0 : _a.salesPrice) == 0) {
+                    salesPrice = (_b = this.get_item) === null || _b === void 0 ? void 0 : _b.mrp;
+                }
+                else {
+                    salesPrice = (_c = this.get_item) === null || _c === void 0 ? void 0 : _c.salesPrice;
+                }
+                accountData = {
+                    "admin_details": {
+                        "address": ((_d = this.authData) === null || _d === void 0 ? void 0 : _d.city) + ',' + ((_e = this.authData) === null || _e === void 0 ? void 0 : _e.state) + ',' + ((_f = this.authData) === null || _f === void 0 ? void 0 : _f.country),
+                        "admin_id": (_g = this.authData) === null || _g === void 0 ? void 0 : _g.uid,
+                        "gstIn": (_h = this.authData) === null || _h === void 0 ? void 0 : _h.gstIn,
+                        "pan": (_j = this.authData) === null || _j === void 0 ? void 0 : _j.pan,
+                        "pin": (_k = this.authData) === null || _k === void 0 ? void 0 : _k.pin,
+                        "mobile": (_l = this.authData) === null || _l === void 0 ? void 0 : _l.mobileNo,
+                        "name": ((_m = this.authData) === null || _m === void 0 ? void 0 : _m.firstName) + ' ' + ((_o = this.authData) === null || _o === void 0 ? void 0 : _o.lastName),
+                        "gender": (_p = this.authData) === null || _p === void 0 ? void 0 : _p.gender
+                    },
+                    "datetime": this.currentDateTime,
+                    "designer_details": {
+                        "address": (_q = designerData === null || designerData === void 0 ? void 0 : designerData.socialProfile) === null || _q === void 0 ? void 0 : _q.address,
                         "designer_id": designerData === null || designerData === void 0 ? void 0 : designerData.designerId,
                         "designer_name": designerData === null || designerData === void 0 ? void 0 : designerData.designerName,
-                        "display_name": (_d = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _d === void 0 ? void 0 : _d.designerName,
-                        "gst_in": (_e = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _e === void 0 ? void 0 : _e.gstin,
-                        "email": (_f = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _f === void 0 ? void 0 : _f.email,
-                        "city": (_g = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _g === void 0 ? void 0 : _g.city,
-                        "state": (_h = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _h === void 0 ? void 0 : _h.state,
-                        "country": (_j = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _j === void 0 ? void 0 : _j.country,
-                        "pan": (_k = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _k === void 0 ? void 0 : _k.pan,
-                        "pin": (_l = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _l === void 0 ? void 0 : _l.pinCode,
+                        "boutiqueName": (_r = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _r === void 0 ? void 0 : _r.boutiqueName,
+                        "display_name": (_s = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _s === void 0 ? void 0 : _s.displayName,
+                        "gst_in": (_t = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _t === void 0 ? void 0 : _t.gstin,
+                        "email": (_u = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _u === void 0 ? void 0 : _u.email,
+                        "mobile": (_v = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _v === void 0 ? void 0 : _v.mobileNo,
+                        "city": (_w = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _w === void 0 ? void 0 : _w.city,
+                        "state": (_x = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _x === void 0 ? void 0 : _x.state,
+                        "country": (_y = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _y === void 0 ? void 0 : _y.country,
+                        "pan": (_0 = (_z = designerData === null || designerData === void 0 ? void 0 : designerData.designerPersonalInfoEntity) === null || _z === void 0 ? void 0 : _z.designerDocuments) === null || _0 === void 0 ? void 0 : _0.panCard,
+                        "pin": (_1 = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _1 === void 0 ? void 0 : _1.pinCode,
                     },
-                    "invoiceDatetime": '',
-                    "invoiceId": '',
-                    "orderDatetime": this.get_array.orderDate,
-                    "orderId": this.get_array.orderId,
-                    "productDetails": {
-                        "colour": this.get_item.colour,
-                        "createdOn": this.get_item.createdOn,
-                        "designerId": this.get_item.designerId,
-                        "discount": this.get_item.discount,
-                        "id": this.get_item.id,
-                        "images": this.get_item.images,
-                        "mrp": this.get_item.mrp,
-                        "orderId": this.get_item.orderId,
-                        "orderItemStatus": this.get_item.orderItemStatus,
-                        "productId": this.get_item.productId,
-                        "productName": this.get_item.productName,
-                        "productSku": this.get_item.productSku,
-                        "reachedCentralHub": this.get_item.reachedCentralHub,
-                        "salesPrice": this.get_item.salesPrice,
-                        "size": this.get_item.size,
-                        "taxAmount": this.get_item.taxAmount,
-                        "taxType": this.get_item.taxType,
-                        "units": this.get_item.units,
-                        "updatedOn": this.get_item.updatedOn,
-                        "userId": (_m = this.get_item) === null || _m === void 0 ? void 0 : _m.userId,
-                    },
-                    "userDetails": {
-                        "userId": this.get_array.userId,
-                        "shipping_address": this.get_array.shippingAddress,
-                        "billing_address": this.get_array.billingAddress,
-                        "mobile": this.get_array.billingAddress.mobile,
-                    },
-                };
-                this.GenarateInvoiceSubscribe = this.http.post("userOrder/invoices/add", data).subscribe((res) => {
-                    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30;
-                    invoiceId = res.invoiceId;
-                    // console.log('invoiceId',this.filter_date);
-                    var salesPrice = 0;
-                    if (((_a = this.get_item) === null || _a === void 0 ? void 0 : _a.salesPrice) == 0) {
-                        salesPrice = (_b = this.get_item) === null || _b === void 0 ? void 0 : _b.mrp;
-                    }
-                    else {
-                        salesPrice = (_c = this.get_item) === null || _c === void 0 ? void 0 : _c.salesPrice;
-                    }
-                    accountData = {
-                        "admin_details": {
-                            "address": ((_d = this.authData) === null || _d === void 0 ? void 0 : _d.city) + ',' + ((_e = this.authData) === null || _e === void 0 ? void 0 : _e.state) + ',' + ((_f = this.authData) === null || _f === void 0 ? void 0 : _f.country),
-                            "admin_id": (_g = this.authData) === null || _g === void 0 ? void 0 : _g.uid,
-                            "gstIn": (_h = this.authData) === null || _h === void 0 ? void 0 : _h.gstIn,
-                            "pan": (_j = this.authData) === null || _j === void 0 ? void 0 : _j.pan,
-                            "pin": (_k = this.authData) === null || _k === void 0 ? void 0 : _k.pin,
-                            "mobile": (_l = this.authData) === null || _l === void 0 ? void 0 : _l.mobileNo,
-                            "name": ((_m = this.authData) === null || _m === void 0 ? void 0 : _m.firstName) + ' ' + ((_o = this.authData) === null || _o === void 0 ? void 0 : _o.lastName),
-                            "gender": (_p = this.authData) === null || _p === void 0 ? void 0 : _p.gender
-                        },
-                        "datetime": this.currentDateTime,
-                        "designer_details": {
-                            "address": (_q = designerData === null || designerData === void 0 ? void 0 : designerData.socialProfile) === null || _q === void 0 ? void 0 : _q.address,
-                            "designer_id": designerData === null || designerData === void 0 ? void 0 : designerData.designerId,
-                            "designer_name": designerData === null || designerData === void 0 ? void 0 : designerData.designerName,
-                            "boutiqueName": (_r = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _r === void 0 ? void 0 : _r.boutiqueName,
-                            "display_name": (_s = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _s === void 0 ? void 0 : _s.displayName,
-                            "gst_in": (_t = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _t === void 0 ? void 0 : _t.gstin,
-                            "email": (_u = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _u === void 0 ? void 0 : _u.email,
-                            "mobile": (_v = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _v === void 0 ? void 0 : _v.mobileNo,
-                            "city": (_w = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _w === void 0 ? void 0 : _w.city,
-                            "state": (_x = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _x === void 0 ? void 0 : _x.state,
-                            "country": (_y = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _y === void 0 ? void 0 : _y.country,
-                            "pan": (_0 = (_z = designerData === null || designerData === void 0 ? void 0 : designerData.designerPersonalInfoEntity) === null || _z === void 0 ? void 0 : _z.designerDocuments) === null || _0 === void 0 ? void 0 : _0.panCard,
-                            "pin": (_1 = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _1 === void 0 ? void 0 : _1.pinCode,
-                        },
-                        "filter_date": this.filter_date,
-                        "designer_return_amount": [
-                            {
-                                "datetime": this.currentDateTime,
-                                "basic_amount": basic_amount,
-                                "designer_id": (_2 = this.get_item) === null || _2 === void 0 ? void 0 : _2.designerId,
-                                "discount": (_3 = this.get_item) === null || _3 === void 0 ? void 0 : _3.discount,
-                                "hsn_amount": parseFloat(hsn_amount),
-                                "hsn_cgst": parseFloat(hsn_cgst),
-                                "hsn_igst": parseFloat(hsn_igst),
-                                "hsn_rate": parseFloat(hsn_rate),
-                                "hsn_sgst": parseFloat(hsn_sgst),
-                                "net_payable_designer": net_payable_designer,
-                                "payment_datetime": moment__WEBPACK_IMPORTED_MODULE_2__((_5 = (_4 = this.get_array) === null || _4 === void 0 ? void 0 : _4.paymentData) === null || _5 === void 0 ? void 0 : _5.createdOn).format('YYYY-MM-DD hh:mm:ss'),
-                                "mrp": (_6 = this.get_item) === null || _6 === void 0 ? void 0 : _6.mrp,
-                                "order_id": (_7 = this.get_item) === null || _7 === void 0 ? void 0 : _7.orderId,
-                                "status": "NOT RETURN",
-                                "product_id": (_8 = this.get_item) === null || _8 === void 0 ? void 0 : _8.productId,
-                                "product_sku": (_9 = this.get_item) === null || _9 === void 0 ? void 0 : _9.productSku,
-                                "remarks": '',
-                                "sales_price": salesPrice,
-                                "size": (_10 = this.get_item) === null || _10 === void 0 ? void 0 : _10.size,
-                                "tax_type": (_11 = this.get_item) === null || _11 === void 0 ? void 0 : _11.taxType,
-                                "units": (_12 = this.get_item) === null || _12 === void 0 ? void 0 : _12.units,
-                                "user_id": (_13 = this.get_item) === null || _13 === void 0 ? void 0 : _13.userId,
-                                "tcs": tcs,
-                                "total_amount_received": total_amount_received,
-                                "total_tax_amount": total_tax_amount,
-                                "updated_by": this.authData.uid,
-                                "updated_datetime": this.currentDateTime
-                            }
-                        ],
-                        "govt_charge": [
-                            {
-                                "cgst": 0,
-                                "datetime": this.currentDateTime,
-                                "fee": fee,
-                                "igst": igst,
-                                "rate": 12,
-                                "remarks": "",
-                                "sgst": 0,
-                                "status": 'NOT PAID',
-                                "tcs": tcs,
-                                "tcs_rate": 1,
-                                "total_amount": fee + igst + tcs,
-                                "total_tax": igst + tcs,
-                                "units": (_14 = this.get_item) === null || _14 === void 0 ? void 0 : _14.units,
-                                "updated_by": this.authData.uid,
-                                "updated_datetime": this.currentDateTime
-                            }
-                        ],
-                        "order_details": [
-                            {
-                                "basic_amount": basic_amount,
-                                "datetime": this.currentDateTime,
-                                "delivery_datetime": moment__WEBPACK_IMPORTED_MODULE_2__(form.value.deliver_Date).format('YYYY-MM-DD hh:mm:ss'),
-                                "designer_id": (_15 = this.get_item) === null || _15 === void 0 ? void 0 : _15.designerId,
-                                "discount": (_16 = this.get_item) === null || _16 === void 0 ? void 0 : _16.discount,
-                                "hsn_cgst": parseFloat(hsn_cgst),
-                                "hsn_igst": parseFloat(hsn_igst),
-                                "hsn_rate": parseFloat(hsn_rate),
-                                "hsn_sgst": parseFloat(hsn_sgst),
-                                "hsn_amount": parseFloat(hsn_amount),
-                                "image": (_17 = this.get_item) === null || _17 === void 0 ? void 0 : _17.images,
-                                "giftWrapAmount": (_18 = this.get_item) === null || _18 === void 0 ? void 0 : _18.giftWrapAmount,
-                                "invoice_id": invoiceId,
-                                "paymentMode": (_20 = (_19 = this.get_array) === null || _19 === void 0 ? void 0 : _19.paymentData) === null || _20 === void 0 ? void 0 : _20.paymentMode,
-                                "mrp": (_21 = this.get_item) === null || _21 === void 0 ? void 0 : _21.mrp,
-                                "order_id": (_22 = this.get_item) === null || _22 === void 0 ? void 0 : _22.orderId,
-                                "order_date": moment__WEBPACK_IMPORTED_MODULE_2__((_23 = this.get_item) === null || _23 === void 0 ? void 0 : _23.createdOn, "DD/MM/YYYY hh:mm:ss").format('DD/MM/YYYY'),
-                                "order_status": "DELIVERED",
-                                "product_id": (_24 = this.get_item) === null || _24 === void 0 ? void 0 : _24.productId,
-                                "product_sku": (_25 = this.get_item) === null || _25 === void 0 ? void 0 : _25.productSku,
-                                "remarks": '',
-                                "sales_price": salesPrice,
-                                "size": (_26 = this.get_item) === null || _26 === void 0 ? void 0 : _26.size,
-                                "tax_type": (_27 = this.get_item) === null || _27 === void 0 ? void 0 : _27.taxType,
-                                "total_tax": total_tax,
-                                "units": (_28 = this.get_item) === null || _28 === void 0 ? void 0 : _28.units,
-                                "user_id": (_29 = this.get_item) === null || _29 === void 0 ? void 0 : _29.userId
-                            }
-                        ],
-                        "service_charge": {
+                    "filter_date": this.filter_date,
+                    "designer_return_amount": [
+                        {
+                            "datetime": this.currentDateTime,
+                            "basic_amount": basic_amount,
+                            "designer_id": (_2 = this.get_item) === null || _2 === void 0 ? void 0 : _2.designerId,
+                            "discount": (_3 = this.get_item) === null || _3 === void 0 ? void 0 : _3.discount,
+                            "hsn_amount": parseFloat(hsn_amount),
+                            "hsn_cgst": parseFloat(hsn_cgst),
+                            "hsn_igst": parseFloat(hsn_igst),
+                            "hsn_rate": parseFloat(hsn_rate),
+                            "hsn_sgst": parseFloat(hsn_sgst),
+                            "net_payable_designer": net_payable_designer,
+                            "payment_datetime": moment__WEBPACK_IMPORTED_MODULE_2__((_5 = (_4 = this.get_array) === null || _4 === void 0 ? void 0 : _4.paymentData) === null || _5 === void 0 ? void 0 : _5.createdOn).format('YYYY-MM-DD hh:mm:ss'),
+                            "mrp": (_6 = this.get_item) === null || _6 === void 0 ? void 0 : _6.mrp,
+                            "order_id": (_7 = this.get_item) === null || _7 === void 0 ? void 0 : _7.orderId,
+                            "status": "NOT RETURN",
+                            "product_id": (_8 = this.get_item) === null || _8 === void 0 ? void 0 : _8.productId,
+                            "product_sku": (_9 = this.get_item) === null || _9 === void 0 ? void 0 : _9.productSku,
+                            "remarks": '',
+                            "sales_price": salesPrice,
+                            "size": (_10 = this.get_item) === null || _10 === void 0 ? void 0 : _10.size,
+                            "tax_type": (_11 = this.get_item) === null || _11 === void 0 ? void 0 : _11.taxType,
+                            "units": (_12 = this.get_item) === null || _12 === void 0 ? void 0 : _12.units,
+                            "user_id": (_13 = this.get_item) === null || _13 === void 0 ? void 0 : _13.userId,
+                            "tcs": tcs,
+                            "total_amount_received": total_amount_received,
+                            "total_tax_amount": total_tax_amount,
+                            "updated_by": this.authData.uid,
+                            "updated_datetime": this.currentDateTime
+                        }
+                    ],
+                    "govt_charge": [
+                        {
                             "cgst": 0,
-                            "date": moment__WEBPACK_IMPORTED_MODULE_2__(this.currentDateTime, 'YYYY-MM-DD hh:mm:ss').format('DD/MM/YYYY'),
+                            "datetime": this.currentDateTime,
                             "fee": fee,
                             "igst": igst,
-                            "rate": 14,
+                            "rate": 12,
                             "remarks": "",
                             "sgst": 0,
                             "status": 'NOT PAID',
@@ -1701,12 +1600,59 @@ let ModalPage = class ModalPage {
                             "tcs_rate": 1,
                             "total_amount": fee + igst + tcs,
                             "total_tax": igst + tcs,
-                            "units": (_30 = this.get_item) === null || _30 === void 0 ? void 0 : _30.units
+                            "units": (_14 = this.get_item) === null || _14 === void 0 ? void 0 : _14.units,
+                            "updated_by": this.authData.uid,
+                            "updated_datetime": this.currentDateTime
                         }
-                    };
-                    this.GenarateAccountDataSubscribe = this.http.post("account/add", accountData).subscribe((res) => {
-                    }, (error) => {
-                    });
+                    ],
+                    "order_details": [
+                        {
+                            "basic_amount": basic_amount,
+                            "datetime": this.currentDateTime,
+                            "delivery_datetime": moment__WEBPACK_IMPORTED_MODULE_2__(form.value.deliver_Date).format('YYYY-MM-DD hh:mm:ss'),
+                            "designer_id": (_15 = this.get_item) === null || _15 === void 0 ? void 0 : _15.designerId,
+                            "discount": (_16 = this.get_item) === null || _16 === void 0 ? void 0 : _16.discount,
+                            "hsn_cgst": parseFloat(hsn_cgst),
+                            "hsn_igst": parseFloat(hsn_igst),
+                            "hsn_rate": parseFloat(hsn_rate),
+                            "hsn_sgst": parseFloat(hsn_sgst),
+                            "hsn_amount": parseFloat(hsn_amount),
+                            "image": (_17 = this.get_item) === null || _17 === void 0 ? void 0 : _17.images,
+                            "giftWrapAmount": (_18 = this.get_item) === null || _18 === void 0 ? void 0 : _18.giftWrapAmount,
+                            "invoice_id": invoiceId,
+                            "paymentMode": (_20 = (_19 = this.get_array) === null || _19 === void 0 ? void 0 : _19.paymentData) === null || _20 === void 0 ? void 0 : _20.paymentMode,
+                            "mrp": (_21 = this.get_item) === null || _21 === void 0 ? void 0 : _21.mrp,
+                            "order_id": (_22 = this.get_item) === null || _22 === void 0 ? void 0 : _22.orderId,
+                            "order_date": moment__WEBPACK_IMPORTED_MODULE_2__((_23 = this.get_item) === null || _23 === void 0 ? void 0 : _23.createdOn, "DD/MM/YYYY hh:mm:ss").format('DD/MM/YYYY'),
+                            "order_status": "DELIVERED",
+                            "product_id": (_24 = this.get_item) === null || _24 === void 0 ? void 0 : _24.productId,
+                            "product_sku": (_25 = this.get_item) === null || _25 === void 0 ? void 0 : _25.productSku,
+                            "remarks": '',
+                            "sales_price": salesPrice,
+                            "size": (_26 = this.get_item) === null || _26 === void 0 ? void 0 : _26.size,
+                            "tax_type": (_27 = this.get_item) === null || _27 === void 0 ? void 0 : _27.taxType,
+                            "total_tax": total_tax,
+                            "units": (_28 = this.get_item) === null || _28 === void 0 ? void 0 : _28.units,
+                            "user_id": (_29 = this.get_item) === null || _29 === void 0 ? void 0 : _29.userId
+                        }
+                    ],
+                    "service_charge": {
+                        "cgst": 0,
+                        "date": moment__WEBPACK_IMPORTED_MODULE_2__(this.currentDateTime, 'YYYY-MM-DD hh:mm:ss').format('DD/MM/YYYY'),
+                        "fee": fee,
+                        "igst": igst,
+                        "rate": 14,
+                        "remarks": "",
+                        "sgst": 0,
+                        "status": 'NOT PAID',
+                        "tcs": tcs,
+                        "tcs_rate": 1,
+                        "total_amount": fee + igst + tcs,
+                        "total_tax": igst + tcs,
+                        "units": (_30 = this.get_item) === null || _30 === void 0 ? void 0 : _30.units
+                    }
+                };
+                this.GenarateAccountDataSubscribe = this.http.post("account/add", accountData).subscribe((res) => {
                 }, (error) => {
                 });
                 // console.log('accountData',accountData);

@@ -268,7 +268,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                       <div class="product-size d-flex">
-                        <span class="id-header">Size: </span>
+                        <span class="id-header">Size:  &nbsp;</span>
                         <span class="d-flex align-items-center">{{tableData?.size}} &nbsp;<mat-icon *ngIf="tableData?.size == 'Custom'" class="cursor-pointer" (click)="orderStatus_modal('userCustomMesorment',tableData,'')">info</mat-icon></span>
                       </div>
                     </div>
@@ -288,6 +288,17 @@
                       <div class="product-qty customizationDescption">
                         <span class="id-header d-flex align-items-center cursor-pointer w-fit" (click)="showCustomization=!showCustomization">Design Customization Message <mat-icon >{{showCustomization ? 'expand_less' : 'expand_more'}}</mat-icon></span>
                         <span [ngClass]="{'showCustomization':showCustomization}" class="customizationMessage">{{tableData?.customObject?.customizationDetails}}</span>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.dialogbox.length !== 0">
+                      <div class="product-qty customizationDescption">
+                        <span class="id-header d-flex align-items-center cursor-pointer w-fit" (click)="showChanges=!showChanges">Design Changes Message <mat-icon >{{showChanges ? 'expand_less' : 'expand_more'}}</mat-icon></span>
+                        <span [ngClass]="{'showChanges':showChanges}" class="customizationMessage">
+                          <div class="message-box message-partner mb-4 w-100" *ngFor="let changesitem of tableData?.dialogbox;let i = index;">
+                            {{changesitem?.message}}
+                            <code style=" display: block; float: right;">{{changesitem?.date | date:'dd MMM yyy : h:mm a'}}</code>
+                          </div>
+                        </span>
                       </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="tableData?.giftWrapAmount">

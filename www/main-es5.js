@@ -2247,6 +2247,9 @@
                 }
               };
             } else if (identifier == 'Delivered') {
+              var date = new Date();
+              this.filter_date = moment__WEBPACK_IMPORTED_MODULE_2__(date.setMinutes(date.getMinutes() + 60)).format('YYYY-MM-DD : HH:mm:ss');
+              console.log('filter_date', this.filter_date);
               var designerData = {},
                   total_amount = 0,
                   basic_amount = 0,
@@ -2331,200 +2334,143 @@
               }
 
               this.http.get('designer/' + this.get_item.designerId).subscribe(function (res) {
-                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30;
 
                 designerData = res;
                 body = {
                   "DeliveryDTO": {
                     "deliveredDate": form.value.deliveredDate
                   }
-                };
-                data = {
-                  "designerDetails": {
-                    "GSTIN": designerData.boutiqueProfile.gstin,
-                    "PAN": (_b = (_a = designerData === null || designerData === void 0 ? void 0 : designerData.designerPersonalInfoEntity) === null || _a === void 0 ? void 0 : _a.designerDocuments) === null || _b === void 0 ? void 0 : _b.panCard,
-                    "name": designerData.designerProfile.designerName,
-                    "mobile": designerData.designerProfile.mobileNo,
-                    "address": designerData.socialProfile.address,
-                    "boutiqueName": (_c = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _c === void 0 ? void 0 : _c.boutiqueName,
+                }; // console.log('invoiceId',this.filter_date);
+
+                var salesPrice = 0;
+
+                if (((_a = _this13.get_item) === null || _a === void 0 ? void 0 : _a.salesPrice) == 0) {
+                  salesPrice = (_b = _this13.get_item) === null || _b === void 0 ? void 0 : _b.mrp;
+                } else {
+                  salesPrice = (_c = _this13.get_item) === null || _c === void 0 ? void 0 : _c.salesPrice;
+                }
+
+                accountData = {
+                  "admin_details": {
+                    "address": ((_d = _this13.authData) === null || _d === void 0 ? void 0 : _d.city) + ',' + ((_e = _this13.authData) === null || _e === void 0 ? void 0 : _e.state) + ',' + ((_f = _this13.authData) === null || _f === void 0 ? void 0 : _f.country),
+                    "admin_id": (_g = _this13.authData) === null || _g === void 0 ? void 0 : _g.uid,
+                    "gstIn": (_h = _this13.authData) === null || _h === void 0 ? void 0 : _h.gstIn,
+                    "pan": (_j = _this13.authData) === null || _j === void 0 ? void 0 : _j.pan,
+                    "pin": (_k = _this13.authData) === null || _k === void 0 ? void 0 : _k.pin,
+                    "mobile": (_l = _this13.authData) === null || _l === void 0 ? void 0 : _l.mobileNo,
+                    "name": ((_m = _this13.authData) === null || _m === void 0 ? void 0 : _m.firstName) + ' ' + ((_o = _this13.authData) === null || _o === void 0 ? void 0 : _o.lastName),
+                    "gender": (_p = _this13.authData) === null || _p === void 0 ? void 0 : _p.gender
+                  },
+                  "datetime": _this13.currentDateTime,
+                  "designer_details": {
+                    "address": (_q = designerData === null || designerData === void 0 ? void 0 : designerData.socialProfile) === null || _q === void 0 ? void 0 : _q.address,
                     "designer_id": designerData === null || designerData === void 0 ? void 0 : designerData.designerId,
                     "designer_name": designerData === null || designerData === void 0 ? void 0 : designerData.designerName,
-                    "display_name": (_d = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _d === void 0 ? void 0 : _d.designerName,
-                    "gst_in": (_e = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _e === void 0 ? void 0 : _e.gstin,
-                    "email": (_f = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _f === void 0 ? void 0 : _f.email,
-                    "city": (_g = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _g === void 0 ? void 0 : _g.city,
-                    "state": (_h = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _h === void 0 ? void 0 : _h.state,
-                    "country": (_j = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _j === void 0 ? void 0 : _j.country,
-                    "pan": (_k = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _k === void 0 ? void 0 : _k.pan,
-                    "pin": (_l = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _l === void 0 ? void 0 : _l.pinCode
+                    "boutiqueName": (_r = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _r === void 0 ? void 0 : _r.boutiqueName,
+                    "display_name": (_s = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _s === void 0 ? void 0 : _s.displayName,
+                    "gst_in": (_t = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _t === void 0 ? void 0 : _t.gstin,
+                    "email": (_u = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _u === void 0 ? void 0 : _u.email,
+                    "mobile": (_v = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _v === void 0 ? void 0 : _v.mobileNo,
+                    "city": (_w = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _w === void 0 ? void 0 : _w.city,
+                    "state": (_x = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _x === void 0 ? void 0 : _x.state,
+                    "country": (_y = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _y === void 0 ? void 0 : _y.country,
+                    "pan": (_0 = (_z = designerData === null || designerData === void 0 ? void 0 : designerData.designerPersonalInfoEntity) === null || _z === void 0 ? void 0 : _z.designerDocuments) === null || _0 === void 0 ? void 0 : _0.panCard,
+                    "pin": (_1 = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _1 === void 0 ? void 0 : _1.pinCode
                   },
-                  "invoiceDatetime": '',
-                  "invoiceId": '',
-                  "orderDatetime": _this13.get_array.orderDate,
-                  "orderId": _this13.get_array.orderId,
-                  "productDetails": {
-                    "colour": _this13.get_item.colour,
-                    "createdOn": _this13.get_item.createdOn,
-                    "designerId": _this13.get_item.designerId,
-                    "discount": _this13.get_item.discount,
-                    "id": _this13.get_item.id,
-                    "images": _this13.get_item.images,
-                    "mrp": _this13.get_item.mrp,
-                    "orderId": _this13.get_item.orderId,
-                    "orderItemStatus": _this13.get_item.orderItemStatus,
-                    "productId": _this13.get_item.productId,
-                    "productName": _this13.get_item.productName,
-                    "productSku": _this13.get_item.productSku,
-                    "reachedCentralHub": _this13.get_item.reachedCentralHub,
-                    "salesPrice": _this13.get_item.salesPrice,
-                    "size": _this13.get_item.size,
-                    "taxAmount": _this13.get_item.taxAmount,
-                    "taxType": _this13.get_item.taxType,
-                    "units": _this13.get_item.units,
-                    "updatedOn": _this13.get_item.updatedOn,
-                    "userId": (_m = _this13.get_item) === null || _m === void 0 ? void 0 : _m.userId
-                  },
-                  "userDetails": {
-                    "userId": _this13.get_array.userId,
-                    "shipping_address": _this13.get_array.shippingAddress,
-                    "billing_address": _this13.get_array.billingAddress,
-                    "mobile": _this13.get_array.billingAddress.mobile
+                  "filter_date": _this13.filter_date,
+                  "designer_return_amount": [{
+                    "datetime": _this13.currentDateTime,
+                    "basic_amount": basic_amount,
+                    "designer_id": (_2 = _this13.get_item) === null || _2 === void 0 ? void 0 : _2.designerId,
+                    "discount": (_3 = _this13.get_item) === null || _3 === void 0 ? void 0 : _3.discount,
+                    "hsn_amount": parseFloat(hsn_amount),
+                    "hsn_cgst": parseFloat(hsn_cgst),
+                    "hsn_igst": parseFloat(hsn_igst),
+                    "hsn_rate": parseFloat(hsn_rate),
+                    "hsn_sgst": parseFloat(hsn_sgst),
+                    "net_payable_designer": net_payable_designer,
+                    "payment_datetime": moment__WEBPACK_IMPORTED_MODULE_2__((_5 = (_4 = _this13.get_array) === null || _4 === void 0 ? void 0 : _4.paymentData) === null || _5 === void 0 ? void 0 : _5.createdOn).format('YYYY-MM-DD hh:mm:ss'),
+                    "mrp": (_6 = _this13.get_item) === null || _6 === void 0 ? void 0 : _6.mrp,
+                    "order_id": (_7 = _this13.get_item) === null || _7 === void 0 ? void 0 : _7.orderId,
+                    "status": "NOT RETURN",
+                    "product_id": (_8 = _this13.get_item) === null || _8 === void 0 ? void 0 : _8.productId,
+                    "product_sku": (_9 = _this13.get_item) === null || _9 === void 0 ? void 0 : _9.productSku,
+                    "remarks": '',
+                    "sales_price": salesPrice,
+                    "size": (_10 = _this13.get_item) === null || _10 === void 0 ? void 0 : _10.size,
+                    "tax_type": (_11 = _this13.get_item) === null || _11 === void 0 ? void 0 : _11.taxType,
+                    "units": (_12 = _this13.get_item) === null || _12 === void 0 ? void 0 : _12.units,
+                    "user_id": (_13 = _this13.get_item) === null || _13 === void 0 ? void 0 : _13.userId,
+                    "tcs": tcs,
+                    "total_amount_received": total_amount_received,
+                    "total_tax_amount": total_tax_amount,
+                    "updated_by": _this13.authData.uid,
+                    "updated_datetime": _this13.currentDateTime
+                  }],
+                  "govt_charge": [{
+                    "cgst": 0,
+                    "datetime": _this13.currentDateTime,
+                    "fee": fee,
+                    "igst": igst,
+                    "rate": 12,
+                    "remarks": "",
+                    "sgst": 0,
+                    "status": 'NOT PAID',
+                    "tcs": tcs,
+                    "tcs_rate": 1,
+                    "total_amount": fee + igst + tcs,
+                    "total_tax": igst + tcs,
+                    "units": (_14 = _this13.get_item) === null || _14 === void 0 ? void 0 : _14.units,
+                    "updated_by": _this13.authData.uid,
+                    "updated_datetime": _this13.currentDateTime
+                  }],
+                  "order_details": [{
+                    "basic_amount": basic_amount,
+                    "datetime": _this13.currentDateTime,
+                    "delivery_datetime": moment__WEBPACK_IMPORTED_MODULE_2__(form.value.deliver_Date).format('YYYY-MM-DD hh:mm:ss'),
+                    "designer_id": (_15 = _this13.get_item) === null || _15 === void 0 ? void 0 : _15.designerId,
+                    "discount": (_16 = _this13.get_item) === null || _16 === void 0 ? void 0 : _16.discount,
+                    "hsn_cgst": parseFloat(hsn_cgst),
+                    "hsn_igst": parseFloat(hsn_igst),
+                    "hsn_rate": parseFloat(hsn_rate),
+                    "hsn_sgst": parseFloat(hsn_sgst),
+                    "hsn_amount": parseFloat(hsn_amount),
+                    "image": (_17 = _this13.get_item) === null || _17 === void 0 ? void 0 : _17.images,
+                    "giftWrapAmount": (_18 = _this13.get_item) === null || _18 === void 0 ? void 0 : _18.giftWrapAmount,
+                    "invoice_id": invoiceId,
+                    "paymentMode": (_20 = (_19 = _this13.get_array) === null || _19 === void 0 ? void 0 : _19.paymentData) === null || _20 === void 0 ? void 0 : _20.paymentMode,
+                    "mrp": (_21 = _this13.get_item) === null || _21 === void 0 ? void 0 : _21.mrp,
+                    "order_id": (_22 = _this13.get_item) === null || _22 === void 0 ? void 0 : _22.orderId,
+                    "order_date": moment__WEBPACK_IMPORTED_MODULE_2__((_23 = _this13.get_item) === null || _23 === void 0 ? void 0 : _23.createdOn, "DD/MM/YYYY hh:mm:ss").format('DD/MM/YYYY'),
+                    "order_status": "DELIVERED",
+                    "product_id": (_24 = _this13.get_item) === null || _24 === void 0 ? void 0 : _24.productId,
+                    "product_sku": (_25 = _this13.get_item) === null || _25 === void 0 ? void 0 : _25.productSku,
+                    "remarks": '',
+                    "sales_price": salesPrice,
+                    "size": (_26 = _this13.get_item) === null || _26 === void 0 ? void 0 : _26.size,
+                    "tax_type": (_27 = _this13.get_item) === null || _27 === void 0 ? void 0 : _27.taxType,
+                    "total_tax": total_tax,
+                    "units": (_28 = _this13.get_item) === null || _28 === void 0 ? void 0 : _28.units,
+                    "user_id": (_29 = _this13.get_item) === null || _29 === void 0 ? void 0 : _29.userId
+                  }],
+                  "service_charge": {
+                    "cgst": 0,
+                    "date": moment__WEBPACK_IMPORTED_MODULE_2__(_this13.currentDateTime, 'YYYY-MM-DD hh:mm:ss').format('DD/MM/YYYY'),
+                    "fee": fee,
+                    "igst": igst,
+                    "rate": 14,
+                    "remarks": "",
+                    "sgst": 0,
+                    "status": 'NOT PAID',
+                    "tcs": tcs,
+                    "tcs_rate": 1,
+                    "total_amount": fee + igst + tcs,
+                    "total_tax": igst + tcs,
+                    "units": (_30 = _this13.get_item) === null || _30 === void 0 ? void 0 : _30.units
                   }
                 };
-                _this13.GenarateInvoiceSubscribe = _this13.http.post("userOrder/invoices/add", data).subscribe(function (res) {
-                  var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30;
-
-                  invoiceId = res.invoiceId; // console.log('invoiceId',this.filter_date);
-
-                  var salesPrice = 0;
-
-                  if (((_a = _this13.get_item) === null || _a === void 0 ? void 0 : _a.salesPrice) == 0) {
-                    salesPrice = (_b = _this13.get_item) === null || _b === void 0 ? void 0 : _b.mrp;
-                  } else {
-                    salesPrice = (_c = _this13.get_item) === null || _c === void 0 ? void 0 : _c.salesPrice;
-                  }
-
-                  accountData = {
-                    "admin_details": {
-                      "address": ((_d = _this13.authData) === null || _d === void 0 ? void 0 : _d.city) + ',' + ((_e = _this13.authData) === null || _e === void 0 ? void 0 : _e.state) + ',' + ((_f = _this13.authData) === null || _f === void 0 ? void 0 : _f.country),
-                      "admin_id": (_g = _this13.authData) === null || _g === void 0 ? void 0 : _g.uid,
-                      "gstIn": (_h = _this13.authData) === null || _h === void 0 ? void 0 : _h.gstIn,
-                      "pan": (_j = _this13.authData) === null || _j === void 0 ? void 0 : _j.pan,
-                      "pin": (_k = _this13.authData) === null || _k === void 0 ? void 0 : _k.pin,
-                      "mobile": (_l = _this13.authData) === null || _l === void 0 ? void 0 : _l.mobileNo,
-                      "name": ((_m = _this13.authData) === null || _m === void 0 ? void 0 : _m.firstName) + ' ' + ((_o = _this13.authData) === null || _o === void 0 ? void 0 : _o.lastName),
-                      "gender": (_p = _this13.authData) === null || _p === void 0 ? void 0 : _p.gender
-                    },
-                    "datetime": _this13.currentDateTime,
-                    "designer_details": {
-                      "address": (_q = designerData === null || designerData === void 0 ? void 0 : designerData.socialProfile) === null || _q === void 0 ? void 0 : _q.address,
-                      "designer_id": designerData === null || designerData === void 0 ? void 0 : designerData.designerId,
-                      "designer_name": designerData === null || designerData === void 0 ? void 0 : designerData.designerName,
-                      "boutiqueName": (_r = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _r === void 0 ? void 0 : _r.boutiqueName,
-                      "display_name": (_s = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _s === void 0 ? void 0 : _s.displayName,
-                      "gst_in": (_t = designerData === null || designerData === void 0 ? void 0 : designerData.boutiqueProfile) === null || _t === void 0 ? void 0 : _t.gstin,
-                      "email": (_u = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _u === void 0 ? void 0 : _u.email,
-                      "mobile": (_v = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _v === void 0 ? void 0 : _v.mobileNo,
-                      "city": (_w = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _w === void 0 ? void 0 : _w.city,
-                      "state": (_x = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _x === void 0 ? void 0 : _x.state,
-                      "country": (_y = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _y === void 0 ? void 0 : _y.country,
-                      "pan": (_0 = (_z = designerData === null || designerData === void 0 ? void 0 : designerData.designerPersonalInfoEntity) === null || _z === void 0 ? void 0 : _z.designerDocuments) === null || _0 === void 0 ? void 0 : _0.panCard,
-                      "pin": (_1 = designerData === null || designerData === void 0 ? void 0 : designerData.designerProfile) === null || _1 === void 0 ? void 0 : _1.pinCode
-                    },
-                    "filter_date": _this13.filter_date,
-                    "designer_return_amount": [{
-                      "datetime": _this13.currentDateTime,
-                      "basic_amount": basic_amount,
-                      "designer_id": (_2 = _this13.get_item) === null || _2 === void 0 ? void 0 : _2.designerId,
-                      "discount": (_3 = _this13.get_item) === null || _3 === void 0 ? void 0 : _3.discount,
-                      "hsn_amount": parseFloat(hsn_amount),
-                      "hsn_cgst": parseFloat(hsn_cgst),
-                      "hsn_igst": parseFloat(hsn_igst),
-                      "hsn_rate": parseFloat(hsn_rate),
-                      "hsn_sgst": parseFloat(hsn_sgst),
-                      "net_payable_designer": net_payable_designer,
-                      "payment_datetime": moment__WEBPACK_IMPORTED_MODULE_2__((_5 = (_4 = _this13.get_array) === null || _4 === void 0 ? void 0 : _4.paymentData) === null || _5 === void 0 ? void 0 : _5.createdOn).format('YYYY-MM-DD hh:mm:ss'),
-                      "mrp": (_6 = _this13.get_item) === null || _6 === void 0 ? void 0 : _6.mrp,
-                      "order_id": (_7 = _this13.get_item) === null || _7 === void 0 ? void 0 : _7.orderId,
-                      "status": "NOT RETURN",
-                      "product_id": (_8 = _this13.get_item) === null || _8 === void 0 ? void 0 : _8.productId,
-                      "product_sku": (_9 = _this13.get_item) === null || _9 === void 0 ? void 0 : _9.productSku,
-                      "remarks": '',
-                      "sales_price": salesPrice,
-                      "size": (_10 = _this13.get_item) === null || _10 === void 0 ? void 0 : _10.size,
-                      "tax_type": (_11 = _this13.get_item) === null || _11 === void 0 ? void 0 : _11.taxType,
-                      "units": (_12 = _this13.get_item) === null || _12 === void 0 ? void 0 : _12.units,
-                      "user_id": (_13 = _this13.get_item) === null || _13 === void 0 ? void 0 : _13.userId,
-                      "tcs": tcs,
-                      "total_amount_received": total_amount_received,
-                      "total_tax_amount": total_tax_amount,
-                      "updated_by": _this13.authData.uid,
-                      "updated_datetime": _this13.currentDateTime
-                    }],
-                    "govt_charge": [{
-                      "cgst": 0,
-                      "datetime": _this13.currentDateTime,
-                      "fee": fee,
-                      "igst": igst,
-                      "rate": 12,
-                      "remarks": "",
-                      "sgst": 0,
-                      "status": 'NOT PAID',
-                      "tcs": tcs,
-                      "tcs_rate": 1,
-                      "total_amount": fee + igst + tcs,
-                      "total_tax": igst + tcs,
-                      "units": (_14 = _this13.get_item) === null || _14 === void 0 ? void 0 : _14.units,
-                      "updated_by": _this13.authData.uid,
-                      "updated_datetime": _this13.currentDateTime
-                    }],
-                    "order_details": [{
-                      "basic_amount": basic_amount,
-                      "datetime": _this13.currentDateTime,
-                      "delivery_datetime": moment__WEBPACK_IMPORTED_MODULE_2__(form.value.deliver_Date).format('YYYY-MM-DD hh:mm:ss'),
-                      "designer_id": (_15 = _this13.get_item) === null || _15 === void 0 ? void 0 : _15.designerId,
-                      "discount": (_16 = _this13.get_item) === null || _16 === void 0 ? void 0 : _16.discount,
-                      "hsn_cgst": parseFloat(hsn_cgst),
-                      "hsn_igst": parseFloat(hsn_igst),
-                      "hsn_rate": parseFloat(hsn_rate),
-                      "hsn_sgst": parseFloat(hsn_sgst),
-                      "hsn_amount": parseFloat(hsn_amount),
-                      "image": (_17 = _this13.get_item) === null || _17 === void 0 ? void 0 : _17.images,
-                      "giftWrapAmount": (_18 = _this13.get_item) === null || _18 === void 0 ? void 0 : _18.giftWrapAmount,
-                      "invoice_id": invoiceId,
-                      "paymentMode": (_20 = (_19 = _this13.get_array) === null || _19 === void 0 ? void 0 : _19.paymentData) === null || _20 === void 0 ? void 0 : _20.paymentMode,
-                      "mrp": (_21 = _this13.get_item) === null || _21 === void 0 ? void 0 : _21.mrp,
-                      "order_id": (_22 = _this13.get_item) === null || _22 === void 0 ? void 0 : _22.orderId,
-                      "order_date": moment__WEBPACK_IMPORTED_MODULE_2__((_23 = _this13.get_item) === null || _23 === void 0 ? void 0 : _23.createdOn, "DD/MM/YYYY hh:mm:ss").format('DD/MM/YYYY'),
-                      "order_status": "DELIVERED",
-                      "product_id": (_24 = _this13.get_item) === null || _24 === void 0 ? void 0 : _24.productId,
-                      "product_sku": (_25 = _this13.get_item) === null || _25 === void 0 ? void 0 : _25.productSku,
-                      "remarks": '',
-                      "sales_price": salesPrice,
-                      "size": (_26 = _this13.get_item) === null || _26 === void 0 ? void 0 : _26.size,
-                      "tax_type": (_27 = _this13.get_item) === null || _27 === void 0 ? void 0 : _27.taxType,
-                      "total_tax": total_tax,
-                      "units": (_28 = _this13.get_item) === null || _28 === void 0 ? void 0 : _28.units,
-                      "user_id": (_29 = _this13.get_item) === null || _29 === void 0 ? void 0 : _29.userId
-                    }],
-                    "service_charge": {
-                      "cgst": 0,
-                      "date": moment__WEBPACK_IMPORTED_MODULE_2__(_this13.currentDateTime, 'YYYY-MM-DD hh:mm:ss').format('DD/MM/YYYY'),
-                      "fee": fee,
-                      "igst": igst,
-                      "rate": 14,
-                      "remarks": "",
-                      "sgst": 0,
-                      "status": 'NOT PAID',
-                      "tcs": tcs,
-                      "tcs_rate": 1,
-                      "total_amount": fee + igst + tcs,
-                      "total_tax": igst + tcs,
-                      "units": (_30 = _this13.get_item) === null || _30 === void 0 ? void 0 : _30.units
-                    }
-                  };
-                  _this13.GenarateAccountDataSubscribe = _this13.http.post("account/add", accountData).subscribe(function (res) {}, function (error) {});
-                }, function (error) {}); // console.log('accountData',accountData);
+                _this13.GenarateAccountDataSubscribe = _this13.http.post("account/add", accountData).subscribe(function (res) {}, function (error) {}); // console.log('accountData',accountData);
               }, function (error) {});
             } else if (identifier == 'forceReturnOnModal') {
               this.orderItemStatus = 'ForceReturnAdmin';
