@@ -167,3 +167,6 @@ mat-spinner.formloader svg
   display: flex;
   align-items: center;
 }
+.custom-tab {
+  margin-bottom: 40px;
+}

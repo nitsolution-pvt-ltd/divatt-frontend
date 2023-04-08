@@ -16735,6 +16735,7 @@ background-color: $black;*/
 
   .section-b-space {
     padding-bottom: 5px;
+    margin-bottom: 30px;
   }
   .section-b-space.address_page {
     padding-bottom: 70px;
@@ -20527,6 +20528,9 @@ p.text-muted
   line-height: 1.1;
   text-align: center;
   text-transform: capitalize;
+}
+.profile-section .profile-wrapper {
+
 }
 .profile-section .mat-progress-spinner circle, .mat-spinner circle {
   stroke: #87c048 !important;

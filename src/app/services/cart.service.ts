@@ -253,7 +253,7 @@ export class CartService {
       let size=item.selectedSize;
       console.log("selectedSize...AAAA",size);
       
-      let product_id=item.productId;
+      let product_id= this.removeItem.productId;
       console.log("index......",products);
       products.forEach((element)=>{
         if(element.product.productId == product_id && element.product.selectedSize == size){

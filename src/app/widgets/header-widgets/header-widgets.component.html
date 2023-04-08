@@ -100,7 +100,7 @@
           
           <a [routerLink]="'/cart'">
             <img src="assets/images/icon/feather/shopping-bag.svg" class="img-fluid icon-height" alt="" style="width:27px">
-            <sup class="cart_qty_cls" style="top: -9px;">{{shoppingCartItems.length}}</sup>
+            <sup class="cart_qty_cls" style="top: -9px;">{{data?.length}}</sup>
           <!-- <i class="ti-settings"></i> -->
           </a>
         </div>
@@ -194,7 +194,7 @@
                         <li (click)="openLoginNav('forgotpassword')">Forgot your password?</li>
                         <li (click)="openLoginNav('register')">Don't have account? Sign Up</li>
                       </ul>
-                      <p class="font-bold text-black text-center mt-4"><b>Or Sign in with</b></p>
+                      <!-- <p class="font-bold text-black text-center mt-4"><b>Or Sign in with</b></p>
                       <p class="login-socal mb-4 mt-4 text-center">
                         <a (click)="signInWithGoogle('google')" class="socal-link mr-5">
                           <img src="assets/images/icon/google.png" alt="">
@@ -202,7 +202,7 @@
                         <a (click)="signInWithGoogle('facebook')" class="socal-link">
                           <img src="assets/images/icon/facebook.png" alt="">
                         </a>
-                      </p>
+                      </p> -->
                     </div>
                   </div>
                   <!-- <button (click)="openLoginNav('register')" class="btn btn-outline">Register</button> -->
