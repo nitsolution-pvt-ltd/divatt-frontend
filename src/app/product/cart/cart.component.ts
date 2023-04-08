@@ -447,7 +447,7 @@ export class CartComponent implements OnInit {
   // Remove cart items
   public removeItem(item: CartItem) {
     
-    let local_product:any= {} = item;
+    let local_product:any = item;
     // console.log('this.local_data[i]',this.local_data);
     console.log("removeItem shoppingCartItems...",this.shoppingCartItems);
     
@@ -468,14 +468,12 @@ export class CartComponent implements OnInit {
         }
       }
       this.cartService.removeFromCart(item);
-      setTimeout(() => {
-        this.getCartListData();
-      }, 500);
+      this.getCartListData();
     }else{
       for (let i = 0; i < this.local_data.length; i++) {
         console.log('this.local_product',local_product.productId);
         console.log('this.local_data[i]',this.local_data[i].product.productId);
-        if(local_product.productId == this.local_data[i].product.productId){
+        if(local_product.productId == this.local_data[i].product.productId && local_product.selectedSize == this.local_data[i].product.selectedSize){
           item = this.local_data[i].product;
           console.log("product Data..",item);
         }
@@ -483,7 +481,7 @@ export class CartComponent implements OnInit {
       this.cartService.removeFromCart(item);
       this.data = [];
       this.local_data = JSON.parse(localStorage.getItem("cartItem")) || [];
-      console.log("this.local_data ",this.local_data,JSON.parse(localStorage.getItem("cartItem")) );
+      console.log("this.local_data1236563672467 ",this.local_data,JSON.parse(localStorage.getItem("cartItem")) );
       
       for (let j = 0; j < this.local_data.length; j++) {
         this.data.push(
@@ -504,13 +502,14 @@ export class CartComponent implements OnInit {
         )
       }
       console.log("Local Data Array...",this.data);
-      this.data = this.shoppingCartItems;
+      // this.data = this.shoppingCartItems;
       this.total_price = 0
       var getitemTotal = 0
-      console.log('this.shoppingCartItems',this.shoppingCartItems);
+      // console.log('this.shoppingCartItems',this.shoppingCartItems);
       
       for(let i = 0;i < this.data.length; i++)
       {
+        console.log('this.local_data display name',this.data[i].displayName);
 
         if(this.data[i].salePrice || this.data[i].salePrice == 0)
         {
@@ -522,7 +521,7 @@ export class CartComponent implements OnInit {
       }
     }
     this.noLoader = true;
-    this.getTotal();
+    // this.getTotal();
   }
   // getTotal start
   getTotal()
@@ -531,7 +530,7 @@ export class CartComponent implements OnInit {
     this.total_price = 0
     var getitemTotal = 0;
     // allcart = this.shoppingCartItems;
-    this.data = [];
+    // this.data = [];
     for(let i = 0;i < this.data.length; i++)
     {
       if(this.data[i].salePrice || this.data[i].salePrice == 0)

@@ -123,16 +123,16 @@ export class CartService {
     }
     else{
       console.log("product12345678...",product);
-      console.log("get_user_dtls",this.get_user_dtls);
       var item: CartItem | boolean = false;
       // If Products exist
       let hasItem = products.find((items, index) => {
         console.log('items----', items,'/n','product----',product);
-        let oldSize = items.product.customization;
+        let oldSize = items.product.selectedSize;
         items.selectedSize = product.selectedSize;
         items.customization =  product.customization;
         console.log('Cart items---', items);
         // localStorage.removeItem('wishlistItem');
+      console.log("get_user_dtls",this.get_user_dtls);
         console.log('product.selectedSize---',product.selectedSize,oldSize);
         if(items.product.productId == product.productId && oldSize == product.selectedSize) {
           // if(oldSize == product.selectedSize){
@@ -140,8 +140,15 @@ export class CartService {
             let stock = this.calculateStockCounts(products[index], quantity);
             if (qty != 0 && stock) {
               products[index]['quantity'] = qty;
+              console.log("Add to cart quantity",products);
+              localStorage.setItem("cartItem", JSON.stringify(products));
               this.toastrService.success('Cart added succesfully');
+              
+              
             }
+            
+            // localStorage.setItem("cartItem", JSON.stringify(products));
+            
             return true;
           // }
           // else{
@@ -165,12 +172,16 @@ export class CartService {
       });
       // If Products does not exist (Add New Products)
       if(!hasItem) {
-          item = { product: product, selectedSize:this.selectedSize, quantity: quantity,customization: product.customization, };
+          let item = { product: product, selectedSize:this.selectedSize, quantity: quantity,customization: product.customization, };
           products.push(item);
+          
           this.toastrService.success('Cart added succesfully');
       }
   
       localStorage.setItem("cartItem", JSON.stringify(products));
+      var totalProduct= JSON.parse(localStorage.getItem("cartItem")) || [];
+      this.commonUtils.getCartDataService(totalProduct);
+      console.log('totalProduct',totalProduct);
       // localStorage.removeItem('wishlistItem');
       // // products = [];
       // this.router.navigateByUrl('cart');
@@ -238,11 +249,27 @@ export class CartService {
         });
     }else{
       if (item === undefined) return false; 
-      const index = products.indexOf(item);
-      console.log("index......",index);
+      // const index = products.indexOf(item);
+      let size=item.selectedSize;
+      console.log("selectedSize...AAAA",size);
       
-      products.splice(index, 1);
+      let product_id=item.productId;
+      console.log("index......",products);
+      products.forEach((element)=>{
+        if(element.product.productId == product_id && element.product.selectedSize == size){
+          console.log("Inside if");
+          let data = products.indexOf(element);
+          products.splice(data,1);
+        } 
+        });
+        console.log("Products ............",products);
+        
+      // products=products.filter(item1 => item1.product.productId !== product_id && item1.product.selectedSize !== size)
+      // this.products = this.myArray.filter(item => item !== obj);
+      // products.splice(index, 1);
       localStorage.setItem("cartItem", JSON.stringify(products));
+      var totalProduct= JSON.parse(localStorage.getItem("cartItem")) || [];
+      this.commonUtils.getCartDataService(totalProduct);
     }
    
   }

@@ -79,7 +79,7 @@ export class HeaderWidgetsComponent implements OnInit {
     this.model.socialType = "normal";
     // this.commonFunction();
     this.logoutDataSubscribe = this.authService.globalparamsData.subscribe(res => {
-      console.log('(header)  globalparamsData res ssss >>>>>>>>>>>', res);
+      console.log('(header)  globalparamsData res ssss >>>>>>>>>>>1', res);
       if(res != null || res != undefined){
         this.get_user_dtls = res.logininfo;
         console.log('this.get_user_dtls************', this.get_user_dtls);
@@ -92,12 +92,18 @@ export class HeaderWidgetsComponent implements OnInit {
         console.log("Hearde Cart Count data....",this.Data);
         
       }else{
-        this.isLogin = false;
         this.data = JSON.parse(localStorage.getItem("cartItem")) || [];
-        console.log("Catr Data Length",this.data);
-        
+        for (let i = 0; i < this.data.length; i++) {
+          
+        }
+        var totalProduct= JSON.parse(localStorage.getItem("cartItem")) || [];
+        this.commonUtils.getCartDataService(totalProduct);
+        console.log('totalProduct',totalProduct);
+        console.log("Catr Data Length",this.data.length);
+        this.isLogin = false;
       }
     });
+console.log("data?.length",this.data.length);
 
 
     // cart list check start
@@ -130,6 +136,10 @@ export class HeaderWidgetsComponent implements OnInit {
             
           }
         }
+      }
+      else
+      {
+        this.data = response;
       }
       
     });

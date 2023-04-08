@@ -606,6 +606,7 @@ export class CheckoutComponent implements OnInit {
 
   // Payment mood change start
   onChangePaymentMode(_select) {
+    _select = 'ONLINE';
     this.btnLoader = true;
     console.log('paymeny mood>>', _select);
     this.paymentType = _select;
@@ -649,7 +650,7 @@ export class CheckoutComponent implements OnInit {
   /*-----------Payment checkout start-----------*/
   paymentResponse;
   checkout() {
-    // this.btnLoader = true;
+    this.btnLoader = false;
     this.orderAdd();
     console.log(' this.totalAmount>>>', this.total, this.taxAmount);
 
