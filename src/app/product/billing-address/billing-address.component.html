@@ -42,8 +42,9 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Full Name<sup>*</sup></mat-label>
-                                                                <input type="text" pattern="[A-Za-z ]+" matInput name="fullName" [(ngModel)]="model.fullName">
-                                                                </mat-form-field>
+                                                                <input type="text" matInput name="fullName" [(ngModel)]="model.fullName" (keyUp)="checkValidtion('fullName')" (input)="checkValidtion('fullName')" (blur)="checkValidtion('fullName')">
+                                                                <mat-hint *ngIf="errorList.fullName">{{errorList.fullName}}</mat-hint>
+                                                            </mat-form-field>
                                                             </div>
                                                             <input type="hidden" name="fullName" [(ngModel)]="model.fullName" required>
                                                         </div>
@@ -51,8 +52,10 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Address 1<sup>*</sup></mat-label>
-                                                                <textarea type="text" matInput name="address1" pattern="[A-Za-z0-9 ]+" [(ngModel)]="model.address1"></textarea>
-                                                                </mat-form-field>
+                                                                <textarea type="text" matInput name="address1"  [(ngModel)]="model.address1" (keyUp)="checkValidtion('address1')" (input)="checkValidtion('address1')" (blur)="checkValidtion('address1')"></textarea>
+                                                                <mat-hint *ngIf="errorList.address1">{{errorList.address1}}</mat-hint>
+                                                                
+                                                            </mat-form-field>
                                                             </div>
                                                             <input type="hidden" name="address1" [(ngModel)]="model.address1" required>
 
@@ -61,7 +64,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Address 2</mat-label>
-                                                                <textarea type="text" matInput name="address2" pattern="[A-Za-z0-9 ]+" [(ngModel)]="model.address2"></textarea>
+                                                                <textarea type="text" matInput name="address2" pattern="[A-Za-z0-9 ]+" [(ngModel)]="model.address2" ></textarea>
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -69,7 +72,8 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Phone<sup>*</sup></mat-label>
-                                                                <input matInput   type="number"  minlength="10" maxlength="10" pattern="^((\\+91-?)|0)?[0-9]{10}$"  onKeyPress="if(this.value.length==10) {return false;}" name="mobile" [(ngModel)]="model.mobile">
+                                                                <input matInput   type="text"   onKeyPress="if(this.value.length==10) {return false;}" name="mobile" [(ngModel)]="model.mobile"  (keyUp)="checkValidtion('mobile')" (input)="checkValidtion('mobile')" (blur)="checkValidtion('mobile')">
+                                                                <mat-hint *ngIf="errorList.mobile">{{errorList.mobile}}</mat-hint>
                                                                 </mat-form-field>
                                                             </div>
                                                             <input type="hidden" name="mobile" [(ngModel)]="model.mobile" required>
@@ -79,8 +83,10 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Email<sup>*</sup></mat-label>
-                                                                <input type="email" matInput name="email"  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" [(ngModel)]="model.email">
-                                                                </mat-form-field>
+                                                                <input type="email" matInput name="email"  [(ngModel)]="model.email" (keyUp)="checkValidtion('email')" (input)="checkValidtion('email')" (blur)="checkValidtion('email')">
+                                                                <mat-hint *ngIf="errorList.email">{{errorList.email}}</mat-hint>
+                                                                
+                                                            </mat-form-field>
                                                             </div>
                                                             <input type="hidden" name="email" [(ngModel)]="model.email" required>
                                                         </div>
@@ -100,10 +106,11 @@
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Select Country <sup>*</sup></mat-label>
                                                                     <mat-select  name="country"  [(ngModel)]="model.country">
-                                                                    <mat-option *ngFor="let Country of Countrys" [value]="Country.viewValue">
-                                                                        {{Country.viewValue}}
-                                                                    </mat-option>
+                                                                        <mat-option *ngFor="let Country of Countrys" [value]="Country.viewValue" (selectionChange)="checkValidtion('country')" (blur)="checkValidtion('country')">
+                                                                            {{Country.viewValue}}
+                                                                        </mat-option>
                                                                     </mat-select>
+                                                                    <mat-hint *ngIf="errorList.country">{{errorList.country}}</mat-hint>
                                                                 </mat-form-field>
                                                             </div>
                                                             <input type="hidden" name="country" [(ngModel)]="model.country" required>
@@ -112,11 +119,12 @@
                                                             <div class="form-group">
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Select States <sup>*</sup></mat-label>
-                                                                    <mat-select  name="state"  [(ngModel)]="model.state" [disabled]="!model.country">
-                                                                    <mat-option *ngFor="let state of states" [value]="state.name">
-                                                                        {{state.name}}
-                                                                    </mat-option>
+                                                                    <mat-select  name="state"  [(ngModel)]="model.state" [disabled]="!model.country" (selectionChange)="checkValidtion('state')" (blur)="checkValidtion('state')">
+                                                                        <mat-option *ngFor="let state of states" [value]="state.name">
+                                                                            {{state.name}}
+                                                                        </mat-option>
                                                                     </mat-select>
+                                                                    <mat-hint *ngIf="errorList.state">{{errorList.state}}</mat-hint>
                                                                 </mat-form-field>
                                                             </div>
                                                             <input type="hidden" name="state" [(ngModel)]="model.state" required>
@@ -125,7 +133,9 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                     <mat-label>Town/City <sup>*</sup></mat-label>
-                                                                    <input pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$" matInput type="text" name="city" [(ngModel)]="model.city">
+                                                                    <input  matInput type="text" name="city" [(ngModel)]="model.city" (keyUp)="checkValidtion('city')" (input)="checkValidtion('city')" (blur)="checkValidtion('city')">
+                                                                    <mat-hint *ngIf="errorList.city">{{errorList.city}}</mat-hint>
+                                                                    
                                                                 </mat-form-field>  
                                                             </div>
                                                             <input type="hidden" name="city" [(ngModel)]="model.city" required>
@@ -135,7 +145,9 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                     <mat-label>Landmark <sup>*</sup></mat-label>
-                                                                    <input matInput type="text" pattern="[A-Za-z0-9 ]+" name="landmark" [(ngModel)]="model.landmark">
+                                                                    <input matInput type="text" name="landmark" [(ngModel)]="model.landmark" (keyUp)="checkValidtion('landmark')" (input)="checkValidtion('landmark')" (blur)="checkValidtion('landmark')">
+                                                                    <mat-hint *ngIf="errorList.landmark">{{errorList.landmark}}</mat-hint>
+                                                                    
                                                                 </mat-form-field>  
                                                             </div>
                                                             <input type="hidden" name="landmark" [(ngModel)]="model.landmark" required>
@@ -144,7 +156,9 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                     <mat-label>Postal Code <sup>*</sup></mat-label>
-                                                                    <input matInput type="number" pattern="^((\\+91-?)|0)?[0-9]{6}$"  onKeyPress="if(this.value.length==6) {return false;}"  name="postalCode" [(ngModel)]="model.postalCode">
+                                                                    <input matInput type="text" onKeyPress="if(this.value.length==6) {return false;}"  name="postalCode" [(ngModel)]="model.postalCode" (keyUp)="checkValidtion('postalCode')" (input)="checkValidtion('postalCode')" (blur)="checkValidtion('postalCode')">
+                                                                    <mat-hint *ngIf="errorList.postalCode">{{errorList.postalCode}}</mat-hint>
+                                                                
                                                                 </mat-form-field>  
                                                             </div>
                                                             <input type="hidden" name="postalCode" [(ngModel)]="model.postalCode" required>

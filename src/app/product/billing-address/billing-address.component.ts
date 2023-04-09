@@ -62,6 +62,7 @@ export class BillingAddressComponent implements OnInit {
   identifire: string;
   addressViewType: any;
   data = [];
+  errorList: any ={};
 
   // public payPalConfig ? : PayPalConfig;
 
@@ -288,12 +289,109 @@ export class BillingAddressComponent implements OnInit {
       form.value.ask = false;
     }
     console.log("form.value", form.value);
+    // var boutiqueNamepattern = new RegExp('/^[A-Z]+$/i');
+    const onlyAB = /^[A-Z]+$/i;
+    const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+    const numberRegex = '^[0-9]*$'
+      if(this.model.fullName )
+      {
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.fullName.match(onlyAB) != null)
+        {
+          this.errorList.fullName = '';
+          
+        }else{
+          this.errorList.fullName = 'Please enter only alphabet';
+          
+        }
+      }else{
+        this.errorList.fullName = 'Enter first name';
+        
+      }
+      if(this.model.address1 )
+      {
+        this.errorList.address1 = '';
+        
+      }else{
+        this.errorList.address1 = 'Enter DOB';
+        
+      }
+      // mobileNo
+      if(this.model.mobile && this.model.mobile.length == 10 && this.model.mobile.match(numberRegex) != null)
+      {
+        console.log(this.model.mobile.length);
+        
+        this.errorList.mobile = '';
+      }else{
+        this.errorList.mobile = 'Enter 10 digit mobile no';
+        
+      }
+      // email
+      if(this.model.email )
+      {      
+        if(this.model.email.match(emailRegex) != null)
+        {
+          this.errorList.email = '';
+          
+        }else{
+          this.errorList.email = 'Please enter valid email';
+          
+        }
+      }else{
+        this.errorList.email = 'Enter email';
+        
+        
+      }
+      // country
+      if(this.model.country)
+      {
+        this.errorList.country = '';
+        
+      }else{
+        this.errorList.country = 'Select country.';
+        
+      }
+      // state
+      if(this.model.state)
+      {
+        this.errorList.state = '';
+        
+      }else{
+        this.errorList.state = 'Select state.';
+        
+      }
+      // city
+      if(this.model.city)
+      {
+        this.errorList.city = '';
+        
+      }else{
+        this.errorList.city = 'Enter city.';
+        
+      }
+      // pinCode
+      if(this.model.postalCode && this.model.postalCode.length == 6 && this.model.postalCode.match(numberRegex) != null)
+      {
+        this.errorList.postalCode = '';
+        
+      }else{
+        this.errorList.postalCode = 'Enter 6 digit Pincode';
+        
+      }
+      if(this.model.landmark)
+      {
+        this.errorList.landmark = '';
+        
+      }else{
+        this.errorList.landmark = 'Landmark is required';
+        
+      }
     if (form.value.address1 == undefined || form.value.fullName == undefined || form.value.mobile == undefined
       || form.value.email == undefined || form.value.addressType == undefined || form.value.country == undefined
       || form.value.state == undefined || form.value.city == undefined || form.value.landmark == undefined
       || form.value.postalCode == undefined) {
       if (!this.selectAddress) {
-        this.toastrService.error('Fill all the details.');
+        // this.toastrService.error('Fill all the details.');
       }else {
         this.action = '';
       }
@@ -585,6 +683,138 @@ export class BillingAddressComponent implements OnInit {
     } else {
       console.log('else');
       this.router.navigateByUrl('/checkout/' + this.selectAddress)
+    }
+  }
+  checkValidtion(fieldNAme:any)
+  {
+    console.log('fieldNAme');
+    
+    // var boutiqueNamepattern = new RegExp('/^[A-Z]+$/i');
+    const onlyAB = /^[A-Z]+$/i;
+    const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+    const numberRegex = '^[0-9]*$'
+    if(fieldNAme == 'fullName')
+    {
+      // firstName1
+      if(this.model.fullName )
+      {
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.fullName.match(onlyAB) != null)
+        {
+          this.errorList.fullName = '';
+          
+        }else{
+          this.errorList.fullName = 'Please enter only alphabet';
+          
+        }
+      }else{
+        this.errorList.fullName = 'Enter first name';
+        
+      }
+    }
+    if(fieldNAme == 'address1')   
+    {
+      // address1
+      if(this.model.address1 )
+      {
+        this.errorList.address1 = '';
+        
+      }else{
+        this.errorList.address1 = 'Enter address1';
+        
+      }
+    }
+    if(fieldNAme == 'mobile')   
+    {
+      // mobileNo
+      if(this.model.mobile && this.model.mobile.length == 10 && this.model.mobile.match(numberRegex) != null)
+      {
+        console.log(this.model.mobile.length);
+        
+        this.errorList.mobile = '';
+      }else{
+        this.errorList.mobile = 'Enter 10 digit mobile no';
+        
+      }
+    }
+    if(fieldNAme == 'email')   
+    {
+      // email
+      if(this.model.email )
+      {      
+        if(this.model.email.match(emailRegex) != null)
+        {
+          this.errorList.email = '';
+          
+        }else{
+          this.errorList.email = 'Please enter valid email';
+          
+        }
+      }else{
+        this.errorList.email = 'Enter email';
+        
+        
+      }
+    }
+    if(fieldNAme == 'country') 
+    {
+      // country
+      if(this.model.country)
+      {
+        this.errorList.country = '';
+        
+      }else{
+        this.errorList.country = 'Select country.';
+        
+      }
+    }
+    if(fieldNAme == 'state') 
+    {
+      // state
+      if(this.model.state)
+      {
+        this.errorList.state = '';
+        
+      }else{
+        this.errorList.state = 'Select state.';
+        
+      }
+    }
+    if(fieldNAme == 'city') 
+    {
+      // city
+      if(this.model.city)
+      {
+        this.errorList.city = '';
+        
+      }else{
+        this.errorList.city = 'Enter city.';
+        
+      }
+    }
+    if(fieldNAme == 'postalCode') 
+    {
+      // pinCode
+      if(this.model.postalCode && this.model.postalCode.length == 6 && this.model.postalCode.match(numberRegex) != null)
+      {
+        this.errorList.postalCode = '';
+        
+      }else{
+        this.errorList.postalCode = 'Enter 6 digit Pincode';
+        
+      }
+    }
+    if(fieldNAme == 'landmark') 
+    {
+      // address
+      if(this.model.landmark)
+      {
+        this.errorList.landmark = '';
+        
+      }else{
+        this.errorList.landmark = 'Landmark is required';
+        
+      }
     }
   }
   ngOnDestroy() {
