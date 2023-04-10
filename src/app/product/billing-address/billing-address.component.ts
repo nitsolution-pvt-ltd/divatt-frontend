@@ -713,22 +713,48 @@ export class BillingAddressComponent implements OnInit {
         
       }
     }
-    if(fieldNAme == 'address1')   
+    if(fieldNAme == 'address1') 
     {
-      // address1
+      // address
       if(this.model.address1 )
       {
-        this.errorList.address1 = '';
-        
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.address1.match(noSpacalchar) != null)
+        {
+          this.errorList.address1 = '';
+          
+        }else{
+          this.errorList.address1 = 'Special characters not allow';
+          
+        }
       }else{
         this.errorList.address1 = 'Enter address1';
+        
+      }
+    }
+    if(fieldNAme == 'address2') 
+    {
+      // address
+      if(this.model.address2 )
+      {
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.address2.match(noSpacalchar) != null)
+        {
+          this.errorList.address2 = '';
+          
+        }else{
+          this.errorList.address2 = 'Special characters not allow';
+          
+        }
+      }else{
+        // this.errorList.address2 = 'Enter address2';
         
       }
     }
     if(fieldNAme == 'mobile')   
     {
       // mobileNo
-      if(this.model.mobile && this.model.mobile.length == 10 && this.model.mobile.match(numberRegex) != null)
+      if(this.model.mobile && this.model.mobile.toString().length == 10)
       {
         console.log(this.model.mobile.length);
         
@@ -803,7 +829,7 @@ export class BillingAddressComponent implements OnInit {
     if(fieldNAme == 'postalCode') 
     {
       // pinCode
-      if(this.model.postalCode && this.model.postalCode.length == 6 && this.model.postalCode.match(numberRegex) != null)
+      if(this.model.postalCode && this.model.postalCode.toString().length == 6)
       {
         this.errorList.postalCode = '';
         

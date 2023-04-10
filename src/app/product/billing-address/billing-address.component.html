@@ -64,7 +64,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Address 2</mat-label>
-                                                                <textarea type="text" matInput name="address2" pattern="[A-Za-z0-9 ]+" [(ngModel)]="model.address2" ></textarea>
+                                                                <textarea type="text" matInput name="address2"  [(ngModel)]="model.address2" ></textarea>
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
@@ -72,7 +72,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Phone<sup>*</sup></mat-label>
-                                                                <input matInput   type="text"   onKeyPress="if(this.value.length==10) {return false;}" name="mobile" [(ngModel)]="model.mobile"  (keyUp)="checkValidtion('mobile')" (input)="checkValidtion('mobile')" (blur)="checkValidtion('mobile')">
+                                                                <input matInput   type="number"   onKeyPress="if(this.value.length==10) {return false;}" name="mobile" [(ngModel)]="model.mobile"  (keyUp)="checkValidtion('mobile')" (input)="checkValidtion('mobile')" (blur)="checkValidtion('mobile')">
                                                                 <mat-hint *ngIf="errorList.mobile">{{errorList.mobile}}</mat-hint>
                                                                 </mat-form-field>
                                                             </div>
@@ -156,7 +156,7 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                     <mat-label>Postal Code <sup>*</sup></mat-label>
-                                                                    <input matInput type="text" onKeyPress="if(this.value.length==6) {return false;}"  name="postalCode" [(ngModel)]="model.postalCode" (keyUp)="checkValidtion('postalCode')" (input)="checkValidtion('postalCode')" (blur)="checkValidtion('postalCode')">
+                                                                    <input matInput type="number" onKeyPress="if(this.value.length==6) {return false;}"  name="postalCode" [(ngModel)]="model.postalCode" (keyUp)="checkValidtion('postalCode')" (input)="checkValidtion('postalCode')" (blur)="checkValidtion('postalCode')">
                                                                     <mat-hint *ngIf="errorList.postalCode">{{errorList.postalCode}}</mat-hint>
                                                                 
                                                                 </mat-form-field>  
