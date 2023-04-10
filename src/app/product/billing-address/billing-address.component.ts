@@ -747,7 +747,7 @@ export class BillingAddressComponent implements OnInit {
           
         }
       }else{
-        this.errorList.address2 = '';
+        // this.errorList.address2 = 'Enter address2';
         
       }
     }

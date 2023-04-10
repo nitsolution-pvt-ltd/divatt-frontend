@@ -43,8 +43,8 @@
                         <img src="assets/images/follow.png" class="follow_img curser-pointer" style="width: 19px;" *ngIf="!designer?.isFollowing" (click)="openfollowModal('follow',followmodal,designer)">
                         <img src="assets/images/unfollow.png" class="follow_img curser-pointer"style="width: 19px;" *ngIf="designer?.isFollowing" (click)="openfollowModal('unfollow',followmodal,designer)">
                       </div>
-                      <div [routerLink]="['../../designer/', designer?.designerId]">
-                        <div [routerLink]="['../../designer/', designer?.designerId]">
+                      <div [routerLink]="['../../../../../designer/', designer?.designerId]">
+                        <div [routerLink]="['../../../../../designer/', designer?.designerId]">
                           <img  [src]="designer?.designerProfile?.profilePic ? designer?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="">
                           <h5 class="name" >{{designer?.designerProfile?.displayName}}</h5>
                         </div> 

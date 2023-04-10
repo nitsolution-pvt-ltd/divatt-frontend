@@ -65,17 +65,20 @@ export class DesignerCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+    
+    this.commonFunction();
     this.getPosition().then(pos => {
       this.currentLatLng = pos;
       console.log('currentLatLng', this.currentLatLng);
 
-      this.getDesignerList();
+      this.commonFunction();
     });
-    this.commonFunction();
   }
   // commonFunction start
   commonFunction() {
     this.resizeObservable$ = fromEvent(window, 'resize')
+    this.getDesignerList();
 
     this.resizeSubscription$ = this.resizeObservable$.subscribe((evt: any) => {
       // this.onResize(event)
@@ -158,7 +161,12 @@ export class DesignerCardComponent implements OnInit {
   // getDesignerList start
   getDesignerList() {
     console.log('currentLatLng', this.currentLatLng);
-    
+    if (!this.currentLatLng) {
+      this.currentLatLng = {
+        lat : "",
+        lng : ""
+      }
+    }
     if (this.get_user_dtls) {
       this.designerList_api = "designer/getDesignerDetails/" + this.designerType + '?usermail=' + this.get_user_dtls.email+"&longitude=" + this.currentLatLng.lng + "&latitude=" + this.currentLatLng.lat;
     }

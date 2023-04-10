@@ -44,7 +44,7 @@ export class CheckoutComponent implements OnInit {
   cartlistapi;
   cartListData = [];
   get_user_dtls;
-  model: any = {};
+  model: any = {customizationDetails:""};
   mrpAmount = 0;
   discountAmount = 0;
   netAmount = 0;
@@ -81,6 +81,7 @@ export class CheckoutComponent implements OnInit {
   btnLoader: boolean;
   curentDate;
   data: any = [];
+
   // Form Validator
   constructor(private fb: FormBuilder, private cartService: CartService, private http: HttpClient,
     private router: Router,
@@ -99,6 +100,9 @@ export class CheckoutComponent implements OnInit {
       state: ['', Validators.required],
       postalcode: ['', Validators.required]
     })
+    this.model={
+      customizationDetails:"",
+    }
   }
 
   ngOnInit() {
@@ -404,10 +408,14 @@ export class CheckoutComponent implements OnInit {
   toggleChange(event: any, content: any, item: any, identifire, index: any) {
     console.log("Event Value....", event, item, index);
     console.log('identifire', identifire);
-    
+    console.log('orderProductsABCD', this.orderProducts);
+    // console.log("this.modal.customizationDetails",this.modal.customizationDetails);
+    this.selectedProduct = item;
     this.index = index;
     if (event == 'true') {
       this.selectedProduct = item;
+      console.log("selectedProduct true....",this.selectedProduct);
+      
       this.selectedIdentifire = identifire;
       this.modal.index = false;
       this.modalService.open(content, { size: 'sm' });
@@ -416,28 +424,25 @@ export class CheckoutComponent implements OnInit {
       
       if (identifire == 'customization') {
         console.log('customization');
+        for (let index = 0; index < this.orderProducts.length; index++) {
+          if((this.selectedProduct.productId == this.orderProducts[index].productId
+           ) && (this.selectedProduct.selectedSize == this.orderProducts[index].size)){
+            console.log("Inside If");
+            this.orderProducts[index].customizationStatus = false;
+            this.orderProducts[index].customObject = { };
+        console.log('customization selectedProduct', this.orderProducts[index]);
+
+          } 
+        }
         
-        // for (let index = 0; index < this.orderProducts.length; index++) {
-        //   if(this.selectedProduct.productId == this.orderProducts[index].productId)
-        //   {
-        this.orderProducts[index].customizationStatus = false;
-        this.orderProducts[index].customObject = {}
-        
-        //   } 
-        // }
       } else if (identifire == 'giftwrap') {
         console.log('giftwrap');
-        
         var giftWrapAmount = 0;
         for (let index = 0; index < this.orderProducts.length; index++) {
-          if (this.selectedProduct.productId == this.orderProducts[index].productId) {
+          if (this.selectedProduct.productId == this.orderProducts[index].productId && this.selectedProduct.selectedSize == this.orderProducts[index].size) {
             this.orderProducts[index].giftwrapStatus = false;
             this.orderProducts[index].giftWrapObject = {};
-            console.log("this.orderProducts[index].giftWrapObject...",this.orderProducts[index].giftWrapObject);
-            
           }
-          console.log("orderProducts", this.orderProducts, this.total, this.orderProducts[index].giftWrapAmount);
-
           if (this.orderProducts[index].salesPrice == null || this.orderProducts[index].salesPrice == 0) {
             this.orderProducts[index].mrp = this.orderProducts[index].mrp - this.orderProducts[index].giftWrapAmount;
             this.total = this.total - this.orderProducts[index].giftWrapAmount;
@@ -447,49 +452,64 @@ export class CheckoutComponent implements OnInit {
             this.orderProducts[index].salesPrice = this.orderProducts[index].salesPrice - this.orderProducts[index].giftWrapAmount;
             this.total = this.total - this.orderProducts[index].giftWrapAmount;
             this.giftWrapAmount = this.giftWrapAmount - this.orderProducts[index].giftWrapAmount;
-
-
           }
-          // this.giftWrapAmount = this.giftWrapAmount - giftWrapAmount;
         }
       }
     }
-    console.log("orderProducts", this.orderProducts, this.total, this.orderProducts[index].giftWrapAmount);
-
+    console.log('orderProducts After close...', this.orderProducts);
+    this.model={
+      customizationDetails: "",
+    }
+    // console.log("this.model customizationDetails",this.model.customizationDetails);
+    
   }
   // Edit Design Customization Start
+  reset_data:any;
   editDesignGift(content: any, item: any, identifire,index: any){
+    this.model={
+      customizationDetails:"s",
+    }
+    console.log("this.model customizationDetails...",this.model.customizationDetails);
     this.selectedProduct = item;
-      this.selectedIdentifire = identifire;
-      this.modal.index = false;
+    console.log("selectedProduct.... item",item)
+    console.log("selectedProduct content....",content)
+    console.log("selectedProduct....",item)
+    this.selectedIdentifire = identifire;
+    this.modal.index = false;
     this.modalService.open(content, { size: 'sm' });
     if(this.selectedIdentifire == 'customization'){
-      this.model={
-        customizationDetails: this.orderProducts[index].customObject.customizationDetails
+      for (let i = 0; i < this.orderProducts.length; i++) {
+        if (this.selectedProduct.productId == this.orderProducts[index].productId && this.selectedProduct.selectedSize == this.orderProducts[index].size) {
+          this.model={
+            customizationDetails: this.orderProducts[index].customObject.customizationDetails,
+          }
+        }
       }
-    }else if(this.selectedIdentifire == 'giftwrap')
-    
-    this.model={
-      from:this.orderProducts[index].giftWrapObject.from,
-      to:this.orderProducts[index].giftWrapObject.to,
-      message:this.orderProducts[index].giftWrapObject.message
+      
+    }else if(this.selectedIdentifire == 'giftwrap'){
+      this.model={
+        from:this.orderProducts[index].giftWrapObject.from,
+        to:this.orderProducts[index].giftWrapObject.to,
+        message:this.orderProducts[index].giftWrapObject.message
+      }
     }
   }
   // Edit Design Customization End
   ordersCustomizationSubmit(form: NgForm) {
-    if (form.value.customizationDetails == '') {
-      this.index = false;
-    }
+    // if (form.value.customizationDetails == '') {
+    //   this.index = false;
+    // }
     for (let index = 0; index < this.orderProducts.length; index++) {
-      if (this.selectedProduct.productId == this.orderProducts[index].productId) {
+      if (this.selectedProduct.productId == this.orderProducts[index].productId && this.selectedProduct.selectedSize == this.orderProducts[index].size) {
         this.orderProducts[index].customizationStatus = true;
         this.orderProducts[index].customObject = {
-          customizationDetails: form.value.customizationDetails
+          customizationDetails: form.value.customizationDetails,
         }
       }
     }
     form.reset();
     this.modalService.dismissAll();
+    // form.value.customizationDetails = "s";
     this.model = {
       payment_type: 'ONLINE',
     }
@@ -498,7 +518,7 @@ export class CheckoutComponent implements OnInit {
   ordersGiftSubmit(form: NgForm) {
     var giftWrapAmount = 0;
     for (let index = 0; index < this.orderProducts.length; index++) {
-      if (this.selectedProduct.productId == this.orderProducts[index].productId) {
+      if (this.selectedProduct.productId == this.orderProducts[index].productId && this.selectedProduct.selectedSize == this.orderProducts[index].size) {
         this.orderProducts[index].giftwrapStatus = true;
         this.orderProducts[index].giftWrapObject = {
           from: form.value.from,
@@ -509,15 +529,11 @@ export class CheckoutComponent implements OnInit {
           this.orderProducts[index].mrp = this.orderProducts[index].mrp + this.orderProducts[index].giftWrapAmount;
           this.total = this.total + this.orderProducts[index].giftWrapAmount;
           this.giftWrapAmount = this.giftWrapAmount + this.orderProducts[index].giftWrapAmount;
-
-
         } else {
           this.orderProducts[index].salesPrice = this.orderProducts[index].salesPrice + this.orderProducts[index].giftWrapAmount;
           this.total = this.total + this.orderProducts[index].giftWrapAmount;
           this.giftWrapAmount = this.giftWrapAmount + this.orderProducts[index].giftWrapAmount;
-
         }
-
       }
       // this.giftWrapAmount = giftWrapAmount; 
     }
@@ -525,10 +541,10 @@ export class CheckoutComponent implements OnInit {
     form.reset();
     this.modalService.dismissAll();
   }
-
-
   closeModal(identifire) {
-
+    this.model={
+      customizationDetails:"",
+    }
     this.modalService.dismissAll();
   }
   // Get sub Total

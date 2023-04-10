@@ -10,7 +10,6 @@ import { LoginNavService } from 'src/app/services/login-nav.service';
 import { CommonUtils } from '../services/common-utils/common-utils';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperConfigInterface, SwiperPaginationInterface, SwiperScrollbarInterface } from 'ngx-swiper-wrapper';
-import { GeolocationService } from '../services/geolocation.service';
 import { environment } from 'src/environments/environment';
 const API_URL = environment.apiUrl;
 @Component({
@@ -77,28 +76,20 @@ export class HomeComponent implements OnInit {
     private loginNav: LoginNavService,
     private authService: LoginService,
     private commonUtils: CommonUtils,
-    private modalService: NgbModal,
-    private geolocationService: GeolocationService) {
+    private modalService: NgbModal) {
     this.getPosition().then(pos => {
       console.log(pos);
       this.currentLatLng = pos;
     });
   }
-
+  
   ngOnInit() {
+    this.commonFunction();
     this.getPosition().then(pos => {
       this.currentLatLng = pos;
       console.log('currentLatLng', this.currentLatLng);
       this.commonFunction();
     });
-    
-
-    this.geolocationService.getLocation().subscribe((response) => {
-      console.log('geolocationService', response);
-
-    })
-
-
   }
   public onIndexChange(index: number) {
     console.log('Swiper index: ', index);
@@ -123,7 +114,13 @@ export class HomeComponent implements OnInit {
   // user location end
   commonFunction() {
     this.api_url = 'user/product/list';
-
+    if (!this.currentLatLng) {
+      this.currentLatLng = {
+        lat : "",
+        lng : ""
+      }
+    }
+    
     this.followapi_url = 'user/followDesigner'
     this.logoutDataSubscribe = this.authService.globalparamsData.subscribe(res => {
       console.log('(header)  globalparamsData res ssss >>>>>>>>>>>', res);
