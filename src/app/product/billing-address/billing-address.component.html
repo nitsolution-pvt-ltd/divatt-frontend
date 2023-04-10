@@ -64,8 +64,10 @@
                                                             <div class="form-group">
                                                                 <mat-form-field class="example-full-width" appearance="outline">
                                                                 <mat-label>Address 2</mat-label>
-                                                                <textarea type="text" matInput name="address2"  [(ngModel)]="model.address2" ></textarea>
-                                                                </mat-form-field>
+                                                                <textarea type="text" matInput name="address2"  [(ngModel)]="model.address2" (keyUp)="checkValidtion('address2')" (input)="checkValidtion('address2')" (blur)="checkValidtion('address2')"></textarea>
+                                                                <mat-hint *ngIf="errorList.address2">{{errorList.address2}}</mat-hint>
+                                                                
+                                                            </mat-form-field>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12 col-sm-12 col-xs-12">
