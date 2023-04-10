@@ -105,15 +105,15 @@
                                                             <div class="form-group">
                                                                 <mat-form-field appearance="outline">
                                                                     <mat-label>Select Country <sup>*</sup></mat-label>
-                                                                    <mat-select  name="country"  [(ngModel)]="model.country">
-                                                                        <mat-option *ngFor="let Country of Countrys" [value]="Country.viewValue" (selectionChange)="checkValidtion('country')" (blur)="checkValidtion('country')">
+                                                                    <mat-select  name="country"  [(ngModel)]="model.country"  (selectionChange)="checkValidtion('country')" (blur)="checkValidtion('country')" >
+                                                                        <mat-option *ngFor="let Country of Countrys" [value]="Country.viewValue">
                                                                             {{Country.viewValue}}
                                                                         </mat-option>
                                                                     </mat-select>
                                                                     <mat-hint *ngIf="errorList.country">{{errorList.country}}</mat-hint>
                                                                 </mat-form-field>
                                                             </div>
-                                                            <input type="hidden" name="country" [(ngModel)]="model.country" required>
+                                                            <!-- <input type="hidden" name="country" [(ngModel)]="model.country" required> -->
                                                         </div>
                                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                                             <div class="form-group">

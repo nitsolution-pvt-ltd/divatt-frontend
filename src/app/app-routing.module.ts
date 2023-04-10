@@ -100,7 +100,7 @@ const routes: Routes = [
   {
     path: 'address/:type',
     component: BillingAddressComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'following',

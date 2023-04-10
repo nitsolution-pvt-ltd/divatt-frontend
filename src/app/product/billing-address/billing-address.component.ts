@@ -692,7 +692,8 @@ export class BillingAddressComponent implements OnInit {
     // var boutiqueNamepattern = new RegExp('/^[A-Z]+$/i');
     const onlyAB = /^[A-Z]+$/i;
     const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
-    const numberRegex = '^[0-9]*$'
+    const numberRegex = '^[0-9]*$';
+    const noSpacalchar = "^[a-zA-Z0-9 ]+$";
     if(fieldNAme == 'fullName')
     {
       // firstName1
@@ -783,12 +784,19 @@ export class BillingAddressComponent implements OnInit {
     if(fieldNAme == 'city') 
     {
       // city
-      if(this.model.city)
+      if(this.model.city )
       {
-        this.errorList.city = '';
-        
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.city.match(onlyAB) != null)
+        {
+          this.errorList.city = '';
+          
+        }else{
+          this.errorList.city = 'Please enter only alphabet';
+          
+        }
       }else{
-        this.errorList.city = 'Enter city.';
+        this.errorList.city = 'Enter city';
         
       }
     }
@@ -807,12 +815,19 @@ export class BillingAddressComponent implements OnInit {
     if(fieldNAme == 'landmark') 
     {
       // address
-      if(this.model.landmark)
+      if(this.model.landmark )
       {
-        this.errorList.landmark = '';
-        
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.landmark.match(noSpacalchar) != null)
+        {
+          this.errorList.landmark = '';
+          
+        }else{
+          this.errorList.landmark = 'Special characters not allow';
+          
+        }
       }else{
-        this.errorList.landmark = 'Landmark is required';
+        this.errorList.landmark = 'Enter Landmark';
         
       }
     }
