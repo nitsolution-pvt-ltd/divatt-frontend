@@ -339,8 +339,9 @@
                       <div class="form-group">
                         <mat-form-field appearance="outline">
                           <mat-label>Display Name</mat-label>
-                          <input matInput type="text" [(ngModel)]="modal.displayName" name="displayName" required
-                          pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$" clearInput>
+                          <input (keyUp)="checkValidtion('displayName')" (input)="checkValidtion('displayName')" (blur)="checkValidtion('displayName')" matInput type="text" [(ngModel)]="modal.displayName" name="displayName" required
+                          pattern="^[a-zA-Z][a-zA-Z\s]*$" clearInput>
+                          <mat-hint *ngIf="errors.displayName">{{errors.displayName}}</mat-hint>
                         </mat-form-field>
                       </div>
                     </ion-col>

@@ -364,10 +364,10 @@
                           No data found
                         </td>
                       </tr>
-                      <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index" [routerLink]="['/', 'order-products-list', item?.orderId,item?.productId]">
+                      <tr [hidden]="isListLoading" *ngFor="let item of tableData?.data; let i = index" [routerLink]="['/', 'order-products-list', item?.orderId,item?.productId,item?.size]">
                         <td>{{i + 1}}</td>
                         <td>
-                          <a [routerLink]="['/', 'order-products-list', item?.orderId,item?.productId]" class="text-decoration-none">{{item?.orderId}}</a>
+                          <a [routerLink]="['/', 'order-products-list', item?.orderId,item?.productId,item?.size]" class="text-decoration-none">{{item?.orderId}}</a>
                         </td>
                         <td>
                           {{item?.invoiceId ? item?.invoiceId : 'N/A'}}

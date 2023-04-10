@@ -228,6 +228,7 @@ let OrderProductsListPage = class OrderProductsListPage {
     commonFunction() {
         this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('orderId');
         this.parms_action_productId = this.activatedRoute.snapshot.paramMap.get('productId');
+        this.parms_action_productSize = this.activatedRoute.snapshot.paramMap.get('productSize');
         this.allselectModel = false;
         this.checkedList = [];
         /*Check permission status start*/
@@ -248,7 +249,7 @@ let OrderProductsListPage = class OrderProductsListPage {
                                         this.pagePermission = item;
                                         // console.log("this.pagePermission", this.pagePermission);
                                         // this.listing_url = "userOrder/list";
-                                        this.listing_url = "userOrder/getOrder/" + this.parms_action_id;
+                                        this.listing_url = "userOrder/getOrder/" + this.parms_action_id + '?productId=' + this.parms_action_productId + '&size=' + this.parms_action_productSize;
                                         this.onRefresh();
                                         // delete api
                                         break;

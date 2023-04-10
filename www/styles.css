@@ -19688,6 +19688,10 @@ button.image_update_btn {
   font-weight: 600 !important;
   margin-bottom: 0 !important;
 }
+.mat-hint {
+  color: red;
+  font-size: 10px;
+}
 /* Slider */
 .slick-slider {
   position: relative;

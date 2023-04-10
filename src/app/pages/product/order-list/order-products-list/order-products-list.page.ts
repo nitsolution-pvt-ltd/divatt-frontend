@@ -19,6 +19,7 @@ export class OrderProductsListPage implements OnInit {
   viewText:string;
   model:any = {};
   parms_action_productId: any;
+  parms_action_productSize: any;
   showreturnRequesttmsg = false;
   showRecivedtmsg = false;
   showreturnRefundtmsg = false;
@@ -133,6 +134,7 @@ export class OrderProductsListPage implements OnInit {
   commonFunction() {
     this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('orderId');
     this.parms_action_productId = this.activatedRoute.snapshot.paramMap.get('productId');
+    this.parms_action_productSize = this.activatedRoute.snapshot.paramMap.get('productSize');
 
     this.allselectModel = false;
     this.checkedList = [];
@@ -156,7 +158,7 @@ export class OrderProductsListPage implements OnInit {
                     this.pagePermission = item;
                     // console.log("this.pagePermission", this.pagePermission);
                     // this.listing_url = "userOrder/list";
-                      this.listing_url = "userOrder/getOrder/"+this.parms_action_id;
+                      this.listing_url = "userOrder/getOrder/"+this.parms_action_id + '?productId=' + this.parms_action_productId+ '&size=' + this.parms_action_productSize;
                     this.onRefresh();
                     // delete api
                     break;

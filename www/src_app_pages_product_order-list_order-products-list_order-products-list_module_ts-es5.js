@@ -382,6 +382,7 @@
 
             this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('orderId');
             this.parms_action_productId = this.activatedRoute.snapshot.paramMap.get('productId');
+            this.parms_action_productSize = this.activatedRoute.snapshot.paramMap.get('productSize');
             this.allselectModel = false;
             this.checkedList = [];
             /*Check permission status start*/
@@ -409,7 +410,7 @@
                             _this.pagePermission = item; // console.log("this.pagePermission", this.pagePermission);
                             // this.listing_url = "userOrder/list";
 
-                            _this.listing_url = "userOrder/getOrder/" + _this.parms_action_id;
+                            _this.listing_url = "userOrder/getOrder/" + _this.parms_action_id + '?productId=' + _this.parms_action_productId + '&size=' + _this.parms_action_productSize;
 
                             _this.onRefresh(); // delete api
 

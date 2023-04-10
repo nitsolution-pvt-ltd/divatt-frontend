@@ -111,7 +111,7 @@ const routes: Routes = [
     canLoad:[AuthGuard]
   },
   {
-    path: 'order-products-list/:orderId/:productId',
+    path: 'order-products-list/:orderId/:productId/:productSize',
     loadChildren: () => import('./pages/product/order-list/order-products-list/order-products-list.module').then( m => m.OrderProductsListPageModule),
     canLoad:[AuthGuard]
   },

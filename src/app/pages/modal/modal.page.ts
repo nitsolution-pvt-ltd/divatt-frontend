@@ -403,6 +403,8 @@ export class ModalPage implements OnInit {
   }
   // setadminProfiledata end
   ordersSubmit(form: NgForm, identifier: any) {
+    console.log('get_item>>', this.get_item);
+    
     // console.log("orders form...", form.value);
     this.orderItemStatus = identifier;
     var body: any = {};
@@ -433,10 +435,10 @@ export class ModalPage implements OnInit {
     } else if (identifier == 'Delivered') {
 
       const date = new Date();
-      
-      this.filter_date = moment(date.setMinutes( date.getMinutes() + 60 )).format('YYYY-MM-DD : HH:mm:ss');
+
+      this.filter_date = moment(date.setMinutes(date.getMinutes() + 60)).format('YYYY-MM-DD : HH:mm:ss');
       console.log('filter_date', this.filter_date);
-      
+
       var designerData: any = {}, total_amount = 0, basic_amount = 0, total_amount_received = 0, total_tax_amount = 0,
         total_tax = 0, fee: any = 0, igst: any = 0, igst2: any = 0, cgst: any = 0, sgst: any = 0, data: any, accountData: any = {},
         invoiceId, hsn_amount: any = 0, hsn_cgst: any = 0, tcs = 0, hsn_igst: any = 0, hsn_rate: any = 0, hsn_sgst: any = 0, net_payable_designer = 0;
@@ -802,7 +804,7 @@ export class ModalPage implements OnInit {
       }
       else {
 
-        api = 'userOrder/itemStatusChangefromAdmin?orderId=' + this.orderId + '&productId=' + this.productId + '&orderItemStatus=' + this.orderItemStatus;
+        api = 'userOrder/itemStatusChangefromAdmin?orderId=' + this.orderId + '&productId=' + this.productId + '&orderItemStatus=' + this.orderItemStatus + '&size=' + this.get_item.size;
         this.statusChangeSubscribe = this.http.post(api, body).subscribe(
           (res: any) => {
             this.commonUtils.presentToast('success', res.message);
@@ -869,6 +871,31 @@ export class ModalPage implements OnInit {
 
   }
   // setdesignerProfiledata end
+
+  /* Validation errors start */
+  errors: any ={};
+  checkValidtion(_identifier) {
+    console.log('_identifier', _identifier);
+    const onlyAlphabate = '^[a-zA-Z][a-zA-Z\s]*$';
+    console.log('this.modal.displayName', this.modal.displayName);
+
+    // Validate the full name field
+    if (_identifier == 'displayName' && this.modal.displayName) {
+      if (this.modal.displayName.match(onlyAlphabate) != null) {
+        this.errors.displayName = '';
+
+      } else {
+        this.errors.displayName = 'Please enter only alphabet';
+
+      }
+    } else {
+      this.errors.displayName = 'Please enter display name';
+    }
+
+    console.log('errors', this.errors);
+
+  }
+  /* Validation errors end */
 
   // data for profile edit end
   // changeDateFormat start
