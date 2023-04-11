@@ -62,7 +62,7 @@ export class BillingAddressComponent implements OnInit {
   identifire: string;
   addressViewType: any;
   data = [];
-  errorList: any ={};
+  errorList: any = {};
 
   // public payPalConfig ? : PayPalConfig;
 
@@ -282,8 +282,8 @@ export class BillingAddressComponent implements OnInit {
   // onSubmitAddressForm start
   onSubmitAddressForm(form: NgForm) {
     console.log("form.value", form.value);
-    console.log('this.action',this.action);
-    
+    console.log('this.action', this.action);
+
     // this.selectAddress = true;
     if (!form.value.ask) {
       form.value.ask = false;
@@ -293,106 +293,95 @@ export class BillingAddressComponent implements OnInit {
     const onlyAB = /^[A-Z]+$/i;
     const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
     const numberRegex = '^[0-9]*$'
-      if(this.model.fullName )
-      {
-        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
-        if(this.model.fullName.match(onlyAB) != null)
-        {
-          this.errorList.fullName = '';
-          
-        }else{
-          this.errorList.fullName = 'Please enter only alphabet';
-          
-        }
-      }else{
-        this.errorList.fullName = 'Enter first name';
-        
+    if (this.model.fullName) {
+      // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+      if (this.model.fullName.match(onlyAB) != null) {
+        this.errorList.fullName = '';
+
+      } else {
+        this.errorList.fullName = 'Please enter only alphabet';
+
       }
-      if(this.model.address1 )
-      {
-        this.errorList.address1 = '';
-        
-      }else{
-        this.errorList.address1 = 'Enter DOB';
-        
+    } else {
+      this.errorList.fullName = 'Enter first name';
+
+    }
+    if (this.model.address1) {
+      this.errorList.address1 = '';
+
+    } else {
+      this.errorList.address1 = 'Enter DOB';
+
+    }
+    // mobileNo
+    if (this.model.mobile && this.model.mobile.length == 10 && this.model.mobile.match(numberRegex) != null) {
+      console.log(this.model.mobile.length);
+
+      this.errorList.mobile = '';
+    } else {
+      this.errorList.mobile = 'Enter 10 digit mobile no';
+
+    }
+    // email
+    if (this.model.email) {
+      if (this.model.email.match(emailRegex) != null) {
+        this.errorList.email = '';
+
+      } else {
+        this.errorList.email = 'Please enter valid email';
+
       }
-      // mobileNo
-      if(this.model.mobile && this.model.mobile.length == 10 && this.model.mobile.match(numberRegex) != null)
-      {
-        console.log(this.model.mobile.length);
-        
-        this.errorList.mobile = '';
-      }else{
-        this.errorList.mobile = 'Enter 10 digit mobile no';
-        
-      }
-      // email
-      if(this.model.email )
-      {      
-        if(this.model.email.match(emailRegex) != null)
-        {
-          this.errorList.email = '';
-          
-        }else{
-          this.errorList.email = 'Please enter valid email';
-          
-        }
-      }else{
-        this.errorList.email = 'Enter email';
-        
-        
-      }
-      // country
-      if(this.model.country)
-      {
-        this.errorList.country = '';
-        
-      }else{
-        this.errorList.country = 'Select country.';
-        
-      }
-      // state
-      if(this.model.state)
-      {
-        this.errorList.state = '';
-        
-      }else{
-        this.errorList.state = 'Select state.';
-        
-      }
-      // city
-      if(this.model.city)
-      {
-        this.errorList.city = '';
-        
-      }else{
-        this.errorList.city = 'Enter city.';
-        
-      }
-      // pinCode
-      if(this.model.postalCode && this.model.postalCode.length == 6 && this.model.postalCode.match(numberRegex) != null)
-      {
-        this.errorList.postalCode = '';
-        
-      }else{
-        this.errorList.postalCode = 'Enter 6 digit Pincode';
-        
-      }
-      if(this.model.landmark)
-      {
-        this.errorList.landmark = '';
-        
-      }else{
-        this.errorList.landmark = 'Landmark is required';
-        
-      }
+    } else {
+      this.errorList.email = 'Enter email';
+
+
+    }
+    // country
+    if (this.model.country) {
+      this.errorList.country = '';
+
+    } else {
+      this.errorList.country = 'Select country.';
+
+    }
+    // state
+    if (this.model.state) {
+      this.errorList.state = '';
+
+    } else {
+      this.errorList.state = 'Select state.';
+
+    }
+    // city
+    if (this.model.city) {
+      this.errorList.city = '';
+
+    } else {
+      this.errorList.city = 'Enter city.';
+
+    }
+    // pinCode
+    if (this.model.postalCode && this.model.postalCode.length == 6 && this.model.postalCode.match(numberRegex) != null) {
+      this.errorList.postalCode = '';
+
+    } else {
+      this.errorList.postalCode = 'Enter 6 digit Pincode';
+
+    }
+    if (this.model.landmark) {
+      this.errorList.landmark = '';
+
+    } else {
+      this.errorList.landmark = 'Landmark is required';
+
+    }
     if (form.value.address1 == undefined || form.value.fullName == undefined || form.value.mobile == undefined
       || form.value.email == undefined || form.value.addressType == undefined || form.value.country == undefined
       || form.value.state == undefined || form.value.city == undefined || form.value.landmark == undefined
       || form.value.postalCode == undefined) {
       if (!this.selectAddress) {
         // this.toastrService.error('Fill all the details.');
-      }else {
+      } else {
         this.action = '';
       }
 
@@ -509,42 +498,39 @@ export class BillingAddressComponent implements OnInit {
           for (let j = 0; j < Data.length; j++) {
             this.data.push(
               {
-              displayName:response[index].designerProfile.displayName,
-              productName:response[index].productDetails.productName,
-              images:response[index].images[0].large,
-              productId:response[index].productId,
-              slug:response[index].slug,
-              selectedSize:response[index].cartData[j].selectedSize,
-              purchaseMinQuantity:response[index].purchaseMinQuantity,
-              quantity:response[index].cartData[j].qty,
-              purchaseMaxQuantity:response[index].purchaseMaxQuantity,
-              salePrice:response[index].deal.salePrice,
-              mrp:response[index].mrp,
-              customization:response[index].cartData[j].customization,
-              id:response[index].cartData[j].id
-            }
+                displayName: response[index].designerProfile.displayName,
+                productName: response[index].productDetails.productName,
+                images: response[index].images[0].large,
+                productId: response[index].productId,
+                slug: response[index].slug,
+                selectedSize: response[index].cartData[j].selectedSize,
+                purchaseMinQuantity: response[index].purchaseMinQuantity,
+                quantity: response[index].cartData[j].qty,
+                purchaseMaxQuantity: response[index].purchaseMaxQuantity,
+                salePrice: response[index].deal.salePrice,
+                mrp: response[index].mrp,
+                customization: response[index].cartData[j].customization,
+                id: response[index].cartData[j].id
+              }
             )
-            
+
           }
         }
         // this.shoppingCartItems = response;
         this.total_price = 0
         var getitemTotal = 0
         for (let index = 0; index < this.data.length; index++) {
-          if(!this.data[index].slug)
-          {
-            let name = this.data[index].productName.toLowerCase( );
+          if (!this.data[index].slug) {
+            let name = this.data[index].productName.toLowerCase();
             this.data[index].slug = name.replace(/ /g, "-");
           }
-          
-        }
-        for(let i = 0;i < this.data.length; i++)
-        {
 
-          if(this.data[i].salePrice || this.data[i].salePrice == 0)
-          {
+        }
+        for (let i = 0; i < this.data.length; i++) {
+
+          if (this.data[i].salePrice || this.data[i].salePrice == 0) {
             getitemTotal = this.data[i].quantity * this.data[i].salePrice
-          }else{
+          } else {
             getitemTotal = this.data[i].quantity * this.data[i].mrp
           }
           this.total_price = this.total_price + getitemTotal;
@@ -678,183 +664,160 @@ export class BillingAddressComponent implements OnInit {
     }
     if (!this.selectAddress || this.selectAddress == '' || this.selectAddress == null || this.selectAddress == undefined) {
       console.log('if');
-      console.log('this.selectAddress',this.selectAddress);
-      
+      console.log('this.selectAddress', this.selectAddress);
+
     } else {
       console.log('else');
       this.router.navigateByUrl('/checkout/' + this.selectAddress)
     }
   }
-  checkValidtion(fieldNAme:any)
-  {
+  checkValidtion(fieldNAme: any) {
     console.log('fieldNAme');
-    
-    // var boutiqueNamepattern = new RegExp('/^[A-Z]+$/i');
     const onlyAB = /^[A-Z]+$/i;
     const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
     const numberRegex = '^[0-9]*$';
     const noSpacalchar = "^[a-zA-Z0-9 ]+$";
-    if(fieldNAme == 'fullName')
-    {
+    const onlyAlpha = /\d+/g;
+    const emptySpace = /^ *$/;
+
+    if (fieldNAme == 'fullName') {
       // firstName1
-      if(this.model.fullName )
-      {
+      if (this.model.fullName) {
         // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
-        if(this.model.fullName.match(onlyAB) != null)
-        {
-          this.errorList.fullName = '';
-          
-        }else{
+        if (this.model.fullName.match(onlyAB) == null) {
           this.errorList.fullName = 'Please enter only alphabet';
-          
+        } else if(this.model.fullName.match(emptySpace) !== null){
+          this.errorList.fullName = 'Empty Space not allowed';
+        } else {
+          this.errorList.fullName = '';
         }
-      }else{
+      } else {
         this.errorList.fullName = 'Enter first name';
-        
+
       }
     }
-    if(fieldNAme == 'address1') 
-    {
+    if (fieldNAme == 'address1') {
       // address
-      if(this.model.address1 )
-      {
+      if (this.model.address1) {
+        console.log('this.model.address1.match(emptySpace)', this.model.address1.match(emptySpace));
         // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
-        if(this.model.address1.match(noSpacalchar) != null)
-        {
+        if(this.model.address1.match(emptySpace) !== null){
+          this.errorList.address1 = 'Empty Space not allowed';
+        } else {
           this.errorList.address1 = '';
-          
-        }else{
-          this.errorList.address1 = 'Special characters not allow';
-          
         }
-      }else{
+      } else {
         this.errorList.address1 = 'Enter address1';
-        
+
       }
     }
-    if(fieldNAme == 'address2') 
-    {
+    if (fieldNAme == 'address2') {
       // address
-      if(this.model.address2 )
-      {
+      if (this.model.address2) {
         // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
-        if(this.model.address2.match(noSpacalchar) != null)
-        {
+        if(this.model.address2.match(emptySpace) !== null){
+          this.errorList.address2 = 'Empty Space not allowed';
+        } else {
           this.errorList.address2 = '';
-          
-        }else{
-          this.errorList.address2 = 'Special characters not allow';
-          
         }
-      }else{
+      } else {
         // this.errorList.address2 = 'Enter address2';
-        
+
       }
     }
-    if(fieldNAme == 'mobile')   
-    {
+    if (fieldNAme == 'mobile') {
       // mobileNo
-      if(this.model.mobile && this.model.mobile.toString().length == 10)
-      {
+      if (this.model.mobile && this.model.mobile.toString().length == 10) {
         console.log(this.model.mobile.length);
-        
+    
         this.errorList.mobile = '';
-      }else{
+      } else {
         this.errorList.mobile = 'Enter 10 digit mobile no';
-        
+    
       }
     }
-    if(fieldNAme == 'email')   
-    {
+    if (fieldNAme == 'email') {
       // email
-      if(this.model.email )
-      {      
-        if(this.model.email.match(emailRegex) != null)
-        {
-          this.errorList.email = '';
-          
-        }else{
+      if (this.model.email) {
+        if (this.model.email.match(emailRegex) == null) {
           this.errorList.email = 'Please enter valid email';
-          
+        } else if(this.model.email.match(emptySpace) !== null){
+          this.errorList.email = 'Empty Space not allowed';
+        } else {
+          this.errorList.email = '';
         }
-      }else{
+      } else {
         this.errorList.email = 'Enter email';
-        
-        
+
+
       }
     }
-    if(fieldNAme == 'country') 
-    {
+    if (fieldNAme == 'country') {
       // country
-      if(this.model.country)
-      {
+      if (this.model.country) {
         this.errorList.country = '';
-        
-      }else{
+
+      } else {
         this.errorList.country = 'Select country.';
-        
+
       }
     }
-    if(fieldNAme == 'state') 
-    {
+    if (fieldNAme == 'state') {
       // state
-      if(this.model.state)
-      {
+      if (this.model.state) {
         this.errorList.state = '';
-        
-      }else{
+
+      } else {
         this.errorList.state = 'Select state.';
-        
+
       }
     }
-    if(fieldNAme == 'city') 
-    {
+    if (fieldNAme == 'city') {
       // city
-      if(this.model.city )
-      {
-        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
-        if(this.model.city.match(onlyAB) != null)
-        {
-          this.errorList.city = '';
-          
-        }else{
+      if (this.model.city) {
+        console.log('this.model.city.match(noSpacalchar)', this.model.city.match(noSpacalchar));
+        console.log('this.model.city.match(onlyAlpha)', this.model.city.match(onlyAlpha));
+        console.log('this.model.city.match(emptySpace)', this.model.city.match(emptySpace));
+        
+        if (this.model.city.match(noSpacalchar) == null) {
+          this.errorList.city = 'No special character are allowed';
+
+        } else if(this.model.city.match(onlyAlpha) !== null) {
           this.errorList.city = 'Please enter only alphabet';
-          
+        } else if(this.model.city.match(emptySpace) !== null){
+          this.errorList.city = 'Empty Space not allowed';
+        } else {
+          this.errorList.city = '';
         }
-      }else{
-        this.errorList.city = 'Enter city';
-        
+      } else {
+        this.errorList.city = 'Enter a city name';
+
       }
     }
-    if(fieldNAme == 'postalCode') 
-    {
+    if (fieldNAme == 'postalCode') {
       // pinCode
-      if(this.model.postalCode && this.model.postalCode.toString().length == 6)
-      {
+      if (this.model.postalCode && this.model.postalCode.toString().length == 6) {
         this.errorList.postalCode = '';
-        
-      }else{
+    
+      } else {
         this.errorList.postalCode = 'Enter 6 digit Pincode';
-        
+    
       }
     }
-    if(fieldNAme == 'landmark') 
-    {
+    if (fieldNAme == 'landmark') {
       // address
-      if(this.model.landmark )
-      {
+      if (this.model.landmark) {
         // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
-        if(this.model.landmark.match(noSpacalchar) != null)
-        {
-          this.errorList.landmark = '';
-          
-        }else{
+        if (this.model.landmark.match(noSpacalchar) == null) {
           this.errorList.landmark = 'Special characters not allow';
-          
+        } else if(this.model.landmark.match(emptySpace) !== null){
+          this.errorList.landmark = 'Empty Space not allowed';
+        } else {
+          this.errorList.landmark = '';
         }
-      }else{
+      } else {
         this.errorList.landmark = 'Enter Landmark';
-        
+
       }
     }
   }

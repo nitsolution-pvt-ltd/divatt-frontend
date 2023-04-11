@@ -21426,3 +21426,8 @@ mat-spinner.mini.mat-spinner circle
 .custom-toggle .mat-slide-toggle .mat-slide-toggle-bar {
   background: #96a0a1;
 }
+
+mat-hint
+{
+    color: red !important;
+}

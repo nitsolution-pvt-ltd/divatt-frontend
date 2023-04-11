@@ -237,6 +237,84 @@ export class CheckoutComponent implements OnInit {
     );
   }
   // getDesignerList end
+
+  /* Validation check start */
+  errorList: any = {};
+  checkValidtion(fieldNAme: any) {
+    console.log('fieldNAme');
+    const onlyAB = /^[A-Z]+$/i;
+    const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+    const numberRegex = '^[0-9]*$';
+    const noSpacalchar = "^[a-zA-Z0-9 ]+$";
+    const onlyAlpha = /\d+/g;
+    const emptySpace = /^ *$/;
+
+    if (fieldNAme == 'customizationDetails') {
+      if (this.model.customizationDetails) {
+        console.log('this.model.customizationDetails.match(emptySpace)', this.model.customizationDetails.match(emptySpace));
+        
+        if(this.model.customizationDetails.match(emptySpace) !== null){
+          this.errorList.customizationDetails = 'Empty Space not allowed';
+        } else {
+          this.errorList.customizationDetails = '';
+        }
+      } else {
+        this.errorList.customizationDetails = 'Enter Customization Details';
+
+      }
+    }
+    if (fieldNAme == 'from') {
+      if (this.model.from) {
+        
+        if (this.model.from.match(noSpacalchar) == null) {
+          this.errorList.from = 'No special character are allowed';
+
+        } else if(this.model.from.match(onlyAlpha) !== null) {
+          this.errorList.from = 'Please enter only alphabet';
+        } else if(this.model.from.match(emptySpace) !== null){
+          this.errorList.from = 'Empty Space not allowed';
+        } else {
+          this.errorList.from = '';
+        }
+      } else {
+        this.errorList.from = 'Enter a from name';
+
+      }
+    }
+    if (fieldNAme == 'to') {
+      if (this.model.to) {
+        
+        if (this.model.to.match(noSpacalchar) == null) {
+          this.errorList.to = 'No special character are allowed';
+
+        } else if(this.model.to.match(onlyAlpha) !== null) {
+          this.errorList.to = 'Please enter only alphabet';
+        } else if(this.model.from.match(emptySpace) !== null){
+          this.errorList.to = 'Empty Space not allowed';
+        } else {
+          this.errorList.to = '';
+        }
+      } else {
+        this.errorList.to = 'Enter a to name';
+
+      }
+    }
+    if (fieldNAme == 'message') {
+      if (this.model.message) {
+        console.log('this.model.message.match(emptySpace)', this.model.message.match(emptySpace));
+        
+        if(this.model.message.match(emptySpace) !== null){
+          this.errorList.message = 'Empty Space not allowed';
+        } else {
+          this.errorList.message = '';
+        }
+      } else {
+        this.errorList.message = 'Enter Customization Details';
+
+      }
+    }
+  }
+  /* Validation check end */
   getCartListData() {
     var _taxamount = 0, _netAmount = 0;
     this.getCartlistSubscribe = this.http.get(API_URL + this.cartlistapi).subscribe(
@@ -779,82 +857,6 @@ export class CheckoutComponent implements OnInit {
     // console.log('checkoutLoader', checkoutLoader);
     
   }
-
-  // success order api call start
-  orderApiCall() {
-    this.loader = true;
-    console.log('order api call');
-    let paymentStatus;
-    if (this.razorpay_payment_id != null) {
-      paymentStatus = 'COMPLETED'
-    } else { paymentStatus = 'INCOMPLETED' }
-    var currentdate = new Date();
-    console.log("orderdate", currentdate);
-    var orderdate = moment(currentdate).format('DD/MM/YYYY');
-    console.log("orderdate", currentdate, orderdate);
-    let data = {
-      orderDetailsEntity: {
-        billingAddress: this.billingAddress,
-        discount: this.discountAmount,
-        mrp: this.mrpAmount,
-        netPrice: this.netAmount,
-        shippingAddress: this.shippingAddress,
-        taxAmount: this.taxAmount,
-        totalAmount: this.total,
-        giftWrapAmount: this.giftWrapAmount,
-        units: this.totalUnits,
-        userId: this.get_user_dtls.uid,
-        deliveryCheckUrl: "",
-        deliveryDate: "",
-        deliveryMode: "warehouse",
-        deliveryStatus: "dispatch",
-        // orderDate: orderdate,
-        orderStatus: 'Active',
-        shippingCharges: 0,
-        razorpayOrderId: this.paymentOrderId
-      },
-      orderPaymentEntity: {
-        userId: this.get_user_dtls.uid,
-        paymentDetails: {
-          razorpay_payment_id: this.razorpay_payment_id,
-          razorpay_order_id: this.razorpay_order_id,
-          razorpay_signature: this.razorpay_signature
-        },
-        paymentMode: this.paymentType,
-        paymentResponse: {
-          razorpay_payment_id: this.razorpay_payment_id,
-          razorpay_order_id: this.razorpay_order_id,
-          razorpay_signature: this.razorpay_signature
-        },
-        paymentStatus: paymentStatus,
-
-      },
-      orderSKUDetailsEntity: this.orderProducts
-    }
-    console.log("totalProducts", data);
-
-    this.orderApiSubscribe = this.http.post(API_URL + 'userOrder/add', data).subscribe(
-      (res: any) => {
-        // if(res.status === 200){
-        console.log("res.orderId", res.orderId);
-
-        this.router.navigateByUrl(`order-successfully`);
-        this.removeAllcart();
-        this.loader = false;
-        // }
-
-
-      },
-      errRes => {
-        this.loader = false;
-        console.log("errRes >", errRes);
-        //  this.removeAllcart();
-        this.toastrService.error(errRes.error.message);
-      }
-    );
-
-  }
-  // success order api call end
   onPaymentSubmitData() {
     this.btnLoader = true;
     console.log('order paymentdata', this.paymentResponse);

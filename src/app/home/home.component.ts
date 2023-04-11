@@ -369,12 +369,13 @@ export class HomeComponent implements OnInit {
   designerlist = [];
   getDesignerList() {
     this.designerloader = true;
-    this.designerlist = [];
+    
     console.log("UserName", this.get_user_dtls);
 
     this.designerListSubscribe = this.http.get(API_URL + this.designerListapi_url).subscribe(
       (response: any) => {
-        console.log("Designerlist", response);
+        this.designerlist = [];
+        console.log("Designerlist@", response);
         // this.designerlist = response;
         for (let index = 0; index < response.length; index++) {
           if (response[index].productCount > 0) {
@@ -384,7 +385,7 @@ export class HomeComponent implements OnInit {
         }
         this.designerloader = false;
         // this.toastrService.success(response.message);
-
+        console.log("Designerlist", this.designerlist);
       },
       errRes => {
         console.log("error handeller >>@@", errRes);

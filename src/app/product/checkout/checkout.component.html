@@ -201,16 +201,19 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.customizationDetails}" class="example-full-width" appearance="outline">
                                   <mat-label>Customization Details</mat-label>
-                                  <textarea  matInput required name="customizationDetails" [(ngModel)]="model.customizationDetails" ></textarea>
+                                  <textarea (keyUp)="checkValidtion('customizationDetails')"
+                                  (input)="checkValidtion('customizationDetails')"
+                                  (blur)="checkValidtion('customizationDetails')"  matInput required name="customizationDetails" [(ngModel)]="model.customizationDetails" ></textarea>
+                                  <mat-hint *ngIf="errorList.customizationDetails">{{errorList.customizationDetails}}</mat-hint>
                                 </mat-form-field>
                             </div>
                           </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!customizationForm.valid">Submit</button>
+                    <button type="submit" class="btn btn-outline-dark submit-btn" [disabled]="!customizationForm.valid || errorList.customizationDetails">Submit</button>
                 </div>
               </form>
         </div>
@@ -228,25 +231,34 @@
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.from}" class="example-full-width" appearance="outline">
                                   <mat-label>From</mat-label>
-                                  <input type="text" matInput required name="from" [(ngModel)]="model.from" >
+                                  <input type="text" matInput required (keyUp)="checkValidtion('from')"
+                                  (input)="checkValidtion('from')"
+                                  (blur)="checkValidtion('from')" name="from" [(ngModel)]="model.from" >
+                                  <mat-hint *ngIf="errorList.from">{{errorList.from}}</mat-hint>
                                 </mat-form-field>
                             </div>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.to}" class="example-full-width" appearance="outline">
                                   <mat-label>To</mat-label>
-                                  <input type="text" matInput required name="to" [(ngModel)]="model.to" >
+                                  <input type="text" matInput required (keyUp)="checkValidtion('to')"
+                                  (input)="checkValidtion('to')"
+                                  (blur)="checkValidtion('to')" name="to" [(ngModel)]="model.to" >
+                                  <mat-hint *ngIf="errorList.to">{{errorList.to}}</mat-hint>
                                 </mat-form-field>
                             </div>
                           </div>
                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.message}" class="example-full-width" appearance="outline">
                                   <mat-label>Message</mat-label>
-                                  <textarea  matInput required name="message" [(ngModel)]="model.message" rows="4"></textarea>
+                                  <textarea (keyUp)="checkValidtion('message')"
+                                  (input)="checkValidtion('message')"
+                                  (blur)="checkValidtion('message')"  matInput required name="message" [(ngModel)]="model.message" rows="4"></textarea>
+                                  <mat-hint *ngIf="errorList.message">{{errorList.message}}</mat-hint>
                                 </mat-form-field>
                             </div>
                           </div>
