@@ -122,8 +122,7 @@
                                                                     (keyUp)="checkValidtion('email')"
                                                                     (input)="checkValidtion('email')"
                                                                     (blur)="checkValidtion('email')">
-                                                                <mat-hint
-                                                                    *ngIf="errorList.email">{{errorList.email}}</mat-hint>
+                                                                <mat-hint *ngIf="errorList.email">{{errorList.email}}</mat-hint>
 
                                                             </mat-form-field>
                                                         </div>

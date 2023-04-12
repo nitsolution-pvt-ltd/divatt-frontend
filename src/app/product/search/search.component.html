@@ -3,9 +3,12 @@
         <div class="row">
             <div class="col-md-8 m-auto">
                 <div class="searchbar">
-                  <input type="text" class="searchinput pl-3 w-100 rounded" name="searchevent" [(ngModel)]="searchevent" placeholder="Search products..." (keydown.enter)="searchText(searchevent)">
-                  <i class="ti ti-search rounded-right"  (click)="searchText(searchevent)"></i>
+                  <input (keyUp)="checkValidtion('searchevent')"
+                  (input)="checkValidtion('searchevent')"
+                  (blur)="checkValidtion('searchevent')" type="text" class="searchinput pl-3 w-100 rounded" name="searchevent" [(ngModel)]="searchevent" placeholder="Search products..." (keydown.enter)="searchText(searchevent)">
+                  <i class="ti ti-search rounded-right" (click)="searchText(searchevent)"></i>
                 </div>
+                <mat-hint *ngIf="errorList.searchevent">{{errorList.searchevent}}</mat-hint>
             </div>
             
         </div>

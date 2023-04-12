@@ -114,6 +114,52 @@ export class ProfileComponent implements OnInit {
     
   }
   // changeDateFormat end
+
+  /* Validation check start */
+  errorList: any = {};
+  checkValidtion(fieldNAme: any) {
+    console.log('fieldNAme');
+    const onlyAB = /^[A-Z]+$/i;
+    const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+    const numberRegex = '^[0-9]*$';
+    const noSpacalchar = "^[a-zA-Z0-9 ]+$";
+    const onlyAlpha = /\d+/g;
+    const emptySpace = /^ *$/;
+
+    if (fieldNAme == 'firstName') {
+      // firstName
+      if (this.model.firstName) {
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if (this.model.firstName.match(onlyAB) == null) {
+          this.errorList.firstName = 'Please enter only alphabet';
+        } else if(this.model.firstName.match(emptySpace) !== null){
+          this.errorList.firstName = 'Empty Space not allowed';
+        } else {
+          this.errorList.firstName = '';
+        }
+      } else {
+        this.errorList.firstName = 'Enter first name';
+      }
+    }
+    if (fieldNAme == 'lastName') {
+      // lastName
+      if (this.model.lastName) {
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if (this.model.lastName.match(onlyAB) == null) {
+          this.errorList.lastName = 'Please enter only alphabet';
+        } else if(this.model.lastName.match(emptySpace) !== null){
+          this.errorList.lastName = 'Empty Space not allowed';
+        } else {
+          this.errorList.lastName = '';
+        }
+      } else {
+        this.errorList.lastName = 'Enter last name';
+      }
+    }
+
+  }
+  /* Validation check end */
+  
   // ======================== on submit update user data start ===================
   onSubmitUserAccount(form: NgForm) {
     this.isLoading = true;

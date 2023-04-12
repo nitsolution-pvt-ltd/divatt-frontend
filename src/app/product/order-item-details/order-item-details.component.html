@@ -385,9 +385,7 @@
                                         class="mb-0 py-3"><mat-icon
                                             [ngClass]="{'text-success': orderItemStatus == 'Product received from user','text-warning2' :orderItemStatus == 'Product shipped by user'}">{{orderItemStatus
                                             == 'Product shipped by user' ?
-                                            'help':'verified'}}</mat-icon><span>{{orderItemStatus == 'Product shipped by
-                                            user'? 'Product shipping , waiting for seller confirmation' : 'Product
-                                            received by the seller'}}.</span></p>
+                                            'help':'verified'}}</mat-icon><span>{{orderItemStatus == 'Product shipped by user'? 'Product shipping , waiting for seller confirmation' : 'Product received by the seller'}}.</span></p>
                                     <p *ngIf="orderDetails?.OrderSKUDetails[0]?.orderStatusDetails?.userShippedProduct">
                                         You shipped the return product by below shipment details: <br>
                                         Courier Name:

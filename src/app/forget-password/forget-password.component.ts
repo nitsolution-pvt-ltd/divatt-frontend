@@ -108,4 +108,43 @@ passwordvalid(new_password: any,conform_password: any)
   
 }
 // Change Password  form submit end
+
+/* Validation check start */
+errorList: any = {};
+checkValidtion(fieldNAme: any) {
+  console.log('fieldNAme');
+  const onlyAB = /^[A-Z]+$/i;
+  const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+  const numberRegex = '^[0-9]*$';
+  const noSpacalchar = "^[a-zA-Z0-9 ]+$";
+  const onlyAlpha = /\d+/g;
+  const emptySpace = /^ *$/;
+
+  if (fieldNAme == 'newPass') {
+    if (this.model.newPass) {
+      
+      if(this.model.newPass.match(emptySpace) !== null){
+        this.errorList.newPass = 'Empty Space not allowed';
+      } else {
+        this.errorList.newPass = '';
+      }
+    } else {
+      this.errorList.newPass = 'Enter New password';
+    }
+  }
+  if (fieldNAme == 'confirm_password') {
+    if (this.model.confirm_password) {
+      
+      if(this.model.confirm_password.match(emptySpace) !== null){
+        this.errorList.confirm_password = 'Empty Space not allowed';
+      } else {
+        this.errorList.confirm_password = '';
+      }
+    } else {
+      this.errorList.confirm_password = 'Enter Confirm password';
+    }
+  }
+
+}
+/* Validation check end */
 }

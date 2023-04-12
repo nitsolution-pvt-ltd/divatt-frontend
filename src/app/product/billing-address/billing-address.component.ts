@@ -683,8 +683,11 @@ export class BillingAddressComponent implements OnInit {
     if (fieldNAme == 'fullName') {
       // firstName1
       if (this.model.fullName) {
-        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
-        if (this.model.fullName.match(onlyAB) == null) {
+        
+        if (this.model.fullName.match(noSpacalchar) == null) {
+          this.errorList.fullName = 'No special character are allowed';
+
+        } else if(this.model.fullName.match(onlyAlpha) !== null) {
           this.errorList.fullName = 'Please enter only alphabet';
         } else if(this.model.fullName.match(emptySpace) !== null){
           this.errorList.fullName = 'Empty Space not allowed';
@@ -692,7 +695,7 @@ export class BillingAddressComponent implements OnInit {
           this.errorList.fullName = '';
         }
       } else {
-        this.errorList.fullName = 'Enter first name';
+        this.errorList.fullName = 'Enter a full name';
 
       }
     }

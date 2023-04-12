@@ -167,18 +167,24 @@
                     <input type="hidden"  name="type" [(ngModel)]="model.userType">
                     <input type="hidden"  name="socialType" [(ngModel)]="model.socialType" value="normal">
                     <div class="form-group">
-                      <mat-form-field class="example-full-width" appearance="fill">
+                      <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.loginEmail}" class="example-full-width" appearance="fill">
                         <mat-label>Email</mat-label>
-                        <input type="email" name="email" [(ngModel)]="model.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" email required matInput placeholder="Ex. pat@example.com">
+                        <input type="email" (keyUp)="checkValidtion('loginEmail')"
+                        (input)="checkValidtion('loginEmail')"
+                        (blur)="checkValidtion('loginEmail')" name="email" [(ngModel)]="model.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" email required matInput placeholder="Ex. pat@example.com">
+                        <mat-hint *ngIf="errorList.loginEmail">{{errorList.loginEmail}}</mat-hint>
                       </mat-form-field>
                     </div>
                     <div class="form-group">
-                      <mat-form-field appearance="fill">
+                      <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.loginPassword}" appearance="fill">
                         <mat-label>Password</mat-label>
-                        <input matInput [type]="hide ? 'password' : 'text'" name="password" [(ngModel)]="model.password" required>
+                        <input (keyUp)="checkValidtion('loginPassword')"
+                        (input)="checkValidtion('loginPassword')"
+                        (blur)="checkValidtion('loginPassword')" matInput [type]="hide ? 'password' : 'text'" name="password" [(ngModel)]="model.password" required>
                         <a mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                         </a>
+                        <mat-hint *ngIf="errorList.loginPassword">{{errorList.loginPassword}}</mat-hint>
                       </mat-form-field>
                     </div>
                     <input type="hidden" name="socialType" [(ngModel)]="model.socialType">
@@ -216,44 +222,60 @@
                     <input type="hidden" name="dob" [(ngModel)]="model.dob">
 
                     <div class="form-group mb-0">
-                      <mat-form-field appearance="fill">
+                      <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.firstName}" appearance="fill">
                         <mat-label>First Name</mat-label>
-                        <input matInput type="text" name="firstName" [(ngModel)]="model.firstName" required pattern="[a-zA-Z][a-zA-Z ]+">
+                        <input matInput type="text" (keyUp)="checkValidtion('firstName')"
+                        (input)="checkValidtion('firstName')"
+                        (blur)="checkValidtion('firstName')" name="firstName" [(ngModel)]="model.firstName" required>
+                        <mat-hint *ngIf="errorList.firstName">{{errorList.firstName}}</mat-hint>
                       </mat-form-field>
                     </div>
                     <div class="form-group mb-0">
-                      <mat-form-field appearance="fill">
+                      <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.lastName}" appearance="fill">
                         <mat-label>Last Name</mat-label>
-                        <input matInput type="text" name="lastName" [(ngModel)]="model.lastName" required pattern="[a-zA-Z][a-zA-Z ]+">
+                        <input matInput type="text" (keyUp)="checkValidtion('lastName')"
+                        (input)="checkValidtion('lastName')"
+                        (blur)="checkValidtion('lastName')" name="lastName" [(ngModel)]="model.lastName" required>
+                        <mat-hint *ngIf="errorList.lastName">{{errorList.lastName}}</mat-hint>
                       </mat-form-field>
                     </div>
                     <div class="form-group mb-0">
                       <mat-form-field appearance="fill">
-                        <input matInput (dateChange)="dateFormatChange('dob', $event)" (dateInput)="dateFormatChange('dob', $event)" [matDatepicker]="dob" placeholder="Date of birth" name="dateofbirth" [(ngModel)]="model.dateofbirth" readonly>
+                        <input matInput (blur)="checkValidtion('dateofbirth')" (input)="checkValidtion('dateofbirth')" (keyUp)="checkValidtion('dateofbirth')" (dateChange)="dateFormatChange('dob', $event)" (dateInput)="dateFormatChange('dob', $event)" [matDatepicker]="dob" placeholder="Date of birth" name="dateofbirth" required [(ngModel)]="model.dateofbirth" readonly>
                         <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
                         <mat-datepicker #dob></mat-datepicker>
+                        <mat-hint *ngIf="errorList.dateofbirth">DOB is Required</mat-hint>
                       </mat-form-field>
                       <input type="hidden" name="dob" [(ngModel)]="model.dob">
                     </div>
                     <div class="form-group mb-0">
-                      <mat-form-field appearance="fill">
+                      <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.mobileNo}" appearance="fill">
                         <mat-label>Mobile Number</mat-label>
-                        <input matInput OnlyNumber="true" type="text" pattern="^((\\+91-?)|0)?[0-9]{10}$"  onKeyPress="if(this.value.length==10) {return false;}" maxlength="10" minlength="10" name="mobileNo" [(ngModel)]="model.mobileNo" required>
+                        <input matInput OnlyNumber="true" type="text" (keyUp)="checkValidtion('mobileNo')"
+                        (input)="checkValidtion('mobileNo')"
+                        (blur)="checkValidtion('mobileNo')" pattern="^((\\+91-?)|0)?[0-9]{10}$"  onKeyPress="if(this.value.length==10) {return false;}" maxlength="10" minlength="10" name="mobileNo" [(ngModel)]="model.mobileNo" required>
+                        <mat-hint *ngIf="errorList.mobileNo">{{errorList.mobileNo}}</mat-hint>
                       </mat-form-field>
                     </div>
                     <div class="form-group mb-0">
-                      <mat-form-field appearance="fill">
+                      <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.email}" appearance="fill">
                         <mat-label>Email</mat-label>
-                        <input matInput type="email" name="email" [(ngModel)]="model.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" email required>
+                        <input matInput type="email" (keyUp)="checkValidtion('email')"
+                        (input)="checkValidtion('email')"
+                        (blur)="checkValidtion('email')" name="email" [(ngModel)]="model.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" email required>
+                        <mat-hint *ngIf="errorList.email">{{errorList.email}}</mat-hint>
                       </mat-form-field>
                     </div>
                     <div class="form-group mb-0">
-                      <mat-form-field appearance="fill">
+                      <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.password}" appearance="fill">
                         <mat-label>Password</mat-label>
-                        <input matInput [type]="hideset ? 'password' : 'text'" name="password" [(ngModel)]="model.password" required>
+                        <input matInput (keyUp)="checkValidtion('password')"
+                        (input)="checkValidtion('password')"
+                        (blur)="checkValidtion('password')" [type]="hideset ? 'password' : 'text'" name="password" [(ngModel)]="model.password" required>
                         <a mat-icon-button matSuffix (click)="hideset = !hideset" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                           <mat-icon>{{hideset ? 'visibility_off' : 'visibility'}}</mat-icon>
                         </a>
+                        <mat-hint *ngIf="errorList.password">{{errorList.password}}</mat-hint>
                       </mat-form-field>
                     </div>
                     <p *ngIf="errorMsg" class="errorMsg">{{errorMsg}}</p>
@@ -268,7 +290,7 @@
                         <li (click)="openLoginNav('forgotpassword')">Forgot your password?</li>
                         <li (click)="openLoginNav('login')">Have a account? Sign In</li>
                       </ul>
-                      <p class="font-bold text-black text-center mt-4"><b>Or Sign in with</b></p>
+                      <!-- <p class="font-bold text-black text-center mt-4"><b>Or Sign in with</b></p>
                       <p class="login-socal mb-4 mt-4 text-center">
                         <a (click)="signInWithGoogle('google')" class="socal-link mr-5">
                           <img src="assets/images/icon/google.png" alt="">
@@ -276,7 +298,7 @@
                         <a (click)="signInWithGoogle('facebook')" class="socal-link">
                           <img src="assets/images/icon/facebook.png" alt="">
                         </a>
-                      </p>
+                      </p> -->
                     </div>
                   </div>
               </div>
@@ -331,9 +353,12 @@
                   <p class="note">Enter your email and we'll send you a link to reset your password.</p>
                   <form class="theme-form" #forgotPasswordForm="ngForm" (ngSubmit)="onSubmitForgotPassword(forgotPasswordForm)" (keyup.enter)="onSubmit(forgotPasswordForm)" novalidate>
                     <div class="form-group mb-0">
-                      <mat-form-field appearance="fill">
+                      <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.forgotEmail}" appearance="fill">
                         <mat-label>email</mat-label>
-                        <input matInput type="email" name="email" [(ngModel)]="model.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" email required>
+                        <input matInput type="email" (keyUp)="checkValidtion('forgotEmail')"
+                        (input)="checkValidtion('forgotEmail')"
+                        (blur)="checkValidtion('forgotEmail')" name="email" [(ngModel)]="model.email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" email required>
+                        <mat-hint *ngIf="errorList.forgotEmail">{{errorList.forgotEmail}}</mat-hint>
                       </mat-form-field>
                     </div>
                     <p *ngIf="errorMsg" class="errorMsg">{{errorMsg}}</p>

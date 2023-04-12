@@ -293,7 +293,7 @@ export class ProductCollectionComponent implements OnInit {
   colors = [];
   getalldata() {
     // designerlist
-    this.designerListSubscribe = this.http.get(API_URL + 'user/designer/list').subscribe(
+    this.designerListSubscribe = this.http.get(API_URL + 'designer/userDesignerPopList').subscribe(
       (response: any) => {
         this.designers = [];
         console.log('this.designers', this.designers);
