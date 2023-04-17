@@ -93,6 +93,7 @@ export class ModalPage implements OnInit {
   mindateRange: string;
   mesorementData: any = {};
   userData: any = {};
+  validForm = false;
   private GetAdminData: Subscription;
   stockRecorverSubscribe: Subscription;
 
@@ -190,7 +191,7 @@ export class ModalPage implements OnInit {
       // console.log("get_item",this.get_item,this.get_array);
       // this.api_url = 'user/user-login';
     } else if (this.get_identifier == 'cancelledApprovalModal') {
-      this.heder_title = 'Request for cancelation';
+      this.heder_title = 'Request for Cancellation';
       this.model.orderStatus = 'Approve';
       console.log("get_item", this.get_item, this.get_array);
       // this.api_url = 'user/user-login';
@@ -367,6 +368,218 @@ export class ModalPage implements OnInit {
 
   }
   // commonFunction end
+
+  /* Validation check start */
+  errorList: any = {};
+  checkValidtion(fieldNAme: any) {
+    console.log('fieldNAme');
+    const onlyAB = /^[A-Z]+$/i;
+    const emailRegex = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+    const numberRegex = '^[0-9]*$';
+    const noSpacalchar = "^[a-zA-Z0-9 ]+$";
+    const onlyAlpha = /\d+/g;
+    const emptySpace = /^ *$/;
+    // productapproveComment
+    if (fieldNAme == 'productapproveComment') {
+      // productapproveComment
+      if (this.modal.comment) {
+        console.log('this.modal.comment.match(emptySpace)', this.modal.comment.match(emptySpace));
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.modal.comment.match(emptySpace) !== null){
+          this.errorList.productapproveComment = 'Empty Space not allowed';
+        } else {
+          this.errorList.productapproveComment = '';
+        }
+      } else {
+        this.errorList.productapproveComment = 'Enter your Comment';
+
+      }
+    }
+    // desigerrejectedcomment
+    if (fieldNAme == 'desigerrejectedcomment') {
+      // desigerrejectedcomment
+      if (this.modal.comment) {
+        console.log('this.modal.comment.match(emptySpace)', this.modal.comment.match(emptySpace));
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.modal.comment.match(emptySpace) !== null){
+          this.errorList.desigerrejectedcomment = 'Empty Space not allowed';
+        } else {
+          this.errorList.desigerrejectedcomment = '';
+        }
+      } else {
+        this.errorList.desigerrejectedcomment = 'Enter your Comment';
+
+      }
+    }
+    // displayname
+    if (fieldNAme == 'displayName') {
+      if (this.modal.displayName) {
+        
+        if (this.modal.displayName.match(noSpacalchar) == null) {
+          this.errorList.displayName = 'No special character are allowed';
+
+        } else if(this.modal.displayName.match(onlyAlpha) !== null) {
+          this.errorList.displayName = 'Please enter only alphabet';
+        } else if(this.modal.displayName.match(emptySpace) !== null){
+          this.errorList.displayName = 'Empty Space not allowed';
+        } else {
+          this.errorList.displayName = '';
+        }
+      } else {
+        this.errorList.displayName = 'Enter a display name';
+
+      }
+    }
+    // designerCategory
+    if (fieldNAme == 'designerCategory') {
+      // state
+      if (this.modal.designerCategory) {
+        this.errorList.designerCategory = '';
+
+      } else {
+        this.errorList.designerCategory = 'Select a designer level.';
+
+      }
+    }
+    // orderCancelComment
+    if (fieldNAme == 'orderCancelComment') {
+      // orderCancelComment
+      if (this.model.comment) {
+        console.log('this.model.comment.match(emptySpace)', this.model.comment.match(emptySpace));
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.comment.match(emptySpace) !== null){
+          this.errorList.orderCancelComment = 'Empty Space not allowed';
+        } else {
+          this.errorList.orderCancelComment = '';
+        }
+      } else {
+        this.errorList.orderCancelComment = 'Enter your Comment';
+
+      }
+    }
+    // courierName
+    if (fieldNAme == 'courierName') {
+      if (this.model.courierName) {
+        
+        if (this.model.courierName.match(noSpacalchar) == null) {
+          this.errorList.courierName = 'No special character are allowed';
+
+        } else if(this.model.courierName.match(onlyAlpha) !== null) {
+          this.errorList.courierName = 'Please enter only alphabet';
+        } else if(this.model.courierName.match(emptySpace) !== null){
+          this.errorList.courierName = 'Empty Space not allowed';
+        } else {
+          this.errorList.courierName = '';
+        }
+      } else {
+        this.errorList.courierName = 'Enter a Courier Name';
+
+      }
+    }
+    // cancelledApprovalcomment
+    if (fieldNAme == 'cancelledApprovalcomment') {
+      // cancelledApprovalcomment
+      if (this.model.comment) {
+        console.log('this.model.comment.match(emptySpace)', this.model.comment.match(emptySpace));
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.comment.match(emptySpace) !== null){
+          this.errorList.cancelledApprovalcomment = 'Empty Space not allowed';
+        } else {
+          this.errorList.cancelledApprovalcomment = '';
+        }
+      } else {
+        this.errorList.cancelledApprovalcomment = 'Enter your Comment';
+
+      }
+    }
+    // returnRequestComment
+    if (fieldNAme == 'returnRequestComment') {
+      // returnRequestComment
+      if (this.model.comment) {
+        console.log('this.model.comment.match(emptySpace)', this.model.comment.match(emptySpace));
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.comment.match(emptySpace) !== null){
+          this.errorList.returnRequestComment = 'Empty Space not allowed';
+        } else {
+          this.errorList.returnRequestComment = '';
+        }
+      } else {
+        this.errorList.returnRequestComment = 'Enter your Comment';
+
+      }
+    }
+    // returnApproveComment
+    if (fieldNAme == 'returnApproveComment') {
+      // returnApproveComment
+      if (this.model.comment) {
+        console.log('this.model.comment.match(emptySpace)', this.model.comment.match(emptySpace));
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.comment.match(emptySpace) !== null){
+          this.errorList.returnApproveComment = 'Empty Space not allowed';
+        } else {
+          this.errorList.returnApproveComment = '';
+        }
+      } else {
+        this.errorList.returnApproveComment = 'Enter your Comment';
+
+      }
+    }
+    // forceReturnComment
+    if (fieldNAme == 'forceReturnComment') {
+      // forceReturnComment
+      if (this.model.comments) {
+        console.log('this.model.comments.match(emptySpace)', this.model.comments.match(emptySpace));
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.comments.match(emptySpace) !== null){
+          this.errorList.forceReturnComment = 'Empty Space not allowed';
+        } else {
+          this.errorList.forceReturnComment = '';
+        }
+      } else {
+        this.errorList.forceReturnComment = 'Enter your Comment';
+
+      }
+    }
+    // returnRefundComment
+    if (fieldNAme == 'returnRefundComment') {
+      // returnRefundComment
+      if (this.model.comment) {
+        console.log('this.model.comment.match(emptySpace)', this.model.comment.match(emptySpace));
+        // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
+        if(this.model.comment.match(emptySpace) !== null){
+          this.errorList.returnRefundComment = 'Empty Space not allowed';
+        } else {
+          this.errorList.returnRefundComment = '';
+        }
+      } else {
+        this.errorList.returnRefundComment = 'Enter your Comment';
+
+      }
+    }
+    // paymentDate
+    if (fieldNAme == 'paymentDate') {
+      console.log('this.model.paymentDate',this.model.paymentDate);
+      
+      if (this.model.paymentDate == 'Invalid date') {
+        this.errorList.paymentDate = 'Select a payment date';
+      }else if (this.model.paymentDate) {
+        this.errorList.paymentDate = '';
+      } else {
+        this.errorList.paymentDate = 'Select a payment date';
+      }
+    }
+    // updatedDatetime
+    if (fieldNAme == 'updatedDatetime') {
+      if (this.model.updatedDatetime == 'Invalid date') {
+        this.errorList.updatedDatetime = 'Select a payment date';
+      }else if (this.model.updatedDatetime) {
+        this.errorList.updatedDatetime = '';
+      } else {
+        this.errorList.updatedDatetime = 'Select a date';
+      }
+    }
+  }
+  /* Validation check end */
   // setadminProfiledata start
   setadminProfiledata() {
     //  console.log('adminprofiledata',this.get_item);
@@ -404,7 +617,7 @@ export class ModalPage implements OnInit {
   // setadminProfiledata end
   ordersSubmit(form: NgForm, identifier: any) {
     console.log('get_item>>', this.get_item);
-    
+
     // console.log("orders form...", form.value);
     this.orderItemStatus = identifier;
     var body: any = {};
@@ -872,31 +1085,6 @@ export class ModalPage implements OnInit {
   }
   // setdesignerProfiledata end
 
-  /* Validation errors start */
-  errors: any ={};
-  checkValidtion(_identifier) {
-    console.log('_identifier', _identifier);
-    const onlyAlphabate = '^[a-zA-Z][a-zA-Z\s]*$';
-    console.log('this.modal.displayName', this.modal.displayName);
-
-    // Validate the full name field
-    if (_identifier == 'displayName' && this.modal.displayName) {
-      if (this.modal.displayName.match(onlyAlphabate) != null) {
-        this.errors.displayName = '';
-
-      } else {
-        this.errors.displayName = 'Please enter only alphabet';
-
-      }
-    } else {
-      this.errors.displayName = 'Please enter display name';
-    }
-
-    console.log('errors', this.errors);
-
-  }
-  /* Validation errors end */
-
   // data for profile edit end
   // changeDateFormat start
   changeDateFormat(_identifier, _date) {
@@ -945,13 +1133,17 @@ export class ModalPage implements OnInit {
       this.model.deliveredDate = moment(event.value).format('YYYY-MM-DD');
     } else if (_identifier == 'payment') {
       this.model.payment_datetime = moment(event.value).format('YYYY/MM/DD');
+      this.checkValidtion('paymentDate');
     } else if (_identifier == 'updatedDatetime') {
       this.model.updated_datetime = moment(event.value).format('YYYY-MM-DD hh:mm:ss');
+      this.checkValidtion('updatedDatetime');
     } else if (_identifier == 'service_Date') {
       this.model.servicedate = moment(event.value).format('YYYY-MM-DD hh:mm:ss');
     } else if (_identifier == 'gov_Date') {
       this.model.govdate = moment(event.value).format('YYYY-MM-DD hh:mm:ss');
     }
+
+
   }
   // changeDateFormat end
 
@@ -1559,7 +1751,7 @@ export class ModalPage implements OnInit {
       orderStatus: "cancelled",
       dateTime: this.currentDateTime
     }
-    this.changeorderStatusSubscribe = this.http.post("userOrder/adminCancelation/?orderId=" + this.get_item.orderId + "&productId=" + this.get_item.productId, body).subscribe(
+    this.changeorderStatusSubscribe = this.http.post("userOrder/adminCancelation/?orderId=" + this.get_item.orderId + "&productId=" + this.get_item.productId + '&size=' + this.get_item.size, body).subscribe(
       (res: any) => {
         this.commonUtils.presentToast("success", res.message);
         this.closeModal();
@@ -1675,7 +1867,7 @@ export class ModalPage implements OnInit {
       "orderStatus": form.value.orderStatus,
       'dateTime': this.currentDateTime
     };
-    this.changeorderStatusSubscribe = this.http.post("userOrder/adminApprovalCancelation?designerId=" + this.get_item.designerId + "&orderId=" + this.get_item.orderId + "&productId=" + this.get_item.productId, data).subscribe(
+    this.changeorderStatusSubscribe = this.http.post("userOrder/adminApprovalCancelation?designerId=" + this.get_item.designerId + "&orderId=" + this.get_item.orderId + "&productId=" + this.get_item.productId + '&size=' + this.get_item.size, data).subscribe(
       (res: any) => {
         this.commonUtils.presentToast("success", res.message);
         if (form.value.orderStatus == 'cancelled') {
@@ -1750,6 +1942,39 @@ export class ModalPage implements OnInit {
   // onSubmitOrderExport start
   // onSubmitaccountStatusForm start
   onSubmitaccountStatusForm(form: NgForm) {
+    this.validForm = false;
+    // paymentDate
+    if (form.value.payment_datetime == 'Invalid date') {
+      this.errorList.paymentDate = 'Select a payment date';
+      this.validForm = false;
+    }else if (form.value.payment_datetime) {
+      this.errorList.paymentDate = '';
+      this.validForm = true;
+    } else {
+      this.errorList.paymentDate = 'Select a payment date';
+      this.validForm = false;
+    }
+
+    // updatedDatetime
+    if (form.value.updated_datetime == 'Invalid date') {
+      this.errorList.updatedDatetime = 'Select a payment date';
+      this.validForm = false;
+    }else if (form.value.updated_datetime) {
+      this.errorList.updatedDatetime = '';
+      this.validForm = true;
+    } else {
+      this.errorList.updatedDatetime = 'Select a date';
+      this.validForm = false;
+    }
+
+    // status
+    if (form.value.status) {
+      this.errorList.status = '';
+      this.validForm = true;
+    } else {
+      this.errorList.status = 'Select a status';
+      this.validForm = false;
+    }
 
     this.get_item.designer_return_amount[0].status = form.value.status;
     this.get_item.designer_return_amount[0].remarks = form.value.remarks;
@@ -1777,16 +2002,22 @@ export class ModalPage implements OnInit {
       "_id": this.get_item?._id,
       "id": this.get_item.id
     };
+    console.log('form.value.payment_datetime', form.value.payment_datetime);
+    console.log('form.value.updated_datetime', form.value.updated_datetime);
+    console.log('form.value.status', form.value.status);
+    
     // console.log("submitaccountStatusSubscribe",form.value,data,this.get_item,this.get_item.designer_return_amount[0]);
-    this.submitaccountStatusSubscribe = this.http.put("account/update/" + this.get_item.id, data).subscribe(
-      (res: any) => {
-        this.commonUtils.presentToast("success", res.message);
-        this.closeModal();
-      },
-      (error) => {
-        this.commonUtils.presentToast("success", error.error.message);
-      }
-    );
+    if (form.value.payment_datetime != 'Invalid date' || !form.value.payment_datetime && form.value.updated_datetime != 'Invalid date' || !form.value.updated_datetime && form.value.status ) {
+      this.submitaccountStatusSubscribe = this.http.put("account/update/" + this.get_item.id, data).subscribe(
+        (res: any) => {
+          this.commonUtils.presentToast("success", res.message);
+          this.closeModal();
+        },
+        (error) => {
+          this.commonUtils.presentToast("success", error.error.message);
+        }
+      );
+    }
   }
   // onSubmitaccountStatusForm end
   // onSubmitaccountStatusForm start

@@ -219,7 +219,8 @@ export class OrderListPage implements OnInit {
           Cancelled:res.Cancelled,
           returnRequest:res.returnRequest,
           Rejected:res.rejected,
-          requestForCancelation:res.requestForCancelation
+          requestForCancelation:res.requestForCancelation,
+          returnRejectedByAdmin: res.returnRejectedByAdmin
         };
         // console.log("Order Count Data....",this.order_countData);
          

@@ -246,11 +246,14 @@
                     <!-- comment -->
                     <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
                       <div class="form-group">
-                        <mat-form-field appearance="outline">
+                        <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.productapproveComment}" appearance="outline">
                           <mat-label>Enter a comment</mat-label>
-                          <textarea matInput type="text" [(ngModel)]="modal.comment" name="comment" required clearInput
+                          <textarea matInput type="text" (keyUp)="checkValidtion('productapproveComment')"
+                          (input)="checkValidtion('productapproveComment')"
+                          (blur)="checkValidtion('productapproveComment')" [(ngModel)]="modal.comment" name="comment" required clearInput
                             rows="5">
                             </textarea>
+                            <mat-hint *ngIf="errorList.productapproveComment">{{errorList.productapproveComment}}</mat-hint>
                         </mat-form-field>
                       </div>
                     </ion-col>
@@ -302,11 +305,14 @@
                     <!-- comment -->
                     <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
                       <div class="form-group">
-                        <mat-form-field appearance="outline">
+                        <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.desigerrejectedcomment}" appearance="outline">
                           <mat-label>Enter a comment</mat-label>
-                          <textarea matInput type="text" [(ngModel)]="modal.comment" name="comment" required clearInput
+                          <textarea (keyUp)="checkValidtion('desigerrejectedcomment')"
+                          (input)="checkValidtion('desigerrejectedcomment')"
+                          (blur)="checkValidtion('desigerrejectedcomment')" matInput type="text" [(ngModel)]="modal.comment" name="comment" required clearInput
                             rows="5">
                             </textarea>
+                            <mat-hint *ngIf="errorList.desigerrejectedcomment">{{errorList.desigerrejectedcomment}}</mat-hint>
                         </mat-form-field>
                       </div>
                     </ion-col>
@@ -337,21 +343,23 @@
                     <!-- comment -->
                     <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
                       <div class="form-group">
-                        <mat-form-field appearance="outline">
+                        <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.displayName}" appearance="outline">
                           <mat-label>Display Name</mat-label>
-                          <input (keyUp)="checkValidtion('displayName')" (input)="checkValidtion('displayName')" (blur)="checkValidtion('displayName')" matInput type="text" [(ngModel)]="modal.displayName" name="displayName" required
-                          pattern="^[a-zA-Z][a-zA-Z\s]*$" clearInput>
-                          <mat-hint *ngIf="errors.displayName">{{errors.displayName}}</mat-hint>
+                          <input matInput type="text" (keyUp)="checkValidtion('displayName')"
+                          (input)="checkValidtion('displayName')"
+                          (blur)="checkValidtion('displayName')" [(ngModel)]="modal.displayName" name="displayName" required clearInput>
+                          <mat-hint *ngIf="errorList.displayName">{{errorList.displayName}}</mat-hint>
                         </mat-form-field>
                       </div>
                     </ion-col>
                     <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
                       <div class="form-group">
-                        <mat-form-field appearance="outline">
+                        <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.designerCategory}" appearance="outline">
                           <mat-label>Select Lebel</mat-label>
-                          <mat-select name="designerCategory" [(ngModel)]="modal.designerCategory" required>
+                          <mat-select (selectionChange)="checkValidtion('designerCategory')" (blur)="checkValidtion('designerCategory')" name="designerCategory" [(ngModel)]="modal.designerCategory" required>
                             <mat-option *ngFor="let Lebel of Lebellist" [value]="Lebel.Name">{{Lebel.Name}}</mat-option>
                           </mat-select>
+                          <mat-hint *ngIf="errorList.designerCategory">{{errorList.designerCategory}}</mat-hint>
                         </mat-form-field>
                       </div>
                     </ion-col>
@@ -378,11 +386,14 @@
                 novalidate>
                 <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
                   <div class="form-group">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.orderCancelComment}" appearance="outline">
                       <mat-label>Reason of Cancel</mat-label>
-                      <textarea matInput type="text" [(ngModel)]="model.comment" name="comment" rows="5" required
+                      <textarea matInput type="text" (keyUp)="checkValidtion('orderCancelComment')"
+                      (input)="checkValidtion('orderCancelComment')"
+                      (blur)="checkValidtion('orderCancelComment')" [(ngModel)]="model.comment" name="comment" rows="5" required
                         clearInput>
                       </textarea>
+                      <mat-hint *ngIf="errorList.orderCancelComment">{{errorList.orderCancelComment}}</mat-hint>
                     </mat-form-field>
                   </div>
                 </ion-col>
@@ -439,10 +450,13 @@
                 (ngSubmit)="ordersSubmit(orderShippedForm,'Shipped')">
                 <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
                   <div class="form-group">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.courierName}" appearance="outline">
                       <mat-label>Courier Name</mat-label>
-                      <input matInput type="text" name="courierName" pattern="^[a-zA-Z \-\']+" clearInput required
+                      <input matInput type="text" (keyUp)="checkValidtion('courierName')"
+                      (input)="checkValidtion('courierName')"
+                      (blur)="checkValidtion('courierName')" name="courierName" clearInput required
                         [(ngModel)]="model.courierName">
+                        <mat-hint *ngIf="errorList.courierName">{{errorList.courierName}}</mat-hint>
                     </mat-form-field>
                   </div>
                 </ion-col>
@@ -515,11 +529,14 @@
                 </ion-col>
                 <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
                   <div class="form-group">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.cancelledApprovalcomment}" appearance="outline">
                       <mat-label>Comment</mat-label>
-                      <textarea matInput type="text" [(ngModel)]="model.comment" name="comment" rows="5" required
+                      <textarea matInput type="text" (keyUp)="checkValidtion('cancelledApprovalcomment')"
+                      (input)="checkValidtion('cancelledApprovalcomment')"
+                      (blur)="checkValidtion('cancelledApprovalcomment')" [(ngModel)]="model.comment" name="comment" rows="5" required
                         clearInput>
                       </textarea>
+                      <mat-hint *ngIf="errorList.cancelledApprovalcomment">{{errorList.cancelledApprovalcomment}}</mat-hint>
                     </mat-form-field>
                   </div>
                 </ion-col>
@@ -561,11 +578,14 @@
                         (change)="changeDateFormat('payment',model.paymentDate)" clearInput required />
                     </mat-form-field> -->
 
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.paymentDate}" appearance="outline">
                       <mat-label>Date</mat-label>
-                      <input matInput [max]="currentDate" (dateChange)="dateFormatChange('payment', $event)" (dateInput)="dateFormatChange('payment', $event)" [matDatepicker]="payment" placeholder="{{model.paymentDate}}" [(ngModel)]="model.paymentDate" name="paymentDate" required readonly>
+                      <input matInput [max]="currentDate" (keyUp)="checkValidtion('paymentDate')"
+                      (input)="checkValidtion('paymentDate')"
+                      (blur)="checkValidtion('paymentDate')" (dateChange)="dateFormatChange('payment', $event)" (dateInput)="dateFormatChange('payment', $event)" [matDatepicker]="payment" placeholder="{{model.paymentDate}}" [(ngModel)]="model.paymentDate" name="paymentDate" required readonly>
                       <mat-datepicker-toggle matSuffix [for]="payment"></mat-datepicker-toggle>
                       <mat-datepicker #payment></mat-datepicker>
+                      <mat-hint *ngIf="errorList.paymentDate">{{errorList.paymentDate}}</mat-hint>
                     </mat-form-field>
 
                     <input type="hidden" [(ngModel)]="model.payment_datetime" name="payment_datetime">
@@ -579,11 +599,14 @@
                         (change)="changeDateFormat('updatedDatetime',model.updatedDatetime)" clearInput required />
                     </mat-form-field> -->
 
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.updatedDatetime}" appearance="outline">
                       <mat-label>Updated Datetime</mat-label>
-                      <input matInput (dateChange)="dateFormatChange('updatedDatetime', $event)" (dateInput)="dateFormatChange('updatedDatetime', $event)" [matDatepicker]="updatedDatetime" placeholder="{{model.updatedDatetime}}" [(ngModel)]="model.updatedDatetime" name="updatedDatetime" required readonly>
+                      <input matInput (keyUp)="checkValidtion('updatedDatetime')"
+                      (input)="checkValidtion('updatedDatetime')"
+                      (blur)="checkValidtion('updatedDatetime')" (dateChange)="dateFormatChange('updatedDatetime', $event)" (dateInput)="dateFormatChange('updatedDatetime', $event)" [matDatepicker]="updatedDatetime" placeholder="{{model.updatedDatetime}}" [(ngModel)]="model.updatedDatetime" name="updatedDatetime" required readonly>
                       <mat-datepicker-toggle matSuffix [for]="updatedDatetime"></mat-datepicker-toggle>
                       <mat-datepicker #updatedDatetime></mat-datepicker>
+                      <mat-hint *ngIf="errorList.updatedDatetime">{{errorList.updatedDatetime}}</mat-hint>
                     </mat-form-field>
 
                     <input type="hidden" [(ngModel)]="model.updated_datetime" name="updated_datetime">
@@ -599,7 +622,7 @@
                   </div>
                 </ion-col>
                 <div class="form-button">
-                  <ion-button [ngClass]="{'disabled' : formloader}" [disabled]="!accountStatus.valid" type="submit"
+                  <ion-button [ngClass]="{'disabled' : formloader}" type="submit"
                     style="padding-left: 19px;" class="custom-btn">
                     <ion-spinner class="formloader" name="crescent" *ngIf="formloader"></ion-spinner>
                     Submit
@@ -1164,11 +1187,14 @@
                 </ion-col>
                 <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
                   <div class="form-group">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.returnRequestComment}" appearance="outline">
                       <mat-label>Comment</mat-label>
-                      <textarea matInput type="text" [(ngModel)]="model.comment" name="comment" rows="5" required
+                      <textarea matInput type="text" (keyUp)="checkValidtion('returnRequestComment')"
+                      (input)="checkValidtion('returnRequestComment')"
+                      (blur)="checkValidtion('returnRequestComment')" [(ngModel)]="model.comment" name="comment" rows="5" required
                         clearInput>
                       </textarea>
+                      <mat-hint *ngIf="errorList.returnRequestComment">{{errorList.returnRequestComment}}</mat-hint>
                     </mat-form-field>
                   </div>
                 </ion-col>
@@ -1202,11 +1228,14 @@
                 </ion-col> -->
                 <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
                   <div class="form-group">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.returnApproveComment}" appearance="outline">
                       <mat-label>Comment</mat-label>
-                      <textarea matInput type="text" [(ngModel)]="model.comment" name="comment" rows="5" required
+                      <textarea matInput type="text" (keyUp)="checkValidtion('returnApproveComment')"
+                      (input)="checkValidtion('returnApproveComment')"
+                      (blur)="checkValidtion('returnApproveComment')" [(ngModel)]="model.comment" name="comment" rows="5" required
                         clearInput>
                       </textarea>
+                      <mat-hint *ngIf="errorList.returnApproveComment">{{errorList.returnApproveComment}}</mat-hint>
                     </mat-form-field>
                   </div>
                 </ion-col>
@@ -1229,10 +1258,13 @@
                 novalidate>
                 <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
                   <div class="form-group">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.forceReturnComment}" appearance="outline">
                       <mat-label>Commnts</mat-label>
-                      <textarea matInput type="text" [(ngModel)]="model.comments" name="comments" rows="5" clearInput>
+                      <textarea matInput type="text" (keyUp)="checkValidtion('forceReturnComment')"
+                      (input)="checkValidtion('forceReturnComment')"
+                      (blur)="checkValidtion('forceReturnComment')" [(ngModel)]="model.comments" name="comments" rows="5" clearInput>
                       </textarea>
+                      <mat-hint *ngIf="errorList.forceReturnComment">{{errorList.forceReturnComment}}</mat-hint>
                     </mat-form-field>
                   </div>
                 </ion-col>
@@ -1306,11 +1338,14 @@
                 </ion-col>
                 <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
                   <div class="form-group">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.returnRefundComment}" appearance="outline">
                       <mat-label>Comment</mat-label>
-                      <textarea matInput type="text" [(ngModel)]="model.comment" name="comment" rows="5" required
+                      <textarea matInput type="text" (keyUp)="checkValidtion('returnRefundComment')"
+                      (input)="checkValidtion('returnRefundComment')"
+                      (blur)="checkValidtion('returnRefundComment')" [(ngModel)]="model.comment" name="comment" rows="5" required
                         clearInput>
                       </textarea>
+                      <mat-hint *ngIf="errorList.returnRefundComment">{{errorList.returnRefundComment}}</mat-hint>
                     </mat-form-field>
                   </div>
                 </ion-col>

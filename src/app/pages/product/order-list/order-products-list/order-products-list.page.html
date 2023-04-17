@@ -158,7 +158,7 @@
                          </a>
                          <br>
                          <div class="form-group" *ngIf="tableData?.orderItemStatus == 'Delivered' && tableData?.orderStatusDetails?.forceReturnOnDTO == null">
-                           <mat-checkbox name="returnAcceptable" [(ngModel)]="model.returnAcceptable" (change)="orderStatus_modal('forceReturnOnModal',tableData,tableListData,model.returnAcceptable)">
+                           <mat-checkbox name="returnAcceptable" [(ngModel)]="model.returnAcceptable" (change)="orderStatus_modal('forceReturnOnModal',tableData,tableListData)">
                             Turn on return forcefully
                            </mat-checkbox>
                          </div>

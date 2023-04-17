@@ -183,7 +183,9 @@
                       </div>
                       <div class="bottom">
                         <p class="heading">Return Request Rejected</p>
-                        <p ><b>{{tabeData?.returnRejectedByAdmin ? tabeData?.returnRejectedByAdmin :'0'}}</b> Products</p>
+
+                        <p *ngIf="order_countData?.returnRejectedByAdmin"><b>{{order_countData?.returnRejectedByAdmin}}</b> Products</p>
+                        <p *ngIf="!order_countData?.returnRejectedByAdmin"><b>0</b> Products</p>
                       </div>
                   </div>
                 </div>             
@@ -232,7 +234,7 @@
               <!-- Product Shipped by user -->
               <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="2.4">
                 <div class="note-item note-item2 note-box-danger card-outer order-cards">
-                  <div matRipple class="card card-box" (click)="datatype('Product Shipped by user')">
+                  <div matRipple class="card card-box" (click)="datatype('Product shipped by user')">
                       <div class="top">
                           <div class="icon">
                             <mat-icon>assignment_return</mat-icon>
