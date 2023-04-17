@@ -685,7 +685,7 @@ export class BillingAddressComponent implements OnInit {
       if (this.model.fullName) {
         
         if (this.model.fullName.match(noSpacalchar) == null) {
-          this.errorList.fullName = 'No special character are allowed';
+          this.errorList.fullName = 'Special Characters not allowed';
 
         } else if(this.model.fullName.match(onlyAlpha) !== null) {
           this.errorList.fullName = 'Please enter only alphabet';
@@ -783,7 +783,7 @@ export class BillingAddressComponent implements OnInit {
         console.log('this.model.city.match(emptySpace)', this.model.city.match(emptySpace));
         
         if (this.model.city.match(noSpacalchar) == null) {
-          this.errorList.city = 'No special character are allowed';
+          this.errorList.city = 'No special characters are allowed';
 
         } else if(this.model.city.match(onlyAlpha) !== null) {
           this.errorList.city = 'Please enter only alphabet';
@@ -812,7 +812,7 @@ export class BillingAddressComponent implements OnInit {
       if (this.model.landmark) {
         // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
         if (this.model.landmark.match(noSpacalchar) == null) {
-          this.errorList.landmark = 'Special characters not allow';
+          this.errorList.landmark = 'Special Characters not allowed';
         } else if(this.model.landmark.match(emptySpace) !== null){
           this.errorList.landmark = 'Empty Space not allowed';
         } else {
