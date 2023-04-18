@@ -68,8 +68,7 @@
                                                                     (keyUp)="checkValidtion('address1')"
                                                                     (input)="checkValidtion('address1')"
                                                                     (blur)="checkValidtion('address1')"></textarea>
-                                                                <mat-hint
-                                                                    *ngIf="errorList.address1">{{errorList.address1}}</mat-hint>
+                                                                <mat-hint *ngIf="errorList.address1">{{errorList.address1}}</mat-hint>
 
                                                             </mat-form-field>
                                                         </div>
