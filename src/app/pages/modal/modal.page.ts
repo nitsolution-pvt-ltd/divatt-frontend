@@ -262,6 +262,7 @@ export class ModalPage implements OnInit {
       // this.api_url = 'user/user-login';
       this.currentDate = moment(currentDate).format('YYYY-MM-DD');
       console.log('this.get_item', this.get_item);
+      this.model.net_payable = this.get_item.designer_return_amount[0].net_payable_designer;
       this.model.status = this.get_item.designer_return_amount[0].status;
       this.model.remarks = this.get_item.designer_return_amount[0].remarks;
       this.model.paymentDate = moment(this.get_item.designer_return_amount[0].payment_datetime).format('YYYY-MM-DD');
