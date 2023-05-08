@@ -18,11 +18,11 @@
                           <li class="breadcrumb-item"><a [routerLink]="'/dashboard'">
                                   <mat-icon>home</mat-icon>
                               </a></li>
-                          <li class="breadcrumb-item">
-                            Account List
+                          <li class="breadcrumb-item" [routerLink]="'/payments'">
+                            Payments List
                           </li>
                           <li class="breadcrumb-item active">
-                            Account Singel View
+                            Payment View
                           </li>
                       </ol>
                   </div>
@@ -175,7 +175,7 @@
                             <div class="account-item flex price">
                               <h4 class="account-header">Basic Value&nbsp; :</h4>
                               <p class="account-body">
-                                {{accountData?.service_charge?.fee}}
+                                {{accountData?.service_charge?.fee | number:'1.2-2'}}
                               </p>
                             </div>
                           </div>
@@ -183,7 +183,7 @@
                             <div class="account-item flex price">
                               <h4 class="account-header">CGST (9%)&nbsp; :</h4>
                               <p class="account-body">
-                                {{accountData?.service_charge?.cgst}}
+                                {{accountData?.service_charge?.cgst | number:'1.2-2'}}
                               </p>
                             </div>
                           </div>
@@ -191,7 +191,7 @@
                             <div class="account-item flex price">
                               <h4 class="account-header">SGST (9%)&nbsp; :</h4>
                               <p class="account-body">
-                                {{accountData?.service_charge?.sgst}}
+                                {{accountData?.service_charge?.sgst | number:'1.2-2'}}
                               </p>
                             </div>
                           </div>
@@ -199,7 +199,7 @@
                             <div class="account-item flex price">
                               <h4 class="account-header">IGST (18%)&nbsp; :</h4>
                               <p class="account-body">
-                                {{accountData?.service_charge?.igst}}
+                                {{accountData?.service_charge?.igst | number:'1.2-2'}}
                               </p>
                             </div>
                           </div>
@@ -210,7 +210,7 @@
                             <div class="account-item flex price">
                               <h4 class="account-header">Total&nbsp; :</h4>
                               <p class="account-body">
-                                {{accountData?.service_charge?.fee + accountData?.service_charge?.igst}}
+                                {{accountData?.service_charge?.fee + accountData?.service_charge?.igst | number:'1.2-2'}}
                               </p>
                             </div>
                           </div>
@@ -218,7 +218,7 @@
                             <div class="account-item flex price">
                               <h4 class="account-header">TCS (1%)&nbsp; :</h4>
                               <p class="account-body">
-                                {{accountData?.service_charge?.tcs}}
+                                {{accountData?.service_charge?.tcs | number:'1.2-2'}}
                               </p>
                             </div>
                           </div>
@@ -229,7 +229,7 @@
                             <div class="account-item flex price">
                               <h4 class="account-header">Gross Amount&nbsp; :</h4>
                               <p class="account-body">
-                                {{accountData?.service_charge?.total_amount}}
+                                {{accountData?.service_charge?.total_amount | number:'1.2-2'}}
                               </p>
                             </div>
                           </div>
@@ -237,7 +237,7 @@
                             <div class="account-item flex price">
                               <h4 class="account-header">Payable Amount:&nbsp; :</h4>
                               <p class="account-body">
-                                {{accountData?.order_details?.mrp - accountData?.service_charge?.total_amount}}
+                                {{accountData?.order_details?.mrp - accountData?.service_charge?.total_amount | number:'1.2-2'}}
                               </p>
                             </div>
                           </div>

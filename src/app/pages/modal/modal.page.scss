@@ -83,3 +83,15 @@
         }  
     }
 }
+.account-view .card .card-body {
+    background: #f4f5fd;
+}
+.account-details {
+    border: 1px dashed #b4b5bc;
+    padding: 5px;
+    margin: 0px 10px;
+    li {
+        width: 50%;
+        display: inline-block;
+    }
+}

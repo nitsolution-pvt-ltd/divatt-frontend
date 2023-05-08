@@ -559,59 +559,136 @@
             <div class="">
               <form class="login" #accountStatus="ngForm" (ngSubmit)="onSubmitaccountStatusForm(accountStatus)"
                 novalidate>
-                <h3 class="mb-2"><b><i>Payable Amount: Rs. {{model?.net_payable}}</i></b></h3>
-                <label id="example-radio-group-label">Return Amount Status</label>
-                <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
+                <!-- Divatt charges details start -->
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header title="Click for details">
+                    Payable Amount Rs. {{get_item?.designer_return_amount[0]?.net_payable_designer  | number:'1.2-2'}} /-
+                  </mat-expansion-panel-header>
+                
+                  <ng-template matExpansionPanelContent>
+                    <div class="account-view">
+                      <div class="card border-0 ">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                          <h3>Divatt Charges Details</h3>
+                        </div>
+                        <div class="card-body">
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Product Basic Value&nbsp; :</h4>
+                              <p class="account-body">
+                                {{get_item?.order_details[0]?.mrp - get_item?.order_details[0]?.total_tax | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header"> Divatt Charges (12%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{get_item?.service_charge?.fee | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">CGST (9%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{get_item?.service_charge?.cgst | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">SGST (9%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{get_item?.service_charge?.sgst | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12 ">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">IGST (18%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{get_item?.service_charge?.igst | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <hr style="margin: 5px 0;background: rgb(0 0 0);"/>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Total&nbsp; :</h4>
+                              <p class="account-body">
+                                {{get_item?.service_charge?.fee + get_item?.service_charge?.igst | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">TCS (1%)&nbsp; :</h4>
+                              <p class="account-body">
+                                {{get_item?.service_charge?.tcs | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <hr style="margin: 5px 0;background: rgb(0 0 0);"/>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header">Gross Amount&nbsp; :</h4>
+                              <p class="account-body">
+                                {{get_item?.service_charge?.total_amount | number:'1.2-2'}}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="account-item flex price">
+                              <h4 class="account-header"><i>Payable Amount:&nbsp; :</i></h4>
+                              <h4 class="account-header">
+                                <i>{{get_item?.designer_return_amount[0]?.net_payable_designer | number:'1.2-2'}}</i>
+                              </h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </mat-expansion-panel>
+                <!-- Divatt charges details end -->
+                <!-- Admin account number -->
+                <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
                   <div class="form-group">
-                    <mat-radio-group name="status" [(ngModel)]="model.status">
-                      <mat-radio-button [disabled]="get_item?.designer_return_amount[0]?.status == 'RETURN'"
-                        value="RETURN">Paid</mat-radio-button>&nbsp;&nbsp;&nbsp;
-                      <mat-radio-button [disabled]="get_item?.designer_return_amount[0]?.status == 'RETURN'"
-                        value="NOT RETURN">Unpaid</mat-radio-button>
-                    </mat-radio-group>
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.adminrazorpayXAccountNo}" appearance="outline">
+                      <mat-label>Select Divatt Account</mat-label>
+                      <mat-select (selectionChange)="checkValidtion('adminrazorpayXAccountNo')" (blur)="checkValidtion('adminrazorpayXAccountNo')" name="adminrazorpayXAccountNo" [(ngModel)]="modal.adminrazorpayXAccountNo" required>
+                        <mat-option *ngFor="let account of AdminAccountlist" [value]="account.razorpayXAccountNo">{{account.razorpayXAccountNo}}</mat-option>
+                      </mat-select>
+                      <mat-hint *ngIf="errorList.adminrazorpayXAccountNo">{{errorList.adminrazorpayXAccountNo}}</mat-hint>
+                    </mat-form-field>
                   </div>
                 </ion-col>
-                <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
+                <!-- Designer account number -->
+                <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12">
                   <div class="form-group">
-                    <!-- <mat-form-field appearance="outline">
-                      <mat-label>Date</mat-label>
-                      <input matInput type="date" [(ngModel)]="model.paymentDate" [max]="currentDate" name="paymentDate"
-                        (change)="changeDateFormat('payment',model.paymentDate)" clearInput required />
-                    </mat-form-field> -->
-
-                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.paymentDate}" appearance="outline">
-                      <mat-label>Date</mat-label>
-                      <input matInput [max]="currentDate" (keyUp)="checkValidtion('paymentDate')"
-                      (input)="checkValidtion('paymentDate')"
-                      (blur)="checkValidtion('paymentDate')" (dateChange)="dateFormatChange('payment', $event)" (dateInput)="dateFormatChange('payment', $event)" [matDatepicker]="payment" placeholder="{{model.paymentDate}}" [(ngModel)]="model.paymentDate" name="paymentDate" required readonly>
-                      <mat-datepicker-toggle matSuffix [for]="payment"></mat-datepicker-toggle>
-                      <mat-datepicker #payment></mat-datepicker>
-                      <mat-hint *ngIf="errorList.paymentDate">{{errorList.paymentDate}}</mat-hint>
+                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.designeraccount_number}" appearance="outline">
+                      <mat-label>Select Designer Account</mat-label>
+                      <mat-select (selectionChange)="checkValidtion('designeraccount_number')" (blur)="checkValidtion('designeraccount_number')" name="designeraccount_number" [(ngModel)]="modal.designeraccount_number" required>
+                        <mat-option *ngFor="let account of DesignerAccountlist" [value]="account.bank_account.account_number">{{account.bank_account.account_number}}</mat-option>
+                      </mat-select>
+                      <mat-hint *ngIf="errorList.designeraccount_number">{{errorList.designeraccount_number}}</mat-hint>
                     </mat-form-field>
-
-                    <input type="hidden" [(ngModel)]="model.payment_datetime" name="payment_datetime">
                   </div>
-                </ion-col>
-                <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
-                  <div class="form-group">
-                    <!-- <mat-form-field appearance="outline">
-                      <mat-label>Updated Datetime</mat-label>
-                      <input matInput type="date" [(ngModel)]="model.updatedDatetime" name="updatedDatetime"
-                        (change)="changeDateFormat('updatedDatetime',model.updatedDatetime)" clearInput required />
-                    </mat-form-field> -->
-
-                    <mat-form-field [ngClass]="{'mat-form-field-invalid' : errorList?.updatedDatetime}" appearance="outline">
-                      <mat-label>Updated Datetime</mat-label>
-                      <input matInput (keyUp)="checkValidtion('updatedDatetime')"
-                      (input)="checkValidtion('updatedDatetime')"
-                      (blur)="checkValidtion('updatedDatetime')" (dateChange)="dateFormatChange('updatedDatetime', $event)" (dateInput)="dateFormatChange('updatedDatetime', $event)" [matDatepicker]="updatedDatetime" placeholder="{{model.updatedDatetime}}" [(ngModel)]="model.updatedDatetime" name="updatedDatetime" required readonly>
-                      <mat-datepicker-toggle matSuffix [for]="updatedDatetime"></mat-datepicker-toggle>
-                      <mat-datepicker #updatedDatetime></mat-datepicker>
-                      <mat-hint *ngIf="errorList.updatedDatetime">{{errorList.updatedDatetime}}</mat-hint>
-                    </mat-form-field>
-
-                    <input type="hidden" [(ngModel)]="model.updated_datetime" name="updated_datetime">
-                  </div>
+                  <ul class="account-details">
+                    <li>Name</li>
+                    <li>{{DesignerAccountlist[0]?.bank_account?.name}}</li>
+                    <li>Account Number</li>
+                    <li>{{DesignerAccountlist[0]?.bank_account?.account_number}}</li>
+                    <li>IFSC</li>
+                    <li>{{DesignerAccountlist[0]?.bank_account?.ifsc}}</li>
+                    <li>Bank Name</li>
+                    <li>{{DesignerAccountlist[0]?.bank_account?.bank_name}}</li>
+                  </ul>
                 </ion-col>
                 <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="6">
                   <div class="form-group">

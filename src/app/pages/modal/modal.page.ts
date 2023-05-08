@@ -70,6 +70,7 @@ export class ModalPage implements OnInit {
   private ExportOrderSubscribe: Subscription;
   private GenarateInvoiceSubscribe: Subscription;
   private submitaccountStatusSubscribe: Subscription;
+  private submitpayOutDetailsSubscribe: Subscription;
   private GenarateAccountDataSubscribe: Subscription;
   private getDesignerSubscribe: Subscription;
   stateList: any = [];
@@ -80,6 +81,10 @@ export class ModalPage implements OnInit {
   private getStateData: Subscription;
   LebellistDataSubcribe: Subscription;
   Lebellist: any = [];
+  AdminAccountlistDataSubcribe: Subscription;
+  AdminAccountlist: any = [];
+  DesignerAccountlistDataSubcribe: Subscription;
+  DesignerAccountlist: any = [];
   designerId: string;
   orderId: string;
   productId: string;
@@ -265,13 +270,15 @@ export class ModalPage implements OnInit {
       this.model.net_payable = this.get_item.designer_return_amount[0].net_payable_designer;
       this.model.status = this.get_item.designer_return_amount[0].status;
       this.model.remarks = this.get_item.designer_return_amount[0].remarks;
-      this.model.paymentDate = moment(this.get_item.designer_return_amount[0].payment_datetime).format('YYYY-MM-DD');
+      this.model.paymentDate = moment(this.get_item.designer_return_amount[0].payOutDateTime).format('YYYY-MM-DD');
       this.model.updatedDatetime = moment(this.get_item.designer_return_amount[0].updated_datetime).format('YYYY-MM-DD');
       this.model.updated_datetime = moment(this.get_item.designer_return_amount[0].updated_datetime).format('YYYY-MM-DD hh:mm:ss');
       // console.log("this.model.paymentDate",this.model.paymentDate,this.get_item.designer_return_amount[0].payment_datetime);
 
-      this.model.payment_datetime = this.get_item.designer_return_amount[0].payment_datetime;
-
+      this.model.payment_datetime = this.get_item.designer_return_amount[0].payOutDateTime;
+      
+      // getDesignerAccountlist call
+      this.getDesignerAccountlist();
     } else if (this.get_identifier == 'serviceStatus') {
       this.heder_title = 'Service Charge';
       // this.api_url = 'user/user-login';
@@ -341,6 +348,33 @@ export class ModalPage implements OnInit {
     this.model.packingVideo = false;
   }
   // data for profile edit start
+
+  /* Get admin account details start */
+  getAdminAccountlist() {
+    this.AdminAccountlistDataSubcribe = this.http.get("admin/profile/"+this.authData.uid).subscribe((res: any) => {
+      this.AdminAccountlist.push(res);
+      console.log('AdminAccountlist', this.AdminAccountlist);
+      this.modal.adminrazorpayXAccountNo = this.AdminAccountlist[0].razorpayXAccountNo;
+    }, error => {
+      console.log(error);
+      this.commonUtils.presentToast('error', error.error.message);
+    })
+  }
+  /* Get admin account details end */
+
+  /* Get Designer account details start */
+  getDesignerAccountlist() {
+    this.DesignerAccountlistDataSubcribe = this.http.get("payOutDetails/getFundsListById?designerId="+this.get_item.designer_details.designer_id).subscribe((res: any) => {
+      this.DesignerAccountlist = res;
+      console.log('DesignerAccountlist', this.DesignerAccountlist);
+      this.modal.designeraccount_number = this.DesignerAccountlist[0].bank_account.account_number;
+    }, error => {
+      console.log(error);
+      this.commonUtils.presentToast('error', error.error.message);
+    })
+  }
+  /* Get Designer account details end */
+
   // commonFunction start
   commonFunction() {
     this.storage.get('setStroageGlobalParamsData').then((val) => {
@@ -357,6 +391,12 @@ export class ModalPage implements OnInit {
         this.GenarateInvoiceSubscribe = this.http.get("auth/info/" + val.authority + '/' + val.username).subscribe(
           (res: any) => {
             this.authData = res;
+            if (this.get_identifier == 'accountStatus') {
+              // getAdminAccountlist call
+              this.getAdminAccountlist();
+            }
+            console.log('authData', this.authData);
+            
           },
           (error) => {
           });
@@ -1977,9 +2017,9 @@ export class ModalPage implements OnInit {
       this.validForm = false;
     }
 
-    this.get_item.designer_return_amount[0].status = form.value.status;
+    this.get_item.designer_return_amount[0].status = 'RETURN';
     this.get_item.designer_return_amount[0].remarks = form.value.remarks;
-    this.get_item.designer_return_amount[0].payment_datetime = form.value.payment_datetime;
+    // this.get_item.designer_return_amount[0].payment_datetime = form.value.payment_datetime;
     this.get_item.designer_return_amount[0].updated_by = this.authData.uid;
     this.get_item.designer_return_amount[0].updated_datetime = this.currentDateTime;
     var data: any = {
@@ -2003,22 +2043,48 @@ export class ModalPage implements OnInit {
       "_id": this.get_item?._id,
       "id": this.get_item.id
     };
-    console.log('form.value.payment_datetime', form.value.payment_datetime);
+    // console.log('form.value.payment_datetime', form.value.payment_datetime);
     console.log('form.value.updated_datetime', form.value.updated_datetime);
     console.log('form.value.status', form.value.status);
     
-    // console.log("submitaccountStatusSubscribe",form.value,data,this.get_item,this.get_item.designer_return_amount[0]);
-    if (form.value.payment_datetime != 'Invalid date' || !form.value.payment_datetime && form.value.updated_datetime != 'Invalid date' || !form.value.updated_datetime && form.value.status ) {
-      this.submitaccountStatusSubscribe = this.http.put("account/update/" + this.get_item.id, data).subscribe(
-        (res: any) => {
-          this.commonUtils.presentToast("success", res.message);
-          this.closeModal();
-        },
-        (error) => {
-          this.commonUtils.presentToast("success", error.error.message);
-        }
-      );
+    console.log('data >>>>>', data);
+    console.log('form.value >>>>>', form.value);
+
+    var payoutData: any = {
+      "account_number": form.value.adminrazorpayXAccountNo,
+      "amount": data.designer_return_amount[0].net_payable_designer,
+      "currency": "INR",
+      "designerId": data.designer_details.designer_id,
+      "fund_account_id": this.DesignerAccountlist[0].id,
+      "mode": "IMPS",
+      "narration": "Acme Corp Fund Transfer",
+      "notes": [],
+      "orderId": data.order_details[0].order_id,
+      "productId": data.order_details[0].product_id,
+      "purpose": "refund",
+      "queue_if_low_balance": true,
+      "reference_id": "",
     }
+
+    this.submitpayOutDetailsSubscribe = this.http.post("payOutDetails/addPayOut", payoutData).subscribe(
+      (response: any) => {
+        console.log('response$$>>', response);
+        if (response.status == 200) {
+            this.submitaccountStatusSubscribe = this.http.put("account/update/" + this.get_item.id, data).subscribe(
+              (res: any) => {
+                this.commonUtils.presentToast("success", res.message);
+                this.closeModal();
+              },
+              (error) => {
+                this.commonUtils.presentToast("error", error.error.message);
+              }
+            );
+        }
+      },
+      (error) => {
+        this.commonUtils.presentToast("error", 'Something wrong!');
+      }
+    );
   }
   // onSubmitaccountStatusForm end
   // onSubmitaccountStatusForm start

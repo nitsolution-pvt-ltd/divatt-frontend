@@ -120,7 +120,11 @@ export class InterceptorProvider implements HttpInterceptor {
 
           // this.router.navigateByUrl('/auth');
 
-          console.log("interceptor error handeller >>", error);
+          console.log("interceptor error handeller >>", error); 
+          if (error.error.messagee == 'The Token Has Been Expired') {
+            this.authService.logout();
+            this.router.navigateByUrl('/auth');
+          }
 
           if (error.status === 0) {
             // this.commonUtils.presentToast('error', 'Please Check Your Network Connection!');

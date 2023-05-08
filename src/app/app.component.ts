@@ -45,21 +45,21 @@ export class AppComponent {
   menuicon: boolean;
   Url: any;
   designermodules = [{
-    modDetails:{
-      title:'Dashboard',
-      title_icon:'home',
-      url:'dashboard',
+    modDetails: {
+      title: 'Dashboard',
+      title_icon: 'home',
+      url: 'dashboard',
     },
-    modName:'module1',
-  },{
-    modDetails:{
+    modName: 'module1',
+  }, {
+    modDetails: {
       title: "Product Management",
       title_icon: "checkroom",
       url: "product-list",
     },
-    modName:'module2',
+    modName: 'module2',
   }]
-  admin: boolean =false;
+  admin: boolean = false;
   designerprofiledata: any;
   productAdd: boolean = false;
   constructor(
@@ -75,7 +75,7 @@ export class AppComponent {
     private commonUtils: CommonUtils, // common functionlity come here
     @Inject(DOCUMENT) private _document: HTMLDocument //use for fabicon
   ) {
-    
+
     this.onSiteInformation();
   }
   toggleMenu(_item) {
@@ -96,7 +96,7 @@ export class AppComponent {
     // console.log("this.href", window.location.href.split('#')[1], current);
     if (current == 'auth') {
       this.menuicon = true;
-    }else if (current == 'error') {
+    } else if (current == 'error') {
       this.menuicon = true;
     }
 
@@ -114,36 +114,35 @@ export class AppComponent {
     // this.onActivate(event);
 
   }
-//  commonfunction start
-commonfunction()
-{
-  this.storage.get('setStroageGlobalParamsData').then((val) => {
-    // // console.log('User ID', val.uid);
-    
-    
-    
-    
-  });
-}
-// commonfunction end
+  //  commonfunction start
+  commonfunction() {
+    this.storage.get('setStroageGlobalParamsData').then((val) => {
+      // // console.log('User ID', val.uid);
 
-initializeApp() {
-  // this._document.getElementById('pageTitle').innerHTML = 'Divatt | Happy Shopping';
+
+
+
+    });
+  }
+  // commonfunction end
+
+  initializeApp() {
+    // this._document.getElementById('pageTitle').innerHTML = 'Divatt | Happy Shopping';
     this.platform.ready().then(() => {
 
       // user data call
       this.userInfoData();
 
       // ----get current active url name start---
-      this.activatedRoute.url.subscribe((activeUrl:any) => {
+      this.activatedRoute.url.subscribe((activeUrl: any) => {
         this.url_name = window.location.pathname;
         // console.log('this.url_name app.componet.ts @@@>>',activeUrl, this.url_name.split('/')[1]);
         var y = localStorage.getItem('userdata');
         // console.log('retrievedObject: ', y);
         // console.log(window.location.href)
-        let x:any = window.location.href.split('#')[1];
+        let x: any = window.location.href.split('#')[1];
         let title = this.url_name.split('/')[1];
-       let pageTitle =  title.charAt(0).toUpperCase() + title.slice(1);
+        let pageTitle = title.charAt(0).toUpperCase() + title.slice(1);
         // this._document.getElementById('pageTitle').innerHTML = 'Divatt | ' + pageTitle;
         let current = x?.split('/')[1];
         // console.log("this.href", window.location.href.split('#')[1], current);
@@ -175,23 +174,20 @@ initializeApp() {
 
     this.authService.globalparamsData.subscribe(res => {
       // console.log('res>>', res);
-      if(res != null || res != undefined) {
-        this.userInfoSubscribe = this.http.get('auth/info/'+res.authority+'/'+res.username).subscribe(
+      if (res != null || res != undefined) {
+        this.userInfoSubscribe = this.http.get('auth/info/' + res.authority + '/' + res.username).subscribe(
           (response: any) => {
             this.userInfodDataLoading = false;
             // console.log('this.get_user_dtls',response);
             this.get_user_dtls = response;
-            if(res.authority == 'ADMIN')
-            {
+            if (res.authority == 'ADMIN') {
               // this.userPermissionData(response.role);
               this.admin = true;
-            }else if(res.authority == 'DESIGNER')
-            {
+            } else if (res.authority == 'DESIGNER') {
               // this.getDesignerProfiledata(val.authority,val.username)
               this.getDesignerProfiledata(res.uid)
             }
-            else
-            {
+            else {
               this.admin = false;
             }
           },
@@ -199,30 +195,27 @@ initializeApp() {
             this.userInfodDataLoading = false;
           }
         );
-      }else {
+      } else {
         this.menuicon = true;
       }
     })
 
     this.storage.get('setStroageGlobalParamsData').then((val) => {
       // console.log('User ID', val);
-      if(val != null || val != undefined) {
-        if(this.url_name.split('/')[1] == 'auth' && val != null)
-        {
+      if (val != null || val != undefined) {
+        if (this.url_name.split('/')[1] == 'auth' && val != null) {
           this.router.navigateByUrl('/dashboard');
         }
-        this.userInfoSubscribe = this.http.get('auth/info/'+val.authority+'/'+val.username).subscribe(
+        this.userInfoSubscribe = this.http.get('auth/info/' + val.authority + '/' + val.username).subscribe(
           (response: any) => {
             this.userInfodDataLoading = false;
             // console.log('this.get_user_dtls',response);
             this.get_user_dtls = response;
-            if(val.authority == 'ADMIN')
-            {
+            if (val.authority == 'ADMIN') {
               // this.userPermissionData(response.role);
               this.admin = true;
             }
-            else
-            {
+            else {
               this.admin = false;
             }
           },
@@ -230,39 +223,36 @@ initializeApp() {
             this.userInfodDataLoading = false;
           }
         );
-      }else {
+      } else {
         this.menuicon = true;
       }
     });
 
   }
   /*User info data get end*/
-// getDesignerProfiledata start
-getDesignerProfiledata(uid)
-{
-  
-  this.http.get("designer/"+uid).subscribe(
-    (res:any) => {
-      this.designerprofiledata = res;
-      if(res.profileStatus == 'COMPLETED')
-      {
-        this.productAdd  = true
-      }else
-      {
-        this.productAdd  = false
-      }
-      
-      
-    },
-    (error) =>{
-      // console.log("error",error);
-    })
-}
-// getDesignerProfiledata end
+  // getDesignerProfiledata start
+  getDesignerProfiledata(uid) {
+
+    this.http.get("designer/" + uid).subscribe(
+      (res: any) => {
+        this.designerprofiledata = res;
+        if (res.profileStatus == 'COMPLETED') {
+          this.productAdd = true
+        } else {
+          this.productAdd = false
+        }
+
+
+      },
+      (error) => {
+        // console.log("error",error);
+      })
+  }
+  // getDesignerProfiledata end
   /*--------------------User permission data get start--------------------*/
-  userPermissionData(_role){
+  userPermissionData(_role) {
     this.permissionMenuLoading = true;
-    this.userPermissionDataSubscribe = this.http.get('admin/role/'+_role).subscribe(
+    this.userPermissionDataSubscribe = this.http.get('admin/role/' + _role).subscribe(
       (response: any) => {
         this.permissionMenuLoading = false;
         // console.log('this.get_user_permission',response);
