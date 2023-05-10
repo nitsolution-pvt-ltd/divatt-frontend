@@ -1110,6 +1110,7 @@ let ModalPage = class ModalPage {
         const date = new Date();
         // this.filter_date =  moment(date.setDate(date.getDate() + 7)).format('YYYY-MM-DD')
         this.filter_date = moment__WEBPACK_IMPORTED_MODULE_2__(date.setDate(date.getDate() + 7)).format('YYYY-MM-DD');
+        console.log('filter_date', this.filter_date);
         // console.log("date",date.setDate(date.getDate() + 7),date.getDate() + 7,this.filter_date);
         let currentDate = Date.now();
         this.currentDate = moment__WEBPACK_IMPORTED_MODULE_2__(currentDate).format('YYYY/MM/DD');
@@ -2954,7 +2955,7 @@ let ModalPage = class ModalPage {
         console.log('form.value >>>>>', form.value);
         var payoutData = {
             "account_number": form.value.adminrazorpayXAccountNo,
-            "amount": data.designer_return_amount[0].net_payable_designer,
+            "amount": data.designer_return_amount[0].net_payable_designer * 100,
             "currency": "INR",
             "designerId": data.designer_details.designer_id,
             "fund_account_id": this.DesignerAccountlist[0].id,

@@ -113,7 +113,9 @@ export class ModalPage implements OnInit {
 
     const date = new Date();
     // this.filter_date =  moment(date.setDate(date.getDate() + 7)).format('YYYY-MM-DD')
-    this.filter_date = moment(date.setDate(date.getDate() + 7)).format('YYYY-MM-DD')
+    this.filter_date = moment(date.setDate(date.getDate() + 7)).format('YYYY-MM-DD');
+    console.log('filter_date', this.filter_date);
+    
     // console.log("date",date.setDate(date.getDate() + 7),date.getDate() + 7,this.filter_date);
 
     let currentDate = Date.now()
@@ -2052,7 +2054,7 @@ export class ModalPage implements OnInit {
 
     var payoutData: any = {
       "account_number": form.value.adminrazorpayXAccountNo,
-      "amount": data.designer_return_amount[0].net_payable_designer,
+      "amount": data.designer_return_amount[0].net_payable_designer * 100,
       "currency": "INR",
       "designerId": data.designer_details.designer_id,
       "fund_account_id": this.DesignerAccountlist[0].id,

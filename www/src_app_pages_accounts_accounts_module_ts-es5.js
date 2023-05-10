@@ -604,12 +604,12 @@
             var day = parseInt(moment__WEBPACK_IMPORTED_MODULE_2__().format('DD'));
             console.log("this.day.......", day);
 
-            if (day < 16) {
-              this.model.settlement = 'firstSettlement';
-              this.settlement = 'firstSettlement';
-            } else {
+            if (day >= 14 && day <= 28) {
               this.model.settlement = 'secondSettlement';
               this.settlement = 'secondSettlement';
+            } else {
+              this.model.settlement = 'firstSettlement';
+              this.settlement = 'firstSettlement';
             } // // console.log("this.model.year.....", this.model.year);
 
 
