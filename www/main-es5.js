@@ -3940,6 +3940,9 @@
             };
             this.submitpayOutDetailsSubscribe = this.http.post("payOutDetails/addPayOut", payoutData).subscribe(function (response) {
               console.log('response$$>>', response);
+              console.log('data@@', data.designer_return_amount[0].razorpayXPaymentId);
+              data.designer_return_amount[0].razorpayXPaymentId = response.payOutId;
+              data.designer_return_amount[0].role = _this33.AdminAccountlist[0].role;
 
               if (response.status == 200) {
                 _this33.submitaccountStatusSubscribe = _this33.http.put("account/update/" + _this33.get_item.id, data).subscribe(function (res) {

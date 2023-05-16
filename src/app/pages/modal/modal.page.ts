@@ -2071,6 +2071,9 @@ export class ModalPage implements OnInit {
     this.submitpayOutDetailsSubscribe = this.http.post("payOutDetails/addPayOut", payoutData).subscribe(
       (response: any) => {
         console.log('response$$>>', response);
+        console.log('data@@', data.designer_return_amount[0].razorpayXPaymentId);
+        data.designer_return_amount[0].razorpayXPaymentId = response.payOutId;
+        data.designer_return_amount[0].role = this.AdminAccountlist[0].role;
         if (response.status == 200) {
             this.submitaccountStatusSubscribe = this.http.put("account/update/" + this.get_item.id, data).subscribe(
               (res: any) => {
