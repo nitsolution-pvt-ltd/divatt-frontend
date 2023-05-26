@@ -212,10 +212,10 @@
                                       </div> -->
                                       <div class="ptl-15 b-b-2 p-b-5">
                                         <p class="desc-text">{{productDetail?.productDetails?.washingInformation}}</p>
-                                        <h1 class="style-head">Giftwrap Amount </h1>
+                                        <h1 *ngIf="productDetail?.giftWrapAmount" class="style-head">Giftwrap Amount </h1>
                                     </div>
                                     <div class="ptl-15 b-b-2 p-b-5">
-                                        <p class="style-text">₹ {{productDetail?.giftWrapAmount}}</p>
+                                        <p *ngIf="productDetail?.giftWrapAmount" class="style-text">₹ {{productDetail?.giftWrapAmount}}</p>
                                         <h1 class="composition-head">Product Weight</h1>
                                     </div>
                                     <div class="ptl-15 b-b-2 p-b-5">
