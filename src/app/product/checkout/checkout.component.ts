@@ -41,6 +41,8 @@ export class CheckoutComponent implements OnInit {
   private getAddressSubscribe: Subscription;
   private getUserDetailss: Subscription;
   private orderApiSubscribe: Subscription;
+  private getOrderDataSubscribe: Subscription;
+  private removeOrderProductSubscribe: Subscription;
   cartlistapi;
   cartListData = [];
   get_user_dtls;
@@ -945,7 +947,9 @@ export class CheckoutComponent implements OnInit {
         localStorage.removeItem('address');
         this.router.navigateByUrl(`order-successfully/` + this.orderId);
         this.removeAllcart();
-
+        console.log('Stock clear!!!!');
+        
+        this.stockClearence(this.orderId);
       },
       errRes => {
         this.btnLoader = false;
@@ -1069,4 +1073,30 @@ export class CheckoutComponent implements OnInit {
     }
 
   }
+
+  // stock clearance start
+  stockClearence(_orderId){
+    console.log('_orderId>>>>', _orderId);
+    
+    this.getOrderDataSubscribe = this.http.get(API_URL+'userOrder/getOrder/'+_orderId).subscribe(
+      (response:any) => {
+        console.log('getOrderDataSubscribe', response);
+        
+        this.removeOrderProductSubscribe = this.http.put(API_URL+'designerProduct/stockClearence',response.OrderSKUDetails).subscribe(
+          (response:any) => {
+            console.log('removeOrderProductSubscribe', response);
+          },
+          errRes => {
+            console.log("error handeller >>@@",errRes );
+          }
+        );
+        
+      },
+      errRes => {
+        console.log("error handeller >>@@",errRes );
+      }
+    );
+  }
+  // stock clearance end
+  
 }

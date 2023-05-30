@@ -21,7 +21,6 @@ export class SuccessComponent implements OnInit {
   api_url: string;
   private getOrderDataSubscribe: Subscription;
   orderId;
-  private removeOrderProductSubscribe: Subscription;
   private genaratePDFSubscribe: Subscription;
   TransactionId;
   giftWrapAmount: number = 0;
@@ -72,7 +71,6 @@ export class SuccessComponent implements OnInit {
         }else {
        }
       //  this.genaratePDF();
-       this.removeorderProducts(response.OrderSKUDetails);
       },
       errRes => {
         console.log("error handeller >>@@",errRes );
@@ -83,22 +81,6 @@ export class SuccessComponent implements OnInit {
   }
   
   // orderDetails end
-   // removeorderProducts start
-   removeorderProducts(data)
-   {
-     this.removeOrderProductSubscribe = this.http.put(API_URL+'designerProduct/stockClearence',data).subscribe(
-       (response:any) => {
-         console.log(response);
-         
-       },
-       errRes => {
-         console.log("error handeller >>@@",errRes );
-        
-         this.toastrService.error(errRes.error.message);
-       }
-     );
-   }
-  //  removeorderProducts  end
   // genarate PDF start
   genaratePDF()
   {
@@ -134,9 +116,6 @@ export class SuccessComponent implements OnInit {
   ngOnDestroy() {
     if (this.getOrderDataSubscribe !== undefined) {
       this.getOrderDataSubscribe.unsubscribe();
-    }
-    if (this.removeOrderProductSubscribe !== undefined) {
-      this.removeOrderProductSubscribe.unsubscribe();
     }
   }
 }
