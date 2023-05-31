@@ -19028,6 +19028,7 @@ button.image_update_btn {
   border-radius: 50%;
   justify-content: center;
   align-items: center;
+  margin-bottom: 5px;
 }
 .product-view-card .ptl-15.b-b-2 .size-content .size label span {
   display: block;
