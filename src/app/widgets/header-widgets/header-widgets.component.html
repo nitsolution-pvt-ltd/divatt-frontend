@@ -241,7 +241,7 @@
                     </div>
                     <div class="form-group mb-0">
                       <mat-form-field appearance="fill">
-                        <input matInput (blur)="checkValidtion('dateofbirth')" (input)="checkValidtion('dateofbirth')" (keyUp)="checkValidtion('dateofbirth')" (dateChange)="dateFormatChange('dob', $event)" (dateInput)="dateFormatChange('dob', $event)" [matDatepicker]="dob" placeholder="Date of birth" name="dateofbirth" required [(ngModel)]="model.dateofbirth" readonly>
+                        <input matInput (blur)="checkValidtion('dateofbirth')" (input)="checkValidtion('dateofbirth')" (keyUp)="checkValidtion('dateofbirth')" (dateChange)="dateFormatChange('dob', $event)" (dateInput)="dateFormatChange('dob', $event)" [matDatepicker]="dob" [max]="dateRange" placeholder="Date of birth" name="dateofbirth" required [(ngModel)]="model.dateofbirth" readonly>
                         <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
                         <mat-datepicker #dob></mat-datepicker>
                         <mat-hint *ngIf="errorList.dateofbirth">DOB is Required</mat-hint>

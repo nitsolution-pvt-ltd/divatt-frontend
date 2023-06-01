@@ -244,7 +244,7 @@
 
         <mat-form-field appearance="fill">
           <input matInput (dateChange)="dateFormatChange('dob', $event)" (dateInput)="dateFormatChange('dob', $event)"
-            [matDatepicker]="dob" placeholder="{{model.dateofbirth}}" name="dateofbirth" [(ngModel)]="model.dateofbirth"
+            [matDatepicker]="dob" [max]="dateRange" placeholder="{{model.dateofbirth}}" name="dateofbirth" [(ngModel)]="model.dateofbirth"
             readonly>
           <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
           <mat-datepicker #dob></mat-datepicker>

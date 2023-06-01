@@ -47,6 +47,8 @@ export class ProfileComponent implements OnInit {
   mesorment: any;
   private mencustomchartDeleteSubscribe: Subscription;
   type: string;
+  dateRange: any;
+  
   constructor(
     private http: HttpClient,
     private authService: LoginService,
@@ -61,6 +63,7 @@ export class ProfileComponent implements OnInit {
 
   }
   commonFunction() {
+    this.dateRange = moment(new Date()).format('YYYY-MM-DD');
     this.api_url = 'user/update';
     this.logoutDataSubscribe = this.authService.globalparamsData.subscribe(res => {
       console.log('(header)  globalparamsData res ssss >>>>>>>>>>>', res);

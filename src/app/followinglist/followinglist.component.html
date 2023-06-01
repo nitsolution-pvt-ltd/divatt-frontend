@@ -31,7 +31,7 @@
             </div>
             <div [routerLink]="'/designer/' + designer?.designerId">
               <img [routerLink]="'/designer/' + designer?.designerId"  [src]="designer?.designerProfile?.profilePic ? designer?.designerProfile?.profilePic : 'assets/images/noimage.jpg'" alt="">
-              <h5 class="name" [routerLink]="'/designer/' + designer?.designerId" >{{designer?.designerName}}</h5>
+              <h5 class="name" [routerLink]="'/designer/' + designer?.designerId" >{{designer?.designerProfile?.displayName}}</h5>
             </div> 
             <div class="descption" [routerLink]="'/designer/' + designer?.designerId">
               <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{designer?.socialProfile?.address}}

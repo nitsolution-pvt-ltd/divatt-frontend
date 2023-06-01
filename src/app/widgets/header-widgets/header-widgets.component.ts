@@ -56,6 +56,7 @@ export class HeaderWidgetsComponent implements OnInit {
   errormsg: any;
   data: any = [];
   Data: any = [];
+  dateRange;
 
   constructor(private cartService: CartService,
     private authService: LoginService,
@@ -104,7 +105,7 @@ export class HeaderWidgetsComponent implements OnInit {
       }
     });
     console.log("data?.length", this.data.length);
-
+    this.dateRange = moment(new Date()).format('YYYY-MM-DD');
 
     // cart list check start
     this.cartDataSubscribe = this.commonUtils.onChangeCartList.subscribe((response: any) => {
@@ -471,7 +472,7 @@ export class HeaderWidgetsComponent implements OnInit {
         // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
         if (this.model.firstName.match(onlyAB) == null) {
           this.errorList.firstName = 'Please enter only alphabet';
-        } else if(this.model.firstName.match(emptySpace) !== null){
+        } else if (this.model.firstName.match(emptySpace) !== null) {
           this.errorList.firstName = 'Empty Space not allowed';
         } else {
           this.errorList.firstName = '';
@@ -486,7 +487,7 @@ export class HeaderWidgetsComponent implements OnInit {
         // pattern="^[a-zA-Z]+(\s[a-zA-Z]+)?$"
         if (this.model.lastName.match(onlyAB) == null) {
           this.errorList.lastName = 'Please enter only alphabet';
-        } else if(this.model.lastName.match(emptySpace) !== null){
+        } else if (this.model.lastName.match(emptySpace) !== null) {
           this.errorList.lastName = 'Empty Space not allowed';
         } else {
           this.errorList.lastName = '';
@@ -499,11 +500,11 @@ export class HeaderWidgetsComponent implements OnInit {
       // mobileNo
       if (this.model.mobileNo && this.model.mobileNo.toString().length == 10) {
         console.log(this.model.mobileNo.length);
-    
+
         this.errorList.mobileNo = '';
       } else {
         this.errorList.mobileNo = 'Enter 10 digit mobile no';
-    
+
       }
     }
     if (fieldNAme == 'email') {
@@ -511,7 +512,7 @@ export class HeaderWidgetsComponent implements OnInit {
       if (this.model.email) {
         if (this.model.email.match(emailRegex) == null) {
           this.errorList.email = 'Please enter valid email';
-        } else if(this.model.email.match(emptySpace) !== null){
+        } else if (this.model.email.match(emptySpace) !== null) {
           this.errorList.email = 'Empty Space not allowed';
         } else {
           this.errorList.email = '';
@@ -524,10 +525,10 @@ export class HeaderWidgetsComponent implements OnInit {
     }
     if (fieldNAme == 'password') {
       console.log('model.password', this.model.password);
-      
+
       if (this.model.password) {
-        
-        if(this.model.password.match(emptySpace) !== null){
+
+        if (this.model.password.match(emptySpace) !== null) {
           this.errorList.password = 'Empty Space not allowed';
         } else {
           this.errorList.password = '';
@@ -536,11 +537,11 @@ export class HeaderWidgetsComponent implements OnInit {
         this.errorList.password = 'Enter a password';
       }
       console.log('errorList.password', this.errorList.password);
-      
+
     }
     if (fieldNAme == 'dateofbirth') {
       console.log('this.model.dateofbirth', this.model.dateofbirth);
-      
+
       // dateOfbirth
       if (this.model.dateofbirth) {
         this.errorList.dateofbirth = '';
@@ -554,7 +555,7 @@ export class HeaderWidgetsComponent implements OnInit {
       if (this.model.email) {
         if (this.model.email.match(emailRegex) == null) {
           this.errorList.loginEmail = 'Please enter valid email';
-        } else if(this.model.email.match(emptySpace) !== null){
+        } else if (this.model.email.match(emptySpace) !== null) {
           this.errorList.loginEmail = 'Empty Space not allowed';
         } else {
           this.errorList.loginEmail = '';
@@ -567,8 +568,8 @@ export class HeaderWidgetsComponent implements OnInit {
     }
     if (fieldNAme == 'loginPassword') {
       if (this.model.password) {
-        
-        if(this.model.password.match(emptySpace) !== null){
+
+        if (this.model.password.match(emptySpace) !== null) {
           this.errorList.loginPassword = 'Empty Space not allowed';
         } else {
           this.errorList.loginPassword = '';
@@ -576,14 +577,14 @@ export class HeaderWidgetsComponent implements OnInit {
       } else {
         this.errorList.loginPassword = 'Enter a password';
       }
-      
+
     }
     if (fieldNAme == 'forgotEmail') {
       // email
       if (this.model.email) {
         if (this.model.email.match(emailRegex) == null) {
           this.errorList.forgotEmail = 'Please enter valid email';
-        } else if(this.model.email.match(emptySpace) !== null){
+        } else if (this.model.email.match(emptySpace) !== null) {
           this.errorList.forgotEmail = 'Empty Space not allowed';
         } else {
           this.errorList.forgotEmail = '';

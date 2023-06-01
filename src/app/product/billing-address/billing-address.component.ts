@@ -656,6 +656,10 @@ export class BillingAddressComponent implements OnInit {
   OpenForm() {
     this.action = 'add';
     this.formOpen = !this.formOpen;
+    console.log('this.formOpen', this.formOpen);
+    if (!this.formOpen) {
+      this.action = '';
+    }
   }
   proceedClick() {
     console.log('proceedClick');
