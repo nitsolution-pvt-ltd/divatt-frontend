@@ -63,6 +63,7 @@ export class ProfileComponent implements OnInit {
 
   }
   commonFunction() {
+    this.sizeTypee = "inch";
     this.dateRange = moment(new Date()).format('YYYY-MM-DD');
     this.api_url = 'user/update';
     this.logoutDataSubscribe = this.authService.globalparamsData.subscribe(res => {

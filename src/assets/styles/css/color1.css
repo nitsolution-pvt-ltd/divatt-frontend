@@ -241,7 +241,7 @@ h1 span {
 .wishlist-section .product-box .btn-circle.btn-xs {
   width: 25px;
   height: 25px;
-  padding: 0px 0px;
+  padding: 0px 0px !important;
   border-radius: 25px;
   font-size: 10px;
   text-align: center;

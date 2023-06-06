@@ -110,7 +110,8 @@ export class OrderItemDetailsComponent implements OnInit {
   // orderDetails start
   orderdate;
   invoiceLink;
-  shippingDate
+  shippingDate;
+  OrderItemSKU;
   getorderDetails() {
     this.loader = true;
     this.getOrderDataSubscribe = this.http.get(API_URL + this.api_url).subscribe(
@@ -122,6 +123,9 @@ export class OrderItemDetailsComponent implements OnInit {
         }
         for (let index = 0; index < this.orderDetails.OrderSKUDetails.length; index++) {
           console.log("ABCD", this.orderDetails.OrderSKUDetails.length);
+          this.OrderItemSKU = this.orderDetails.OrderSKUDetails[index];
+          console.log('OrderItemSKU', this.OrderItemSKU);
+          
           if (this.orderDetails.OrderSKUDetails[index].giftWrapAmount != 0 && this.orderDetails.OrderSKUDetails[index].giftWrapAmount != null) {
             this.giftWrapAmount = this.giftWrapAmount + this.orderDetails.OrderSKUDetails[index].giftWrapAmount;
           }

@@ -253,7 +253,7 @@
                                             </p>
                                         </div>
                                         <input type="hidden" name="ask" [(ngModel)]="model.ask">
-                                        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                        <div *ngIf="addressViewType == 'shop'" class="form-group col-md-12 col-sm-12 col-xs-12">
                                             <p class="">
                                                 <mat-checkbox class="example-margin" name="ask" [(ngModel)]="model.ask">
                                                     I want to save this address.
@@ -293,8 +293,7 @@
                                     </div>
                                     <!-- unsaveAddress address start -->
                                     <div class="col-md-12" *ngIf="nounsaveAddress">
-                                        <p
-                                            class="text-dark font-weight-bold mb-2 border-bottom pb-1 text-uppercase w-fit">
+                                        <p class="text-dark font-weight-bold mb-2 border-bottom pb-1 text-uppercase w-fit">
                                             Unsave Address</p>
                                     </div>
                                     <div class="col-md-12" *ngIf="nounsaveAddress && unsaveAddress[0]">
@@ -354,8 +353,7 @@
                                                     </div>
                                                     <div class="address text-muted">
                                                         {{address.address1}} <br />
-                                                        {{address.address2}} ,{{address.city}} ,{{address.state}}
-                                                        ,{{address.country}} ,{{address.postalCode}}
+                                                        {{address.address2}}<span *ngIf="address.address2">,</span> {{address.city}}, {{address.state}}, {{address.country}}, {{address.postalCode}}
                                                         <!-- Joypur Amta HowrahJoypurJoypur Amta HowrahJoypurJoypur Amta HowrahJoypur Amta HowrahJoypur Amta Howrah west bengal India 711401 -->
                                                     </div>
                                                     <div class="mobile mt-2 font-12">
@@ -397,8 +395,7 @@
                                                     </div>
                                                     <div class="address text-muted">
                                                         {{address.address1}} <br />
-                                                        {{address.address2}} ,{{address.city}} ,{{address.state}}
-                                                        ,{{address.country}} ,{{address.postalCode}}
+                                                        {{address.address2}}<span *ngIf="address.address2">,</span> {{address.city}}, {{address.state}}, {{address.country}}, {{address.postalCode}}
                                                         <!-- Joypur Amta HowrahJoypurJoypur Amta HowrahJoypurJoypur Amta HowrahJoypur Amta HowrahJoypur Amta Howrah west bengal India 711401 -->
                                                     </div>
                                                     <div class="mobile mt-2 font-12">

@@ -216,8 +216,12 @@ export class BillingAddressComponent implements OnInit {
         for (let index = 0; index < this.addresslist.length; index++) {
           if (this.addresslist[index].primary == false) {
             this.otherAddress = true;
+          }else {
+            this.otherAddress = false;
           }
         }
+        console.log('otherAddress', this.otherAddress);
+        
       },
       errRes => {
         this.loader = false;
@@ -242,6 +246,7 @@ export class BillingAddressComponent implements OnInit {
   }
   //  editAddress start
   editAddress(data, type) {
+    this.errorList = {};
     var ask: boolean;
     if (type == 'unsaveData') {
       this.action = 'add'
@@ -250,7 +255,6 @@ export class BillingAddressComponent implements OnInit {
     } else {
       ask = true;
       this.action = 'edit';
-
     }
     this.model =
     {
@@ -473,6 +477,9 @@ export class BillingAddressComponent implements OnInit {
       console.log("getsession", getsession, this.unsaveAddress);
       this.nounsaveAddress = true;
       this.noadressFound = false;
+      this.getAddressList();
+      form.reset();
+      this.model = {};
       this.formOpen = false;
       this.unsaveAddress[0] = getsession;
       // this.router.navigateByUrl(`/checkout/guest`);
@@ -603,11 +610,16 @@ export class BillingAddressComponent implements OnInit {
             }
             // this.unsaveAddress[0] = getsession;
             var getsession = JSON.parse(window.sessionStorage.getItem("address"));
-            if (getsession) {
+            console.log('getsession', getsession);
+            console.log('addresslist', this.addresslist);
+            
+            if (getsession && this.addresslist.length > 0) {
               this.noadressFound = false;
-            } else {
+            } else if(!getsession && this.addresslist.length == 0) {
               this.noadressFound = true;
             }
+            console.log('noadressFound', this.noadressFound, 'getsession::', getsession);
+            
             // console.log("getsession",getsession,this.unsaveAddress);
           }
 
@@ -654,6 +666,9 @@ export class BillingAddressComponent implements OnInit {
   // deleteAddress end
   formOpen = false;
   OpenForm() {
+    this.model.ask = true;
+    this.errorList = {};
+    // this.model = {};
     this.action = 'add';
     this.formOpen = !this.formOpen;
     console.log('this.formOpen', this.formOpen);
