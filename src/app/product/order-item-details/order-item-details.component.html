@@ -421,11 +421,14 @@
                                             {{orderitem?.orderStatusDetails?.shippedDetails?.courierName}} on
                                             {{orderitem?.orderStatusDetails?.deliveryDetails?.deliveredDate}}.</span>
                                     </p>
-                                    <p *ngIf="orderItemStatus == 'cancelled'" class="mb-2 pt-2"><mat-icon
-                                            class="text-danger">verified</mat-icon><span>Product cancelled successfully
-                                            on {{trackingDetails.cancelFromUser.dateTime ?
-                                            trackingDetails.cancelFromUser.dateTime :
-                                            trackingDetails.cancelOrderDetails.cancelationTime}}.</span></p>
+                                    <p *ngIf="orderItemStatus == 'cancelled' && trackingDetails.cancelFromUser" class="mb-2 pt-2"><mat-icon
+                                        class="text-danger">verified</mat-icon><span>Product cancelled successfully
+                                        on {{trackingDetails.cancelFromUser.dateTime}}.</span></p>
+
+                                    <p *ngIf="orderItemStatus == 'cancelled' && trackingDetails.cancelOrderDetails" class="mb-2 pt-2"><mat-icon
+                                        class="text-danger">verified</mat-icon><span>Product cancelled successfully
+                                        on {{trackingDetails.cancelOrderDetails.cancelationTime}}.</span></p>
+
                                     <p *ngIf="orderItemStatus == 'returnRefund'" class="mb-0 pb-3"><mat-icon
                                             class="text-success">verified</mat-icon><span>Product return completed and
                                             <b>₹{{orderitem?.salesPrice ? orderitem?.salesPrice : orderitem?.mrp}}</b>

@@ -20,6 +20,7 @@ const FILE_URL = environment.fileUrl;
 // import * as html2canvas from 'html2canvas';
 import html2canvas from 'html2canvas';
 import { NgNavigatorShareService } from 'ng-navigator-share';
+import * as moment from 'moment';
 @Component({
   selector: 'app-designer-profile',
   templateUrl: './designer-profile.component.html',
@@ -120,6 +121,7 @@ export class DesignerProfileComponent implements OnInit {
   noProductfound: boolean;
   loader: boolean;
   href;
+  todayDate;
   pageurl;
   @ViewChild('screen', { static: false }) screen: ElementRef;
   @ViewChild('canvas', { static: false }) canvas: ElementRef;
@@ -203,6 +205,12 @@ export class DesignerProfileComponent implements OnInit {
     this.parms_action_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.href = 'whatsapp://send?text=https://dev.divatt.com/divatt';
     console.log('this.router.url', this.href);
+
+    let curentDate = new Date();
+    this.todayDate = moment(curentDate).format('YYYY/MM/DD');
+    console.log('todayDate', this.todayDate);
+    
+
     this.api_url = 'user/designerProfile';
     this.productapi_url = 'designerProduct/UserDesignerProductList';
     this.followapi_url = 'user/followDesigner';

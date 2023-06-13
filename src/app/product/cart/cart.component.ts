@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { LoginNavService } from 'src/app/services/login-nav.service';
 import { CommonUtils } from 'src/app/services/common-utils/common-utils';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-cart',
@@ -43,6 +44,7 @@ export class CartComponent implements OnInit {
   noLoader: boolean;
   data: any = [];
   local_data: any =[];
+  todayDate;
   constructor(private productsService: ProductsService,
     private cartService: CartService,private wishlistService: WishlistService,
     private authService: LoginService,private toastrService:ToastrService,
@@ -71,6 +73,10 @@ export class CartComponent implements OnInit {
   //  commonFunction start
   commonFunction()
   {
+    let curentDate = new Date();
+    this.todayDate = moment(curentDate).format('YYYY/MM/DD');
+    console.log('todayDate', this.todayDate);
+
     this.authService.globalparamsData.subscribe(res => {
       console.log('(header)  globalparamsData res ssss >>>>>>>>>>>', res);
       if (res != null || res != undefined) {
@@ -91,22 +97,33 @@ export class CartComponent implements OnInit {
         console.log("this.local_data ",this.local_data );
         
         for (let j = 0; j < this.local_data.length; j++) {
+          var salePrice;
+          var mrp;
+          if (this.local_data[j].product.deal.salePrice && this.todayDate <= this.local_data[j].product.deal.dealEnd && this.todayDate >= this.local_data[j].product.deal.dealStart) {
+            salePrice = this.local_data[j].product.deal.salePrice
+          }else if (!this.local_data[j].product.deal.salePrice || this.todayDate > this.local_data[j].product.deal.dealEnd || this.todayDate < this.local_data[j].product.deal.dealStart) {
+            salePrice = null
+          }
+
           this.data.push(
             {
-            displayName:this.local_data[j].product.designerProfile.displayName,
-            productName:this.local_data[j].product.productDetails.productName,
-            images:this.local_data[j].product.images[0].large,
-            productId:this.local_data[j].product.productId,
-            slug:this.local_data[j].product.slug,
-            selectedSize:this.local_data[j].product.selectedSize,
-            purchaseMinQuantity:this.local_data[j].product.purchaseMinQuantity,
-            quantity:this.local_data[j].quantity,
-            purchaseMaxQuantity:this.local_data[j].product.purchaseMaxQuantity,
-            salePrice:this.local_data[j].product.deal.salePrice,
-            mrp:this.local_data[j].product.mrp,
-            customization:this.local_data[j].customization,
-          }
+              displayName:this.local_data[j].product.designerProfile.displayName,
+              productName:this.local_data[j].product.productDetails.productName,
+              images:this.local_data[j].product.images[0].large,
+              productId:this.local_data[j].product.productId,
+              slug:this.local_data[j].product.slug,
+              salePrice: salePrice,
+              mrp:this.local_data[j].product.mrp,
+              selectedSize:this.local_data[j].product.selectedSize,
+              purchaseMinQuantity:this.local_data[j].product.purchaseMinQuantity,
+              quantity:this.local_data[j].quantity,
+              purchaseMaxQuantity:this.local_data[j].product.purchaseMaxQuantity,
+              customization:this.local_data[j].customization,
+              dealStart:this.local_data[j].product.deal.dealStart,
+              dealEnd:this.local_data[j].product.deal.dealEnd,
+            }
           )
+          
           this.changeDetector.detectChanges();
         }
         console.log("Local Data Array...",this.data);
@@ -223,6 +240,8 @@ export class CartComponent implements OnInit {
         this.pagination = true;
       },
       errRes => {
+        console.log('errRes', errRes);
+        
         this.toastrService.error(errRes.error.message); 
         // console.log("Error");
         this.pageDisabled = false
@@ -377,21 +396,47 @@ export class CartComponent implements OnInit {
       console.log("this.local_data ",this.local_data );
       
       for (let j = 0; j < this.local_data.length; j++) {
+        // this.data.push(
+        //   {
+        //   displayName:this.local_data[j].product.designerProfile.displayName,
+        //   productName:this.local_data[j].product.productDetails.productName,
+        //   images:this.local_data[j].product.images[0].large,
+        //   productId:this.local_data[j].product.productId,
+        //   slug:this.local_data[j].product.slug,
+        //   selectedSize:this.local_data[j].product.selectedSize,
+        //   purchaseMinQuantity:this.local_data[j].product.purchaseMinQuantity,
+        //   quantity:this.local_data[j].quantity,
+        //   purchaseMaxQuantity:this.local_data[j].product.purchaseMaxQuantity,
+        //   salePrice:this.local_data[j].product.deal.salePrice,
+        //   mrp:this.local_data[j].product.mrp,
+        //   customization:this.local_data[j].customization,
+        // }
+        // )
+        var salePrice;
+        var mrp;
+        if (this.local_data[j].product.deal.salePrice && this.todayDate <= this.local_data[j].product.deal.dealEnd && this.todayDate >= this.local_data[j].product.deal.dealStart) {
+          salePrice = this.local_data[j].product.deal.salePrice
+        }else if (!this.local_data[j].product.deal.salePrice || this.todayDate > this.local_data[j].product.deal.dealEnd || this.todayDate < this.local_data[j].product.deal.dealStart) {
+          salePrice = null
+        }
+
         this.data.push(
           {
-          displayName:this.local_data[j].product.designerProfile.displayName,
-          productName:this.local_data[j].product.productDetails.productName,
-          images:this.local_data[j].product.images[0].large,
-          productId:this.local_data[j].product.productId,
-          slug:this.local_data[j].product.slug,
-          selectedSize:this.local_data[j].product.selectedSize,
-          purchaseMinQuantity:this.local_data[j].product.purchaseMinQuantity,
-          quantity:this.local_data[j].quantity,
-          purchaseMaxQuantity:this.local_data[j].product.purchaseMaxQuantity,
-          salePrice:this.local_data[j].product.deal.salePrice,
-          mrp:this.local_data[j].product.mrp,
-          customization:this.local_data[j].customization,
-        }
+            displayName:this.local_data[j].product.designerProfile.displayName,
+            productName:this.local_data[j].product.productDetails.productName,
+            images:this.local_data[j].product.images[0].large,
+            productId:this.local_data[j].product.productId,
+            slug:this.local_data[j].product.slug,
+            salePrice: salePrice,
+            mrp:this.local_data[j].product.mrp,
+            selectedSize:this.local_data[j].product.selectedSize,
+            purchaseMinQuantity:this.local_data[j].product.purchaseMinQuantity,
+            quantity:this.local_data[j].quantity,
+            purchaseMaxQuantity:this.local_data[j].product.purchaseMaxQuantity,
+            customization:this.local_data[j].customization,
+            dealStart:this.local_data[j].product.deal.dealStart,
+            dealEnd:this.local_data[j].product.deal.dealEnd,
+          }
         )
       }
       console.log("Local Data Array...",this.data);

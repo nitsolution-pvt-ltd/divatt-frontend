@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-wishlist',
@@ -61,6 +62,7 @@ export class WishlistComponent implements OnInit {
   item: any = {};
   customproductId: number;
   i: any;
+  todayDate;
   // productSize:any;
   constructor(private router: Router, private wishlistService: WishlistService,
     private http: HttpClient,
@@ -80,6 +82,10 @@ export class WishlistComponent implements OnInit {
 
   // commonFunction start
   commonFunction() {
+    let curentDate = new Date();
+    this.todayDate = moment(curentDate).format('YYYY/MM/DD');
+    console.log('todayDate', this.todayDate);
+
     this.sizeTypee = "inch";
     this.wishlistdeleteapi = "user/wishlist/delete";
     this.authService.globalparamsData.subscribe(res => {

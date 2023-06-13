@@ -20,6 +20,7 @@ import { LoginService } from 'src/app/services/auth/auth.service';
 import { NgForm } from '@angular/forms';
 import { LoginNavService } from 'src/app/services/login-nav.service';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 declare var $: any;
 const API_URL = environment.apiUrl;
 @Component({
@@ -92,6 +93,7 @@ export class ProductLeftImageComponent implements OnInit {
   sizeTypeeWomen: any = "inch";
   mesormentFor: string = "";
   gender: any;
+  todayDate;
   designerMesormentChart: any = {};
   private getColorListSubscribe: Subscription;
   //Get Product By Id
@@ -118,6 +120,10 @@ export class ProductLeftImageComponent implements OnInit {
 
   // commonFunction start
   commonFunction() {
+    let curentDate = new Date();
+    this.todayDate = moment(curentDate).format('YYYY/MM/DD');
+    console.log('todayDate', this.todayDate);
+
     this.sizeTypee = "inch";
     this.productId = this.activatedRoute.snapshot.params.id;
 
@@ -201,7 +207,7 @@ export class ProductLeftImageComponent implements OnInit {
       },
       errRes => {
         console.log("error handeller >>@@", errRes);
-        this.toastrService.error(errRes.message);
+        this.toastrService.error(errRes.error.text);
         this.router.navigateByUrl('/error');
       }
     );

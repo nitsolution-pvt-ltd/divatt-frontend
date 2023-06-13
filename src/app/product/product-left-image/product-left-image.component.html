@@ -53,14 +53,14 @@
                   </h1>
                   <p class="justify-content">
                     <span class="mr-2">
-                      <strong class="lead font-weight-bold" *ngIf="productDetail?.deal?.salePrice || productDetail?.deal?.salePrice == 0">
+                      <strong class="lead font-weight-bold" *ngIf="productDetail?.deal?.salePrice && todayDate <= productDetail?.deal?.dealEnd && todayDate >= productDetail?.deal?.dealStart">
                         {{productDetail?.deal?.salePrice | currency:'INR'}}
                       </strong>
-                      <strong class="lead font-weight-bold" *ngIf="!productDetail?.deal?.salePrice && productDetail?.deal?.salePrice != 0">
+                      <strong class="lead font-weight-bold" *ngIf="!productDetail?.deal?.salePrice || todayDate > productDetail?.deal?.dealEnd || todayDate < productDetail?.deal?.dealStart">
                         {{productDetail?.mrp | currency:'INR'}}
                       </strong>
                     </span>
-                    <span *ngIf="productDetail?.deal?.salePrice || productDetail?.deal?.salePrice == 0">
+                    <span *ngIf="productDetail?.deal?.salePrice && todayDate <= productDetail?.deal?.dealEnd && todayDate >= productDetail?.deal?.dealStart">
                       <small>
                         <del>{{productDetail?.mrp | currency:'INR'}}</del>
                       </small>

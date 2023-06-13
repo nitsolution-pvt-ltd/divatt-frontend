@@ -11,6 +11,7 @@ import { CommonUtils } from '../services/common-utils/common-utils';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SwiperConfigInterface, SwiperPaginationInterface, SwiperScrollbarInterface } from 'ngx-swiper-wrapper';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-home',
@@ -68,6 +69,7 @@ export class HomeComponent implements OnInit {
   private designerFollowSubscribe: Subscription;
   designerListapi_url: string;
   currentLatLng;
+  todayDate;
 
   constructor(private productsService: ProductsService, private http: HttpClient,
     private toastrService: ToastrService,
@@ -113,6 +115,11 @@ export class HomeComponent implements OnInit {
   }
   // user location end
   commonFunction() {
+
+    let curentDate = new Date();
+    this.todayDate = moment(curentDate).format('YYYY/MM/DD');
+    console.log('todayDate', this.todayDate);
+
     this.api_url = 'user/product/list';
     if (!this.currentLatLng) {
       this.currentLatLng = {

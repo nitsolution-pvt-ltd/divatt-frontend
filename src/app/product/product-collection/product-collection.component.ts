@@ -16,6 +16,7 @@ import { Options } from '@angular-slider/ngx-slider';
 import { delay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { LoginService } from 'src/app/services/auth/auth.service';
+import * as moment from 'moment';
 const API_URL = environment.apiUrl;
 @Component({
   selector: 'app-product-collection',
@@ -118,6 +119,7 @@ export class ProductCollectionComponent implements OnInit {
   params_subcategory;
   params_keywords;
   params_subcategoryname;
+  todayDate;
 
   constructor(private route: ActivatedRoute,
     private toastrService: ToastrService,
@@ -190,6 +192,10 @@ export class ProductCollectionComponent implements OnInit {
     this.params_subcategory = this.activatedRoute.snapshot.params.subcategory;
     this.params_keywords = this.activatedRoute.snapshot.params.keywords;
     this.params_subcategoryname = this.activatedRoute.snapshot.params.subcategoryname;
+
+    let curentDate = new Date();
+    this.todayDate = moment(curentDate).format('YYYY/MM/DD');
+    console.log('todayDate', this.todayDate);
 
     console.log('URL', this.params_category+','+this.params_subcategory+','+this.params_keywords+','+this.params_subcategoryname);
     

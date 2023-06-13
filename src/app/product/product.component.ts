@@ -7,6 +7,7 @@ import { WishlistService } from '../services/wishlist.service';
 import { CartService } from '../services/cart.service';
 import { Observable, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-product',
@@ -21,6 +22,7 @@ export class ProductComponent implements OnInit {
   public selectedItem  :  any = '';
   compareBtn: any;
   allcompareproduct;
+  todayDate;
 
   constructor(private router: Router, public productsService: ProductsService,private toastrService: ToastrService, 
     private wishlistService: WishlistService, private cartService: CartService) { 
@@ -28,6 +30,9 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {  
     // this.allcompareproduct= JSON.parse(localStorage.getItem("compareItem"));
+    let curentDate = new Date();
+    this.todayDate = moment(curentDate).format('YYYY/MM/DD');
+    console.log('todayDate', this.todayDate);
   }
 
   // Add to cart

@@ -37,7 +37,7 @@
           <div class="img-wrapper">
             <div class="lable-block">
               <!-- <span class="lable3" title="New"></span> -->
-              <span class="lable4" title="Sale" *ngIf="item?.price?.indPrice?.discountValue"></span>
+              <span class="lable4" title="Sale" *ngIf="item?.deal?.salePrice && todayDate <= item?.deal?.dealEnd && todayDate >= item?.deal?.dealStart"></span>
             </div>
             <div class="front">
               <!--  [queryParams]="product.productName" -->
@@ -62,10 +62,10 @@
                 <a >
                 <h6>{{item?.productDetails?.productName}}</h6>
               </a>
-              <h4 *ngIf="item?.deal?.salePrice || item?.deal?.salePrice == 0">₹ {{item?.deal?.salePrice}}
+              <h4 *ngIf="item?.deal?.salePrice && todayDate <= item?.deal?.dealEnd && todayDate >= item?.deal?.dealStart">₹ {{item?.deal?.salePrice}}
                 <del><span class="money">₹ {{item?.mrp}}</span></del>
               </h4>
-              <h4 *ngIf="!item?.deal?.salePrice && item?.deal?.salePrice != 0">₹ {{item?.mrp}}</h4>
+              <h4 *ngIf="!item?.deal?.salePrice || todayDate > item?.deal?.dealEnd || todayDate < item?.deal?.dealStart">₹ {{item?.mrp}}</h4>
             </div>
            
           </div>
@@ -110,7 +110,7 @@
             <div class="img-wrapper">
               <div class="lable-block">
                 <!-- <span class="lable3" title="New"></span> -->
-                <span class="lable4" title="Sale" *ngIf="item?.price?.indPrice?.discountValue"></span>
+                <span class="lable4" title="Sale" *ngIf="item?.deal?.salePrice && todayDate <= item?.deal?.dealEnd && todayDate >= item?.deal?.dealStart"></span>
               </div>
               <div class="front">
                 <!--  [queryParams]="product.productName" -->
@@ -134,10 +134,10 @@
                   <a >
                   <h6>{{item?.productDetails?.productName}}</h6>
                 </a>
-                <h4 *ngIf="item?.deal?.salePrice || item?.deal?.salePrice == 0">₹ {{item?.deal?.salePrice}}
+                <h4 *ngIf="item?.deal?.salePrice && todayDate <= item?.deal?.dealEnd && todayDate >= item?.deal?.dealStart">₹ {{item?.deal?.salePrice}}
                   <del><span class="money">₹ {{item?.mrp}}</span></del>
                 </h4>
-                <h4 *ngIf="!item?.deal?.salePrice && item?.deal?.salePrice != 0">₹ {{item?.mrp}}</h4>
+                <h4 *ngIf="!item?.deal?.salePrice || todayDate > item?.deal?.dealEnd || todayDate < item?.deal?.dealStart">₹ {{item?.mrp}}</h4>
               </div>
              
             </div>

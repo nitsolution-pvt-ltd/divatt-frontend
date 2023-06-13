@@ -200,6 +200,7 @@ export class BillingAddressComponent implements OnInit {
   // }
 
   // getDesignerList start
+  defaultAddress = false;
   getAddressList() {
     this.loader = true;
     this.model.addressType = 'Home';
@@ -213,14 +214,25 @@ export class BillingAddressComponent implements OnInit {
         //  console.log("Designer",this.designer.UserDesigner.length);
         //  this.toastrService.success(response.message);
         this.loader = false;
-        for (let index = 0; index < this.addresslist.length; index++) {
-          if (this.addresslist[index].primary == false) {
+        
+        // other address
+        for (const address of this.addresslist) {  
+          if (address.primary === false) {
             this.otherAddress = true;
+            break 
           }else {
             this.otherAddress = false;
           }
         }
-        console.log('otherAddress', this.otherAddress);
+        // default address
+        for (const address of this.addresslist) {  
+          if (address.primary === true) {
+            this.defaultAddress = true;
+            break 
+          }else {
+            this.defaultAddress = false;
+          }
+        }
         
       },
       errRes => {
@@ -228,6 +240,10 @@ export class BillingAddressComponent implements OnInit {
         console.log("error handeller >>@@", errRes);
         this.noadressFound = true;
         this.toastrService.success(errRes.error.message);
+        if (errRes.error.message == 'No address found') {
+          this.addresslist = [];
+        }
+        
         console.log("addresslist", this.addresslist);
       }
     );

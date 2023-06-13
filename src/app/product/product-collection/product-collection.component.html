@@ -287,7 +287,7 @@
           <div class="img-wrapper">
             <div class="lable-block">
               <!-- <span class="lable3" title="New"></span> -->
-              <span class="lable4" title="Sale" *ngIf="product?.deal?.salePrice"></span>
+              <span class="lable4" title="Sale" *ngIf="product?.deal?.salePrice && todayDate <= product?.deal?.dealEnd && todayDate >= product?.deal?.dealStart"></span>
             </div>
             <div class="front">
               <!--  [queryParams]="product.productName" -->
@@ -312,10 +312,10 @@
               <a>
                 <h6>{{product?.productDetails?.productName}}</h6>
               </a>
-              <h4 *ngIf="product?.deal?.salePrice">₹ {{product?.deal?.salePrice}}
+              <h4 *ngIf="product?.deal?.salePrice && todayDate <= product?.deal?.dealEnd && todayDate >= product?.deal?.dealStart">₹ {{product?.deal?.salePrice}}
                 <del><span class="money">₹ {{product?.mrp}}</span></del>
               </h4>
-              <h4 *ngIf="!product?.deal?.salePrice">₹ {{product?.mrp}}</h4>
+              <h4 *ngIf="!product?.deal?.salePrice || todayDate > product?.deal?.dealEnd || todayDate < product?.deal?.dealStart">₹ {{product?.mrp}}</h4>
             </div>
 
           </div>
